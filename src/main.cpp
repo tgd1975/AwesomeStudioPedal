@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <memory>  // Add for smart pointers
+#include <memory>
 //#include "freertos/FreeRTOS.h"
 //#include "freertos/task.h"
 #include "driver/gpio.h"
@@ -10,24 +10,25 @@
 
 #include "button.h"
 #include "send.h"
+#include "hardware/led_controller.h"
+#include "hardware/button_controller.h"
 
 //Se the name of the bluetooth keyboard (that shows up in the bluetooth menu of your device)
 BleKeyboard bleKeyboard("Strix-Pedal", "Strix");
 boolean connected = false;
 
-#define LED_BLUETOOTH GPIO_NUM_26
-#define LED_POWER GPIO_NUM_25
+// Hardware abstraction instances
+LEDController ledBluetooth(GPIO_NUM_26);
+LEDController ledPower(GPIO_NUM_25);
+LEDController ledSelect1(GPIO_NUM_5);
+LEDController ledSelect2(GPIO_NUM_18);
+LEDController ledSelect3(GPIO_NUM_19);
 
-#define LED_SELECT_1 GPIO_NUM_5
-#define LED_SELECT_2 GPIO_NUM_18
-#define LED_SELECT_3 GPIO_NUM_19
-
-Button BUTTON_SELECT = Button(GPIO_NUM_21);
-
-Button BUTTON_A = Button(GPIO_NUM_13);
-Button BUTTON_B = Button(GPIO_NUM_12);
-Button BUTTON_C = Button(GPIO_NUM_27);
-Button BUTTON_D = Button(GPIO_NUM_14);
+ButtonController buttonSelect(GPIO_NUM_21);
+ButtonController buttonA(GPIO_NUM_13);
+ButtonController buttonB(GPIO_NUM_12);
+ButtonController buttonC(GPIO_NUM_27);
+ButtonController buttonD(GPIO_NUM_14);
 
 #define SHIFT 0x80
 
@@ -62,22 +63,26 @@ void IRAM_ATTR isr_select() {
   BUTTON_SELECT.isr();
 }
 
-
-void setup_button(Button button) {
-    gpio_pad_select_gpio(button.PIN);
-    pinMode(button.PIN, INPUT_PULLUP);
-}
-
-void setup_led(gpio_num_t pin, uint32_t level) {
-  gpio_pad_select_gpio(pin);
-  gpio_set_direction(pin, GPIO_MODE_OUTPUT);
-  gpio_set_level(pin, level);
+void setup_hardware() {
+    // Setup LEDs
+    ledPower.setup(1);
+    ledBluetooth.setup(0);
+    ledSelect1.setup(1);
+    ledSelect2.setup(1);
+    ledSelect3.setup(1);
+    
+    // Setup buttons
+    buttonA.setup();
+    buttonB.setup();
+    buttonC.setup();
+    buttonD.setup();
+    buttonSelect.setup();
 }
 
 void updateBankLEDs() {
-  gpio_set_level(LED_SELECT_1, currentBank == 0 ? 1 : 0);
-  gpio_set_level(LED_SELECT_2, currentBank == 1 ? 1 : 0);
-  gpio_set_level(LED_SELECT_3, currentBank == 2 ? 1 : 0);
+    ledSelect1.setState(currentBank == 0);
+    ledSelect2.setState(currentBank == 1);
+    ledSelect3.setState(currentBank == 2);
 }
 
 void setup() {
@@ -85,17 +90,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("started");
 
-  setup_led(LED_POWER, 1);
-  setup_led(LED_BLUETOOTH, 0);
-  setup_led(LED_SELECT_1, 1);
-  setup_led(LED_SELECT_2, 1);
-  setup_led(LED_SELECT_3, 1);
-
-  setup_button(BUTTON_A);
-  setup_button(BUTTON_B);
-  setup_button(BUTTON_C);
-  setup_button(BUTTON_D);
-  setup_button(BUTTON_SELECT);
+  setup_hardware();
 
   bleKeyboard.begin();
 
@@ -177,7 +172,7 @@ void loop() {
     if (!connected) {
       Serial.println("connected");
       attachInterrupts();
-      gpio_set_level(LED_BLUETOOTH, 1);
+      ledBluetooth.setState(1);
       connected = true;
     }
 
@@ -188,7 +183,7 @@ void loop() {
       Serial.println("disconnected");
       connected = false;
       detachInterrupts();
-      gpio_set_level(LED_BLUETOOTH, 0);
+      ledBluetooth.setState(0);
     }
 
   }
