@@ -1,7 +1,9 @@
 #include "bank_manager.h"
+#ifndef HOST_TEST_BUILD
 #include <Arduino.h>
+#endif
 
-BankManager::BankManager(LEDController& led1, LEDController& led2, LEDController& led3)
+BankManager::BankManager(ILEDController& led1, ILEDController& led2, ILEDController& led3)
     : led1(led1), led2(led2), led3(led3) {}
 
 void BankManager::addAction(uint8_t bank, uint8_t button, std::unique_ptr<Send> action) {
@@ -20,7 +22,9 @@ Send* BankManager::getAction(uint8_t bank, uint8_t button) {
 void BankManager::switchBank() {
     currentBank = (currentBank + 1) % 3;
     updateLEDs();
+#ifndef HOST_TEST_BUILD
     Serial.printf("Switched to Bank %d\n", currentBank + 1);
+#endif
 }
 
 void BankManager::updateLEDs() {

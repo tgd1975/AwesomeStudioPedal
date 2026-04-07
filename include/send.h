@@ -1,13 +1,13 @@
 #pragma once
-#include <Arduino.h>
-#include <BleKeyboard.h>
+#include "i_ble_keyboard.h"
+#include <string>
 
 class Send {
   public:
     virtual void send() = 0;
     virtual ~Send() = default;
-    BleKeyboard* bleKeyboard;
-    Send(BleKeyboard* bleKeyboard);
+    IBleKeyboard* bleKeyboard;
+    Send(IBleKeyboard* bleKeyboard);
 };
 
 class SendChar : public Send {
@@ -16,16 +16,16 @@ class SendChar : public Send {
 
   public:
     void send() override;
-    SendChar(BleKeyboard* bleKeyboard, char k);
+    SendChar(IBleKeyboard* bleKeyboard, char k);
 };
 
 class SendString : public Send {
   private:
-    String text;
+    std::string text;
 
   public:
     void send() override;
-    SendString(BleKeyboard* bleKeyboard, String t);
+    SendString(IBleKeyboard* bleKeyboard, std::string t);
 };
 
 class SendKey : public Send {
@@ -34,14 +34,14 @@ class SendKey : public Send {
 
   public:
     void send() override;
-    SendKey(BleKeyboard* bleKeyboard, uint8_t k);
+    SendKey(IBleKeyboard* bleKeyboard, uint8_t k);
 };
 
 class SendMediaKey : public Send {
   private:
     MediaKeyReport key;
 
-  public: 
+  public:
     void send() override;
-    SendMediaKey(BleKeyboard* bleKeyboard, const MediaKeyReport k);
+    SendMediaKey(IBleKeyboard* bleKeyboard, const MediaKeyReport k);
 };

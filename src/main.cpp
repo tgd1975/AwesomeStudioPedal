@@ -7,6 +7,7 @@
 //#include "FunctionalInterrupt.h"
 
 #include <BleKeyboard.h>
+#include "adapters/ble_keyboard_adapter.h"
 
 #include "button.h"
 #include "send.h"
@@ -18,6 +19,7 @@
 
 //Se the name of the bluetooth keyboard (that shows up in the bluetooth menu of your device)
 BleKeyboard bleKeyboard("Strix-Pedal", "Strix");
+BleKeyboardAdapter bleKeyboardAdapter(bleKeyboard);
 boolean connected = false;
 
 // Hardware abstraction instances using config
@@ -120,26 +122,26 @@ void setup() {
   setup_hardware();
   setup_event_handlers();
 
-  bleKeyboard.begin();
+  bleKeyboardAdapter.begin();
 
   // Initialize bank actions using BankManager
   // Bank 0
-  bankManager.addAction(0, 0, std::unique_ptr<Send>(new SendString(&bleKeyboard, " ")));
-  bankManager.addAction(0, 1, std::unique_ptr<Send>(new SendMediaKey(&bleKeyboard, KEY_MEDIA_STOP)));
-  bankManager.addAction(0, 2, std::unique_ptr<Send>(new SendChar(&bleKeyboard, KEY_LEFT_ARROW)));
-  bankManager.addAction(0, 3, std::unique_ptr<Send>(new SendChar(&bleKeyboard, KEY_RIGHT_ARROW)));
+  bankManager.addAction(0, 0, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, " ")));
+  bankManager.addAction(0, 1, std::unique_ptr<Send>(new SendMediaKey(&bleKeyboardAdapter, KEY_MEDIA_STOP)));
+  bankManager.addAction(0, 2, std::unique_ptr<Send>(new SendChar(&bleKeyboardAdapter, KEY_LEFT_ARROW)));
+  bankManager.addAction(0, 3, std::unique_ptr<Send>(new SendChar(&bleKeyboardAdapter, KEY_RIGHT_ARROW)));
 
   // Bank 1
-  bankManager.addAction(1, 0, std::unique_ptr<Send>(new SendString(&bleKeyboard, "Hello")));
-  bankManager.addAction(1, 1, std::unique_ptr<Send>(new SendString(&bleKeyboard, "World")));
-  bankManager.addAction(1, 2, std::unique_ptr<Send>(new SendKey(&bleKeyboard, KEY_UP_ARROW)));
-  bankManager.addAction(1, 3, std::unique_ptr<Send>(new SendKey(&bleKeyboard, KEY_DOWN_ARROW)));
+  bankManager.addAction(1, 0, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Hello")));
+  bankManager.addAction(1, 1, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "World")));
+  bankManager.addAction(1, 2, std::unique_ptr<Send>(new SendKey(&bleKeyboardAdapter, KEY_UP_ARROW)));
+  bankManager.addAction(1, 3, std::unique_ptr<Send>(new SendKey(&bleKeyboardAdapter, KEY_DOWN_ARROW)));
 
   // Bank 2
-  bankManager.addAction(2, 0, std::unique_ptr<Send>(new SendString(&bleKeyboard, "Bank 2 A")));
-  bankManager.addAction(2, 1, std::unique_ptr<Send>(new SendString(&bleKeyboard, "Bank 2 B")));
-  bankManager.addAction(2, 2, std::unique_ptr<Send>(new SendString(&bleKeyboard, "Bank 2 C")));
-  bankManager.addAction(2, 3, std::unique_ptr<Send>(new SendString(&bleKeyboard, "Bank 2 D")));
+  bankManager.addAction(2, 0, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Bank 2 A")));
+  bankManager.addAction(2, 1, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Bank 2 B")));
+  bankManager.addAction(2, 2, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Bank 2 C")));
+  bankManager.addAction(2, 3, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Bank 2 D")));
   
   bankManager.updateLEDs();
 
@@ -193,7 +195,7 @@ void process_events() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if (bleKeyboard.isConnected()) {
+  if (bleKeyboardAdapter.isConnected()) {
     if (!connected) {
       Serial.println("connected");
       attachInterrupts();

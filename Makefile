@@ -57,3 +57,7 @@ test:
 
 test-coverage:
 	pio test -e nodemcu-32s-test --coverage
+
+install-hooks:
+	cp scripts/pre-commit .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit

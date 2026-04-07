@@ -1,11 +1,10 @@
 #include "send.h"
-#include <Arduino.h>
 
-Send::Send(BleKeyboard* bleKeyboard) {
+Send::Send(IBleKeyboard* bleKeyboard) {
     this->bleKeyboard = bleKeyboard;
 }
 
-SendKey::SendKey(BleKeyboard* bleKeyboard, uint8_t k) : Send( bleKeyboard) {
+SendKey::SendKey(IBleKeyboard* bleKeyboard, uint8_t k) : Send(bleKeyboard) {
     key = k;
 }
 void SendKey::send() {
@@ -13,7 +12,7 @@ void SendKey::send() {
 }
 
 
-SendMediaKey::SendMediaKey(BleKeyboard* bleKeyboard, const MediaKeyReport k) : Send(bleKeyboard) {
+SendMediaKey::SendMediaKey(IBleKeyboard* bleKeyboard, const MediaKeyReport k) : Send(bleKeyboard) {
     key[0]=k[0];
     key[1]=k[1];
 }
@@ -22,16 +21,16 @@ void SendMediaKey::send() {
 }
 
 
-SendChar::SendChar(BleKeyboard* bleKeyboard, char k) : Send(bleKeyboard) {
+SendChar::SendChar(IBleKeyboard* bleKeyboard, char k) : Send(bleKeyboard) {
     key = k;
 }
 void SendChar::send() {
     bleKeyboard->write(key);
 }
 
-SendString::SendString(BleKeyboard* bleKeyboard, String t) : Send(bleKeyboard) {
+SendString::SendString(IBleKeyboard* bleKeyboard, std::string t) : Send(bleKeyboard) {
     text = t;
-} 
+}
 void SendString::send() {
-    bleKeyboard->print(text);
+    bleKeyboard->print(text.c_str());
 }

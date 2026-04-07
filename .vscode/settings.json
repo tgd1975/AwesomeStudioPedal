@@ -1,0 +1,23 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cpptools",
+    "cmake.configureOnOpen": true,
+    "cmake.buildDirectory": "${workspaceFolder}/.vscode/build",
+    "cmake.generator": "Unix Makefiles",
+    "cmake.cmakePath": "cmake",
+    "C_Cpp.intelliSenseEngine": "Default",
+    "C_Cpp.errorSquiggles": "Enabled",
+    "C_Cpp.autocomplete": "Default",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.DS_Store": true,
+        "**/.pio": true,
+        "**/build": true
+    },
+    "search.exclude": {
+        "**/.git": true,
+        "**/.pio": true,
+        "**/build": true
+    },
+    "testMate.cpp.test.executables": "${workspaceFolder}/.vscode/build/test/pedal_tests"
+}

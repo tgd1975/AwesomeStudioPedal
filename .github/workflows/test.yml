@@ -1,0 +1,60 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  unit-tests:
+    name: Host Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache CMake build directory
+        uses: actions/cache@v4
+        with:
+          path: .vscode/build
+          key: cmake-${{ runner.os }}-${{ hashFiles('CMakeLists.txt', 'test/CMakeLists.txt') }}
+          restore-keys: |
+            cmake-${{ runner.os }}-
+
+      - name: Install build dependencies
+        run: sudo apt-get install -y cmake ninja-build g++
+
+      - name: Configure CMake
+        run: |
+          cmake -B .vscode/build \
+                -G Ninja \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -Wno-dev
+
+      - name: Build tests
+        run: cmake --build .vscode/build --target pedal_tests -j$(nproc)
+
+      - name: Run tests
+        run: |
+          ctest --test-dir .vscode/build \
+                --output-on-failure \
+                --no-header \
+                --output-junit test-results.xml
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: test-results.xml
+          comment_mode: always
+          check_name: "GoogleTest Results"
+
+      - name: Upload test report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: test-results.xml
+          retention-days: 30

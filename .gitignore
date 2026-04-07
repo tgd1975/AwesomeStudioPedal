@@ -54,8 +54,8 @@ dkms.conf
 # PlatformIO build artifacts
 .pio/
 
-# VSCode settings
-.vscode/
+# VSCode settings (keep config files but ignore build output)
+.vscode/build/
 
 # IDE/Editor files
 .idea/

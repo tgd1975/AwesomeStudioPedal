@@ -1,0 +1,53 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake: Configure Tests",
+            "type": "shell",
+            "command": "cmake -B ${workspaceFolder}/.vscode/build -S ${workspaceFolder} -DCMAKE_BUILD_TYPE=Debug -Wno-dev",
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "new" }
+        },
+        {
+            "label": "CMake: Build Tests",
+            "type": "shell",
+            "command": "cmake --build ${workspaceFolder}/.vscode/build --target pedal_tests -j$(nproc)",
+            "dependsOn": ["CMake: Configure Tests"],
+            "group": { "kind": "build", "isDefault": true },
+            "problemMatcher": ["$gcc"],
+            "presentation": { "reveal": "always", "panel": "new" }
+        },
+        {
+            "label": "Run All Tests",
+            "type": "shell",
+            "command": "ctest --test-dir ${workspaceFolder}/.vscode/build --output-on-failure",
+            "dependsOn": ["CMake: Build Tests"],
+            "group": { "kind": "test", "isDefault": true },
+            "presentation": { "reveal": "always", "panel": "new" }
+        },
+        {
+            "label": "Clean Tests",
+            "type": "shell",
+            "command": "rm",
+            "args": ["-rf", "${workspaceFolder}/.vscode/build"],
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "Build ESP32 Firmware",
+            "type": "shell",
+            "command": "pio",
+            "args": ["run", "-e", "nodemcu-32s"],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        }
+    ]
+}
