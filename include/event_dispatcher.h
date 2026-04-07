@@ -12,4 +12,4 @@ public:
     
 private:
     std::array<EventCallback, 5> handlers{}; // 0-3 for buttons A-D, 4 for select
-};EOF
+};

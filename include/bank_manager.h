@@ -20,4 +20,4 @@ private:
     LEDController& led1;
     LEDController& led2;
     LEDController& led3;
-};EOF
+};

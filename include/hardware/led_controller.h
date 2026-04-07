@@ -1,5 +1,6 @@
 #pragma once
 #include <driver/gpio.h>
+#include <Arduino.h>
 
 class LEDController {
 public:
@@ -12,4 +13,4 @@ public:
 private:
     gpio_num_t pin;
     bool currentState = false;
-};EOF
+};

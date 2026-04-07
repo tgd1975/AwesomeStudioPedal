@@ -1,5 +1,6 @@
 #pragma once
 #include <driver/gpio.h>
+#include <Arduino.h>
 
 class ButtonController {
 public:
@@ -10,4 +11,4 @@ public:
     
 private:
     gpio_num_t pin;
-};EOF
+};

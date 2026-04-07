@@ -1,10 +1,11 @@
+#pragma once
 #include <Arduino.h>
 #include <BleKeyboard.h>
 
 class Send {
   public:
     virtual void send() = 0;
-    virtual ~Send() = default;  // Add virtual destructor for proper cleanup
+    virtual ~Send() = default;
     BleKeyboard* bleKeyboard;
     Send(BleKeyboard* bleKeyboard);
 };
