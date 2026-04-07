@@ -48,12 +48,6 @@ EventDispatcher eventDispatcher;
 
 #define SHIFT 0x80
 
-//SendMediaKey SEND_A = SendMediaKey(&bleKeyboard, KEY_MEDIA_PLAY_PAUSE);
-SendString SEND_A = SendString(&bleKeyboard, " ");
-SendMediaKey SEND_B = SendMediaKey(&bleKeyboard, KEY_MEDIA_STOP);
-SendChar SEND_C = SendChar(&bleKeyboard, KEY_LEFT_ARROW);  // '-'
-SendChar SEND_D = SendChar(&bleKeyboard, KEY_RIGHT_ARROW);  // '+'
-
 void IRAM_ATTR isr_a() {
   if (connected) {BUTTON_A.isr();}
 }
