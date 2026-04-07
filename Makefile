@@ -50,3 +50,10 @@ test-coverage:
 # Clean test artifacts
 clean-test:
 	rm -rf .pio/build/test
+
+# Test targets using separate test environment
+test:
+	pio test -e nodemcu-32s-test
+
+test-coverage:
+	pio test -e nodemcu-32s-test --coverage
