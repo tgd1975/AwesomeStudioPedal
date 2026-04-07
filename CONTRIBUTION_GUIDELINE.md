@@ -8,7 +8,7 @@ Thank you for your interest in contributing to the Awesome Guitar Pedal project!
 
 The project follows a **layered architecture** with clear separation of concerns:
 
-```
+```mermaid
 ┌─────────────────────────────────────────────────┐
 │                 Application Layer                │
 │  (main.cpp, bank_manager, event_dispatcher)      │
@@ -26,6 +26,7 @@ The project follows a **layered architecture** with clear separation of concerns
 ### Key Components
 
 #### 1. **BankManager** (`include/bank_manager.h`)
+
 - **Purpose**: Manages multiple banks of button actions
 - **Pattern**: Strategy Pattern + Composite Pattern
 - **Responsibilities**:
@@ -35,6 +36,7 @@ The project follows a **layered architecture** with clear separation of concerns
   - Provide current bank information
 
 #### 2. **EventDispatcher** (`include/event_dispatcher.h`)
+
 - **Purpose**: Centralized event handling system
 - **Pattern**: Observer Pattern
 - **Responsibilities**:
@@ -43,6 +45,7 @@ The project follows a **layered architecture** with clear separation of concerns
   - Decouple button presses from actions
 
 #### 3. **Hardware Abstraction** (`include/hardware/`)
+
 - **Purpose**: Platform-independent hardware access
 - **Pattern**: Adapter Pattern + Facade Pattern
 - **Components**:
@@ -51,6 +54,7 @@ The project follows a **layered architecture** with clear separation of concerns
 - **Benefits**: Easy to port to different microcontrollers
 
 #### 4. **Send Hierarchy** (`include/send.h`)
+
 - **Purpose**: Polymorphic action system
 - **Pattern**: Strategy Pattern
 - **Classes**:
@@ -58,6 +62,7 @@ The project follows a **layered architecture** with clear separation of concerns
   - `SendChar`, `SendString`, `SendKey`, `SendMediaKey` (concrete strategies)
 
 #### 5. **Configuration System** (`include/config.h`)
+
 - **Purpose**: Centralized hardware configuration
 - **Pattern**: Singleton-like global configuration
 - **Benefits**: Easy to modify for different hardware revisions
@@ -138,6 +143,23 @@ bankManager.addAction(0, 0, std::unique_ptr<Send>(new SendMouseClick()));
 ```
 
 ### Example: Adding Hardware Support
+
+1. **Create new controller**:
+```cpp
+class RotaryEncoderController {
+public:
+    void setup();
+    int read();
+};
+```
+
+2. **Integrate with event system**:
+```cpp
+eventDispatcher.registerHandler(5, []() {
+    // Handle rotary encoder events
+});
+```
+
 ## Unit Testing
 
 The project includes a comprehensive unit testing infrastructure using the Unity framework.
@@ -307,7 +329,7 @@ For complex scenarios:
 - **Integration tests**: Complete workflow verification
 - **Performance tests**: Timing and memory usage
 
-## Test Environment
+### Test Environment
 
 The project uses **Unity** testing framework for embedded systems:
 - Lightweight and efficient
@@ -321,26 +343,9 @@ For host-based testing (recommended for complex logic):
 - Fast execution on development machine
 - Better for business logic testing
 
+### Debugging
 
-1. **Create new controller**:
-```cpp
-class RotaryEncoderController {
-public:
-    void setup();
-    int read();
-};
-```
-
-2. **Integrate with event system**:
-```cpp
-eventDispatcher.registerHandler(5, []() {
-    // Handle rotary encoder events
-});
-```
-
-## Debugging
-
-### Common Issues
+#### Common Issues
 
 1. **BLE Connection Problems**:
    - Check Bluetooth stack initialization
@@ -357,13 +362,13 @@ eventDispatcher.registerHandler(5, []() {
    - Monitor heap usage
    - Reduce large allocations
 
-### Debug Tools
+#### Debug Tools
 
 - **Serial Debug**: `Serial.println()` for basic debugging
 - **PlatformIO Monitor**: `make monitor`
 - **Memory Analysis**: PlatformIO project inspect
 
-## Contribution Workflow
+### Contribution Workflow
 
 1. **Fork** the repository
 2. **Create** a feature branch
@@ -373,17 +378,7 @@ eventDispatcher.registerHandler(5, []() {
 6. **Submit** pull request
 7. **Review** and iterate
 
-## Code Review Checklist
-
-- [ ] Follows coding standards
-- [ ] Includes appropriate tests
-- [ ] Updates documentation
-- [ ] Handles edge cases
-- [ ] No memory leaks
-- [ ] Thread-safe (where applicable)
-- [ ] Backward compatible
-
-## Resources
+### Resources
 
 - **ESP32 Documentation**: https://docs.espressif.com/
 - **PlatformIO Docs**: https://docs.platformio.org/
