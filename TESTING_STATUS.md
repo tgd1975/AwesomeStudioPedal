@@ -43,6 +43,7 @@
 **Cons**: Requires Arduino environment, limited mocking
 
 **Steps**:
+
 1. Create minimal test harness with setup/loop
 2. Use Unity for assertions
 3. Test at integration level rather than unit level
@@ -141,7 +142,7 @@ TEST(BankManagerTest, AddAction) {
 ## Decision Guide
 
 | Factor | Native Testing | Host Testing | Hybrid |
-|--------|---------------|--------------|--------|
+| --- | --- | --- | --- |
 | **Setup Complexity** | Low | Medium | High |
 | **Mocking Capability** | Limited | Full | Full |
 | **Execution Speed** | Slow | Fast | Medium |

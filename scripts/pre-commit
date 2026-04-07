@@ -9,6 +9,25 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+echo -e "${YELLOW}Checking Markdown formatting...${NC}"
+
+MARKDOWNLINT=$(command -v markdownlint-cli2 2>/dev/null)
+if [ -z "$MARKDOWNLINT" ] && [ -s "$NVM_DIR/nvm.sh" ]; then
+    \. "$NVM_DIR/nvm.sh" --no-use 2>/dev/null || true
+    MARKDOWNLINT=$(command -v markdownlint-cli2 2>/dev/null)
+fi
+
+if [ -n "$MARKDOWNLINT" ]; then
+    "$MARKDOWNLINT" "*.md" 2>&1
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Markdown lint failed. Commit aborted.${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}Markdown OK.${NC}"
+else
+    echo -e "${YELLOW}markdownlint-cli2 not found, skipping markdown check.${NC}"
+fi
+
 echo -e "${YELLOW}Running unit tests before commit...${NC}"
 
 if [ ! -f "${BUILD_DIR}/CMakeCache.txt" ]; then

@@ -70,7 +70,7 @@ The project follows a **layered architecture** with clear separation of concerns
 ### Design Patterns Used
 
 | Pattern | Usage | Benefits |
-|---------|-------|----------|
+| --- | --- | --- |
 | **Strategy** | Send action classes | Polymorphic button actions |
 | **Observer** | EventDispatcher | Decoupled event handling |
 | **Adapter** | Hardware controllers | Platform independence |
@@ -128,37 +128,41 @@ The project follows a **layered architecture** with clear separation of concerns
 ### Example: Adding a New Action Type
 
 1. **Create new Send class**:
-```cpp
-class SendMouseClick : public Send {
-public:
-    void send() override {
-        // Implement mouse click sending
-    }
-};
-```
 
-2. **Add to bank configuration**:
-```cpp
-bankManager.addAction(0, 0, std::unique_ptr<Send>(new SendMouseClick()));
-```
+   ```cpp
+   class SendMouseClick : public Send {
+   public:
+       void send() override {
+           // Implement mouse click sending
+       }
+   };
+   ```
+
+1. **Add to bank configuration**:
+
+   ```cpp
+   bankManager.addAction(0, 0, std::unique_ptr<Send>(new SendMouseClick()));
+   ```
 
 ### Example: Adding Hardware Support
 
 1. **Create new controller**:
-```cpp
-class RotaryEncoderController {
-public:
-    void setup();
-    int read();
-};
-```
 
-2. **Integrate with event system**:
-```cpp
-eventDispatcher.registerHandler(5, []() {
-    // Handle rotary encoder events
-});
-```
+   ```cpp
+   class RotaryEncoderController {
+   public:
+       void setup();
+       int read();
+   };
+   ```
+
+1. **Integrate with event system**:
+
+   ```cpp
+   eventDispatcher.registerHandler(5, []() {
+       // Handle rotary encoder events
+   });
+   ```
 
 ## Unit Testing
 
@@ -166,7 +170,7 @@ The project includes a comprehensive unit testing infrastructure using the Unity
 
 ### Test Directory Structure
 
-```
+```text
 test/
 ├── mock/                  # Mock implementations
 │   ├── mock_button_controller.h
@@ -194,6 +198,7 @@ public:
 ```
 
 **Usage Example**:
+
 ```cpp
 TEST(ButtonControllerTest, SetupAndRead) {
     MockButtonController mockButton(GPIO_NUM_13);
@@ -324,6 +329,7 @@ make clean-test
 ### Advanced Testing
 
 For complex scenarios:
+
 - **Test sequences**: Button press/release patterns
 - **Error conditions**: Invalid inputs, hardware failures
 - **Integration tests**: Complete workflow verification
@@ -332,12 +338,14 @@ For complex scenarios:
 ### Test Environment
 
 The project uses **Unity** testing framework for embedded systems:
+
 - Lightweight and efficient
 - Works on resource-constrained devices
 - Integrated with PlatformIO
 - Supports mocking via inheritance
 
 For host-based testing (recommended for complex logic):
+
 - Google Test framework
 - Full mocking capabilities
 - Fast execution on development machine
@@ -380,8 +388,8 @@ For host-based testing (recommended for complex logic):
 
 ### Resources
 
-- **ESP32 Documentation**: https://docs.espressif.com/
-- **PlatformIO Docs**: https://docs.platformio.org/
-- **Modern C++ Guide**: https://isocpp.org/
+- **ESP32 Documentation**: <https://docs.espressif.com/>
+- **PlatformIO Docs**: <https://docs.platformio.org/>
+- **Modern C++ Guide**: <https://isocpp.org/>
 
 Thank you for contributing! 🎸🎸

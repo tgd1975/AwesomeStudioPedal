@@ -87,7 +87,7 @@ test-coverage:
 ## 📊 Current Test Coverage
 
 | Component | Test Files | Test Cases | Coverage Estimate |
-|-----------|------------|------------|-------------------|
+| --- | --- | --- | --- |
 | ButtonController | 1 | 2 | ~60% |
 | LEDController | 1 | 2 | ~50% |
 | BankManager | 1 | 2 | ~40% |
@@ -171,7 +171,7 @@ make clean-test
 
 ### Expected Output
 
-```
+```text
 [==========] Running 6 tests from 3 test suites.
 [----------] 3 tests from ButtonControllerTest
 [ RUN      ] ButtonControllerTest.SetupAndRead
@@ -222,9 +222,9 @@ make clean-test
 
 ## 📚 Resources
 
-- **Google Test**: https://github.com/google/googletest
-- **Google Mock**: https://github.com/google/googletest/blob/master/docs/gmock_cookbook.md
-- **PlatformIO Testing**: https://docs.platformio.org/page/plus/unity-testing.html
+- **Google Test**: <https://github.com/google/googletest>
+- **Google Mock**: <https://github.com/google/googletest/blob/master/docs/gmock_cookbook.md>
+- **PlatformIO Testing**: <https://docs.platformio.org/page/plus/unity-testing.html>
 
 ## ✅ Success Criteria
 

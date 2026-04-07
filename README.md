@@ -50,7 +50,7 @@ Edit `include/config.h` to modify pin assignments for your hardware.
 
 ## Project Structure
 
-```
+```text
 include/
 ├── bank_manager.h       # Bank switching logic
 ├── config.h            # Hardware configuration

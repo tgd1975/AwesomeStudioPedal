@@ -1,4 +1,4 @@
-name: Unit Tests
+name: CI
 
 on:
   push:
@@ -7,6 +7,15 @@ on:
     branches: [main]
 
 jobs:
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v20
+        with:
+          globs: "*.md"
+
   unit-tests:
     name: Host Unit Tests
     runs-on: ubuntu-latest
