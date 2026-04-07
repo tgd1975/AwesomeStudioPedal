@@ -36,6 +36,14 @@ SendMediaKey SEND_B = SendMediaKey(&bleKeyboard, KEY_MEDIA_STOP);
 SendChar SEND_C = SendChar(&bleKeyboard, KEY_LEFT_ARROW);  // '-'
 SendChar SEND_D = SendChar(&bleKeyboard, KEY_RIGHT_ARROW);  // '+'
 
+// Arrays to hold pointers to the different actions for each bank
+Send* bankActionsA[3];
+Send* bankActionsB[3];
+Send* bankActionsC[3];
+Send* bankActionsD[3];
+
+int currentBank = 0; // Tracks active bank: 0, 1, or 2
+
 void IRAM_ATTR isr_a() {
   if (connected) {BUTTON_A.isr();}
 }
@@ -65,6 +73,12 @@ void setup_led(gpio_num_t pin, uint32_t level) {
   gpio_set_level(pin, level);
 }
 
+void updateBankLEDs() {
+  gpio_set_level(LED_SELECT_1, currentBank == 0 ? 1 : 0);
+  gpio_set_level(LED_SELECT_2, currentBank == 1 ? 1 : 0);
+  gpio_set_level(LED_SELECT_3, currentBank == 2 ? 1 : 0);
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -83,6 +97,29 @@ void setup() {
   setup_button(BUTTON_SELECT);
 
   bleKeyboard.begin();
+
+  // Initialize bank actions
+  // Bank 0
+  bankActionsA[0] = new SendString(&bleKeyboard, " ");
+  bankActionsB[0] = new SendMediaKey(&bleKeyboard, KEY_MEDIA_STOP);
+  bankActionsC[0] = new SendChar(&bleKeyboard, KEY_LEFT_ARROW);
+  bankActionsD[0] = new SendChar(&bleKeyboard, KEY_RIGHT_ARROW);
+
+  // Bank 1
+  bankActionsA[1] = new SendString(&bleKeyboard, "Hello");
+  bankActionsB[1] = new SendString(&bleKeyboard, "World");
+  bankActionsC[1] = new SendKey(&bleKeyboard, KEY_UP_ARROW);
+  bankActionsD[1] = new SendKey(&bleKeyboard, KEY_DOWN_ARROW);
+
+  // Bank 2
+  bankActionsA[2] = new SendString(&bleKeyboard, "Bank 2 A");
+  bankActionsB[2] = new SendString(&bleKeyboard, "Bank 2 B");
+  bankActionsC[2] = new SendString(&bleKeyboard, "Bank 2 C");
+  bankActionsD[2] = new SendString(&bleKeyboard, "Bank 2 D");
+  
+  currentBank = 0;
+  updateBankLEDs();
+
 }
 
 void attachInterrupts() {
@@ -102,7 +139,7 @@ void detachInterrupts() {
   BUTTON_A.pressed = false;
   detachInterrupt(BUTTON_A.PIN);
   BUTTON_B.pressed = false;
-  detachInterrupt(BUTTON_D.PIN);
+  detachInterrupt(BUTTON_B.PIN);
   BUTTON_C.pressed = false;
   detachInterrupt(BUTTON_C.PIN);
   BUTTON_D.pressed = false;
@@ -113,20 +150,22 @@ void detachInterrupts() {
 
 void process_events() {
     if (BUTTON_A.event()) {
-      SEND_A.send();
+      bankActionsA[currentBank]->send();
     }
     if (BUTTON_B.event()) {
-      SEND_B.send();
+      bankActionsB[currentBank]->send();
     }
     if (BUTTON_C.event()) {
-      SEND_C.send();
+      bankActionsC[currentBank]->send();
     }
     if (BUTTON_D.event()) {
-      SEND_D.send();
+      bankActionsD[currentBank]->send();
     }
 
     if (BUTTON_SELECT.event()) {
-
+      currentBank = (currentBank + 1) % 3;
+      updateBankLEDs();
+      Serial.printf("Switched to Bank %d\n", currentBank + 1);
     }
 
 }
