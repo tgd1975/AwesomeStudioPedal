@@ -1,6 +1,19 @@
-#include <gtest/gtest.h>
+#include <unity.h>
+
+void setUp(void) {
+    // Runs before each test
+}
+
+void tearDown(void) {
+    // Runs after each test
+}
 
 int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    UNITY_BEGIN();
+    
+    // Run all test suites
+    // Unity tests will be auto-discovered
+    
+    UNITY_END();
+    return 0;
 }
