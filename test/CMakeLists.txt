@@ -2,6 +2,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/bank_manager.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/event_dispatcher.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/send.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/pedal_config.cpp
     ${CMAKE_SOURCE_DIR}/src/button.cpp
     ${CMAKE_SOURCE_DIR}/test/fakes/arduino_shim.cpp
 )

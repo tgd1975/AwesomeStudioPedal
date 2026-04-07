@@ -3,6 +3,14 @@
 
 using MediaKeyReport = uint8_t[2];
 
+// Key constants (mirrored from BleKeyboard for host-build compatibility)
+const uint8_t KEY_UP_ARROW    = 0xDA;
+const uint8_t KEY_DOWN_ARROW  = 0xD9;
+const uint8_t KEY_LEFT_ARROW  = 0xD8;
+const uint8_t KEY_RIGHT_ARROW = 0xD7;
+
+const MediaKeyReport KEY_MEDIA_STOP = {4, 0};
+
 class IBleKeyboard {
 public:
     virtual ~IBleKeyboard() = default;

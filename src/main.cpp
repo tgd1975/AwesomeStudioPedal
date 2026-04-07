@@ -14,6 +14,7 @@
 #include "led_controller.h"
 #include "button_controller.h"
 #include "bank_manager.h"
+#include "pedal_config.h"
 #include "config.h"
 #include "event_dispatcher.h"
 
@@ -124,26 +125,7 @@ void setup() {
 
   bleKeyboardAdapter.begin();
 
-  // Initialize bank actions using BankManager
-  // Bank 0
-  bankManager.addAction(0, 0, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, " ")));
-  bankManager.addAction(0, 1, std::unique_ptr<Send>(new SendMediaKey(&bleKeyboardAdapter, KEY_MEDIA_STOP)));
-  bankManager.addAction(0, 2, std::unique_ptr<Send>(new SendChar(&bleKeyboardAdapter, KEY_LEFT_ARROW)));
-  bankManager.addAction(0, 3, std::unique_ptr<Send>(new SendChar(&bleKeyboardAdapter, KEY_RIGHT_ARROW)));
-
-  // Bank 1
-  bankManager.addAction(1, 0, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Hello")));
-  bankManager.addAction(1, 1, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "World")));
-  bankManager.addAction(1, 2, std::unique_ptr<Send>(new SendKey(&bleKeyboardAdapter, KEY_UP_ARROW)));
-  bankManager.addAction(1, 3, std::unique_ptr<Send>(new SendKey(&bleKeyboardAdapter, KEY_DOWN_ARROW)));
-
-  // Bank 2
-  bankManager.addAction(2, 0, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Bank 2 A")));
-  bankManager.addAction(2, 1, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Bank 2 B")));
-  bankManager.addAction(2, 2, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Bank 2 C")));
-  bankManager.addAction(2, 3, std::unique_ptr<Send>(new SendString(&bleKeyboardAdapter, "Bank 2 D")));
-  
-  bankManager.updateLEDs();
+  configureBanks(bankManager, &bleKeyboardAdapter);
 
 }
 
