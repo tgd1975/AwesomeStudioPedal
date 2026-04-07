@@ -13,23 +13,24 @@
 #include "hardware/led_controller.h"
 #include "hardware/button_controller.h"
 #include "bank_manager.h"
+#include "config.h"
 
 //Se the name of the bluetooth keyboard (that shows up in the bluetooth menu of your device)
 BleKeyboard bleKeyboard("Strix-Pedal", "Strix");
 boolean connected = false;
 
-// Hardware abstraction instances
-LEDController ledBluetooth(GPIO_NUM_26);
-LEDController ledPower(GPIO_NUM_25);
-LEDController ledSelect1(GPIO_NUM_5);
-LEDController ledSelect2(GPIO_NUM_18);
-LEDController ledSelect3(GPIO_NUM_19);
+// Hardware abstraction instances using config
+LEDController ledBluetooth(hardwareConfig.ledBluetooth);
+LEDController ledPower(hardwareConfig.ledPower);
+LEDController ledSelect1(hardwareConfig.ledSelect1);
+LEDController ledSelect2(hardwareConfig.ledSelect2);
+LEDController ledSelect3(hardwareConfig.ledSelect3);
 
-ButtonController buttonSelect(GPIO_NUM_21);
-ButtonController buttonA(GPIO_NUM_13);
-ButtonController buttonB(GPIO_NUM_12);
-ButtonController buttonC(GPIO_NUM_27);
-ButtonController buttonD(GPIO_NUM_14);
+ButtonController buttonSelect(hardwareConfig.buttonSelect);
+ButtonController buttonA(hardwareConfig.buttonA);
+ButtonController buttonB(hardwareConfig.buttonB);
+ButtonController buttonC(hardwareConfig.buttonC);
+ButtonController buttonD(hardwareConfig.buttonD);
 
 // Bank management system
 BankManager bankManager(ledSelect1, ledSelect2, ledSelect3);
@@ -109,28 +110,28 @@ void setup() {
 
 void attachInterrupts() {
   BUTTON_A.pressed = false;
-  attachInterrupt(BUTTON_A.PIN, isr_a, FALLING);
+  attachInterrupt(hardwareConfig.buttonA, isr_a, FALLING);
   BUTTON_B.pressed = false;
-  attachInterrupt(BUTTON_B.PIN, isr_b, FALLING);
+  attachInterrupt(hardwareConfig.buttonB, isr_b, FALLING);
   BUTTON_C.pressed = false;
-  attachInterrupt(BUTTON_C.PIN, isr_c, FALLING);
+  attachInterrupt(hardwareConfig.buttonC, isr_c, FALLING);
   BUTTON_D.pressed = false;
-  attachInterrupt(BUTTON_D.PIN, isr_d, FALLING);
+  attachInterrupt(hardwareConfig.buttonD, isr_d, FALLING);
   BUTTON_SELECT.pressed = false;
-  attachInterrupt(BUTTON_SELECT.PIN, isr_select, FALLING);
+  attachInterrupt(hardwareConfig.buttonSelect, isr_select, FALLING);
 }
 
 void detachInterrupts() {
   BUTTON_A.pressed = false;
-  detachInterrupt(BUTTON_A.PIN);
+  detachInterrupt(hardwareConfig.buttonA);
   BUTTON_B.pressed = false;
-  detachInterrupt(BUTTON_B.PIN);
+  detachInterrupt(hardwareConfig.buttonB);
   BUTTON_C.pressed = false;
-  detachInterrupt(BUTTON_C.PIN);
+  detachInterrupt(hardwareConfig.buttonC);
   BUTTON_D.pressed = false;
-  detachInterrupt(BUTTON_D.PIN);
+  detachInterrupt(hardwareConfig.buttonD);
   BUTTON_SELECT.pressed = false;
-  detachInterrupt(BUTTON_SELECT.PIN);
+  detachInterrupt(hardwareConfig.buttonSelect);
 }
 
 void process_events() {
