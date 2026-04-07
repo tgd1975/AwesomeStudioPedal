@@ -7,12 +7,12 @@
 //#include "FunctionalInterrupt.h"
 
 #include <BleKeyboard.h>
-#include "adapters/ble_keyboard_adapter.h"
+#include "ble_keyboard_adapter.h"
 
 #include "button.h"
 #include "send.h"
-#include "hardware/led_controller.h"
-#include "hardware/button_controller.h"
+#include "led_controller.h"
+#include "button_controller.h"
 #include "bank_manager.h"
 #include "config.h"
 #include "event_dispatcher.h"
