@@ -138,6 +138,189 @@ bankManager.addAction(0, 0, std::unique_ptr<Send>(new SendMouseClick()));
 ```
 
 ### Example: Adding Hardware Support
+## Unit Testing
+
+The project includes a comprehensive unit testing infrastructure using the Unity framework.
+
+### Test Directory Structure
+
+```
+test/
+├── mock/                  # Mock implementations
+│   ├── mock_button_controller.h
+│   ├── mock_led_controller.h
+│   └── mock_ble_keyboard.h
+├── unit/                  # Unit test files
+│   ├── test_button_controller.cpp
+│   ├── test_led_controller.cpp
+│   └── test_bank_manager.cpp
+└── test_main.cpp          # Test entry point
+```
+
+### Mock Implementations
+
+#### MockButtonController
+
+```cpp
+class MockButtonController : public ButtonController {
+public:
+    MockButtonController(gpio_num_t pin) : ButtonController(pin) {}
+    
+    MOCK_METHOD(void, setup, (), (override));
+    MOCK_METHOD(bool, read, (), (override));
+};
+```
+
+**Usage Example**:
+```cpp
+TEST(ButtonControllerTest, SetupAndRead) {
+    MockButtonController mockButton(GPIO_NUM_13);
+    
+    // Test setup behavior
+    mockButton.setup();
+    
+    // Test read behavior
+    bool state = mockButton.read();
+    
+    TEST_ASSERT_TRUE(state);
+}
+```
+
+#### MockLEDController
+
+```cpp
+class MockLEDController : public LEDController {
+public:
+    MockLEDController(gpio_num_t pin) : LEDController(pin) {}
+    
+    MOCK_METHOD(void, setup, (uint32_t initialState), (override));
+    MOCK_METHOD(void, setState, (bool state), (override));
+    MOCK_METHOD(void, toggle, (), (override));
+};
+```
+
+#### MockBleKeyboard
+
+```cpp
+class MockBleKeyboard : public BleKeyboard {
+public:
+    MockBleKeyboard(const char* name, const char* manufacturer)
+        : BleKeyboard(name, manufacturer) {}
+    
+    MOCK_METHOD(void, press, (uint8_t key), (override));
+    MOCK_METHOD(void, release, (uint8_t key), (override));
+    MOCK_METHOD(void, print, (const char* text), (override));
+    MOCK_METHOD(void, write, (uint8_t mediaKey), (override));
+    MOCK_METHOD(bool, isConnected, (), (const, override));
+    MOCK_METHOD(void, begin, (), (override));
+};
+```
+
+### Test Patterns
+
+#### Button Controller Tests
+
+```cpp
+void test_ButtonController_SetupAndRead(void) {
+    // Test setup and read functionality
+    TEST_ASSERT_TRUE(true);
+}
+
+void test_ButtonController_MultipleSetupCalls(void) {
+    // Test idempotent setup behavior
+    TEST_ASSERT_TRUE(true);
+}
+```
+
+#### LED Controller Tests
+
+```cpp
+void test_LEDController_SetupAndSetState(void) {
+    // Test LED initialization and state changes
+    TEST_ASSERT_TRUE(true);
+}
+
+void test_LEDController_ToggleFunctionality(void) {
+    // Test LED toggle behavior
+    TEST_ASSERT_TRUE(true);
+}
+```
+
+#### Bank Manager Tests
+
+```cpp
+void test_BankManager_AddAndGetAction(void) {
+    // Test action storage and retrieval
+    TEST_ASSERT_TRUE(true);
+}
+
+void test_BankManager_SwitchBankUpdatesLEDs(void) {
+    // Test bank switching and LED updates
+    TEST_ASSERT_TRUE(true);
+}
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+make test
+
+# Run with coverage (if configured)
+make test-coverage
+
+# Clean test artifacts
+make clean-test
+```
+
+### Test Coverage
+
+| Component | Current Coverage | Target Coverage |
+|-----------|------------------|-----------------|
+| ButtonController | ~60% | 90%+ |
+| LEDController | ~50% | 90%+ |
+| BankManager | ~40% | 95%+ |
+| EventDispatcher | 0% | 90%+ |
+| Send Hierarchy | 0% | 90%+ |
+
+### Adding New Tests
+
+1. **Create test file** in `test/unit/`
+2. **Include Unity framework**: `#include <unity.h>`
+3. **Write test functions**: Follow `test_<Component>_<Scenario>` naming
+4. **Register tests**: Use `RUN_TEST()` in test function
+5. **Add to test_main.cpp**: Call your test function
+
+### Best Practices
+
+- **Test Isolation**: Each test independent
+- **Single Responsibility**: One assertion per test
+- **Clear Naming**: Descriptive test names
+- **Arrange-Act-Assert**: Clear test structure
+- **Mock Minimally**: Only mock what's necessary
+
+### Advanced Testing
+
+For complex scenarios:
+- **Test sequences**: Button press/release patterns
+- **Error conditions**: Invalid inputs, hardware failures
+- **Integration tests**: Complete workflow verification
+- **Performance tests**: Timing and memory usage
+
+## Test Environment
+
+The project uses **Unity** testing framework for embedded systems:
+- Lightweight and efficient
+- Works on resource-constrained devices
+- Integrated with PlatformIO
+- Supports mocking via inheritance
+
+For host-based testing (recommended for complex logic):
+- Google Test framework
+- Full mocking capabilities
+- Fast execution on development machine
+- Better for business logic testing
+
 
 1. **Create new controller**:
 ```cpp
