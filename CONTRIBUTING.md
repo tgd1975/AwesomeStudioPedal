@@ -8,7 +8,7 @@ This project is maintained by the following contributors:
   - GitHub: [tgd1975]
   - Email: [tobias@strix.at]
 
-## Contributors
+## How to Contribute
 
 We welcome contributions from the community! Please see `CONTRIBUTION_GUIDELINE.md` for details on how to contribute.
 
@@ -30,4 +30,6 @@ We welcome contributions from the community! Please see `CONTRIBUTION_GUIDELINE.
 
 Thank you to all who have contributed to this project!
 
-*(Add your name here when you contribute!)*
+## Add Your Name
+
+Add your name here when you contribute!

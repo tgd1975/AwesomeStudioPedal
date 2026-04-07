@@ -38,6 +38,7 @@
 ## Recommended Path Forward
 
 ### Option 1: Native PlatformIO Testing (Current Approach)
+
 **Pros**: Integrated, uses Unity, works with CI
 **Cons**: Requires Arduino environment, limited mocking
 
@@ -48,20 +49,24 @@
 4. Accept platform limitations
 
 ### Option 2: Host-Based Testing
+
 **Pros**: Full mocking, Google Test, fast execution
 **Cons**: Requires test doubles, not on target hardware
 
 **Steps**:
+
 1. Create host-based test project
 2. Mock all hardware dependencies
 3. Run tests on development machine
 4. Use CI for automation
 
 ### Option 3: Hybrid Approach (Recommended)
+
 **Pros**: Best of both worlds, flexible, scalable
 **Cons**: More complex setup
 
 **Steps**:
+
 1. **Host Tests**: For business logic (BankManager, EventDispatcher)
 2. **Native Tests**: For hardware-specific code (when possible)
 3. **Integration Tests**: For complete workflows
@@ -69,6 +74,7 @@
 ## Immediate Next Steps
 
 ### Short Term (1-2 days)
+
 1. ✅ Create test infrastructure (DONE)
 2. ✅ Write mock classes (DONE)
 3. ✅ Document testing approach (DONE)
@@ -76,12 +82,14 @@
 5. **Get basic tests running**
 
 ### Medium Term (1-2 weeks)
+
 1. Expand test coverage to 80%+
 2. Set up CI/CD pipeline
 3. Add integration tests
 4. Implement code coverage reporting
 
 ### Long Term (Ongoing)
+
 1. Maintain test suite
 2. Add tests for new features
 3. Monitor test quality
@@ -90,6 +98,7 @@
 ## Technical Recommendations
 
 ### For PlatformIO Testing
+
 ```cpp
 // Minimal test harness in test/test_main.cpp
 #include <Arduino.h>
@@ -112,6 +121,7 @@ int main(int argc, char **argv) {
 ```
 
 ### For Host-Based Testing
+
 ```cpp
 // Use Google Test on development machine
 #include <gtest/gtest.h>
@@ -144,18 +154,21 @@ TEST(BankManagerTest, AddAction) {
 ## Action Plan
 
 ### Week 1: Get Basic Tests Running
+
 - [ ] Fix PlatformIO configuration
 - [ ] Get Unity tests working
 - [ ] Achieve 30-40% coverage
 - [ ] Document test patterns
 
 ### Week 2: Expand Coverage
+
 - [ ] Add host-based tests
 - [ ] Mock hardware dependencies
 - [ ] Reach 60-70% coverage
 - [ ] Set up CI pipeline
 
 ### Week 3-4: Full Implementation
+
 - [ ] Complete test suite
 - [ ] Integration tests
 - [ ] 80%+ coverage goal

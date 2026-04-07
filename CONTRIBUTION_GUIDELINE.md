@@ -70,7 +70,7 @@ The project follows a **layered architecture** with clear separation of concerns
 ### Design Patterns Used
 
 | Pattern | Usage | Benefits |
-|---------|------|----------|
+|---------|-------|----------|
 | **Strategy** | Send action classes | Polymorphic button actions |
 | **Observer** | EventDispatcher | Decoupled event handling |
 | **Adapter** | Hardware controllers | Platform independence |
@@ -298,7 +298,7 @@ make clean-test
 ### Test Coverage
 
 | Component | Current Coverage | Target Coverage |
-|-----------|------------------|-----------------|
+| :--- | :--- | :--- |
 | ButtonController | ~60% | 90%+ |
 | LEDController | ~50% | 90%+ |
 | BankManager | ~40% | 95%+ |
