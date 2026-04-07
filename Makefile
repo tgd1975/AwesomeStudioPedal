@@ -40,3 +40,13 @@ flash: upload
 # Install with: pip install platformio
 
 # Project-specific PlatformIO configuration is in platformio.ini
+# Test targets
+test:
+	pio test
+
+test-coverage:
+	pio test --coverage
+
+# Clean test artifacts
+clean-test:
+	rm -rf .pio/build/test
