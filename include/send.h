@@ -4,6 +4,7 @@
 class Send {
   public:
     virtual void send() = 0;
+    virtual ~Send() = default;  // Add virtual destructor for proper cleanup
     BleKeyboard* bleKeyboard;
     Send(BleKeyboard* bleKeyboard);
 };

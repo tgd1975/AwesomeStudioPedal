@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <memory>  // Add for smart pointers
 //#include "freertos/FreeRTOS.h"
 //#include "freertos/task.h"
 #include "driver/gpio.h"
@@ -37,10 +38,10 @@ SendChar SEND_C = SendChar(&bleKeyboard, KEY_LEFT_ARROW);  // '-'
 SendChar SEND_D = SendChar(&bleKeyboard, KEY_RIGHT_ARROW);  // '+'
 
 // Arrays to hold pointers to the different actions for each bank
-Send* bankActionsA[3];
-Send* bankActionsB[3];
-Send* bankActionsC[3];
-Send* bankActionsD[3];
+std::unique_ptr<Send> bankActionsA[3];
+std::unique_ptr<Send> bankActionsB[3];
+std::unique_ptr<Send> bankActionsC[3];
+std::unique_ptr<Send> bankActionsD[3];
 
 int currentBank = 0; // Tracks active bank: 0, 1, or 2
 
@@ -100,22 +101,22 @@ void setup() {
 
   // Initialize bank actions
   // Bank 0
-  bankActionsA[0] = new SendString(&bleKeyboard, " ");
-  bankActionsB[0] = new SendMediaKey(&bleKeyboard, KEY_MEDIA_STOP);
-  bankActionsC[0] = new SendChar(&bleKeyboard, KEY_LEFT_ARROW);
-  bankActionsD[0] = new SendChar(&bleKeyboard, KEY_RIGHT_ARROW);
+  bankActionsA[0] = std::make_unique<SendString>(&bleKeyboard, " ");
+  bankActionsB[0] = std::make_unique<SendMediaKey>(&bleKeyboard, KEY_MEDIA_STOP);
+  bankActionsC[0] = std::make_unique<SendChar>(&bleKeyboard, KEY_LEFT_ARROW);
+  bankActionsD[0] = std::make_unique<SendChar>(&bleKeyboard, KEY_RIGHT_ARROW);
 
   // Bank 1
-  bankActionsA[1] = new SendString(&bleKeyboard, "Hello");
-  bankActionsB[1] = new SendString(&bleKeyboard, "World");
-  bankActionsC[1] = new SendKey(&bleKeyboard, KEY_UP_ARROW);
-  bankActionsD[1] = new SendKey(&bleKeyboard, KEY_DOWN_ARROW);
+  bankActionsA[1] = std::make_unique<SendString>(&bleKeyboard, "Hello");
+  bankActionsB[1] = std::make_unique<SendString>(&bleKeyboard, "World");
+  bankActionsC[1] = std::make_unique<SendKey>(&bleKeyboard, KEY_UP_ARROW);
+  bankActionsD[1] = std::make_unique<SendKey>(&bleKeyboard, KEY_DOWN_ARROW);
 
   // Bank 2
-  bankActionsA[2] = new SendString(&bleKeyboard, "Bank 2 A");
-  bankActionsB[2] = new SendString(&bleKeyboard, "Bank 2 B");
-  bankActionsC[2] = new SendString(&bleKeyboard, "Bank 2 C");
-  bankActionsD[2] = new SendString(&bleKeyboard, "Bank 2 D");
+  bankActionsA[2] = std::make_unique<SendString>(&bleKeyboard, "Bank 2 A");
+  bankActionsB[2] = std::make_unique<SendString>(&bleKeyboard, "Bank 2 B");
+  bankActionsC[2] = std::make_unique<SendString>(&bleKeyboard, "Bank 2 C");
+  bankActionsD[2] = std::make_unique<SendString>(&bleKeyboard, "Bank 2 D");
   
   currentBank = 0;
   updateBankLEDs();
