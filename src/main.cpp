@@ -14,6 +14,7 @@
 #include "hardware/button_controller.h"
 #include "bank_manager.h"
 #include "config.h"
+#include "event_dispatcher.h"
 
 //Se the name of the bluetooth keyboard (that shows up in the bluetooth menu of your device)
 BleKeyboard bleKeyboard("Strix-Pedal", "Strix");
@@ -34,6 +35,9 @@ ButtonController buttonD(hardwareConfig.buttonD);
 
 // Bank management system
 BankManager bankManager(ledSelect1, ledSelect2, ledSelect3);
+
+// Event handling system
+EventDispatcher eventDispatcher;
 
 #define SHIFT 0x80
 
@@ -76,12 +80,44 @@ void setup_hardware() {
     buttonSelect.setup();
 }
 
+void setup_event_handlers() {
+    // Register button event handlers
+    eventDispatcher.registerHandler(0, []() {
+        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 0)) {
+            action->send();
+        }
+    });
+    
+    eventDispatcher.registerHandler(1, []() {
+        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 1)) {
+            action->send();
+        }
+    });
+    
+    eventDispatcher.registerHandler(2, []() {
+        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 2)) {
+            action->send();
+        }
+    });
+    
+    eventDispatcher.registerHandler(3, []() {
+        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 3)) {
+            action->send();
+        }
+    });
+    
+    eventDispatcher.registerHandler(4, []() {
+        bankManager.switchBank();
+    });
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.println("started");
 
   setup_hardware();
+  setup_event_handlers();
 
   bleKeyboard.begin();
 
@@ -136,28 +172,20 @@ void detachInterrupts() {
 
 void process_events() {
     if (BUTTON_A.event()) {
-        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 0)) {
-            action->send();
-        }
+        eventDispatcher.dispatch(0);
     }
     if (BUTTON_B.event()) {
-        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 1)) {
-            action->send();
-        }
+        eventDispatcher.dispatch(1);
     }
     if (BUTTON_C.event()) {
-        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 2)) {
-            action->send();
-        }
+        eventDispatcher.dispatch(2);
     }
     if (BUTTON_D.event()) {
-        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 3)) {
-            action->send();
-        }
+        eventDispatcher.dispatch(3);
     }
 
     if (BUTTON_SELECT.event()) {
-      bankManager.switchBank();
+        eventDispatcher.dispatch(4);
     }
 
 }
