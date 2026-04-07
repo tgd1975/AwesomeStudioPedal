@@ -12,6 +12,7 @@
 #include "send.h"
 #include "hardware/led_controller.h"
 #include "hardware/button_controller.h"
+#include "bank_manager.h"
 
 //Se the name of the bluetooth keyboard (that shows up in the bluetooth menu of your device)
 BleKeyboard bleKeyboard("Strix-Pedal", "Strix");
@@ -30,6 +31,9 @@ ButtonController buttonB(GPIO_NUM_12);
 ButtonController buttonC(GPIO_NUM_27);
 ButtonController buttonD(GPIO_NUM_14);
 
+// Bank management system
+BankManager bankManager(ledSelect1, ledSelect2, ledSelect3);
+
 #define SHIFT 0x80
 
 //SendMediaKey SEND_A = SendMediaKey(&bleKeyboard, KEY_MEDIA_PLAY_PAUSE);
@@ -37,14 +41,6 @@ SendString SEND_A = SendString(&bleKeyboard, " ");
 SendMediaKey SEND_B = SendMediaKey(&bleKeyboard, KEY_MEDIA_STOP);
 SendChar SEND_C = SendChar(&bleKeyboard, KEY_LEFT_ARROW);  // '-'
 SendChar SEND_D = SendChar(&bleKeyboard, KEY_RIGHT_ARROW);  // '+'
-
-// Arrays to hold pointers to the different actions for each bank
-std::unique_ptr<Send> bankActionsA[3];
-std::unique_ptr<Send> bankActionsB[3];
-std::unique_ptr<Send> bankActionsC[3];
-std::unique_ptr<Send> bankActionsD[3];
-
-int currentBank = 0; // Tracks active bank: 0, 1, or 2
 
 void IRAM_ATTR isr_a() {
   if (connected) {BUTTON_A.isr();}
@@ -79,12 +75,6 @@ void setup_hardware() {
     buttonSelect.setup();
 }
 
-void updateBankLEDs() {
-    ledSelect1.setState(currentBank == 0);
-    ledSelect2.setState(currentBank == 1);
-    ledSelect3.setState(currentBank == 2);
-}
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -94,27 +84,26 @@ void setup() {
 
   bleKeyboard.begin();
 
-  // Initialize bank actions
+  // Initialize bank actions using BankManager
   // Bank 0
-  bankActionsA[0] = std::make_unique<SendString>(&bleKeyboard, " ");
-  bankActionsB[0] = std::make_unique<SendMediaKey>(&bleKeyboard, KEY_MEDIA_STOP);
-  bankActionsC[0] = std::make_unique<SendChar>(&bleKeyboard, KEY_LEFT_ARROW);
-  bankActionsD[0] = std::make_unique<SendChar>(&bleKeyboard, KEY_RIGHT_ARROW);
+  bankManager.addAction(0, 0, std::make_unique<SendString>(&bleKeyboard, " "));
+  bankManager.addAction(0, 1, std::make_unique<SendMediaKey>(&bleKeyboard, KEY_MEDIA_STOP));
+  bankManager.addAction(0, 2, std::make_unique<SendChar>(&bleKeyboard, KEY_LEFT_ARROW));
+  bankManager.addAction(0, 3, std::make_unique<SendChar>(&bleKeyboard, KEY_RIGHT_ARROW));
 
   // Bank 1
-  bankActionsA[1] = std::make_unique<SendString>(&bleKeyboard, "Hello");
-  bankActionsB[1] = std::make_unique<SendString>(&bleKeyboard, "World");
-  bankActionsC[1] = std::make_unique<SendKey>(&bleKeyboard, KEY_UP_ARROW);
-  bankActionsD[1] = std::make_unique<SendKey>(&bleKeyboard, KEY_DOWN_ARROW);
+  bankManager.addAction(1, 0, std::make_unique<SendString>(&bleKeyboard, "Hello"));
+  bankManager.addAction(1, 1, std::make_unique<SendString>(&bleKeyboard, "World"));
+  bankManager.addAction(1, 2, std::make_unique<SendKey>(&bleKeyboard, KEY_UP_ARROW));
+  bankManager.addAction(1, 3, std::make_unique<SendKey>(&bleKeyboard, KEY_DOWN_ARROW));
 
   // Bank 2
-  bankActionsA[2] = std::make_unique<SendString>(&bleKeyboard, "Bank 2 A");
-  bankActionsB[2] = std::make_unique<SendString>(&bleKeyboard, "Bank 2 B");
-  bankActionsC[2] = std::make_unique<SendString>(&bleKeyboard, "Bank 2 C");
-  bankActionsD[2] = std::make_unique<SendString>(&bleKeyboard, "Bank 2 D");
+  bankManager.addAction(2, 0, std::make_unique<SendString>(&bleKeyboard, "Bank 2 A"));
+  bankManager.addAction(2, 1, std::make_unique<SendString>(&bleKeyboard, "Bank 2 B"));
+  bankManager.addAction(2, 2, std::make_unique<SendString>(&bleKeyboard, "Bank 2 C"));
+  bankManager.addAction(2, 3, std::make_unique<SendString>(&bleKeyboard, "Bank 2 D"));
   
-  currentBank = 0;
-  updateBankLEDs();
+  bankManager.updateLEDs();
 
 }
 
@@ -146,22 +135,28 @@ void detachInterrupts() {
 
 void process_events() {
     if (BUTTON_A.event()) {
-      bankActionsA[currentBank]->send();
+        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 0)) {
+            action->send();
+        }
     }
     if (BUTTON_B.event()) {
-      bankActionsB[currentBank]->send();
+        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 1)) {
+            action->send();
+        }
     }
     if (BUTTON_C.event()) {
-      bankActionsC[currentBank]->send();
+        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 2)) {
+            action->send();
+        }
     }
     if (BUTTON_D.event()) {
-      bankActionsD[currentBank]->send();
+        if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 3)) {
+            action->send();
+        }
     }
 
     if (BUTTON_SELECT.event()) {
-      currentBank = (currentBank + 1) % 3;
-      updateBankLEDs();
-      Serial.printf("Switched to Bank %d\n", currentBank + 1);
+      bankManager.switchBank();
     }
 
 }
