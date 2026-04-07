@@ -31,4 +31,4 @@ void BankManager::updateLEDs() {
 
 uint8_t BankManager::getCurrentBank() const {
     return currentBank;
-}EOF
+}

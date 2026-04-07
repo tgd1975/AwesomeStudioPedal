@@ -17,4 +17,4 @@ void LEDController::setState(bool state) {
 
 void LEDController::toggle() {
     setState(!currentState);
-}EOF
+}

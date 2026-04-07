@@ -9,4 +9,4 @@ void ButtonController::setup() {
 
 bool ButtonController::read() {
     return digitalRead(pin) == LOW;  // Active low due to pull-up
-}EOF
+}

@@ -16,4 +16,4 @@ void EventDispatcher::clearHandlers() {
     for (auto& handler : handlers) {
         handler = nullptr;
     }
-}EOF
+}
