@@ -2,12 +2,9 @@
 #include <BleKeyboard.h>
 
 class Send {
-  private: 
-    void send() {Serial.println("hae?");};
-
   public:
+    virtual void send() = 0;
     BleKeyboard* bleKeyboard;
-
     Send(BleKeyboard* bleKeyboard);
 };
 
@@ -16,17 +13,16 @@ class SendChar : public Send {
     char key;
 
   public:
-    void send();
+    void send() override;
     SendChar(BleKeyboard* bleKeyboard, char k);
 };
-
 
 class SendString : public Send {
   private:
     String text;
 
   public:
-    void send();
+    void send() override;
     SendString(BleKeyboard* bleKeyboard, String t);
 };
 
@@ -35,7 +31,7 @@ class SendKey : public Send {
     uint8_t key;
 
   public:
-    void send();
+    void send() override;
     SendKey(BleKeyboard* bleKeyboard, uint8_t k);
 };
 
@@ -44,6 +40,6 @@ class SendMediaKey : public Send {
     MediaKeyReport key;
 
   public: 
-    void send();
+    void send() override;
     SendMediaKey(BleKeyboard* bleKeyboard, const MediaKeyReport k);
 };
