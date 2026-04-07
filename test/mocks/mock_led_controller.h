@@ -1,5 +1,5 @@
 #pragma once
-#include "hardware/i_led_controller.h"
+#include "i_led_controller.h"
 #include <gmock/gmock.h>
 
 class MockLEDController : public ILEDController {
