@@ -50,3 +50,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# PlatformIO build artifacts
+.pio/
+
+# VSCode settings
+.vscode/
+
+# IDE/Editor files
+.idea/
+*.swp
+*.swo
