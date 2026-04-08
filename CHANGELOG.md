@@ -16,7 +16,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Target-specific Makefile commands: `build-esp32`, `upload-esp32`, `monitor-esp32`, `upload-nrf52840`, `monitor-nrf52840`
 - Enhanced `make build` now builds ALL targets (ESP32 + nRF52840)
 - Helpful `make` command shows usage information
-- `scripts/serial_monitor.py` - Python-based alternative serial monitor
+- `scripts/serial_monitor.py` — Python-based alternative serial monitor
+- `make run-*` convenience targets for combined upload + monitor workflows
+- `make format` target — runs `clang-format` across the codebase
+- `make lint-markdown` target — runs `markdownlint-cli2` on all Markdown files
+- On-device Unity test suite for button logic with interactive prompts and countdown output
 - Comprehensive Linux development setup guide in `CONTRIBUTION_GUIDELINE.md`
 - Serial port permissions and troubleshooting documentation
 - `include/platform.h` — no-op `IRAM_ATTR` shim so non-ESP32 targets compile cleanly
@@ -31,6 +35,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `pedal_config.cpp` — bank/button mappings moved out of `main.cpp` into `PedalLogic`
 - `TESTING_IMPLEMENTATION.md` — full test infrastructure documentation
 - Release process and branching concept documented in `CONTRIBUTION_GUIDELINE.md`
+- Hardware abstraction layer: `LEDController`, `ButtonController`
+- `BankManager` — encapsulated three-bank switching with LED feedback
+- `EventDispatcher` — centralised, decoupled event handling for button presses
+- `Send` class hierarchy: `SendChar`, `SendString`, `SendKey`, `SendMediaKey`
+- Configuration system (`config.h` / `config.cpp`) for centralised pin assignments
+- Smart pointer usage throughout — no raw `new`/`delete`
+- `Makefile` with `build`, `upload`, `monitor`, `test`, and `clean` targets
 
 ### Changed
 
@@ -53,9 +64,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
+- Bank 2 and Bank 3 LED initialization corrected to `setup(0)` — only Bank 1 LED lit at startup
+- Button debounce logic fixed; `millis()` captured once per debounce check to eliminate timing race
 - Firmware link failure caused by PlatformIO treating `include/` and `src/` as separate flat libraries when `lib_extra_dirs` pointed inside a package directory
 - Trailing comma in `lib/hardware/esp32/library.json` that caused PlatformIO to ignore the entire package
-- ISR safety: removed `Serial.printf` from ISR context; `millis()` captured once per debounce check
+- ISR safety: removed `Serial.printf` from ISR context
 - `volatile bool pressed` added to `button.h` to prevent optimisation-related ISR bugs
 - Dead code removed from `main.cpp` (`SHIFT` macro, duplicate `BleKeyboard` include, unused `ButtonController` instances)
 - `Send::bleKeyboard` moved to `protected` for correct encapsulation
@@ -63,23 +76,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - ODR violation on `KEY_MEDIA_STOP` resolved
 - Removed non-functional `make test` and `make test-coverage` targets from Makefile
 - Fixed Makefile to properly handle multi-target builds
-
----
-
-## [0.2.0] — 2025-11-01
-
-### Added
-
-- Hardware abstraction layer: `LEDController`, `ButtonController`
-- `BankManager` — encapsulated three-bank switching with LED feedback
-- `EventDispatcher` — centralised, decoupled event handling for button presses
-- `Send` class hierarchy: `SendChar`, `SendString`, `SendKey`, `SendMediaKey`
-- Configuration system (`config.h` / `config.cpp`) for centralised pin assignments
-- Smart pointer usage throughout — no raw `new`/`delete`
-- `Makefile` with `build`, `upload`, `monitor`, `test`, and `clean` targets
-
-### Fixed
-
+- Unsupported `AllowAllParametersOnNextLine` option removed from `.clang-format`
+- CI: test results directory now created before test run; correct path used for result files
+- CI: `.vscode` directory excluded from markdownlint scope
 - `detachInterrupts` bug in tri-bank switching
 - Memory leaks replaced with `std::unique_ptr`
 
