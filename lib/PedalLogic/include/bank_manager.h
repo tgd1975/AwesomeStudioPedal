@@ -10,7 +10,7 @@ public:
 
     void addAction(uint8_t bank, uint8_t button, std::unique_ptr<Send> action);
     Send* getAction(uint8_t bank, uint8_t button);
-    void switchBank();
+    uint8_t switchBank();
     void updateLEDs();
     uint8_t getCurrentBank() const;
 

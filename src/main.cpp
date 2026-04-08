@@ -111,7 +111,8 @@ void setup_event_handlers() {
     });
     
     eventDispatcher.registerHandler(4, []() {
-        bankManager.switchBank();
+        uint8_t bank = bankManager.switchBank();
+        Serial.printf("Switched to Bank %d\n", bank + 1);
     });
 }
 
