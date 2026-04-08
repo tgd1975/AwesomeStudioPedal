@@ -9,7 +9,7 @@ const uint8_t KEY_DOWN_ARROW  = 0xD9;
 const uint8_t KEY_LEFT_ARROW  = 0xD8;
 const uint8_t KEY_RIGHT_ARROW = 0xD7;
 
-const MediaKeyReport KEY_MEDIA_STOP = {4, 0};
+static constexpr uint8_t KEY_MEDIA_STOP[2] = {4, 0};
 
 class IBleKeyboard {
 public:
