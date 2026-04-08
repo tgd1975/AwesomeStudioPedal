@@ -21,11 +21,13 @@ all:
 	@echo "  make build-esp32     - Build for ESP32 only"
 	@echo "  make upload-esp32   - Upload to ESP32"
 	@echo "  make monitor-esp32  - Monitor ESP32 serial"
+	@echo "  make run-esp32      - Build, upload, and monitor ESP32"
 	@echo ""
 	@echo "nRF52840-Specific Commands:"
 	@echo "  make build-nrf52840    - Build for nRF52840 only"
 	@echo "  make upload-nrf52840   - Upload to nRF52840"
 	@echo "  make monitor-nrf52840  - Monitor nRF52840 serial"
+	@echo "  make run-nrf52840     - Build, upload, and monitor nRF52840"
 	@echo ""
 	@echo "See README.md for more details"
 
@@ -53,6 +55,10 @@ upload-esp32:
 monitor-esp32:
 	pio device monitor -e $(ESP32_ENV)
 
+run-esp32: build-esp32 upload-esp32
+	@echo "Build and upload complete. Starting monitor..."
+	pio device monitor -e $(ESP32_ENV) || echo "Monitor failed, but build/upload succeeded"
+
 # nRF52840 specific targets
 build-nrf52840:
 	pio run -e $(NRF52840_ENV)
@@ -62,6 +68,10 @@ upload-nrf52840:
 
 monitor-nrf52840:
 	pio device monitor -e $(NRF52840_ENV)
+
+run-nrf52840: build-nrf52840 upload-nrf52840
+	@echo "Build and upload complete. Starting monitor..."
+	pio device monitor -e $(NRF52840_ENV) || echo "Monitor failed, but build/upload succeeded"
 
 # Run host unit tests (GoogleTest via CMake)
 test-host:
