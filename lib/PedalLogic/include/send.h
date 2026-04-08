@@ -6,6 +6,8 @@ class Send {
   public:
     virtual void send() = 0;
     virtual ~Send() = default;
+
+  protected:
     IBleKeyboard* bleKeyboard;
     Send(IBleKeyboard* bleKeyboard);
 };
