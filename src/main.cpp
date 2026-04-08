@@ -19,7 +19,7 @@
 //Se the name of the bluetooth keyboard (that shows up in the bluetooth menu of your device)
 BleKeyboard bleKeyboard("Strix-Pedal", "Strix");
 BleKeyboardAdapter bleKeyboardAdapter(bleKeyboard);
-boolean connected = false;
+bool connected = false;
 
 // Hardware abstraction instances using config
 LEDController ledBluetooth(hardwareConfig.ledBluetooth);
