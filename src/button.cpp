@@ -14,13 +14,8 @@ bool Button::isDebounced() {
     return false;
 }
 
-void Button::incKeyPresses() {
-    numberKeyPresses++;
-}
-
 void Button::isr() {
     if (isDebounced()) {
-        incKeyPresses();
         pressed = true;
     }
 }
