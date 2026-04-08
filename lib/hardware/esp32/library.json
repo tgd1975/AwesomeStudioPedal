@@ -4,6 +4,6 @@
   "description": "ESP32/Arduino hardware implementations (LEDController, ButtonController, BleKeyboardAdapter)",
   "build": {
     "srcDirs": ["src"],
-    "includeDir": "include",
+    "includeDir": "include"
   }
 }
