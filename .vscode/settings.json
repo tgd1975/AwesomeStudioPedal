@@ -19,5 +19,9 @@
         "**/.pio": true,
         "**/build": true
     },
-    "testMate.cpp.test.executables": "${workspaceFolder}/.vscode/build/test/pedal_tests"
+    "testMate.cpp.test.executables": "${workspaceFolder}/.vscode/build/test/pedal_tests",
+    "chat.useAgentSkills": true,
+    "claudeCode.environmentVariables": [
+
+    ]
 }

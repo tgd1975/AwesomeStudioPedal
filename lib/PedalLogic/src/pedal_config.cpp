@@ -2,6 +2,17 @@
 #include "send.h"
 #include <memory>
 
+/**
+ * @brief Configures the three button banks with default actions
+ * 
+ * Sets up the pedal's button banks with predefined actions:
+ * - Bank 0: Space, Media Stop, Left Arrow, Right Arrow
+ * - Bank 1: "Hello", "World", Up Arrow, Down Arrow
+ * - Bank 2: "Bank 2 A", "Bank 2 B", "Bank 2 C", "Bank 2 D"
+ * 
+ * @param bankManager Reference to the BankManager instance
+ * @param keyboard Pointer to the BLE keyboard interface
+ */
 void configureBanks(BankManager& bankManager, IBleKeyboard* keyboard) {
     // Bank 0
     bankManager.addAction(0, 0, std::unique_ptr<Send>(new SendString(keyboard, " ")));
