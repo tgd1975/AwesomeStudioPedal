@@ -15,6 +15,7 @@ all:
 	@echo "  make build        - Build ALL targets (ESP32 + nRF52840)"
 	@echo "  make clean       - Clean build artifacts"
 	@echo "  make test-host   - Run host unit tests (GoogleTest)"
+	@echo "  make format      - Format all C++ files using clang-format"
 	@echo "  make info        - Show project information"
 	@echo ""
 	@echo "ESP32-Specific Commands:"
@@ -86,6 +87,11 @@ test-nrf52840:
 # Run host unit tests (GoogleTest via CMake)
 test-host:
 	cmake --build .vscode/build --target pedal_tests && .vscode/build/test/pedal_tests
+
+# Format all C++ files using clang-format
+format:
+	find . -name "*.cpp" -o -name "*.h" -o -name "*.hpp" | grep -v \.pio | grep -v build | xargs clang-format -i
+	@echo "All C++ files formatted successfully"
 
 # Clean test artifacts
 clean-test:
