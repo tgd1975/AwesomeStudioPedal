@@ -83,12 +83,40 @@ The pre-commit hook will automatically check formatting for changed files.
 
 ## Building
 
+Run `make` without arguments to see usage information:
+
 ```bash
-make build        # Build project
-make upload      # Upload to device
+make              # Show usage and available commands
+
+# General commands
+make build        # Build ALL targets (ESP32 + nRF52840)
 make clean       # Clean build artifacts
-make monitor     # Open serial monitor
+make test-host   # Run host unit tests (GoogleTest)
+
+# ESP32-specific commands
+make build-esp32     # Build for ESP32 only
+make upload-esp32   # Upload to ESP32
+make monitor-esp32  # Monitor ESP32 serial
+
+# nRF52840-specific commands
+make build-nrf52840    # Build for nRF52840 only
+make upload-nrf52840   # Upload to nRF52840
+make monitor-nrf52840  # Monitor nRF52840 serial
 ```
+
+## Serial Monitoring
+
+If you experience issues with PlatformIO's built-in serial monitor, you can use the alternative Python script:
+
+```bash
+# List available serial ports
+python3 scripts/serial_monitor.py
+
+# Monitor specific port
+python3 scripts/serial_monitor.py /dev/ttyUSB0 115200
+```
+
+The script provides a simple terminal interface for debugging your ESP32 device.
 
 ## License
 

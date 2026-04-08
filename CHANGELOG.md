@@ -13,6 +13,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - nRF52840 hardware package (`lib/hardware/nrf52840`) with `Button`, `LEDController`, `ButtonController`, and `BleKeyboardAdapter` (wrapping `BLEHidAdafruit`)
 - `feather-nrf52840` and `feather-nrf52840-test` PlatformIO environments
 - `build-nrf52840` Makefile target
+- Target-specific Makefile commands: `build-esp32`, `upload-esp32`, `monitor-esp32`, `upload-nrf52840`, `monitor-nrf52840`
+- Enhanced `make build` now builds ALL targets (ESP32 + nRF52840)
+- Helpful `make` command shows usage information
+- `scripts/serial_monitor.py` - Python-based alternative serial monitor
+- Comprehensive Linux development setup guide in `CONTRIBUTION_GUIDELINE.md`
+- Serial port permissions and troubleshooting documentation
 - `include/platform.h` — no-op `IRAM_ATTR` shim so non-ESP32 targets compile cleanly
 - `IButton` interface in `lib/PedalLogic` — `Button` now inherits from it, enabling platform-agnostic button handling
 - `createBleKeyboardAdapter()` factory function per hardware package — `main.cpp` is now hardware-agnostic
@@ -39,6 +45,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - Key constants in `i_ble_keyboard.h` guarded with `#ifndef ESP32_BLE_KEYBOARD_H` to prevent redefinition when both headers are included
 - `KEY_MEDIA_STOP` changed from `inline constexpr` to `static constexpr` for C++14 compatibility
 - Branching strategy and contribution workflow documented in `CONTRIBUTION_GUIDELINE.md`
+- `make build` behavior changed to build ALL targets instead of just ESP32
+- Makefile help system enhanced with comprehensive usage information
+- Documentation updated to reflect new Makefile command structure
 
 ### Fixed
 
@@ -50,6 +59,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `Send::bleKeyboard` moved to `protected` for correct encapsulation
 - `HOST_TEST_BUILD` guards removed from `PedalLogic` — Arduino dependency was leaking into hardware-independent code
 - ODR violation on `KEY_MEDIA_STOP` resolved
+- Removed non-functional `make test` and `make test-coverage` targets from Makefile
+- Fixed Makefile to properly handle multi-target builds
 
 ---
 

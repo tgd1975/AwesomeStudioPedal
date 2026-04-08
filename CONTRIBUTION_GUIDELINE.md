@@ -172,7 +172,7 @@ Releases are tagged on `main` and follow [Semantic Versioning](https://semver.or
 #### Release Checklist
 
 1. **All tests pass** — `make test-host` must report zero failures on `main`.
-2. **Firmware builds clean** for all target environments — `make build` (ESP32) and `make build-nrf52840`.
+2. **Firmware builds clean** for all target environments — `make build` (builds both ESP32 and nRF52840) or `make build-nrf52840` (nRF52840 only).
 3. **Update version** — bump the version string in `platformio.ini` (both ESP32 and nRF52840 envs share the same logical version).
 4. **Tag the release** on `main`:
 
@@ -371,11 +371,8 @@ void test_BankManager_SwitchBankUpdatesLEDs(void) {
 ### Running Tests
 
 ```bash
-# Run all tests
-make test
-
-# Run with coverage (if configured)
-make test-coverage
+# Run host unit tests (GoogleTest)
+make test-host
 
 # Clean test artifacts
 make clean-test
@@ -456,6 +453,53 @@ For host-based testing (recommended for complex logic):
 - **Serial Debug**: `Serial.println()` for basic debugging
 - **PlatformIO Monitor**: `make monitor`
 - **Memory Analysis**: PlatformIO project inspect
+
+### Linux Development Setup
+
+#### Serial Port Permissions
+
+For Linux development, you need proper permissions to access USB serial devices:
+
+1. **Check your group membership**:
+
+   ```bash
+   groups
+   ```
+
+   Ensure you're in the `dialout` group (required for `/dev/ttyUSB*` access).
+
+2. **If not in dialout group**:
+
+   ```bash
+   sudo usermod -a -G dialout $USER
+   ```
+
+   Then log out and log back in for changes to take effect.
+
+3. **Verify access**:
+
+   ```bash
+   test -w /dev/ttyUSB0 && echo "Write access confirmed" || echo "No write access"
+   ```
+
+#### Alternative Serial Monitor
+
+If PlatformIO's monitor has issues, use the provided Python script:
+
+```bash
+# List available ports
+python3 scripts/serial_monitor.py
+
+# Monitor ESP32
+python3 scripts/serial_monitor.py /dev/ttyUSB0 115200
+```
+
+#### Troubleshooting
+
+- **Device not found**: Check USB connection, try different cable/port
+- **Permission denied**: Verify dialout group membership and restart session
+- **Port busy**: Close other programs using the serial port
+- **PlatformIO terminal errors**: Use the alternative serial monitor script
 
 ### Contribution Workflow
 

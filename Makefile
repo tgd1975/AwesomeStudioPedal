@@ -1,18 +1,39 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test test-host test-coverage build-nrf52840
+.PHONY: all build upload clean monitor test-host build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840
 
-# Default target
-all: build
+# Target-specific variables
+ESP32_ENV ?= nodemcu-32s
+NRF52840_ENV ?= feather-nrf52840
+
+# Default target - show help
+all:
+	@echo "Awesome Guitar Pedal - Makefile Usage"
+	@echo ""
+	@echo "General Commands:"
+	@echo "  make build        - Build ALL targets (ESP32 + nRF52840)"
+	@echo "  make clean       - Clean build artifacts"
+	@echo "  make test-host   - Run host unit tests (GoogleTest)"
+	@echo "  make info        - Show project information"
+	@echo ""
+	@echo "ESP32-Specific Commands:"
+	@echo "  make build-esp32     - Build for ESP32 only"
+	@echo "  make upload-esp32   - Upload to ESP32"
+	@echo "  make monitor-esp32  - Monitor ESP32 serial"
+	@echo ""
+	@echo "nRF52840-Specific Commands:"
+	@echo "  make build-nrf52840    - Build for nRF52840 only"
+	@echo "  make upload-nrf52840   - Upload to nRF52840"
+	@echo "  make monitor-nrf52840  - Monitor nRF52840 serial"
+	@echo ""
+	@echo "See README.md for more details"
 
 # Build the project using PlatformIO
-build:
-	pio run
+build: build-esp32 build-nrf52840
 
 # Upload firmware to device
-upload:
-	pio run --target upload
+upload: upload-esp32
 
 # Clean build artifacts
 clean:
@@ -22,21 +43,29 @@ clean:
 monitor:
 	pio device monitor
 
-# Run PlatformIO on-device tests
-test:
-	pio test -e nodemcu-32s-test
+# ESP32 specific targets
+build-esp32:
+	pio run -e $(ESP32_ENV)
+
+upload-esp32:
+	pio run -e $(ESP32_ENV) --target upload
+
+monitor-esp32:
+	pio device monitor -e $(ESP32_ENV)
+
+# nRF52840 specific targets
+build-nrf52840:
+	pio run -e $(NRF52840_ENV)
+
+upload-nrf52840:
+	pio run -e $(NRF52840_ENV) --target upload
+
+monitor-nrf52840:
+	pio device monitor -e $(NRF52840_ENV)
 
 # Run host unit tests (GoogleTest via CMake)
 test-host:
 	cmake --build .vscode/build --target pedal_tests && .vscode/build/test/pedal_tests
-
-# Run on-device tests with coverage
-test-coverage:
-	pio test -e nodemcu-32s-test --coverage
-
-# Build firmware for Adafruit Feather nRF52840
-build-nrf52840:
-	pio run -e feather-nrf52840
 
 # Clean test artifacts
 clean-test:
