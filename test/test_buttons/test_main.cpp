@@ -36,11 +36,19 @@ static int count_events(Button& b, unsigned long window_ms) {
     return count;
 }
 
-static void prompt(const char* msg) {
-    Serial.println();
-    Serial.print(">>> ");
-    Serial.println(msg);
-    delay(100); // flush
+static void countdown(int seconds) {
+    for (int i = seconds; i > 0; i--) {
+        char buf[32];
+        snprintf(buf, sizeof(buf), "  %ds remaining...", i);
+        TEST_MESSAGE(buf);
+        delay(1000);
+    }
+}
+
+static void prompt(const char* msg, int seconds) {
+    TEST_MESSAGE("--------------------------------------------------");
+    TEST_MESSAGE(msg);
+    countdown(seconds);
 }
 
 // --- Buttons under test -----------------------------------------------------
@@ -54,56 +62,49 @@ static Button btnSel(GPIO_NUM_21);
 // --- Tests ------------------------------------------------------------------
 
 void test_single_press_fires_one_event() {
-    prompt("Press button A ONCE, then wait 3s...");
     setup_button(btnA, GPIO_NUM_13, "A");
-    delay(3000);
+    prompt("ACTION: Press button A ONCE", 3);
     int n = count_events(btnA, 500);
     teardown_button(GPIO_NUM_13);
     TEST_ASSERT_EQUAL_MESSAGE(1, n, "Expected exactly 1 event for single press");
 }
 
 void test_no_event_before_press() {
-    prompt("Do NOT press any button for 2s...");
     setup_button(btnA, GPIO_NUM_13, "A");
-    int n = count_events(btnA, 2000);
+    prompt("ACTION: Do NOT press any button", 2);
+    int n = count_events(btnA, 500);
     teardown_button(GPIO_NUM_13);
     TEST_ASSERT_EQUAL_MESSAGE(0, n, "Expected 0 events with no press");
 }
 
 void test_double_press_fires_two_events() {
-    prompt("Press button A TWICE (with pause between), then wait 3s...");
     setup_button(btnA, GPIO_NUM_13, "A");
-    delay(5000);
+    prompt("ACTION: Press button A TWICE with a pause between", 5);
     int n = count_events(btnA, 500);
     teardown_button(GPIO_NUM_13);
     TEST_ASSERT_EQUAL_MESSAGE(2, n, "Expected exactly 2 events for double press");
 }
 
 void test_hold_fires_one_event() {
-    prompt("Press and HOLD button A for 2s, then release...");
     setup_button(btnA, GPIO_NUM_13, "A");
-    delay(3000);
+    prompt("ACTION: Press and HOLD button A for 2s then release", 3);
     int n = count_events(btnA, 500);
     teardown_button(GPIO_NUM_13);
     TEST_ASSERT_EQUAL_MESSAGE(1, n, "Expected exactly 1 event when holding button");
 }
 
 void test_release_does_not_fire_event() {
-    prompt("Press button A once, release slowly. Wait 3s...");
     setup_button(btnA, GPIO_NUM_13, "A");
-    delay(3000);
-    // drain the press event
-    count_events(btnA, 200);
-    // now count any events that fire in the next 1s (should be 0 — release)
-    int n = count_events(btnA, 1000);
+    prompt("ACTION: Press button A once and release slowly", 3);
+    count_events(btnA, 200); // drain the press event
+    int n = count_events(btnA, 1000); // should be 0 on release
     teardown_button(GPIO_NUM_13);
     TEST_ASSERT_EQUAL_MESSAGE(0, n, "Expected 0 events on release");
 }
 
 void test_reset_clears_stale_event() {
-    prompt("Press button A once, then wait 2s...");
     setup_button(btnA, GPIO_NUM_13, "A");
-    delay(2000);
+    prompt("ACTION: Press button A once", 2);
     btnA.reset();
     int n = count_events(btnA, 500);
     teardown_button(GPIO_NUM_13);
@@ -111,46 +112,41 @@ void test_reset_clears_stale_event() {
 }
 
 void test_button_b_single_press() {
-    prompt("Press button B ONCE, then wait 3s...");
     setup_button(btnB, GPIO_NUM_12, "B");
-    delay(3000);
+    prompt("ACTION: Press button B ONCE", 3);
     int n = count_events(btnB, 500);
     teardown_button(GPIO_NUM_12);
     TEST_ASSERT_EQUAL_MESSAGE(1, n, "Button B: expected 1 event");
 }
 
 void test_button_c_single_press() {
-    prompt("Press button C ONCE, then wait 3s...");
     setup_button(btnC, GPIO_NUM_27, "C");
-    delay(3000);
+    prompt("ACTION: Press button C ONCE", 3);
     int n = count_events(btnC, 500);
     teardown_button(GPIO_NUM_27);
     TEST_ASSERT_EQUAL_MESSAGE(1, n, "Button C: expected 1 event");
 }
 
 void test_button_d_single_press() {
-    prompt("Press button D ONCE, then wait 3s...");
     setup_button(btnD, GPIO_NUM_14, "D");
-    delay(3000);
+    prompt("ACTION: Press button D ONCE", 3);
     int n = count_events(btnD, 500);
     teardown_button(GPIO_NUM_14);
     TEST_ASSERT_EQUAL_MESSAGE(1, n, "Button D: expected 1 event");
 }
 
 void test_button_select_single_press() {
-    prompt("Press SELECT button ONCE, then wait 3s...");
     setup_button(btnSel, GPIO_NUM_21, "SELECT");
-    delay(3000);
+    prompt("ACTION: Press SELECT button ONCE", 3);
     int n = count_events(btnSel, 500);
     teardown_button(GPIO_NUM_21);
     TEST_ASSERT_EQUAL_MESSAGE(1, n, "SELECT: expected 1 event");
 }
 
 void test_two_buttons_sequential() {
-    prompt("Press button A, then button B (with pause between). Wait 6s...");
     setup_button(btnA, GPIO_NUM_13, "A");
     setup_button(btnB, GPIO_NUM_12, "B");
-    delay(6000);
+    prompt("ACTION: Press button A then button B with a pause between", 6);
     int na = count_events(btnA, 300);
     int nb = count_events(btnB, 300);
     teardown_button(GPIO_NUM_13);

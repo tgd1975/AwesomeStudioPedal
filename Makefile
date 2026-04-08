@@ -76,7 +76,7 @@ run-nrf52840: build-nrf52840 upload-nrf52840
 
 # Run on-device button tests (Unity via PlatformIO) — requires ESP32 connected
 test-esp32:
-	pio test -e nodemcu-32s-test
+	pio test -e nodemcu-32s-test -v
 
 # Run host unit tests (GoogleTest via CMake)
 test-host:
