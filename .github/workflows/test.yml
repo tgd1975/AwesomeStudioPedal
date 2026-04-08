@@ -73,7 +73,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: test-results.xml
+          files: test-results/*.xml
           comment_mode: always
           check_name: "GoogleTest Results"
 
@@ -82,5 +82,5 @@ jobs:
         if: always()
         with:
           name: test-results
-          path: test-results.xml
+          path: test-results/
           retention-days: 30
