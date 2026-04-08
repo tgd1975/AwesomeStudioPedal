@@ -16,6 +16,7 @@ all:
 	@echo "  make clean       - Clean build artifacts"
 	@echo "  make test-host   - Run host unit tests (GoogleTest)"
 	@echo "  make format      - Format all C++ files using clang-format"
+	@echo "  make lint-markdown - Fix markdown linting issues"
 	@echo "  make info        - Show project information"
 	@echo ""
 	@echo "ESP32-Specific Commands:"
@@ -92,6 +93,11 @@ test-host:
 format:
 	find . -name "*.cpp" -o -name "*.h" -o -name "*.hpp" | grep -v \.pio | grep -v build | xargs clang-format -i
 	@echo "All C++ files formatted successfully"
+
+# Fix markdown linting issues (requires markdownlint-cli2)
+lint-markdown:
+	npx markdownlint-cli2 "**/*.md" "#node_modules" "#.pio" "#build"
+	@echo "Markdown linting complete"
 
 # Clean test artifacts
 clean-test:
