@@ -24,18 +24,12 @@
  */
 
 /**
- * @brief Bluetooth keyboard instance
- * 
- * Represents the BLE keyboard that appears as "Strix-Pedal" in device menus.
- */
-BleKeyboard bleKeyboard("Strix-Pedal", "Strix");
-
-/**
  * @brief BLE keyboard adapter
- * 
- * Wrapper around BleKeyboard for easier integration with pedal logic.
+ *
+ * Platform-specific adapter created via factory. Owns the underlying
+ * BLE keyboard object for the current hardware target.
  */
-BleKeyboardAdapter bleKeyboardAdapter(bleKeyboard);
+BleKeyboardAdapter* bleKeyboardAdapter = createBleKeyboardAdapter();
 
 /**
  * @brief Bluetooth connection status flag
@@ -205,9 +199,9 @@ void setup() {
   setup_hardware();
   setup_event_handlers();
 
-  bleKeyboardAdapter.begin();
+  bleKeyboardAdapter->begin();
 
-  configureBanks(bankManager, &bleKeyboardAdapter);
+  configureBanks(bankManager, bleKeyboardAdapter);
 
 }
 
@@ -283,7 +277,7 @@ void process_events() {
  */
 void loop() {
   // put your main code here, to run repeatedly:
-  if (bleKeyboardAdapter.isConnected()) {
+  if (bleKeyboardAdapter->isConnected()) {
     if (!connected) {
       Serial.println("connected");
       attachInterrupts();

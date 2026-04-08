@@ -55,3 +55,11 @@ public:
      */
     void print(const char* text) override { kb.print(text); }
 };
+
+/**
+ * @brief Creates the platform-specific BleKeyboardAdapter instance
+ *
+ * Owns the underlying BleKeyboard object. Caller takes ownership of the
+ * returned pointer.
+ */
+BleKeyboardAdapter* createBleKeyboardAdapter();

@@ -1,7 +1,6 @@
 #pragma once
 #include "i_ble_keyboard.h"
 #include <bluefruit.h>
-#include <BLEHidAdafruit.h>
 
 /**
  * @class BleKeyboardAdapter
@@ -44,3 +43,10 @@ public:
 private:
     BLEHidAdafruit hid; /**< Adafruit BLE HID service instance */
 };
+
+/**
+ * @brief Creates the platform-specific BleKeyboardAdapter instance
+ *
+ * Caller takes ownership of the returned pointer.
+ */
+BleKeyboardAdapter* createBleKeyboardAdapter();

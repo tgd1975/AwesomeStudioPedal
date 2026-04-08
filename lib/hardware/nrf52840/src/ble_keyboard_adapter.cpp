@@ -37,3 +37,7 @@ void BleKeyboardAdapter::write(const MediaKeyReport key) {
 void BleKeyboardAdapter::print(const char* text) {
     hid.keySequence(text);
 }
+
+BleKeyboardAdapter* createBleKeyboardAdapter() {
+    return new BleKeyboardAdapter();
+}
