@@ -1,7 +1,7 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test test-host test-coverage
+.PHONY: all build upload clean monitor test test-host test-coverage build-nrf52840
 
 # Default target
 all: build
@@ -33,6 +33,10 @@ test-host:
 # Run on-device tests with coverage
 test-coverage:
 	pio test -e nodemcu-32s-test --coverage
+
+# Build firmware for Adafruit Feather nRF52840
+build-nrf52840:
+	pio run -e feather-nrf52840
 
 # Clean test artifacts
 clean-test:
