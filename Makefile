@@ -1,7 +1,7 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32 build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840
+.PHONY: all build upload clean monitor test-host test-esp32 test-nrf52840 build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
@@ -29,6 +29,7 @@ all:
 	@echo "  make upload-nrf52840   - Upload to nRF52840"
 	@echo "  make monitor-nrf52840  - Monitor nRF52840 serial"
 	@echo "  make run-nrf52840     - Build, upload, and monitor nRF52840"
+	@echo "  make test-nrf52840   - Run on-device button tests (Unity, requires nRF52840)"
 	@echo ""
 	@echo "See README.md for more details"
 
@@ -77,6 +78,10 @@ run-nrf52840: build-nrf52840 upload-nrf52840
 # Run on-device button tests (Unity via PlatformIO) — requires ESP32 connected
 test-esp32:
 	pio test -e nodemcu-32s-test -v
+
+# Run on-device button tests (Unity via PlatformIO) — requires nRF52840 connected
+test-nrf52840:
+	pio test -e feather-nrf52840-test -v
 
 # Run host unit tests (GoogleTest via CMake)
 test-host:

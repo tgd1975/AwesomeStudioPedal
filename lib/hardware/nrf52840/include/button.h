@@ -7,7 +7,8 @@
  * @brief nRF52840-specific implementation of IButton interface
  *
  * Interrupt-driven button with software debouncing. Attach isr() to a
- * falling-edge interrupt on the button pin.
+ * CHANGE interrupt on the button pin. digitalRead() is used inside isr()
+ * to filter release edges.
  */
 class Button : public IButton {
 private:
@@ -15,9 +16,10 @@ private:
     bool isDebounced();
 
 public:
-    volatile bool pressed = false;      /**< Set by ISR; cleared by event() */
-    unsigned long lastDebounceTime = 0; /**< Timestamp of last accepted ISR */
-    unsigned long debounceDelay = 300;  /**< Minimum ms between accepted events */
+    volatile uint8_t pressCount = 0;      /**< Incremented by ISR; decremented by event() */
+    volatile bool awaitingRelease = false; /**< True after press, until pin goes HIGH */
+    unsigned long lastDebounceTime = 0;   /**< Timestamp of last accepted ISR */
+    unsigned long debounceDelay = 500;    /**< Minimum ms between accepted events */
 
     /**
      * @brief Constructs a Button for the given pin
@@ -29,9 +31,9 @@ public:
     void setup() override;
 
     /**
-     * @brief Interrupt service routine — call from a falling-edge ISR
+     * @brief Interrupt service routine — call from a CHANGE ISR
      *
-     * Sets the pressed flag after debounce check.
+     * Filters release edges via digitalRead and applies debouncing.
      */
     void isr();
 

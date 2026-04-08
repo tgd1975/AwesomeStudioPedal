@@ -20,10 +20,10 @@ class Button : public IButton {
     bool isDebounced();
 
   public:
-    volatile bool pressed = false;       /**< Set by ISR, cleared by event() */
+    volatile uint8_t pressCount = 0;     /**< Incremented by ISR, decremented by event() */
     volatile bool awaitingRelease = false; /**< True after press, until pin goes HIGH */
     unsigned long lastDebounceTime = 0;  /**< Timestamp of last accepted press */
-    unsigned long debounceDelay = 300;   /**< Debounce window in milliseconds */
+    unsigned long debounceDelay = 500;   /**< Debounce window in milliseconds */
 
     /**
      * @brief Constructs a Button for the given GPIO pin

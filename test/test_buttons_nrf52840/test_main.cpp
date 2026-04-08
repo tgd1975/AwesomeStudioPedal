@@ -1,0 +1,204 @@
+#include <Arduino.h>
+#include <unity.h>
+#include "button.h"
+#include "config.h"
+
+// Pin assignments (Feather nRF52840 Express)
+static const uint8_t PIN_A      = 14; // A0
+static const uint8_t PIN_B      = 15; // A1
+static const uint8_t PIN_C      = 16; // A2
+static const uint8_t PIN_D      = 17; // A3
+static const uint8_t PIN_SELECT = 12;
+
+// --- Buttons under test -----------------------------------------------------
+
+static Button btnA(PIN_A);
+static Button btnB(PIN_B);
+static Button btnC(PIN_C);
+static Button btnD(PIN_D);
+static Button btnSel(PIN_SELECT);
+
+// --- Helpers ----------------------------------------------------------------
+
+static Button* btn = nullptr;
+
+static void isr_handler()   { btn->isr(); }
+static void isr_handler_a() { btnA.isr(); }
+static void isr_handler_b() { btnB.isr(); }
+
+static void setup_button(Button& b, uint8_t pin) {
+    btn = &b;
+    b.setup();
+    b.reset();
+    attachInterrupt(digitalPinToInterrupt(pin), isr_handler, CHANGE);
+}
+
+static void teardown_button(uint8_t pin) {
+    detachInterrupt(digitalPinToInterrupt(pin));
+}
+
+static int count_events(Button& b, unsigned long window_ms) {
+    int count = 0;
+    unsigned long start = millis();
+    while (millis() - start < window_ms) {
+        if (b.event()) count++;
+    }
+    return count;
+}
+
+static void countdown(int seconds) {
+    for (int i = seconds; i > 0; i--) {
+        char buf[32];
+        snprintf(buf, sizeof(buf), "  %ds remaining...", i);
+        TEST_MESSAGE(buf);
+        delay(1000);
+    }
+}
+
+static void prompt(const char* msg, int seconds) {
+    TEST_MESSAGE("--------------------------------------------------");
+    TEST_MESSAGE(msg);
+    countdown(seconds);
+}
+
+// --- Tests ------------------------------------------------------------------
+
+void test_single_press_fires_one_event() {
+    setup_button(btnA, PIN_A);
+    prompt("ACTION: Press button A ONCE", 3);
+    int n = count_events(btnA, 500);
+    teardown_button(PIN_A);
+    TEST_ASSERT_EQUAL_MESSAGE(1, n, "Expected exactly 1 event for single press");
+}
+
+void test_no_event_before_press() {
+    setup_button(btnA, PIN_A);
+    prompt("ACTION: Do NOT press any button", 2);
+    int n = count_events(btnA, 500);
+    teardown_button(PIN_A);
+    TEST_ASSERT_EQUAL_MESSAGE(0, n, "Expected 0 events with no press");
+}
+
+void test_double_press_fires_two_events() {
+    setup_button(btnA, PIN_A);
+    prompt("ACTION: Press button A TWICE — press, wait 1s, press again", 7);
+    int n = count_events(btnA, 500);
+    teardown_button(PIN_A);
+    TEST_ASSERT_EQUAL_MESSAGE(2, n, "Expected exactly 2 events for double press");
+}
+
+void test_hold_fires_one_event() {
+    setup_button(btnA, PIN_A);
+    prompt("ACTION: Press and HOLD button A for 2s then release", 3);
+    int n = count_events(btnA, 500);
+    teardown_button(PIN_A);
+    TEST_ASSERT_EQUAL_MESSAGE(1, n, "Expected exactly 1 event when holding button");
+}
+
+void test_release_does_not_fire_event() {
+    setup_button(btnA, PIN_A);
+    prompt("ACTION: Press button A once, then do NOT press again", 3);
+    count_events(btnA, 200); // drain the press event
+    int n = count_events(btnA, 1000); // should be 0 on release
+    teardown_button(PIN_A);
+    TEST_ASSERT_EQUAL_MESSAGE(0, n, "Expected 0 events on release");
+}
+
+void test_reset_clears_stale_event() {
+    setup_button(btnA, PIN_A);
+    prompt("ACTION: Press button A once, then do NOT press again", 2);
+    btnA.reset();
+    unsigned long start = millis();
+    while (millis() - start < 200) { btnA.event(); } // flush
+    int n = count_events(btnA, 800);
+    teardown_button(PIN_A);
+    TEST_ASSERT_EQUAL_MESSAGE(0, n, "Expected 0 events after reset()");
+}
+
+void test_button_b_single_press() {
+    setup_button(btnB, PIN_B);
+    prompt("ACTION: Press button B ONCE", 3);
+    int n = count_events(btnB, 500);
+    teardown_button(PIN_B);
+    TEST_ASSERT_EQUAL_MESSAGE(1, n, "Button B: expected 1 event");
+}
+
+void test_button_c_single_press() {
+    setup_button(btnC, PIN_C);
+    prompt("ACTION: Press button C ONCE", 3);
+    int n = count_events(btnC, 500);
+    teardown_button(PIN_C);
+    TEST_ASSERT_EQUAL_MESSAGE(1, n, "Button C: expected 1 event");
+}
+
+void test_button_d_single_press() {
+    setup_button(btnD, PIN_D);
+    prompt("ACTION: Press button D ONCE", 3);
+    int n = count_events(btnD, 500);
+    teardown_button(PIN_D);
+    TEST_ASSERT_EQUAL_MESSAGE(1, n, "Button D: expected 1 event");
+}
+
+void test_button_select_single_press() {
+    setup_button(btnSel, PIN_SELECT);
+    prompt("ACTION: Press SELECT button ONCE", 3);
+    int n = count_events(btnSel, 500);
+    teardown_button(PIN_SELECT);
+    TEST_ASSERT_EQUAL_MESSAGE(1, n, "SELECT: expected 1 event");
+}
+
+void test_two_buttons_sequential() {
+    btnA.setup(); btnA.reset(); attachInterrupt(digitalPinToInterrupt(PIN_A), isr_handler_a, CHANGE);
+    btnB.setup(); btnB.reset(); attachInterrupt(digitalPinToInterrupt(PIN_B), isr_handler_b, CHANGE);
+    prompt("ACTION: Press button A then button B (wait >500ms between)", 6);
+    int na = count_events(btnA, 300);
+    int nb = count_events(btnB, 300);
+    detachInterrupt(digitalPinToInterrupt(PIN_A));
+    detachInterrupt(digitalPinToInterrupt(PIN_B));
+    TEST_ASSERT_EQUAL_MESSAGE(1, na, "Button A: expected 1 event");
+    TEST_ASSERT_EQUAL_MESSAGE(1, nb, "Button B: expected 1 event");
+}
+
+// --- Entry point ------------------------------------------------------------
+
+void setup() {
+    Serial.begin(115200);
+    delay(2000);
+
+    UNITY_BEGIN();
+
+    TEST_MESSAGE("==================================================");
+    TEST_MESSAGE("  INTERACTIVE BUTTON TEST — ACTION PLAN");
+    TEST_MESSAGE("==================================================");
+    TEST_MESSAGE("   1. Do NOT press any button          (2s)");
+    TEST_MESSAGE("   2. Press button A ONCE              (3s)");
+    TEST_MESSAGE("   3. Press button A TWICE, ~1s apart  (7s)");
+    TEST_MESSAGE("   4. Press and HOLD button A          (3s)");
+    TEST_MESSAGE("   5. Press button A once, no more     (3s)");
+    TEST_MESSAGE("   6. Press button A once, no more     (2s)");
+    TEST_MESSAGE("   7. Press button B ONCE              (3s)");
+    TEST_MESSAGE("   8. Press button C ONCE              (3s)");
+    TEST_MESSAGE("   9. Press button D ONCE              (3s)");
+    TEST_MESSAGE("  10. Press SELECT ONCE                (3s)");
+    TEST_MESSAGE("  11. Press A then B, ~500ms apart     (6s)");
+    TEST_MESSAGE("==================================================");
+    TEST_MESSAGE("  Starting in 5 seconds...");
+    TEST_MESSAGE("==================================================");
+    delay(5000);
+
+    RUN_TEST(test_no_event_before_press);
+    RUN_TEST(test_single_press_fires_one_event);
+    RUN_TEST(test_double_press_fires_two_events);
+    RUN_TEST(test_hold_fires_one_event);
+    RUN_TEST(test_release_does_not_fire_event);
+    RUN_TEST(test_reset_clears_stale_event);
+    RUN_TEST(test_button_b_single_press);
+    RUN_TEST(test_button_c_single_press);
+    RUN_TEST(test_button_d_single_press);
+    RUN_TEST(test_button_select_single_press);
+    RUN_TEST(test_two_buttons_sequential);
+
+    UNITY_END();
+}
+
+void loop() {}

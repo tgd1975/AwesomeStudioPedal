@@ -9,27 +9,31 @@ void Button::setup() {
 
 bool Button::isDebounced() {
     unsigned long now = millis();
-    if ((now - lastDebounceTime) > debounceDelay) {
-        lastDebounceTime = now;
-        return true;
-    }
-    return false;
+    bool accepted = (now - lastDebounceTime) > debounceDelay;
+    lastDebounceTime = now;
+    return accepted;
 }
 
 void Button::isr() {
-    if (isDebounced()) {
-        pressed = true;
+    if (digitalRead(PIN) == HIGH) {
+        awaitingRelease = false;
+        return;
+    }
+    if (!awaitingRelease && isDebounced()) {
+        pressCount++;
+        awaitingRelease = true;
     }
 }
 
 bool Button::event() {
-    if (pressed) {
-        pressed = false;
+    if (pressCount > 0) {
+        pressCount--;
         return true;
     }
     return false;
 }
 
 void Button::reset() {
-    pressed = false;
+    pressCount = 0;
+    awaitingRelease = false;
 }

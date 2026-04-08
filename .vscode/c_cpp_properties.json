@@ -8,6 +8,7 @@
         {
             "name": "PlatformIO",
             "includePath": [
+                "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/.pio/libdeps/native/Unity/src",
                 "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/src",
                 "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/lib/hardware/esp32/include",
                 "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/lib/hardware/esp32/src",

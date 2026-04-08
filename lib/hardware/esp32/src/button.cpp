@@ -25,25 +25,25 @@ void Button::isr() {
         return;
     }
     if (!awaitingRelease && isDebounced()) {
-        pressed = true;
+        pressCount++;
         awaitingRelease = true;
     }
 #else
     if (isDebounced()) {
-        pressed = true;
+        pressCount++;
     }
 #endif
 }
 
 bool Button::event() {
-    if (pressed) {
-        pressed = false;
+    if (pressCount > 0) {
+        pressCount--;
         return true;
     }
     return false;
 }
 
 void Button::reset() {
-    pressed = false;
+    pressCount = 0;
     awaitingRelease = false;
 }
