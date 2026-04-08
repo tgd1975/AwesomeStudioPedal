@@ -2,11 +2,11 @@
 #include <BleKeyboard.h>
 #include <gmock/gmock.h>
 
-class MockBleKeyboard : public BleKeyboard {
+class MockBleKeyboard : public BleKeyboard
+{
 public:
-    MockBleKeyboard(const char* name, const char* manufacturer)
-        : BleKeyboard(name, manufacturer) {}
-    
+    MockBleKeyboard(const char* name, const char* manufacturer) : BleKeyboard(name, manufacturer) {}
+
     MOCK_METHOD(void, press, (uint8_t key), (override));
     MOCK_METHOD(void, release, (uint8_t key), (override));
     MOCK_METHOD(void, print, (const char* text), (override));

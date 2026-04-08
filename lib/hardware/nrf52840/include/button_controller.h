@@ -8,7 +8,8 @@
  *
  * Reads button state from a GPIO pin with pull-up resistor configuration.
  */
-class ButtonController : public IButtonController {
+class ButtonController : public IButtonController
+{
 public:
     /**
      * @brief Constructs a ButtonController for a specific pin

@@ -9,7 +9,8 @@
  * Wraps the Adafruit Bluefruit BLE HID keyboard (BLEHidAdafruit) to provide
  * the IBleKeyboard interface used by the pedal logic layer.
  */
-class BleKeyboardAdapter : public IBleKeyboard {
+class BleKeyboardAdapter : public IBleKeyboard
+{
 public:
     /**
      * @brief Initializes the BLE stack and HID keyboard service

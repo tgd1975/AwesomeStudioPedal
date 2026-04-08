@@ -3,6 +3,4 @@
 
 static BleKeyboard bleKeyboard("Strix-Pedal", "Strix");
 
-BleKeyboardAdapter* createBleKeyboardAdapter() {
-    return new BleKeyboardAdapter(bleKeyboard);
-}
+BleKeyboardAdapter* createBleKeyboardAdapter() { return new BleKeyboardAdapter(bleKeyboard); }

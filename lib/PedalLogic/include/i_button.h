@@ -8,7 +8,8 @@
  * of the concrete hardware ISR mechanism. Implementations live in the
  * platform-specific hardware packages.
  */
-class IButton {
+class IButton
+{
 public:
     virtual ~IButton() = default;
 

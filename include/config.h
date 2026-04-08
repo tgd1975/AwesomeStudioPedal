@@ -10,7 +10,8 @@
  * Each hardware package provides its own config.cpp with the concrete
  * pin assignments for that board.
  */
-struct HardwareConfig {
+struct HardwareConfig
+{
     // LED pins
     uint8_t ledBluetooth; /**< Bluetooth status LED pin */
     uint8_t ledPower;     /**< Power indicator LED pin */

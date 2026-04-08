@@ -1,7 +1,8 @@
-#include <gtest/gtest.h>
 #include "event_dispatcher.h"
+#include <gtest/gtest.h>
 
-TEST(EventDispatcher, RegisterAndDispatch) {
+TEST(EventDispatcher, RegisterAndDispatch)
+{
     EventDispatcher dispatcher;
     int callCount = 0;
     dispatcher.registerHandler(0, [&]() { callCount++; });
@@ -9,12 +10,14 @@ TEST(EventDispatcher, RegisterAndDispatch) {
     EXPECT_EQ(callCount, 1);
 }
 
-TEST(EventDispatcher, DispatchUnregisteredButtonIsSafe) {
+TEST(EventDispatcher, DispatchUnregisteredButtonIsSafe)
+{
     EventDispatcher dispatcher;
     EXPECT_NO_THROW(dispatcher.dispatch(2));
 }
 
-TEST(EventDispatcher, ClearHandlersStopsCallbacks) {
+TEST(EventDispatcher, ClearHandlersStopsCallbacks)
+{
     EventDispatcher dispatcher;
     int callCount = 0;
     dispatcher.registerHandler(1, [&]() { callCount++; });
@@ -23,7 +26,8 @@ TEST(EventDispatcher, ClearHandlersStopsCallbacks) {
     EXPECT_EQ(callCount, 0);
 }
 
-TEST(EventDispatcher, DispatchOneButtonDoesNotFireAnother) {
+TEST(EventDispatcher, DispatchOneButtonDoesNotFireAnother)
+{
     EventDispatcher dispatcher;
     int count0 = 0, count1 = 0;
     dispatcher.registerHandler(0, [&]() { count0++; });
@@ -33,7 +37,8 @@ TEST(EventDispatcher, DispatchOneButtonDoesNotFireAnother) {
     EXPECT_EQ(count1, 0);
 }
 
-TEST(EventDispatcher, SelectButtonIndex4IsValid) {
+TEST(EventDispatcher, SelectButtonIndex4IsValid)
+{
     EventDispatcher dispatcher;
     int callCount = 0;
     dispatcher.registerHandler(4, [&]() { callCount++; });
@@ -41,7 +46,8 @@ TEST(EventDispatcher, SelectButtonIndex4IsValid) {
     EXPECT_EQ(callCount, 1);
 }
 
-TEST(EventDispatcher, DispatchMultipleTimes) {
+TEST(EventDispatcher, DispatchMultipleTimes)
+{
     EventDispatcher dispatcher;
     int callCount = 0;
     dispatcher.registerHandler(3, [&]() { callCount++; });

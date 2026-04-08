@@ -1,6 +1,7 @@
 #include "arduino_shim.h"
 
-namespace fake_time {
+namespace fake_time
+{
     unsigned long value = 0;
 }
 

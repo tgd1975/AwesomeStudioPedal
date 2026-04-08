@@ -2,7 +2,8 @@
 #include "i_ble_keyboard.h"
 #include <gmock/gmock.h>
 
-class MockBleKeyboard : public IBleKeyboard {
+class MockBleKeyboard : public IBleKeyboard
+{
 public:
     MOCK_METHOD(void, begin, (), (override));
     MOCK_METHOD(bool, isConnected, (), (override));

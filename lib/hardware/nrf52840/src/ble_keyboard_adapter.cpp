@@ -1,6 +1,7 @@
 #include "ble_keyboard_adapter.h"
 
-void BleKeyboardAdapter::begin() {
+void BleKeyboardAdapter::begin()
+{
     Bluefruit.begin();
     Bluefruit.setTxPower(4);
     Bluefruit.setName("Strix-Pedal");
@@ -19,25 +20,21 @@ void BleKeyboardAdapter::begin() {
     Bluefruit.Advertising.start(0);
 }
 
-bool BleKeyboardAdapter::isConnected() {
-    return Bluefruit.connected();
-}
+bool BleKeyboardAdapter::isConnected() { return Bluefruit.connected(); }
 
-void BleKeyboardAdapter::write(uint8_t key) {
+void BleKeyboardAdapter::write(uint8_t key)
+{
     hid.keyPress(key);
     hid.keyRelease();
 }
 
-void BleKeyboardAdapter::write(const MediaKeyReport key) {
+void BleKeyboardAdapter::write(const MediaKeyReport key)
+{
     // MediaKeyReport is a 2-byte array; map byte[0] to Adafruit consumer key
     hid.consumerKeyPress(key[0]);
     hid.consumerKeyRelease();
 }
 
-void BleKeyboardAdapter::print(const char* text) {
-    hid.keySequence(text);
-}
+void BleKeyboardAdapter::print(const char* text) { hid.keySequence(text); }
 
-BleKeyboardAdapter* createBleKeyboardAdapter() {
-    return new BleKeyboardAdapter();
-}
+BleKeyboardAdapter* createBleKeyboardAdapter() { return new BleKeyboardAdapter(); }

@@ -8,7 +8,8 @@
  *
  * Controls an LED on a GPIO pin using the Arduino digitalWrite API.
  */
-class LEDController : public ILEDController {
+class LEDController : public ILEDController
+{
 public:
     /**
      * @brief Constructs an LEDController for a specific pin
@@ -34,6 +35,6 @@ public:
     void toggle() override;
 
 private:
-    uint8_t pin;             /**< GPIO pin number */
+    uint8_t pin;               /**< GPIO pin number */
     bool currentState = false; /**< Current LED state */
 };

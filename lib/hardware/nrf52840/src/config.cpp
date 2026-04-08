@@ -19,14 +19,14 @@
  *  - A3  = 17  (buttonD)
  */
 const HardwareConfig hardwareConfig = {
-    5,   // ledBluetooth - Bluetooth status LED
-    6,   // ledPower      - Power indicator LED
-    9,   // ledSelect1    - Bank 1 selection LED
-    10,  // ledSelect2    - Bank 2 selection LED
-    11,  // ledSelect3    - Bank 3 selection LED
-    12,  // buttonSelect  - Bank selection button
-    14,  // buttonA       - Action button A (A0)
-    15,  // buttonB       - Action button B (A1)
-    16,  // buttonC       - Action button C (A2)
-    17   // buttonD       - Action button D (A3)
+    5,  // ledBluetooth - Bluetooth status LED
+    6,  // ledPower      - Power indicator LED
+    9,  // ledSelect1    - Bank 1 selection LED
+    10, // ledSelect2    - Bank 2 selection LED
+    11, // ledSelect3    - Bank 3 selection LED
+    12, // buttonSelect  - Bank selection button
+    14, // buttonA       - Action button A (A0)
+    15, // buttonB       - Action button B (A1)
+    16, // buttonC       - Action button C (A2)
+    17  // buttonD       - Action button D (A3)
 };

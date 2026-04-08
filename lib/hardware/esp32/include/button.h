@@ -10,8 +10,9 @@
  * debouncing. isr() must be called from an IRAM_ATTR interrupt handler
  * attached with attachInterrupt().
  */
-class Button : public IButton {
-  private:
+class Button : public IButton
+{
+private:
     uint8_t PIN; /**< GPIO pin number */
 
     /**
@@ -19,11 +20,11 @@ class Button : public IButton {
      */
     bool isDebounced();
 
-  public:
-    volatile uint8_t pressCount = 0;     /**< Incremented by ISR, decremented by event() */
+public:
+    volatile uint8_t pressCount = 0;       /**< Incremented by ISR, decremented by event() */
     volatile bool awaitingRelease = false; /**< True after press, until pin goes HIGH */
-    unsigned long lastDebounceTime = 0;  /**< Timestamp of last accepted press */
-    unsigned long debounceDelay = 500;   /**< Debounce window in milliseconds */
+    unsigned long lastDebounceTime = 0;    /**< Timestamp of last accepted press */
+    unsigned long debounceDelay = 500;     /**< Debounce window in milliseconds */
 
     /**
      * @brief Constructs a Button for the given GPIO pin
