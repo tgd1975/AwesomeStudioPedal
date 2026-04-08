@@ -48,6 +48,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `make build` behavior changed to build ALL targets instead of just ESP32
 - Makefile help system enhanced with comprehensive usage information
 - Documentation updated to reflect new Makefile command structure
+- Updated GitHub Actions workflow to force Node.js 24 for all actions to resolve deprecation warnings
+- Updated `markdownlint-cli2-action` to v22 for native Node.js 24 support
 
 ### Fixed
 
