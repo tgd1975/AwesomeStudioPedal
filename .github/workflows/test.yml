@@ -66,7 +66,8 @@ jobs:
 
       - name: Run tests
         run: |
-          .vscode/build/test/pedal_tests --gtest_output=xml:test-results.xml
+          mkdir -p test-results
+          .vscode/build/test/pedal_tests --gtest_output=xml:test-results/
 
       - name: Publish test results
         uses: EnricoMi/publish-unit-test-result-action@v2
