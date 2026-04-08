@@ -5,7 +5,7 @@
  * 
  * @param pin GPIO pin number to which the button is connected
  */
-ButtonController::ButtonController(gpio_num_t pin) : pin(pin) {}
+ButtonController::ButtonController(uint8_t pin) : pin(pin) {}
 
 /**
  * @brief Initializes the GPIO pin for button input
@@ -13,7 +13,7 @@ ButtonController::ButtonController(gpio_num_t pin) : pin(pin) {}
  * Configures the pin as input with pull-up resistor.
  */
 void ButtonController::setup() {
-    gpio_pad_select_gpio(pin);
+    gpio_pad_select_gpio(static_cast<gpio_num_t>(pin));
     pinMode(pin, INPUT_PULLUP);
 }
 

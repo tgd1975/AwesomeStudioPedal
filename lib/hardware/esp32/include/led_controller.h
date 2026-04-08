@@ -17,7 +17,7 @@ public:
      * 
      * @param pin GPIO pin number to which the LED is connected
      */
-    LEDController(gpio_num_t pin);
+    LEDController(uint8_t pin);
 
     /**
      * @brief Initializes the GPIO pin and sets initial LED state
@@ -41,6 +41,6 @@ public:
     virtual void toggle() override;
 
 private:
-    gpio_num_t pin;        /**< GPIO pin number for the LED */
+    uint8_t pin;           /**< GPIO pin number for the LED */
     bool currentState = false; /**< Current LED state (on/off) */
 };

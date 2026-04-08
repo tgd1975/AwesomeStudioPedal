@@ -17,7 +17,7 @@ public:
      * 
      * @param pin GPIO pin number to which the button is connected
      */
-    ButtonController(gpio_num_t pin);
+    ButtonController(uint8_t pin);
 
     /**
      * @brief Initializes the GPIO pin for button input
@@ -34,5 +34,5 @@ public:
     virtual bool read() override;
 
 private:
-    gpio_num_t pin; /**< GPIO pin number for the button */
+    uint8_t pin; /**< GPIO pin number for the button */
 };
