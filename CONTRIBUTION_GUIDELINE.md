@@ -157,6 +157,45 @@ main
 - The pre-commit hook (`make test-host`) must pass locally before pushing.
 - CI runs the full host test suite on every PR.
 
+### Release Process
+
+Releases are tagged on `main` and follow [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`).
+
+#### Version Scheme
+
+| Segment | Increment when… |
+| ------- | --------------- |
+| `MAJOR` | Breaking change to the hardware interface or bank configuration format |
+| `MINOR` | New feature added in a backwards-compatible way (e.g. new hardware platform, new action type) |
+| `PATCH` | Backwards-compatible bug fix or documentation update |
+
+#### Release Checklist
+
+1. **All tests pass** — `make test-host` must report zero failures on `main`.
+2. **Firmware builds clean** for all target environments — `make build` (ESP32) and `make build-nrf52840`.
+3. **Update version** — bump the version string in `platformio.ini` (both ESP32 and nRF52840 envs share the same logical version).
+4. **Tag the release** on `main`:
+
+   ```bash
+   git tag -a v1.2.0 -m "Release v1.2.0"
+   git push origin v1.2.0
+   ```
+
+5. **Create a GitHub Release** from the tag. Attach the compiled `.elf`/`.bin` artefacts for each target environment and write a short changelog.
+6. **Do not** release from a topic branch — tags must always point to a commit on `main`.
+
+#### Hotfix Releases
+
+For critical fixes that need to ship before the next planned release:
+
+```text
+main (v1.2.0 tag)
+ │
+ └─── fix/critical-bug ──── PR ──── squash-merge ──► main (v1.2.1 tag)
+```
+
+There are no long-lived release branches — patch the tip of `main` and tag immediately.
+
 ### Testing
 
 - **Unit Testing**: Mock hardware interfaces for testing
