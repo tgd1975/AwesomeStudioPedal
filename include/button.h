@@ -6,8 +6,10 @@ class Button {
     bool isDebounced();
     void incKeyPresses();
 
-  public:
+  private:
     uint8_t PIN;
+
+  public:
     uint32_t numberKeyPresses = 0;
     volatile bool pressed = false;
     unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
