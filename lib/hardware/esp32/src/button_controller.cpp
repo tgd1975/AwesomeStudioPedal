@@ -1,4 +1,4 @@
-#include "hardware/button_controller.h"
+#include "button_controller.h"
 
 ButtonController::ButtonController(gpio_num_t pin) : pin(pin) {}
 
