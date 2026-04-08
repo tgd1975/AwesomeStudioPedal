@@ -138,8 +138,8 @@ void setup_hardware() {
     ledPower.setup(1);      // Turn on power LED
     ledBluetooth.setup(0);   // Turn off Bluetooth LED initially
     ledSelect1.setup(1);    // Turn on Bank 1 LED (default bank)
-    ledSelect2.setup(1);    // Turn off Bank 2 LED
-    ledSelect3.setup(1);    // Turn off Bank 3 LED
+    ledSelect2.setup(0);    // Turn off Bank 2 LED
+    ledSelect3.setup(0);    // Turn off Bank 3 LED
     
     // Setup buttons (configure GPIO pins as input with pull-up)
     BUTTON_SELECT.setup();
