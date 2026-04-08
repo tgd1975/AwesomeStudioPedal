@@ -21,9 +21,8 @@ void Button::incKeyPresses() {
 void Button::isr() {
     if (isDebounced()) {
         incKeyPresses();
-        Serial.printf("PIN %d pressed %d-times\n", PIN, numberKeyPresses);
         pressed = true;
-    } 
+    }
 }
 
 bool Button::event() {
