@@ -81,38 +81,40 @@ EventDispatcher eventDispatcher;
  * Called when Button A GPIO pin detects a falling edge.
  * Only processes the interrupt if Bluetooth is connected.
  */
+void attachInterrupts();
+
 void IRAM_ATTR isr_a() {
-  if (connected) {BUTTON_A.isr();}
+  BUTTON_A.isr();
 }
 
 /**
  * @brief Interrupt service routine for Button B
- * 
+ *
  * Called when Button B GPIO pin detects a falling edge.
  * Only processes the interrupt if Bluetooth is connected.
  */
 void IRAM_ATTR isr_b() {
-  if (connected) {BUTTON_B.isr();}
+  BUTTON_B.isr();
 }
 
 /**
  * @brief Interrupt service routine for Button C
- * 
+ *
  * Called when Button C GPIO pin detects a falling edge.
  * Only processes the interrupt if Bluetooth is connected.
  */
 void IRAM_ATTR isr_c() {
-  if (connected) {BUTTON_C.isr();}
+  BUTTON_C.isr();
 }
 
 /**
  * @brief Interrupt service routine for Button D
- * 
+ *
  * Called when Button D GPIO pin detects a falling edge.
  * Only processes the interrupt if Bluetooth is connected.
  */
 void IRAM_ATTR isr_d() {
-  if (connected) {BUTTON_D.isr();}
+  BUTTON_D.isr();
 }
 
 /**
@@ -156,27 +158,31 @@ void setup_hardware() {
 void setup_event_handlers() {
     // Register button event handlers
     eventDispatcher.registerHandler(0, []() {
+        Serial.printf("Button A pressed (bank %d)\n", bankManager.getCurrentBank() + 1);
         if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 0)) {
             action->send();
-        }
+        } else { Serial.println("  -> no action configured"); }
     });
-    
+
     eventDispatcher.registerHandler(1, []() {
+        Serial.printf("Button B pressed (bank %d)\n", bankManager.getCurrentBank() + 1);
         if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 1)) {
             action->send();
-        }
+        } else { Serial.println("  -> no action configured"); }
     });
-    
+
     eventDispatcher.registerHandler(2, []() {
+        Serial.printf("Button C pressed (bank %d)\n", bankManager.getCurrentBank() + 1);
         if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 2)) {
             action->send();
-        }
+        } else { Serial.println("  -> no action configured"); }
     });
-    
+
     eventDispatcher.registerHandler(3, []() {
+        Serial.printf("Button D pressed (bank %d)\n", bankManager.getCurrentBank() + 1);
         if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 3)) {
             action->send();
-        }
+        } else { Serial.println("  -> no action configured"); }
     });
     
     eventDispatcher.registerHandler(4, []() {
@@ -194,6 +200,7 @@ void setup_event_handlers() {
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  delay(2000);
   Serial.println("started");
 
   setup_hardware();
@@ -203,6 +210,7 @@ void setup() {
 
   configureBanks(bankManager, bleKeyboardAdapter);
 
+  attachInterrupts();
 }
 
 /**
@@ -213,15 +221,15 @@ void setup() {
  */
 void attachInterrupts() {
   BUTTON_A.reset();
-  attachInterrupt(hardwareConfig.buttonA, isr_a, FALLING);
+  attachInterrupt(hardwareConfig.buttonA, isr_a, CHANGE);
   BUTTON_B.reset();
-  attachInterrupt(hardwareConfig.buttonB, isr_b, FALLING);
+  attachInterrupt(hardwareConfig.buttonB, isr_b, CHANGE);
   BUTTON_C.reset();
-  attachInterrupt(hardwareConfig.buttonC, isr_c, FALLING);
+  attachInterrupt(hardwareConfig.buttonC, isr_c, CHANGE);
   BUTTON_D.reset();
-  attachInterrupt(hardwareConfig.buttonD, isr_d, FALLING);
+  attachInterrupt(hardwareConfig.buttonD, isr_d, CHANGE);
   BUTTON_SELECT.reset();
-  attachInterrupt(hardwareConfig.buttonSelect, isr_select, FALLING);
+  attachInterrupt(hardwareConfig.buttonSelect, isr_select, CHANGE);
 }
 
 /**
@@ -285,8 +293,6 @@ void loop() {
       connected = true;
     }
 
-    process_events();
-
   } else {
     if (connected) {
       Serial.println("disconnected");
@@ -296,5 +302,6 @@ void loop() {
     }
 
   }
+  process_events();
   delay(10);
 }

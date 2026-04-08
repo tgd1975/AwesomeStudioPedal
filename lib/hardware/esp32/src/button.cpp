@@ -13,17 +13,26 @@ void Button::setup() {
 
 bool Button::isDebounced() {
     unsigned long now = millis();
-    if ((now - lastDebounceTime) > debounceDelay) {
-        lastDebounceTime = now;
-        return true;
-    }
-    return false;
+    bool accepted = (now - lastDebounceTime) > debounceDelay;
+    lastDebounceTime = now;
+    return accepted;
 }
 
 void Button::isr() {
+#ifndef HOST_TEST_BUILD
+    if (digitalRead(PIN) == HIGH) {
+        awaitingRelease = false;
+        return;
+    }
+    if (!awaitingRelease && isDebounced()) {
+        pressed = true;
+        awaitingRelease = true;
+    }
+#else
     if (isDebounced()) {
         pressed = true;
     }
+#endif
 }
 
 bool Button::event() {
@@ -36,4 +45,5 @@ bool Button::event() {
 
 void Button::reset() {
     pressed = false;
+    awaitingRelease = false;
 }
