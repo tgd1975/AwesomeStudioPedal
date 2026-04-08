@@ -12,7 +12,6 @@
 #include "button.h"
 #include "send.h"
 #include "led_controller.h"
-#include "button_controller.h"
 #include "bank_manager.h"
 #include "pedal_config.h"
 #include "config.h"
@@ -29,12 +28,6 @@ LEDController ledPower(hardwareConfig.ledPower);
 LEDController ledSelect1(hardwareConfig.ledSelect1);
 LEDController ledSelect2(hardwareConfig.ledSelect2);
 LEDController ledSelect3(hardwareConfig.ledSelect3);
-
-ButtonController buttonSelect(hardwareConfig.buttonSelect);
-ButtonController buttonA(hardwareConfig.buttonA);
-ButtonController buttonB(hardwareConfig.buttonB);
-ButtonController buttonC(hardwareConfig.buttonC);
-ButtonController buttonD(hardwareConfig.buttonD);
 
 // Button instances for interrupt handling
 Button BUTTON_SELECT = Button(hardwareConfig.buttonSelect);
@@ -76,12 +69,13 @@ void setup_hardware() {
     ledSelect2.setup(1);
     ledSelect3.setup(1);
     
-    // Setup buttons
-    buttonA.setup();
-    buttonB.setup();
-    buttonC.setup();
-    buttonD.setup();
-    buttonSelect.setup();
+    // Setup buttons (configure GPIO pins as input with pull-up)
+    for (gpio_num_t pin : {hardwareConfig.buttonA, hardwareConfig.buttonB,
+                           hardwareConfig.buttonC, hardwareConfig.buttonD,
+                           hardwareConfig.buttonSelect}) {
+        gpio_pad_select_gpio(pin);
+        pinMode(pin, INPUT_PULLUP);
+    }
 }
 
 void setup_event_handlers() {
