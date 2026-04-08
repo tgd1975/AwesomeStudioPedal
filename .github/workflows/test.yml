@@ -31,11 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DavidAnson/markdownlint-cli2-action@v20
+      - uses: DavidAnson/markdownlint-cli2-action@v22
         with:
           globs: "*.md"
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
   unit-tests:
     name: Host Unit Tests
