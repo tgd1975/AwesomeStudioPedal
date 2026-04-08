@@ -28,7 +28,7 @@ test:
 
 # Run host unit tests (GoogleTest via CMake)
 test-host:
-	cmake --build .vscode/build --target pedal_tests && .vscode/build/pedal_tests
+	cmake --build .vscode/build --target pedal_tests && .vscode/build/test/pedal_tests
 
 # Run on-device tests with coverage
 test-coverage:
