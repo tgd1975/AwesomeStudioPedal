@@ -5,10 +5,11 @@ Button::Button(uint8_t PIN) {
     this->PIN = PIN;
 }
 
-boolean Button::isDebounced() {
-    if ((millis() - lastDebounceTime) > debounceDelay) {
-    lastDebounceTime = millis();
-    return true;
+bool Button::isDebounced() {
+    unsigned long now = millis();
+    if ((now - lastDebounceTime) > debounceDelay) {
+        lastDebounceTime = now;
+        return true;
     }
     return false;
 }
@@ -25,7 +26,7 @@ void Button::isr() {
     } 
 }
 
-boolean Button::event() {
+bool Button::event() {
     if (pressed) {
         pressed = false;
         return true;
