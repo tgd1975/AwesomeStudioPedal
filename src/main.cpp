@@ -6,7 +6,6 @@
 #include "sdkconfig.h"
 //#include "FunctionalInterrupt.h"
 
-#include <BleKeyboard.h>
 #include "ble_keyboard_adapter.h"
 
 #include "button.h"
@@ -41,8 +40,6 @@ BankManager bankManager(ledSelect1, ledSelect2, ledSelect3);
 
 // Event handling system
 EventDispatcher eventDispatcher;
-
-#define SHIFT 0x80
 
 void IRAM_ATTR isr_a() {
   if (connected) {BUTTON_A.isr();}
