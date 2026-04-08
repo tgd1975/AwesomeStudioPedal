@@ -96,7 +96,7 @@ format:
 
 # Fix markdown linting issues (requires markdownlint-cli2)
 lint-markdown:
-	npx markdownlint-cli2 "**/*.md" "#node_modules" "#.pio" "#build"
+	npx markdownlint-cli2 "**/*.md" "#node_modules" "#.pio" "#build" "#.vscode"
 	@echo "Markdown linting complete"
 
 # Clean test artifacts
