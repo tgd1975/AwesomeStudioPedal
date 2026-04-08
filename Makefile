@@ -1,7 +1,7 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test
+.PHONY: all build upload clean monitor test test-host test-coverage
 
 # Default target
 all: build
@@ -22,9 +22,21 @@ clean:
 monitor:
 	pio device monitor
 
-# Run tests
+# Run PlatformIO on-device tests
 test:
-	pio test
+	pio test -e nodemcu-32s-test
+
+# Run host unit tests (GoogleTest via CMake)
+test-host:
+	cmake --build .vscode/build --target pedal_tests && .vscode/build/pedal_tests
+
+# Run on-device tests with coverage
+test-coverage:
+	pio test -e nodemcu-32s-test --coverage
+
+# Clean test artifacts
+clean-test:
+	rm -rf .pio/build/test
 
 # Show project information
 info:
@@ -38,25 +50,6 @@ flash: upload
 
 # Note: This Makefile assumes PlatformIO is installed and available in PATH
 # Install with: pip install platformio
-
-# Project-specific PlatformIO configuration is in platformio.ini
-# Test targets
-test:
-	pio test
-
-test-coverage:
-	pio test --coverage
-
-# Clean test artifacts
-clean-test:
-	rm -rf .pio/build/test
-
-# Test targets using separate test environment
-test:
-	pio test -e nodemcu-32s-test
-
-test-coverage:
-	pio test -e nodemcu-32s-test --coverage
 
 install-hooks:
 	cp scripts/pre-commit .git/hooks/pre-commit
