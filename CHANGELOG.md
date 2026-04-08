@@ -16,6 +16,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `include/platform.h` — no-op `IRAM_ATTR` shim so non-ESP32 targets compile cleanly
 - `IButton` interface in `lib/PedalLogic` — `Button` now inherits from it, enabling platform-agnostic button handling
 - `createBleKeyboardAdapter()` factory function per hardware package — `main.cpp` is now hardware-agnostic
+- Host unit test infrastructure (GoogleTest + CMake) — all tests run without hardware via `make test-host`
+- `ILEDController`, `IButtonController`, `IBleKeyboard` interfaces enabling mock-based unit tests
+- `BankManager`, `EventDispatcher`, `Send`, and `Button` unit tests (22 tests total)
+- Pre-commit hook running markdownlint and the full host test suite
+- `lib/PedalLogic` — hardware-independent logic extracted into its own library
+- `lib/hardware/esp32` — ESP32-specific drivers extracted into a dedicated package
+- `pedal_config.cpp` — bank/button mappings moved out of `main.cpp` into `PedalLogic`
+- `TESTING_IMPLEMENTATION.md` — full test infrastructure documentation
 - Release process and branching concept documented in `CONTRIBUTION_GUIDELINE.md`
 
 ### Changed
@@ -25,29 +33,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `LEDController` and `ButtonController` constructors accept `uint8_t` pin (cast to `gpio_num_t` internally where required)
 - `platformio.ini` uses `lib_ignore` per environment to exclude the other platform's package
 - `main.cpp` uses `Button::setup()` / `reset()` instead of inline GPIO calls
-
-### Fixed
-
-- Firmware link failure caused by PlatformIO treating `include/` and `src/` as separate flat libraries when `lib_extra_dirs` pointed inside a package directory
-- Trailing comma in `lib/hardware/esp32/library.json` that caused PlatformIO to ignore the entire package
-
----
-
-## [0.3.0] — 2026-03-01
-
-### Added
-
-- Host unit test infrastructure (GoogleTest + CMake) — all tests run without hardware via `make test-host`
-- `ILEDController`, `IButtonController`, `IBleKeyboard` interfaces enabling mock-based unit tests
-- `BankManager`, `EventDispatcher`, `Send`, and `Button` unit tests (22 tests total)
-- Pre-commit hook running markdownlint and the full host test suite
-- `lib/PedalLogic` — hardware-independent logic extracted into its own library
-- `lib/hardware/esp32` — ESP32-specific drivers extracted into a dedicated package
-- `pedal_config.cpp` — bank/button mappings moved out of `main.cpp` into `PedalLogic`
-- `TESTING_IMPLEMENTATION.md` — full test infrastructure documentation
-
-### Changed
-
 - `BankManager::updateLEDs()` made private; called from constructor for correct initial LED state
 - `BankManager` magic numbers replaced with `NUM_BANKS` / `NUM_BUTTONS` named constants
 - `BankManager::switchBank()` returns `uint8_t` (current bank index)
@@ -57,6 +42,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
+- Firmware link failure caused by PlatformIO treating `include/` and `src/` as separate flat libraries when `lib_extra_dirs` pointed inside a package directory
+- Trailing comma in `lib/hardware/esp32/library.json` that caused PlatformIO to ignore the entire package
 - ISR safety: removed `Serial.printf` from ISR context; `millis()` captured once per debounce check
 - `volatile bool pressed` added to `button.h` to prevent optimisation-related ISR bugs
 - Dead code removed from `main.cpp` (`SHIFT` macro, duplicate `BleKeyboard` include, unused `ButtonController` instances)
