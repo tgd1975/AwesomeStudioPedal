@@ -1,0 +1,45 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+UseTab: Never
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: true
+ColumnLimit: 100
+AccessModifierOffset: -4
+NamespaceIndentation: All
+FixNamespaceComments: false
+
+# Pointer and reference alignment
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+# Sort includes
+SortIncludes: true
+
+# Space around operators and after control statements
+SpaceAfterCStyleCast: true
+SpaceBeforeAssignmentOperators: true
+SpaceAfterLogicalNot: true
+
+# Braces
+BraceWrapping:
+  AfterClass: true
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  IndentBraces: false
+  SplitEmptyFunction: true
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+
+# Other formatting
+BinPackParameters: false
+BinPackArguments: false
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOnNextLine: true

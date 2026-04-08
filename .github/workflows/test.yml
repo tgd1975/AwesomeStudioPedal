@@ -7,6 +7,25 @@ on:
     branches: [main]
 
 jobs:
+  cpp-format:
+    name: C++ Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+      - name: Check C++ code formatting
+        run: |
+          # Find all C++ files
+          FILES=$(find . -name "*.cpp" -o -name "*.h" -o -name "*.hpp" | grep -v \.pio | grep -v build)
+          if [ -n "$FILES" ]; then
+            echo "Checking formatting for files:"
+            echo "$FILES"
+            clang-format --dry-run --Werror $FILES
+          else
+            echo "No C++ files found to check"
+          fi
+
   markdown-lint:
     name: Markdown Lint
     runs-on: ubuntu-latest

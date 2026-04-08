@@ -69,6 +69,18 @@ src/
 └── main.cpp            # Main application
 ```
 
+## Coding Standards
+
+This project uses clang-format for code formatting. The configuration is defined in `.clang-format`.
+
+To format your code:
+
+```bash
+./scripts/format-code.sh
+```
+
+The pre-commit hook will automatically check formatting for changed files.
+
 ## Building
 
 ```bash
