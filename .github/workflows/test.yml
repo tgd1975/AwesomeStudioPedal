@@ -70,7 +70,6 @@ jobs:
         run: |
           ctest --test-dir .vscode/build \
                 --output-on-failure \
-                --no-header \
                 --output-junit test-results.xml
 
       - name: Publish test results
