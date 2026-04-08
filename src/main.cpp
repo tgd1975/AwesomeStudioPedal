@@ -2,10 +2,9 @@
 #include <memory>
 //#include "freertos/FreeRTOS.h"
 //#include "freertos/task.h"
-#include "driver/gpio.h"
-#include "sdkconfig.h"
 //#include "FunctionalInterrupt.h"
 
+#include "platform.h"
 #include "ble_keyboard_adapter.h"
 
 #include "button.h"
@@ -147,12 +146,11 @@ void setup_hardware() {
     ledSelect3.setup(1);    // Turn off Bank 3 LED
     
     // Setup buttons (configure GPIO pins as input with pull-up)
-    for (gpio_num_t pin : {hardwareConfig.buttonA, hardwareConfig.buttonB,
-                           hardwareConfig.buttonC, hardwareConfig.buttonD,
-                           hardwareConfig.buttonSelect}) {
-        gpio_pad_select_gpio(pin);
-        pinMode(pin, INPUT_PULLUP);
-    }
+    BUTTON_SELECT.setup();
+    BUTTON_A.setup();
+    BUTTON_B.setup();
+    BUTTON_C.setup();
+    BUTTON_D.setup();
 }
 
 /**
@@ -220,15 +218,15 @@ void setup() {
  * Called when Bluetooth connection is established.
  */
 void attachInterrupts() {
-  BUTTON_A.pressed = false;
+  BUTTON_A.reset();
   attachInterrupt(hardwareConfig.buttonA, isr_a, FALLING);
-  BUTTON_B.pressed = false;
+  BUTTON_B.reset();
   attachInterrupt(hardwareConfig.buttonB, isr_b, FALLING);
-  BUTTON_C.pressed = false;
+  BUTTON_C.reset();
   attachInterrupt(hardwareConfig.buttonC, isr_c, FALLING);
-  BUTTON_D.pressed = false;
+  BUTTON_D.reset();
   attachInterrupt(hardwareConfig.buttonD, isr_d, FALLING);
-  BUTTON_SELECT.pressed = false;
+  BUTTON_SELECT.reset();
   attachInterrupt(hardwareConfig.buttonSelect, isr_select, FALLING);
 }
 
@@ -239,15 +237,15 @@ void attachInterrupts() {
  * Called when Bluetooth connection is lost.
  */
 void detachInterrupts() {
-  BUTTON_A.pressed = false;
+  BUTTON_A.reset();
   detachInterrupt(hardwareConfig.buttonA);
-  BUTTON_B.pressed = false;
+  BUTTON_B.reset();
   detachInterrupt(hardwareConfig.buttonB);
-  BUTTON_C.pressed = false;
+  BUTTON_C.reset();
   detachInterrupt(hardwareConfig.buttonC);
-  BUTTON_D.pressed = false;
+  BUTTON_D.reset();
   detachInterrupt(hardwareConfig.buttonD);
-  BUTTON_SELECT.pressed = false;
+  BUTTON_SELECT.reset();
   detachInterrupt(hardwareConfig.buttonSelect);
 }
 
