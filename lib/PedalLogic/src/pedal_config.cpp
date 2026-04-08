@@ -21,5 +21,4 @@ void configureBanks(BankManager& bankManager, IBleKeyboard* keyboard) {
     bankManager.addAction(2, 2, std::unique_ptr<Send>(new SendString(keyboard, "Bank 2 C")));
     bankManager.addAction(2, 3, std::unique_ptr<Send>(new SendString(keyboard, "Bank 2 D")));
 
-    bankManager.updateLEDs();
 }

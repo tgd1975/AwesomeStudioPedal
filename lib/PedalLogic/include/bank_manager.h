@@ -14,10 +14,10 @@ public:
     void addAction(uint8_t bank, uint8_t button, std::unique_ptr<Send> action);
     Send* getAction(uint8_t bank, uint8_t button);
     uint8_t switchBank();
-    void updateLEDs();
     uint8_t getCurrentBank() const;
 
 private:
+    void updateLEDs();
     std::array<std::array<std::unique_ptr<Send>, NUM_BUTTONS>, NUM_BANKS> banks;
     uint8_t currentBank = 0;
     ILEDController& led1;

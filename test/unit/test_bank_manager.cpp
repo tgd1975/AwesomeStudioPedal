@@ -66,21 +66,21 @@ TEST_F(BankManagerTest, GetActionEmptySlotReturnsNullptr) {
     EXPECT_EQ(manager->getAction(0, 0), nullptr);
 }
 
-TEST_F(BankManagerTest, UpdateLEDsAtBank0SetLed1True) {
+TEST_F(BankManagerTest, ConstructorSetsBank0LEDs) {
     MockLEDController l1, l2, l3;
     EXPECT_CALL(l1, setState(true)).Times(Exactly(1));
     EXPECT_CALL(l2, setState(false)).Times(Exactly(1));
     EXPECT_CALL(l3, setState(false)).Times(Exactly(1));
     BankManager bm(l1, l2, l3);
-    bm.updateLEDs();
 }
 
 TEST_F(BankManagerTest, SwitchBankCallsUpdateLEDs) {
     MockLEDController l1, l2, l3;
-    // switchBank goes from 0->1, updateLEDs sets led2=true
-    EXPECT_CALL(l1, setState(false)).Times(::testing::AnyNumber());
+    // Constructor sets bank 0 (l1=true); switchBank goes 0->1 (l2=true)
+    EXPECT_CALL(l1, setState(_)).Times(::testing::AnyNumber());
     EXPECT_CALL(l2, setState(true)).Times(::testing::AtLeast(1));
-    EXPECT_CALL(l3, setState(false)).Times(::testing::AnyNumber());
+    EXPECT_CALL(l2, setState(false)).Times(::testing::AnyNumber());
+    EXPECT_CALL(l3, setState(_)).Times(::testing::AnyNumber());
     BankManager bm(l1, l2, l3);
     bm.switchBank();
 }

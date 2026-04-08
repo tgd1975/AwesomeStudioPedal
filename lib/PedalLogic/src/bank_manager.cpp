@@ -1,7 +1,9 @@
 #include "bank_manager.h"
 
 BankManager::BankManager(ILEDController& led1, ILEDController& led2, ILEDController& led3)
-    : led1(led1), led2(led2), led3(led3) {}
+    : led1(led1), led2(led2), led3(led3) {
+    updateLEDs();
+}
 
 void BankManager::addAction(uint8_t bank, uint8_t button, std::unique_ptr<Send> action) {
     if (bank < NUM_BANKS && button < NUM_BUTTONS) {
