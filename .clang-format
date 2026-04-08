@@ -42,4 +42,3 @@ BraceWrapping:
 BinPackParameters: false
 BinPackArguments: false
 AllowAllArgumentsOnNextLine: true
-AllowAllParametersOnNextLine: true
