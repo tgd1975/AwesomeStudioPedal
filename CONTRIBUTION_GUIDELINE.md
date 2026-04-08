@@ -112,16 +112,58 @@ The project follows a **layered architecture** with clear separation of concerns
 
 ### Branch Strategy
 
-- **main**: Stable, production-ready code
-- **feature/*`: Development branches for new features
-- **fix/*`: Bug fix branches
-- **Pull Requests**: Required for merging to main
+The project uses a lightweight trunk-based strategy with short-lived topic branches.
+
+#### Branch Types
+
+| Branch | Pattern | Purpose |
+| --- | --- | --- |
+| `main` | — | Always releasable; protected; requires passing CI and PR review |
+| Feature | `feature/<short-description>` | New functionality (e.g. `feature/rotary-encoder`) |
+| Bug fix | `fix/<short-description>` | Targeted bug fixes (e.g. `fix/debounce-race`) |
+| Refactor | `refactor/<short-description>` | Code quality changes with no behaviour change |
+| Docs | `docs/<short-description>` | Documentation-only changes |
+
+#### Branch Lifecycle
+
+```text
+main
+ │
+ ├─── feature/my-feature ──── (develop) ──── PR ──── squash-merge ──► main
+ │
+ ├─── fix/some-bug ────────── (fix)     ──── PR ──── squash-merge ──► main
+ │
+ └─── refactor/cleanup ────── (refactor)──── PR ──── squash-merge ──► main
+```
+
+1. **Branch off `main`** — always start from the latest `main`.
+2. **Keep branches short-lived** — aim to open a PR within a few days.
+3. **One concern per branch** — mix of feature + unrelated refactor = two branches.
+4. **Open a PR early** — draft PRs are encouraged for early feedback.
+5. **All tests must pass** before requesting review (`make test-host`).
+6. **Squash-merge into `main`** — keeps the history linear and readable.
+7. **Delete the branch** after merge.
+
+#### Naming Conventions
+
+- Use lowercase and hyphens only: `feature/ble-reconnect`, not `Feature/BLE_Reconnect`.
+- Keep descriptions concise (≤ 4 words).
+- Reference an issue number when one exists: `fix/42-watchdog-reset`.
+
+#### `main` Branch Protection
+
+- Direct pushes to `main` are not allowed.
+- Every merge requires a pull request.
+- The pre-commit hook (`make test-host`) must pass locally before pushing.
+- CI runs the full host test suite on every PR.
 
 ### Testing
 
 - **Unit Testing**: Mock hardware interfaces for testing
 - **Integration Testing**: Test complete functionality
 - **Manual Testing**: Verify with actual hardware
+
+See [TESTING_IMPLEMENTATION.md](TESTING_IMPLEMENTATION.md) for the full test infrastructure documentation.
 
 ## Adding New Features
 
