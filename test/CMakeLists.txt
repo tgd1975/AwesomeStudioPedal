@@ -3,7 +3,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/event_dispatcher.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/send.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/pedal_config.cpp
-    ${CMAKE_SOURCE_DIR}/src/button.cpp
+    ${CMAKE_SOURCE_DIR}/lib/hardware/esp32/src/button.cpp
     ${CMAKE_SOURCE_DIR}/test/fakes/arduino_shim.cpp
 )
 
@@ -18,6 +18,7 @@ add_executable(pedal_tests
 target_include_directories(pedal_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/include
+    ${CMAKE_SOURCE_DIR}/lib/hardware/esp32/include
     ${CMAKE_SOURCE_DIR}/test/mocks
     ${CMAKE_SOURCE_DIR}/test/fakes
 )
