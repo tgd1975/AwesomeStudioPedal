@@ -1,8 +1,8 @@
 #pragma once
+#include <ArduinoJson.h>
 #include <cstdint>
 #include <memory>
 #include <string>
-#include <ArduinoJson.h>
 
 /**
  * @class Action
@@ -11,7 +11,8 @@
 class Action
 {
 public:
-    enum class Type {
+    enum class Type
+    {
         Unknown,
         SendString,
         SendChar,
@@ -23,7 +24,7 @@ public:
 
     void setName(const std::string& n) { name = n; }
     const std::string& getName() const { return name; }
-    bool hasName() const { return !name.empty(); }
+    bool hasName() const { return ! name.empty(); }
 
     virtual Type getType() const { return Type::Unknown; }
     virtual void execute() = 0;

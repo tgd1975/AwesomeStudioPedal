@@ -61,7 +61,7 @@ public:
     void setDescription(const std::string& description);
 
 private:
-    std::string name; /**< The name of this profile */
+    std::string name;        /**< The name of this profile */
     std::string description; /**< The description of this profile */
     std::array<std::unique_ptr<Action>, NUM_BUTTONS> actions; /**< Actions for each button */
 };

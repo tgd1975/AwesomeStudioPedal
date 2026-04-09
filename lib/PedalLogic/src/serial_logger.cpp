@@ -6,9 +6,11 @@
 #include <iostream>
 #endif
 
-class SerialLogger : public ILogger {
+class SerialLogger : public ILogger
+{
 public:
-    void log(const char* message) override {
+    void log(const char* message) override
+    {
 #ifndef HOST_TEST_BUILD
         Serial.println(message);
 #else
@@ -16,7 +18,8 @@ public:
 #endif
     }
 
-    void log(const char* prefix, const char* message) override {
+    void log(const char* prefix, const char* message) override
+    {
 #ifndef HOST_TEST_BUILD
         Serial.print(prefix);
         Serial.println(message);
@@ -26,7 +29,8 @@ public:
     }
 };
 
-ILogger* createLogger() {
+ILogger* createLogger()
+{
     static SerialLogger instance;
     return &instance;
 }

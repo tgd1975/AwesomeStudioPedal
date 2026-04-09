@@ -22,7 +22,7 @@ void Button::isr()
         }
         return;
     }
-    if (!awaitingRelease && isDebounced(now))
+    if (! awaitingRelease && isDebounced(now))
     {
         pressCount++;
         awaitingRelease = true;

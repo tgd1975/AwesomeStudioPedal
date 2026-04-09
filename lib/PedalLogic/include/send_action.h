@@ -1,6 +1,6 @@
 #pragma once
-#include "i_ble_keyboard.h"
 #include "action.h"
+#include "i_ble_keyboard.h"
 #include <string>
 
 /**
@@ -19,14 +19,14 @@ public:
      * Sends the configured input to the BLE keyboard.
      */
     void execute() override { send(); }
-    
+
     /**
      * @brief Checks if this action is a send action
-     * 
+     *
      * @return true since this is a send action
      */
     bool isSendAction() const override { return true; }
-    
+
     /**
      * @brief Executes the send action
      *
@@ -64,20 +64,21 @@ private:
 public:
     /**
      * @brief Gets the type of this action
-     * 
+     *
      * @return Action type
      */
     Action::Type getType() const override { return Action::Type::SendChar; }
-    
+
 #ifndef HOST_TEST_BUILD
-    void getJsonProperties(JsonObject& json) const override {
+    void getJsonProperties(JsonObject& json) const override
+    {
         json["value"] = "CHAR"; // Simplified for now
     }
 #endif
 
     /**
      * @brief Gets the character to be sent
-     * 
+     *
      * @return The character
      */
     char getKey() const { return key; }
@@ -107,20 +108,18 @@ private:
 public:
     /**
      * @brief Gets the type of this action
-     * 
+     *
      * @return Action type
      */
     Action::Type getType() const override { return Action::Type::SendString; }
-    
+
 #ifndef HOST_TEST_BUILD
-    void getJsonProperties(JsonObject& json) const override {
-        json["value"] = text.c_str();
-    }
+    void getJsonProperties(JsonObject& json) const override { json["value"] = text.c_str(); }
 #endif
 
     /**
      * @brief Gets the text string to be sent
-     * 
+     *
      * @return The text string
      */
     const std::string& getText() const { return text; }
@@ -150,20 +149,21 @@ private:
 public:
     /**
      * @brief Gets the type of this action
-     * 
+     *
      * @return Action type
      */
     Action::Type getType() const override { return Action::Type::SendKey; }
-    
+
 #ifndef HOST_TEST_BUILD
-    void getJsonProperties(JsonObject& json) const override {
+    void getJsonProperties(JsonObject& json) const override
+    {
         json["value"] = "KEY"; // Simplified for now
     }
 #endif
 
     /**
      * @brief Gets the USB HID key code to be sent
-     * 
+     *
      * @return The key code
      */
     uint8_t getKey() const { return key; }
@@ -193,20 +193,21 @@ private:
 public:
     /**
      * @brief Gets the type of this action
-     * 
+     *
      * @return Action type
      */
     Action::Type getType() const override { return Action::Type::SendMediaKey; }
-    
+
 #ifndef HOST_TEST_BUILD
-    void getJsonProperties(JsonObject& json) const override {
+    void getJsonProperties(JsonObject& json) const override
+    {
         json["value"] = "MEDIA_STOP"; // Simplified for now
     }
 #endif
 
     /**
      * @brief Gets the media key report to be sent
-     * 
+     *
      * @return The media key report
      */
     const MediaKeyReport& getKey() const { return key; }

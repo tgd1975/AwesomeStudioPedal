@@ -4,11 +4,12 @@
 /**
  * @interface IFileSystem
  * @brief Abstract interface for file system operations
- * 
+ *
  * Provides a platform-independent way to perform file operations.
  * Implementations can use LittleFS, SD cards, or standard file systems.
  */
-class IFileSystem {
+class IFileSystem
+{
 public:
     virtual ~IFileSystem() = default;
 

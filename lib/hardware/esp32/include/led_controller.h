@@ -25,11 +25,11 @@ public:
     bool isBlinking() const override { return blinking; }
 
 private:
-    uint8_t  pin;
-    bool     currentState  = false;
-    bool     blinking      = false;
-    bool     stateBeforeBlink = false;
+    uint8_t pin;
+    bool currentState = false;
+    bool blinking = false;
+    bool stateBeforeBlink = false;
     uint32_t blinkInterval = 0;
-    int16_t  blinkRemaining = 0;   // -1 = infinite, 0 = done, >0 = half-cycles left
+    int16_t blinkRemaining = 0; // -1 = infinite, 0 = done, >0 = half-cycles left
     uint32_t lastToggleTime = 0;
 };

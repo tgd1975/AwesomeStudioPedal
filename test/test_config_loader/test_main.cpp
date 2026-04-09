@@ -1,10 +1,10 @@
 #include "config_loader.h"
-#include "profile_manager.h"
 #include "mock_ble_keyboard.h"
 #include "mock_led_controller.h"
+#include "profile_manager.h"
+#include <ArduinoJson.h>
 #include <gtest/gtest.h>
 #include <string>
-#include <ArduinoJson.h>
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -14,12 +14,15 @@ static std::string makeConfig(std::initializer_list<const char*> names)
 {
     std::string s = "{\"profiles\":[";
     bool first = true;
-    for (const char* name : names) {
-        if (!first) s += ",";
+    for (const char* name : names)
+    {
+        if (! first)
+            s += ",";
         first = false;
         s += "{\"name\":\"";
         s += name;
-        s += "\",\"buttons\":{\"A\":{\"type\":\"SendStringAction\",\"name\":\"X\",\"value\":\"x\"}}}";
+        s += "\",\"buttons\":{\"A\":{\"type\":\"SendStringAction\",\"name\":\"X\",\"value\":\"x\"}}"
+             "}";
     }
     s += "]}";
     return s;
@@ -29,7 +32,8 @@ static uint8_t countPopulated(const ProfileManager& pm)
 {
     uint8_t n = 0;
     for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
-        if (pm.getProfile(i)) n++;
+        if (pm.getProfile(i))
+            n++;
     return n;
 }
 
@@ -37,9 +41,11 @@ static uint8_t countPopulated(const ProfileManager& pm)
 // Fixture
 // ---------------------------------------------------------------------------
 
-class ConfigLoaderTest : public ::testing::Test {
+class ConfigLoaderTest : public ::testing::Test
+{
 protected:
-    void SetUp() override {
+    void SetUp() override
+    {
         EXPECT_CALL(led1, setState(::testing::_)).Times(::testing::AnyNumber());
         EXPECT_CALL(led2, setState(::testing::_)).Times(::testing::AnyNumber());
         EXPECT_CALL(led3, setState(::testing::_)).Times(::testing::AnyNumber());
@@ -70,31 +76,33 @@ TEST_F(ConfigLoaderTest, Load1Profile_Slot0PopulatedRest_Null)
     EXPECT_NE(profileManager->getProfile(0), nullptr);
     EXPECT_EQ(profileManager->getProfile(0)->getName(), "Alpha");
     for (uint8_t i = 1; i < ProfileManager::NUM_PROFILES; i++)
-        EXPECT_EQ(profileManager->getProfile(i), nullptr) << "slot " << (int)i;
+        EXPECT_EQ(profileManager->getProfile(i), nullptr) << "slot " << (int) i;
     EXPECT_EQ(profileManager->getCurrentProfile(), 0);
 }
 
 TEST_F(ConfigLoaderTest, Load5Profiles_Slots0to4Populated)
 {
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2","P3","P4"})));
+    ASSERT_TRUE(loader->loadFromString(
+        *profileManager, &keyboard, makeConfig({"P0", "P1", "P2", "P3", "P4"})));
     for (uint8_t i = 0; i < 5; i++)
-        EXPECT_NE(profileManager->getProfile(i), nullptr) << "slot " << (int)i;
+        EXPECT_NE(profileManager->getProfile(i), nullptr) << "slot " << (int) i;
     EXPECT_EQ(profileManager->getProfile(5), nullptr);
     EXPECT_EQ(profileManager->getProfile(6), nullptr);
 }
 
 TEST_F(ConfigLoaderTest, Load7Profiles_AllSlotsPopulated)
 {
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2","P3","P4","P5","P6"})));
+    ASSERT_TRUE(loader->loadFromString(
+        *profileManager, &keyboard, makeConfig({"P0", "P1", "P2", "P3", "P4", "P5", "P6"})));
     EXPECT_EQ(countPopulated(*profileManager), 7);
 }
 
 TEST_F(ConfigLoaderTest, Load8Profiles_ClampedTo7)
 {
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2","P3","P4","P5","P6","P7_dropped"})));
+    ASSERT_TRUE(loader->loadFromString(
+        *profileManager,
+        &keyboard,
+        makeConfig({"P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7_dropped"})));
     EXPECT_EQ(countPopulated(*profileManager), 7);
     // The 8th profile must not appear anywhere
     for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
@@ -105,8 +113,7 @@ TEST_F(ConfigLoaderTest, Load8Profiles_ClampedTo7)
 TEST_F(ConfigLoaderTest, LoadResetsCurrentProfileTo0_EvenIfPreviouslyHigher)
 {
     // Load 3 profiles and advance to profile 2
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2"})));
+    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard, makeConfig({"P0", "P1", "P2"})));
     EXPECT_CALL(led1, setState(::testing::_)).Times(::testing::AnyNumber());
     EXPECT_CALL(led2, setState(::testing::_)).Times(::testing::AnyNumber());
     EXPECT_CALL(led3, setState(::testing::_)).Times(::testing::AnyNumber());
@@ -115,8 +122,7 @@ TEST_F(ConfigLoaderTest, LoadResetsCurrentProfileTo0_EvenIfPreviouslyHigher)
     ASSERT_EQ(profileManager->getCurrentProfile(), 2);
 
     // Reload — currentProfile must reset
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"Q0","Q1"})));
+    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard, makeConfig({"Q0", "Q1"})));
     EXPECT_EQ(profileManager->getCurrentProfile(), 0);
 }
 
@@ -139,8 +145,8 @@ TEST_F(ConfigLoaderTest, MergeInto0Existing_AddsAtSlot0)
 
 TEST_F(ConfigLoaderTest, MergeInto5Existing_AddsAtSlot5)
 {
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2","P3","P4"})));
+    ASSERT_TRUE(loader->loadFromString(
+        *profileManager, &keyboard, makeConfig({"P0", "P1", "P2", "P3", "P4"})));
     ASSERT_TRUE(loader->mergeConfig(*profileManager, &keyboard, makeConfig({"P5"})));
     EXPECT_NE(profileManager->getProfile(5), nullptr);
     EXPECT_EQ(profileManager->getProfile(5)->getName(), "P5");
@@ -149,8 +155,8 @@ TEST_F(ConfigLoaderTest, MergeInto5Existing_AddsAtSlot5)
 
 TEST_F(ConfigLoaderTest, MergeIntoFullManager_ExtraProfileDropped)
 {
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2","P3","P4","P5","P6"})));
+    ASSERT_TRUE(loader->loadFromString(
+        *profileManager, &keyboard, makeConfig({"P0", "P1", "P2", "P3", "P4", "P5", "P6"})));
     ASSERT_TRUE(loader->mergeConfig(*profileManager, &keyboard, makeConfig({"Overflow"})));
     EXPECT_EQ(countPopulated(*profileManager), 7);
     for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
@@ -168,8 +174,7 @@ TEST_F(ConfigLoaderTest, MergeSkipsDuplicateName)
 
 TEST_F(ConfigLoaderTest, MergeDoesNotAffectCurrentProfile)
 {
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2"})));
+    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard, makeConfig({"P0", "P1", "P2"})));
     EXPECT_CALL(led1, setState(::testing::_)).Times(::testing::AnyNumber());
     EXPECT_CALL(led2, setState(::testing::_)).Times(::testing::AnyNumber());
     EXPECT_CALL(led3, setState(::testing::_)).Times(::testing::AnyNumber());
@@ -192,8 +197,8 @@ TEST_F(ConfigLoaderTest, ReplaceSlot0_UpdatesName)
 
 TEST_F(ConfigLoaderTest, ReplaceSlot5_NonActive)
 {
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2","P3","P4","P5"})));
+    ASSERT_TRUE(loader->loadFromString(
+        *profileManager, &keyboard, makeConfig({"P0", "P1", "P2", "P3", "P4", "P5"})));
     ASSERT_TRUE(loader->replaceProfile(*profileManager, &keyboard, 5, makeConfig({"P5new"})));
     EXPECT_EQ(profileManager->getProfile(5)->getName(), "P5new");
     EXPECT_EQ(profileManager->getCurrentProfile(), 0);
@@ -209,8 +214,7 @@ TEST_F(ConfigLoaderTest, ReplaceEmptySlot_PopulatesIt)
 
 TEST_F(ConfigLoaderTest, ReplaceActiveSlot_CurrentProfileUnchanged)
 {
-    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard,
-        makeConfig({"P0","P1","P2"})));
+    ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard, makeConfig({"P0", "P1", "P2"})));
     EXPECT_CALL(led1, setState(::testing::_)).Times(::testing::AnyNumber());
     EXPECT_CALL(led2, setState(::testing::_)).Times(::testing::AnyNumber());
     EXPECT_CALL(led3, setState(::testing::_)).Times(::testing::AnyNumber());

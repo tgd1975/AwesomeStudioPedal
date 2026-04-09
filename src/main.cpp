@@ -7,15 +7,15 @@
 #include "ble_keyboard_adapter.h"
 #include "platform.h"
 
-#include "profile_manager.h"
 #include "button.h"
 #include "config.h"
+#include "config_loader.h"
+#include "delayed_action.h"
 #include "event_dispatcher.h"
 #include "led_controller.h"
 #include "pedal_config.h"
-#include "config_loader.h"
+#include "profile_manager.h"
 #include "send_action.h"
-#include "delayed_action.h"
 
 /**
  * @file main.cpp
@@ -95,9 +95,10 @@ void attachInterrupts();
 void signalLoadError()
 {
     Serial.println("CONFIG ERROR: falling back to factory default");
-    constexpr int   BLINK_COUNT    = 5;
-    constexpr int   BLINK_DURATION = 100; // ms
-    for (int i = 0; i < BLINK_COUNT; i++) {
+    constexpr int BLINK_COUNT = 5;
+    constexpr int BLINK_DURATION = 100; // ms
+    for (int i = 0; i < BLINK_COUNT; i++)
+    {
         ledPower.setState(true);
         ledBluetooth.setState(true);
         ledSelect1.setState(true);
@@ -176,12 +177,15 @@ void setup_hardware()
 
 /**
  * @brief Executes an action with proper logging
- * 
+ *
  * @param profileManager Reference to the profile manager
  * @param buttonName Name of the button (A, B, C, D)
  * @param buttonIndex Button index (0-3)
  */
-void executeActionWithLogging(ProfileManager& profileManager, const char* buttonName, uint8_t buttonIndex) {
+void executeActionWithLogging(ProfileManager& profileManager,
+                              const char* buttonName,
+                              uint8_t buttonIndex)
+{
     uint8_t profileIndex = profileManager.getCurrentProfile();
     const char* profileName = profileManager.getProfileName(profileIndex).c_str();
     Serial.printf("Button %s pressed (Profile: %s)\n", buttonName, profileName);
@@ -189,15 +193,19 @@ void executeActionWithLogging(ProfileManager& profileManager, const char* button
     if (auto action = profileManager.getAction(profileIndex, buttonIndex))
     {
         // Ignore repeated presses while a DelayedAction for this button is in progress
-        if (action->isInProgress()) {
+        if (action->isInProgress())
+        {
             Serial.println("  -> DelayedAction in progress, ignoring");
             return;
         }
 
         const char* actionType = ProfileManager::getActionTypeString(action->getType());
-        if (action->hasName()) {
+        if (action->hasName())
+        {
             Serial.printf("  -> Executing %s action [%s]\n", actionType, action->getName().c_str());
-        } else {
+        }
+        else
+        {
             Serial.printf("  -> Executing %s action\n", actionType);
         }
         action->execute();
@@ -248,7 +256,8 @@ void setup()
 
     bleKeyboardAdapter->begin();
 
-    if (!configureProfiles(profileManager, bleKeyboardAdapter)) {
+    if (! configureProfiles(profileManager, bleKeyboardAdapter))
+    {
         signalLoadError();
     }
 
@@ -369,12 +378,17 @@ void loop()
     profileManager.update(now);
 
     // Blink power LED while at least one DelayedAction is running
-    if (profileManager.hasActiveDelayedAction()) {
-        if (!ledPower.isBlinking()) {
+    if (profileManager.hasActiveDelayedAction())
+    {
+        if (! ledPower.isBlinking())
+        {
             ledPower.startBlink(500);
         }
-    } else {
-        if (ledPower.isBlinking()) {
+    }
+    else
+    {
+        if (ledPower.isBlinking())
+        {
             ledPower.stopBlink();
             ledPower.setState(true); // restore solid on
         }

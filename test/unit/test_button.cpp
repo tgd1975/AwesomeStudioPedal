@@ -53,9 +53,9 @@ TEST_F(ButtonTest, BounceDuringPressSideIsIgnored)
 {
     Button btn(5);
     fake_time::value = 200;
-    press(btn);               // accepted
+    press(btn); // accepted
     fake_time::value = 205;
-    press(btn);               // bounce — blocked by awaitingRelease, not debounce
+    press(btn); // bounce — blocked by awaitingRelease, not debounce
     EXPECT_EQ(btn.pressCount, 1);
 }
 
@@ -63,12 +63,12 @@ TEST_F(ButtonTest, SecondPressWithinDebounceWindowAfterReleaseIsIgnored)
 {
     Button btn(5);
     fake_time::value = 200;
-    press(btn);               // accepted, lastDebounceTime=200
+    press(btn); // accepted, lastDebounceTime=200
     btn.event();
     fake_time::value = 310;
-    release(btn);             // 110ms after press — debounce elapsed, lastDebounceTime=310
+    release(btn); // 110ms after press — debounce elapsed, lastDebounceTime=310
     fake_time::value = 380;
-    press(btn);               // 70ms after release — within 100ms debounce window → rejected
+    press(btn); // 70ms after release — within 100ms debounce window → rejected
     EXPECT_FALSE(btn.event());
 }
 
@@ -76,12 +76,12 @@ TEST_F(ButtonTest, SecondPressAfterDebounceWindowIsAccepted)
 {
     Button btn(5);
     fake_time::value = 200;
-    press(btn);               // accepted, lastDebounceTime=200
+    press(btn); // accepted, lastDebounceTime=200
     btn.event();
     fake_time::value = 310;
-    release(btn);             // 110ms after press — debounce elapsed, lastDebounceTime=310
+    release(btn); // 110ms after press — debounce elapsed, lastDebounceTime=310
     fake_time::value = 420;
-    press(btn);               // 110ms after release — debounce elapsed → accepted
+    press(btn); // 110ms after release — debounce elapsed → accepted
     EXPECT_TRUE(btn.event());
 }
 
@@ -90,16 +90,16 @@ TEST_F(ButtonTest, ReleaseBounceAfterLongHoldDoesNotFireSpuriousEvent)
 {
     Button btn(5);
     fake_time::value = 200;
-    press(btn);               // accepted at t=200
+    press(btn); // accepted at t=200
     EXPECT_EQ(btn.pressCount, 1);
 
     // hold for 400ms (well over 100ms debounce delay)
     fake_time::value = 600;
-    release(btn);             // HIGH edge: awaitingRelease=false, lastDebounceTime=600
+    release(btn); // HIGH edge: awaitingRelease=false, lastDebounceTime=600
 
     // contact bounce on LOW during release — must be rejected
     fake_time::value = 660;
-    press(btn);               // 60ms after release — within 100ms window → rejected
+    press(btn);                   // 60ms after release — within 100ms window → rejected
     EXPECT_EQ(btn.pressCount, 1); // still only 1, no spurious event
 }
 
@@ -108,9 +108,9 @@ TEST_F(ButtonTest, ReleaseEdgeAloneDoesNotFireEvent)
     Button btn(5);
     fake_time::value = 200;
     press(btn);
-    btn.event();              // consume the press
+    btn.event(); // consume the press
     fake_time::value = 300;
-    release(btn);             // release should produce no event
+    release(btn); // release should produce no event
     EXPECT_FALSE(btn.event());
 }
 
@@ -125,15 +125,19 @@ TEST_F(ButtonTest, AlternatingBouncesAfterReleaseDoNotFireSpuriousEvent)
     btn.event(); // consume, lastDebounceTime=200
 
     // genuine release 200ms after press — debounce elapsed
-    fake_time::value = 400; release(btn); // HIGH accepted: lastDebounceTime=400
-    fake_time::value = 410; press(btn);   // LOW bounce: 10ms < 100 → rejected
-    fake_time::value = 420; release(btn); // HIGH bounce: 20ms < 100 → rejected (debounce on HIGH too)
-    fake_time::value = 430; press(btn);   // LOW bounce: 30ms < 100 → rejected
+    fake_time::value = 400;
+    release(btn); // HIGH accepted: lastDebounceTime=400
+    fake_time::value = 410;
+    press(btn); // LOW bounce: 10ms < 100 → rejected
+    fake_time::value = 420;
+    release(btn); // HIGH bounce: 20ms < 100 → rejected (debounce on HIGH too)
+    fake_time::value = 430;
+    press(btn); // LOW bounce: 30ms < 100 → rejected
     EXPECT_EQ(btn.pressCount, 0);
 
     // 101ms after the accepted HIGH (t=400) — genuine new press
     fake_time::value = 501;
-    press(btn);  // LOW: 501-400=101ms > 100 → accepted
+    press(btn); // LOW: 501-400=101ms > 100 → accepted
     EXPECT_EQ(btn.pressCount, 1);
 }
 
@@ -144,7 +148,7 @@ TEST_F(ButtonTest, NoiseHighDuringHoldDoesNotClearAwaitingRelease)
 {
     Button btn(5);
     fake_time::value = 200;
-    press(btn);               // accepted, awaitingRelease=true, lastDebounceTime=200
+    press(btn); // accepted, awaitingRelease=true, lastDebounceTime=200
     EXPECT_EQ(btn.pressCount, 1);
 
     // noise spike HIGH at t=210 — within 100ms debounce of press → rejected
@@ -171,7 +175,7 @@ TEST_F(ButtonTest, SpuriousHighEdgeBeforePressDoesNotBlockEvent)
     fake_time::value = 200;
     release(btn); // HIGH with awaitingRelease=false → ignored, no timer update
     fake_time::value = 210;
-    press(btn);   // LOW 10ms later — lastDebounceTime still 0, so 210ms > 100 → accepted
+    press(btn); // LOW 10ms later — lastDebounceTime still 0, so 210ms > 100 → accepted
     EXPECT_EQ(btn.pressCount, 1);
 }
 

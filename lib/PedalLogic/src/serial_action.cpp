@@ -5,10 +5,7 @@
 #include <iostream>
 #endif
 
-SerialOutputAction::SerialOutputAction(const std::string& message)
-    : message(message)
-{
-}
+SerialOutputAction::SerialOutputAction(const std::string& message) : message(message) {}
 
 void SerialOutputAction::execute()
 {

@@ -17,11 +17,12 @@
 // ---------------------------------------------------------------------------
 
 static NullLEDController led1, led2, led3;
-static ProfileManager    pm(led1, led2, led3);
-static ConfigLoader      loader;
+static ProfileManager pm(led1, led2, led3);
+static ConfigLoader loader;
 
 // Null keyboard — send actions are not exercised here
-class NullKeyboard : public IBleKeyboard {
+class NullKeyboard : public IBleKeyboard
+{
 public:
     bool isConnected() override { return false; }
     void print(const char*) override {}
@@ -36,7 +37,8 @@ static uint8_t countPopulated()
 {
     uint8_t n = 0;
     for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
-        if (pm.getProfile(i)) n++;
+        if (pm.getProfile(i))
+            n++;
     return n;
 }
 
@@ -54,12 +56,15 @@ static std::string nProfilesJson(uint8_t n)
 {
     std::string s = "{\"profiles\":[";
     char name[8];
-    for (uint8_t i = 0; i < n; i++) {
-        if (i > 0) s += ",";
+    for (uint8_t i = 0; i < n; i++)
+    {
+        if (i > 0)
+            s += ",";
         snprintf(name, sizeof(name), "P%d", i);
         s += "{\"name\":\"";
         s += name;
-        s += "\",\"buttons\":{\"A\":{\"type\":\"SendStringAction\",\"name\":\"X\",\"value\":\"x\"}}}";
+        s += "\",\"buttons\":{\"A\":{\"type\":\"SendStringAction\",\"name\":\"X\",\"value\":\"x\"}}"
+             "}";
     }
     s += "]}";
     return s;
@@ -73,7 +78,7 @@ static void resetPM()
     pm.resetToFirstProfile();
 }
 
-void setUp()    {}
+void setUp() {}
 void tearDown() {}
 
 // ---------------------------------------------------------------------------
@@ -136,7 +141,8 @@ void test_load_resets_current_profile_to_0()
     pm.switchProfile(); // -> 2
     TEST_ASSERT_EQUAL_MESSAGE(2, pm.getCurrentProfile(), "Pre-condition: currentProfile == 2");
     loader.loadFromString(pm, &keyboard, nProfilesJson(2));
-    TEST_ASSERT_EQUAL_MESSAGE(0, pm.getCurrentProfile(), "currentProfile must reset to 0 after load");
+    TEST_ASSERT_EQUAL_MESSAGE(
+        0, pm.getCurrentProfile(), "currentProfile must reset to 0 after load");
 }
 
 // ---------------------------------------------------------------------------
@@ -167,7 +173,8 @@ void test_merge_into_full_drops_overflow()
     resetPM();
     loader.loadFromString(pm, &keyboard, nProfilesJson(7));
     loader.mergeConfig(pm, &keyboard, profileJson("Overflow"));
-    TEST_ASSERT_EQUAL_MESSAGE(7, countPopulated(), "Full manager: overflow profile must be dropped");
+    TEST_ASSERT_EQUAL_MESSAGE(
+        7, countPopulated(), "Full manager: overflow profile must be dropped");
 }
 
 void test_merge_skips_duplicate_name()
@@ -244,7 +251,8 @@ void test_led_encoding_profile6_visual()
 {
     resetPM();
     loader.loadFromString(pm, &keyboard, nProfilesJson(7));
-    for (uint8_t i = 0; i < 6; i++) pm.switchProfile();
+    for (uint8_t i = 0; i < 6; i++)
+        pm.switchProfile();
     TEST_MESSAGE("LED CHECK: Profile 6 → LED1 ON, LED2 ON, LED3 ON");
     TEST_ASSERT_EQUAL(6, pm.getCurrentProfile());
 }

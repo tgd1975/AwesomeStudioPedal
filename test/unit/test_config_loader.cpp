@@ -1,15 +1,16 @@
+#include "button_constants.h"
 #include "config_loader.h"
-#include "profile_manager.h"
 #include "mock_led_controller.h"
+#include "profile_manager.h"
 #include "send_action.h"
 #include "serial_action.h"
-#include "button_constants.h"
 #include <gtest/gtest.h>
 
 // Note: File system tests (loadFromFile/saveToFile) are not tested in host environment
 // since LittleFS is not available. Only JSON parsing and string-based loading is tested.
 
-class MockKeyboard : public IBleKeyboard {
+class MockKeyboard : public IBleKeyboard
+{
 public:
     void begin() override {}
     bool isConnected() override { return true; }
@@ -18,7 +19,8 @@ public:
     void print(const char* text) override {}
 };
 
-class ConfigLoaderTest : public ::testing::Test {
+class ConfigLoaderTest : public ::testing::Test
+{
 protected:
     MockLEDController led1, led2, led3;
     ProfileManager profileManager{led1, led2, led3};
@@ -26,7 +28,8 @@ protected:
     ConfigLoader configLoader;
 };
 
-TEST_F(ConfigLoaderTest, LoadFromValidJsonString) {
+TEST_F(ConfigLoaderTest, LoadFromValidJsonString)
+{
     std::string validJson = R"({
         "profiles": [{
             "name": "TestProfile",

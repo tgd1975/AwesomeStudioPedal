@@ -23,7 +23,7 @@ public:
 
     ProfileManager(ILEDController& led1, ILEDController& led2, ILEDController& led3);
 
-    void    addProfile(uint8_t profileIndex, std::unique_ptr<Profile> profile);
+    void addProfile(uint8_t profileIndex, std::unique_ptr<Profile> profile);
     Action* getAction(uint8_t profileIndex, uint8_t button) const;
     const Profile* getProfile(uint8_t profileIndex) const;
 
@@ -73,9 +73,9 @@ private:
     ILEDController& led3;
 
     // Post-switch blink state
-    bool     postSwitchBlink   = false;
-    uint32_t blinkStartTime    = 0;
-    uint8_t  blinkPhase        = 0;   // counts half-cycles (on/off)
-    static constexpr uint8_t  BLINK_COUNT    = 3;    // full on/off cycles
-    static constexpr uint32_t BLINK_INTERVAL = 150;  // ms per half-cycle
+    bool postSwitchBlink = false;
+    uint32_t blinkStartTime = 0;
+    uint8_t blinkPhase = 0;                         // counts half-cycles (on/off)
+    static constexpr uint8_t BLINK_COUNT = 3;       // full on/off cycles
+    static constexpr uint32_t BLINK_INTERVAL = 150; // ms per half-cycle
 };

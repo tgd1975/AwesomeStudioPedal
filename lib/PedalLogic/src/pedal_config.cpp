@@ -1,10 +1,10 @@
 #include "pedal_config.h"
-#include "profile.h"
-#include "send_action.h"
 #include "action.h"
-#include "serial_action.h"
 #include "button_constants.h"
 #include "config_loader.h"
+#include "profile.h"
+#include "send_action.h"
+#include "serial_action.h"
 #include <memory>
 
 /**
@@ -17,12 +17,14 @@ bool configureProfiles(ProfileManager& profileManager, IBleKeyboard* keyboard)
 {
     ConfigLoader configLoader;
 
-    if (configLoader.loadFromFile(profileManager, keyboard, "/pedal_config.json")) {
+    if (configLoader.loadFromFile(profileManager, keyboard, "/pedal_config.json"))
+    {
         return true;
     }
 
     // File missing or invalid — load the hardcoded default
-    if (!configLoader.loadFromString(profileManager, keyboard, configLoader.getDefaultConfig())) {
+    if (! configLoader.loadFromString(profileManager, keyboard, configLoader.getDefaultConfig()))
+    {
         // DEFAULT_CONFIG failed to parse: this is a compile-time bug, not a runtime error
         return false;
     }

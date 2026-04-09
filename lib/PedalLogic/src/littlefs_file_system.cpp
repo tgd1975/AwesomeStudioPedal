@@ -10,15 +10,18 @@
  * @class LittleFSFileSystem
  * @brief File system implementation using LittleFS for embedded targets
  */
-class LittleFSFileSystem : public IFileSystem {
+class LittleFSFileSystem : public IFileSystem
+{
 public:
-    bool exists(const char* path) override {
+    bool exists(const char* path) override
+    {
 #ifndef HOST_TEST_BUILD
         return LittleFS.exists(path);
 #else
         // Mock implementation for host testing
         FILE* file = fopen(path, "r");
-        if (file) {
+        if (file)
+        {
             fclose(file);
             return true;
         }
@@ -26,14 +29,17 @@ public:
 #endif
     }
 
-    bool readFile(const char* path, std::string& content) override {
+    bool readFile(const char* path, std::string& content) override
+    {
 #ifndef HOST_TEST_BUILD
-        if (!LittleFS.begin(true)) {
+        if (! LittleFS.begin(true))
+        {
             return false;
         }
 
         File file = LittleFS.open(path, "r");
-        if (!file) {
+        if (! file)
+        {
             return false;
         }
 
@@ -44,28 +50,33 @@ public:
 #else
         // Host implementation using standard C++ files
         std::ifstream inFile(path);
-        if (!inFile) {
+        if (! inFile)
+        {
             return false;
         }
 
-        content = std::string((std::istreambuf_iterator<char>(inFile)),
-                             std::istreambuf_iterator<char>());
+        content =
+            std::string((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
         return true;
 #endif
     }
 
-    bool writeFile(const char* path, const std::string& content) override {
+    bool writeFile(const char* path, const std::string& content) override
+    {
 #ifndef HOST_TEST_BUILD
-        if (!LittleFS.begin(true)) {
+        if (! LittleFS.begin(true))
+        {
             return false;
         }
 
         File file = LittleFS.open(path, "w");
-        if (!file) {
+        if (! file)
+        {
             return false;
         }
 
-        if (file.print(content.c_str()) == 0) {
+        if (file.print(content.c_str()) == 0)
+        {
             file.close();
             return false;
         }
@@ -75,7 +86,8 @@ public:
 #else
         // Host implementation using standard C++ files
         std::ofstream outFile(path);
-        if (!outFile) {
+        if (! outFile)
+        {
             return false;
         }
 
@@ -86,7 +98,8 @@ public:
 };
 
 // Factory function to create the appropriate file system
-IFileSystem* createFileSystem() {
+IFileSystem* createFileSystem()
+{
     static LittleFSFileSystem instance;
     return &instance;
 }

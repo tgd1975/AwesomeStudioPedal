@@ -1,6 +1,6 @@
 #pragma once
-#include <BleKeyboard.h>
 #include "i_ble_keyboard.h"
+#include <BleKeyboard.h>
 
 /**
  * @class BleKeyboardAdapter

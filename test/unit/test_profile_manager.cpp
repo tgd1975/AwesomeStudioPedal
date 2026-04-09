@@ -1,15 +1,15 @@
-#include "profile_manager.h"
-#include "profile.h"
-#include "mock_led_controller.h"
 #include "action.h"
-#include "send_action.h"
 #include "button_constants.h"
+#include "mock_led_controller.h"
+#include "profile.h"
+#include "profile_manager.h"
+#include "send_action.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using ::testing::_;
-using ::testing::Exactly;
 using ::testing::AnyNumber;
+using ::testing::Exactly;
 
 // ---------------------------------------------------------------------------
 // Minimal concrete Action for testing
@@ -66,7 +66,8 @@ protected:
     void populateSlots(uint8_t n)
     {
         char name[8];
-        for (uint8_t i = 0; i < n && i < ProfileManager::NUM_PROFILES; i++) {
+        for (uint8_t i = 0; i < n && i < ProfileManager::NUM_PROFILES; i++)
+        {
             snprintf(name, sizeof(name), "P%d", i);
             manager->addProfile(i, makeProfile(name));
         }
@@ -86,10 +87,7 @@ protected:
 // Basic state
 // ---------------------------------------------------------------------------
 
-TEST_F(ProfileManagerTest, StartsAtProfile0)
-{
-    EXPECT_EQ(manager->getCurrentProfile(), 0);
-}
+TEST_F(ProfileManagerTest, StartsAtProfile0) { EXPECT_EQ(manager->getCurrentProfile(), 0); }
 
 TEST_F(ProfileManagerTest, SwitchProfileWrapsAfterSeven)
 {
@@ -102,7 +100,7 @@ TEST_F(ProfileManagerTest, SwitchProfileWrapsAfterSeven)
 TEST_F(ProfileManagerTest, AddAndGetProfileReturnsCorrectAction)
 {
     auto profile = std::make_unique<Profile>("Test");
-    auto action  = std::make_unique<FakeAction>();
+    auto action = std::make_unique<FakeAction>();
     Action* rawPtr = action.get();
     profile->addAction(Button::C, std::move(action));
     manager->addProfile(1, std::move(profile));
@@ -133,13 +131,13 @@ TEST_F(ProfileManagerTest, GetProfileNameEmptySlotReturnsEmptyString)
 
 TEST_F(ProfileManagerTest, GetActionTypeStringReturnsCorrectStrings)
 {
-    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::SendString),   "SendString");
-    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::SendChar),     "SendChar");
-    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::SendKey),      "SendKey");
+    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::SendString), "SendString");
+    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::SendChar), "SendChar");
+    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::SendKey), "SendKey");
     EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::SendMediaKey), "SendMediaKey");
     EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::SerialOutput), "SerialOutput");
-    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::Delayed),      "Delayed");
-    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::Unknown),      "Unknown");
+    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::Delayed), "Delayed");
+    EXPECT_STREQ(ProfileManager::getActionTypeString(Action::Type::Unknown), "Unknown");
 }
 
 // ---------------------------------------------------------------------------
@@ -151,12 +149,13 @@ TEST_F(ProfileManagerTest, GetActionTypeStringReturnsCorrectStrings)
 // verify the LEDs reflect the expected 3-bit pattern.
 //   pattern bit 0 = LED1, bit 1 = LED2, bit 2 = LED3
 // Simple LED spy that records the last setState value
-class SpyLEDController : public ILEDController {
+class SpyLEDController : public ILEDController
+{
 public:
     bool lastState = false;
     void setup(uint32_t) override {}
     void setState(bool s) override { lastState = s; }
-    void toggle() override { lastState = !lastState; }
+    void toggle() override { lastState = ! lastState; }
     void startBlink(uint32_t, int16_t) override {}
     void stopBlink() override {}
     void update(uint32_t) override {}
@@ -170,7 +169,8 @@ static void assertLEDPattern(uint8_t profileIndex, uint8_t pattern)
 
     // Populate all slots up to and including the target
     char name[8];
-    for (uint8_t i = 0; i <= profileIndex; i++) {
+    for (uint8_t i = 0; i <= profileIndex; i++)
+    {
         snprintf(name, sizeof(name), "P%d", i);
         pm.addProfile(i, makeProfile(name));
     }
@@ -182,25 +182,31 @@ static void assertLEDPattern(uint8_t profileIndex, uint8_t pattern)
     // Drive updateLEDs: for profile 0 use resetToFirstProfile(),
     // for others complete the post-switch blink via update().
     // Two calls needed: first initialises blinkStartTime, second completes the blink.
-    if (profileIndex == 0) {
+    if (profileIndex == 0)
+    {
         pm.resetToFirstProfile();
-    } else {
-        pm.update(1);     // initialise blink: sets blinkStartTime=1, turns all LEDs on
-        pm.update(5000);  // far enough ahead to complete all half-cycles → calls updateLEDs
+    }
+    else
+    {
+        pm.update(1);    // initialise blink: sets blinkStartTime=1, turns all LEDs on
+        pm.update(5000); // far enough ahead to complete all half-cycles → calls updateLEDs
     }
 
-    EXPECT_EQ(l1.lastState, (pattern & 0b001) != 0) << "LED1 wrong for profile " << (int)profileIndex;
-    EXPECT_EQ(l2.lastState, (pattern & 0b010) != 0) << "LED2 wrong for profile " << (int)profileIndex;
-    EXPECT_EQ(l3.lastState, (pattern & 0b100) != 0) << "LED3 wrong for profile " << (int)profileIndex;
+    EXPECT_EQ(l1.lastState, (pattern & 0b001) != 0)
+        << "LED1 wrong for profile " << (int) profileIndex;
+    EXPECT_EQ(l2.lastState, (pattern & 0b010) != 0)
+        << "LED2 wrong for profile " << (int) profileIndex;
+    EXPECT_EQ(l3.lastState, (pattern & 0b100) != 0)
+        << "LED3 wrong for profile " << (int) profileIndex;
 }
 
-TEST_F(ProfileManagerTest, LEDEncoding_Profile0_LED1Only)      { assertLEDPattern(0, 0b001); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile1_LED2Only)      { assertLEDPattern(1, 0b010); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile2_LED3Only)      { assertLEDPattern(2, 0b100); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile3_LED1andLED2)   { assertLEDPattern(3, 0b011); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile4_LED1andLED3)   { assertLEDPattern(4, 0b101); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile5_LED2andLED3)   { assertLEDPattern(5, 0b110); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile6_AllLEDs)       { assertLEDPattern(6, 0b111); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile0_LED1Only) { assertLEDPattern(0, 0b001); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile1_LED2Only) { assertLEDPattern(1, 0b010); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile2_LED3Only) { assertLEDPattern(2, 0b100); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile3_LED1andLED2) { assertLEDPattern(3, 0b011); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile4_LED1andLED3) { assertLEDPattern(4, 0b101); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile5_LED2andLED3) { assertLEDPattern(5, 0b110); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile6_AllLEDs) { assertLEDPattern(6, 0b111); }
 
 // ---------------------------------------------------------------------------
 // switchProfile skips empty slots
@@ -305,6 +311,6 @@ TEST_F(ProfileManagerTest, SwitchProfileCallsUpdateLEDs)
     bm.addProfile(0, makeProfile("P0"));
     bm.addProfile(1, makeProfile("P1"));
     bm.switchProfile();
-    bm.update(1);     // initialise blink
-    bm.update(5000);  // complete blink → updateLEDs fires
+    bm.update(1);    // initialise blink
+    bm.update(5000); // complete blink → updateLEDs fires
 }

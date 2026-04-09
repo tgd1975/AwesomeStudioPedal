@@ -1,12 +1,12 @@
 #pragma once
-#include "profile_manager.h"
 #include "action.h"
 #include "button_constants.h"
-#include "i_ble_keyboard.h"
 #include "file_system.h"
+#include "i_ble_keyboard.h"
 #include "i_logger.h"
-#include <string>
+#include "profile_manager.h"
 #include <ArduinoJson.h>
+#include <string>
 
 /**
  * @class ConfigLoader
@@ -24,11 +24,20 @@ public:
     /// Injection constructor: use in tests or wherever DI is needed
     ConfigLoader(IFileSystem* fs, ILogger* logger);
 
-    bool loadFromFile(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& configPath);
-    bool loadFromString(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& jsonConfig);
+    bool loadFromFile(ProfileManager& profileManager,
+                      IBleKeyboard* keyboard,
+                      const std::string& configPath);
+    bool loadFromString(ProfileManager& profileManager,
+                        IBleKeyboard* keyboard,
+                        const std::string& jsonConfig);
     bool saveToFile(const ProfileManager& profileManager, const std::string& configPath);
-    bool mergeConfig(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& jsonConfig);
-    bool replaceProfile(ProfileManager& profileManager, IBleKeyboard* keyboard, uint8_t profileIndex, const std::string& jsonConfig);
+    bool mergeConfig(ProfileManager& profileManager,
+                     IBleKeyboard* keyboard,
+                     const std::string& jsonConfig);
+    bool replaceProfile(ProfileManager& profileManager,
+                        IBleKeyboard* keyboard,
+                        uint8_t profileIndex,
+                        const std::string& jsonConfig);
 
     const char* getDefaultConfig() const { return DEFAULT_CONFIG; }
 
@@ -38,9 +47,12 @@ private:
     static const char* DEFAULT_CONFIG;
 
     IFileSystem* fileSystem_;
-    ILogger*     logger_;
+    ILogger* logger_;
 
-    std::unique_ptr<Action> createActionFromJson(const ArduinoJson::JsonObject& actionJson, IBleKeyboard* keyboard);
+    std::unique_ptr<Action> createActionFromJson(const ArduinoJson::JsonObject& actionJson,
+                                                 IBleKeyboard* keyboard);
     void actionToJson(const Action* action, ArduinoJson::JsonObject& out) const;
-    void populateProfileFromJson(Profile& profile, ArduinoJson::JsonObject buttons, IBleKeyboard* keyboard);
+    void populateProfileFromJson(Profile& profile,
+                                 ArduinoJson::JsonObject buttons,
+                                 IBleKeyboard* keyboard);
 };

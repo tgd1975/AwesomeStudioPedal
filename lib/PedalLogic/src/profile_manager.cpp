@@ -9,14 +9,16 @@ ProfileManager::ProfileManager(ILEDController& led1, ILEDController& led2, ILEDC
 
 void ProfileManager::addProfile(uint8_t profileIndex, std::unique_ptr<Profile> profile)
 {
-    if (profileIndex < NUM_PROFILES) {
+    if (profileIndex < NUM_PROFILES)
+    {
         profileSlots[profileIndex] = std::move(profile);
     }
 }
 
 Action* ProfileManager::getAction(uint8_t profileIndex, uint8_t button) const
 {
-    if (profileIndex < NUM_PROFILES && profileSlots[profileIndex]) {
+    if (profileIndex < NUM_PROFILES && profileSlots[profileIndex])
+    {
         return profileSlots[profileIndex]->getAction(button);
     }
     return nullptr;
@@ -24,7 +26,8 @@ Action* ProfileManager::getAction(uint8_t profileIndex, uint8_t button) const
 
 const Profile* ProfileManager::getProfile(uint8_t profileIndex) const
 {
-    if (profileIndex < NUM_PROFILES && profileSlots[profileIndex]) {
+    if (profileIndex < NUM_PROFILES && profileSlots[profileIndex])
+    {
         return profileSlots[profileIndex].get();
     }
     return nullptr;
@@ -34,17 +37,19 @@ uint8_t ProfileManager::switchProfile()
 {
     // Advance to the next populated slot, skipping empty ones, wrapping around
     uint8_t next = currentProfile;
-    for (uint8_t i = 0; i < NUM_PROFILES; i++) {
+    for (uint8_t i = 0; i < NUM_PROFILES; i++)
+    {
         next = (next + 1) % NUM_PROFILES;
-        if (profileSlots[next]) break;
+        if (profileSlots[next])
+            break;
     }
     currentProfile = next;
     updateLEDs();
 
     // Trigger post-switch blink feedback
     postSwitchBlink = true;
-    blinkPhase      = 0;
-    blinkStartTime  = 0; // will be initialised on first update() call
+    blinkPhase = 0;
+    blinkStartTime = 0; // will be initialised on first update() call
 
     return currentProfile;
 }
@@ -71,7 +76,8 @@ uint8_t ProfileManager::switchProfile()
  */
 void ProfileManager::updateLEDs()
 {
-    if (postSwitchBlink) return; // LEDs managed by update() during blink
+    if (postSwitchBlink)
+        return; // LEDs managed by update() during blink
 
     // Map profile index to a 3-bit pattern
     // profiles 0-2: single LED (backward-compatible)
@@ -95,10 +101,12 @@ void ProfileManager::updateLEDs()
 
 void ProfileManager::update(uint32_t now)
 {
-    if (!postSwitchBlink) return;
+    if (! postSwitchBlink)
+        return;
 
     // Initialise blink start time on first call after switchProfile()
-    if (blinkStartTime == 0) {
+    if (blinkStartTime == 0)
+    {
         blinkStartTime = now;
         // Start: all LEDs on
         led1.setState(true);
@@ -108,13 +116,15 @@ void ProfileManager::update(uint32_t now)
     }
 
     uint32_t elapsed = now - blinkStartTime;
-    uint8_t  phase   = static_cast<uint8_t>(elapsed / BLINK_INTERVAL);
+    uint8_t phase = static_cast<uint8_t>(elapsed / BLINK_INTERVAL);
 
-    if (phase == blinkPhase) return; // nothing to do yet
+    if (phase == blinkPhase)
+        return; // nothing to do yet
     blinkPhase = phase;
 
     uint8_t totalHalfCycles = BLINK_COUNT * 2; // 3 blinks = 6 half-cycles
-    if (phase >= totalHalfCycles) {
+    if (phase >= totalHalfCycles)
+    {
         postSwitchBlink = false;
         updateLEDs(); // restore profile encoding
         return;
@@ -130,8 +140,10 @@ void ProfileManager::update(uint32_t now)
 void ProfileManager::resetToFirstProfile()
 {
     currentProfile = 0;
-    for (uint8_t i = 0; i < NUM_PROFILES; i++) {
-        if (profileSlots[i]) {
+    for (uint8_t i = 0; i < NUM_PROFILES; i++)
+    {
+        if (profileSlots[i])
+        {
             currentProfile = i;
             break;
         }
@@ -142,7 +154,8 @@ void ProfileManager::resetToFirstProfile()
 
 const std::string& ProfileManager::getProfileName(uint8_t profileIndex) const
 {
-    if (profileIndex < NUM_PROFILES && profileSlots[profileIndex]) {
+    if (profileIndex < NUM_PROFILES && profileSlots[profileIndex])
+    {
         return profileSlots[profileIndex]->getName();
     }
     static const std::string emptyString;
@@ -151,11 +164,15 @@ const std::string& ProfileManager::getProfileName(uint8_t profileIndex) const
 
 bool ProfileManager::hasActiveDelayedAction() const
 {
-    for (const auto& slot : profileSlots) {
-        if (!slot) continue;
-        for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++) {
+    for (const auto& slot : profileSlots)
+    {
+        if (! slot)
+            continue;
+        for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++)
+        {
             const Action* action = slot->getAction(b);
-            if (action && action->isInProgress()) return true;
+            if (action && action->isInProgress())
+                return true;
         }
     }
     return false;
@@ -163,13 +180,21 @@ bool ProfileManager::hasActiveDelayedAction() const
 
 const char* ProfileManager::getActionTypeString(Action::Type actionType)
 {
-    switch (actionType) {
-        case Action::Type::SendString:   return "SendString";
-        case Action::Type::SendChar:     return "SendChar";
-        case Action::Type::SendKey:      return "SendKey";
-        case Action::Type::SendMediaKey: return "SendMediaKey";
-        case Action::Type::SerialOutput: return "SerialOutput";
-        case Action::Type::Delayed:      return "Delayed";
-        default:                         return "Unknown";
+    switch (actionType)
+    {
+        case Action::Type::SendString:
+            return "SendString";
+        case Action::Type::SendChar:
+            return "SendChar";
+        case Action::Type::SendKey:
+            return "SendKey";
+        case Action::Type::SendMediaKey:
+            return "SendMediaKey";
+        case Action::Type::SerialOutput:
+            return "SerialOutput";
+        case Action::Type::Delayed:
+            return "Delayed";
+        default:
+            return "Unknown";
     }
 }

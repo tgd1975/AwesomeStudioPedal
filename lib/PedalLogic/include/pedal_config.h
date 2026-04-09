@@ -1,6 +1,6 @@
 #pragma once
-#include "profile_manager.h"
 #include "i_ble_keyboard.h"
+#include "profile_manager.h"
 
 /**
  * @brief Loads pedal profiles from file, falling back to DEFAULT_CONFIG on failure.

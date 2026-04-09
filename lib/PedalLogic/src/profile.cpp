@@ -45,27 +45,18 @@ Action* Profile::getAction(uint8_t button) const
  *
  * @return The profile name
  */
-const std::string& Profile::getName() const
-{
-    return name;
-}
+const std::string& Profile::getName() const { return name; }
 
 /**
  * @brief Gets the description of this profile
  *
  * @return The profile description
  */
-const std::string& Profile::getDescription() const
-{
-    return description;
-}
+const std::string& Profile::getDescription() const { return description; }
 
 /**
  * @brief Sets the description of this profile
  *
  * @param description The profile description
  */
-void Profile::setDescription(const std::string& description)
-{
-    this->description = description;
-}
+void Profile::setDescription(const std::string& description) { this->description = description; }

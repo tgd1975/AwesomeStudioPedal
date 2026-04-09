@@ -1,6 +1,7 @@
 #pragma once
 
-class ILogger {
+class ILogger
+{
 public:
     virtual ~ILogger() = default;
     virtual void log(const char* message) = 0;
