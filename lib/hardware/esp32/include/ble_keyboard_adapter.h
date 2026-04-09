@@ -1,6 +1,6 @@
 #pragma once
+#include <BleKeyboard.h>   // must come first so ESP32_BLE_KEYBOARD_H is defined before i_ble_keyboard.h
 #include "i_ble_keyboard.h"
-#include <BleKeyboard.h>
 
 /**
  * @class BleKeyboardAdapter
