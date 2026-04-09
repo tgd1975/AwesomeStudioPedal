@@ -1,11 +1,14 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profilemanager test-nrf52840-button test-nrf52840-serial test-nrf52840-profilemanager build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840 docs
+.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profilemanager test-nrf52840-button test-nrf52840-serial test-nrf52840-profilemanager build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
 NRF52840_ENV ?= feather-nrf52840
+COVERAGE_BUILD_DIR = .vscode/build-coverage
+COVERAGE_INFO      = $(COVERAGE_BUILD_DIR)/coverage.info
+COVERAGE_REPORT    = docs/coverage
 
 # Default target - show help
 all:
@@ -19,6 +22,8 @@ all:
 	@echo "  make lint-markdown - Fix markdown linting issues"
 	@echo "  make info        - Show project information"
 	@echo "  make docs        - Generate API documentation with Doxygen"
+	@echo "  make docs-coverage - Show undocumented symbols in project source"
+	@echo "  make coverage    - Run host tests and generate HTML coverage report (requires lcov)"
 	@echo ""
 	@echo "ESP32-Specific Commands:"
 	@echo "  make build-esp32     - Build for ESP32 only"
@@ -137,10 +142,40 @@ flash: upload
 # Note: This Makefile assumes PlatformIO is installed and available in PATH
 # Install with: pip install platformio
 
+# Show undocumented symbols in project source files
+docs-coverage:
+	@echo "Undocumented symbols in project source:"
+	@doxygen Doxyfile 2>&1 | \
+		grep "warning:.*is not documented" | \
+		grep -v "\.pio\|/usr/\|ArduinoJson\|Polyfill\|Variant\|_deps" | \
+		sort || true
+	@echo "Done."
+
 # Generate API documentation with Doxygen
 docs:
 	doxygen Doxyfile
 	@echo "Documentation generated in docs/api/"
+
+# Code coverage report (requires lcov + genhtml)
+coverage:
+	cmake -B $(COVERAGE_BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug \
+		-DCMAKE_CXX_FLAGS="--coverage" \
+		-DCMAKE_EXE_LINKER_FLAGS="--coverage"
+	cmake --build $(COVERAGE_BUILD_DIR) --target pedal_tests
+	$(COVERAGE_BUILD_DIR)/test/pedal_tests
+	lcov --capture --directory $(COVERAGE_BUILD_DIR) \
+		--output-file $(COVERAGE_INFO) \
+		--ignore-errors inconsistent,inconsistent
+	lcov --extract $(COVERAGE_INFO) \
+		'*/lib/PedalLogic/*' \
+		'*/lib/hardware/*' \
+		--output-file $(COVERAGE_INFO) \
+		--ignore-errors unused,inconsistent,inconsistent
+	genhtml $(COVERAGE_INFO) --output-directory $(COVERAGE_REPORT)
+	@echo "Coverage report: $(COVERAGE_REPORT)/index.html"
+
+coverage-clean:
+	rm -rf $(COVERAGE_BUILD_DIR)
 
 install-hooks:
 	cp scripts/pre-commit .git/hooks/pre-commit

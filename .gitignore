@@ -65,5 +65,6 @@ test/build/
 *.swp
 *.swo
 
-# Doxygen generated output (built by CI, not committed)
+# Generated documentation (built by CI, not committed)
 docs/api/
+docs/coverage/

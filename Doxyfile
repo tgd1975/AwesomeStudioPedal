@@ -40,11 +40,16 @@ TOC_INCLUDE_HEADINGS   = 5
 # Preprocessor — define guards so conditional blocks parse cleanly
 ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = NO
-SEARCH_INCLUDES        = YES
-INCLUDE_PATH           = include
+SEARCH_INCLUDES        = NO
 PREDEFINED             = HOST_TEST_BUILD \
                          ARDUINO=100
 SKIP_FUNCTION_MACROS   = YES
+
+# Exclude third-party library symbols that leak via includes
+EXCLUDE_SYMBOLS        = ArduinoJson* \
+                         ARDUINOJSON_* \
+                         ArduinoJson::detail* \
+                         ArduinoJson::Internals*
 
 # HTML output
 GENERATE_HTML          = YES
