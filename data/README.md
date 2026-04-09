@@ -193,6 +193,6 @@ The main `pedal_config.json` file uses this structure:
 
 ## See Also
 
-- [DATA_UPLOAD.md](../DATA_UPLOAD.md) - Detailed upload process
-- [PARTITIONS.md](../PARTITIONS.md) - Partition table explanation
-- [CONFIGURATION.md](../CONFIGURATION.md) - Configuration format details
+- [DATA_UPLOAD.md](../docs/DATA_UPLOAD.md) - Detailed upload process
+- [PARTITIONS.md](../docs/PARTITIONS.md) - Partition table explanation
+- [CONFIGURATION.md](../docs/CONFIGURATION.md) - Configuration format details

@@ -141,7 +141,7 @@ partitions.csv            # New partition table
 ### Start Here
 
 - **[CONFIG_SYSTEM.md](CONFIG_SYSTEM.md)** - Complete overview and examples
-- **[README.md](README.md)** - Project overview with configuration section
+- **[README.md](../README.md)** - Project overview with configuration section
 
 ### Technical Details
 
