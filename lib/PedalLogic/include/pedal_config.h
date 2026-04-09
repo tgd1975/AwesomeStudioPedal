@@ -1,14 +1,14 @@
 #pragma once
-#include "bank_manager.h"
+#include "profile_manager.h"
 #include "i_ble_keyboard.h"
 
 /**
- * @brief Configures the button banks with default actions
+ * @brief Configures the button profiles with default actions
  *
- * Sets up the three button banks with predefined actions for the guitar pedal.
- * This function defines what each button does in each bank.
+ * Sets up the three button profiles with predefined actions for the guitar pedal.
+ * This function creates Profile objects and adds them to the ProfileManager.
  *
- * @param bankManager Reference to the BankManager instance
+ * @param profileManager Reference to the ProfileManager instance
  * @param keyboard Pointer to the BLE keyboard interface
  */
-void configureBanks(BankManager& bankManager, IBleKeyboard* keyboard);
+void configureProfiles(ProfileManager& profileManager, IBleKeyboard* keyboard);

@@ -1,0 +1,51 @@
+#include "profile.h"
+
+/**
+ * @brief Constructs a Profile with a name
+ *
+ * @param name The name of this profile
+ */
+Profile::Profile(const std::string& name) : name(name) {}
+
+/**
+ * @brief Adds an action to a specific button in this profile
+ *
+ * Performs bounds checking before storing the action.
+ *
+ * @param button Button index (0-3)
+ * @param action Unique pointer to the action to store
+ */
+void Profile::addAction(uint8_t button, std::unique_ptr<Action> action)
+{
+    if (button < NUM_BUTTONS)
+    {
+        actions[button] = std::move(action);
+    }
+}
+
+/**
+ * @brief Gets the action associated with a button in this profile
+ *
+ * Performs bounds checking and null checking before returning.
+ *
+ * @param button Button index (0-3)
+ * @return Pointer to the Action, or nullptr if invalid or not set
+ */
+Action* Profile::getAction(uint8_t button) const
+{
+    if (button < NUM_BUTTONS && actions[button])
+    {
+        return actions[button].get();
+    }
+    return nullptr;
+}
+
+/**
+ * @brief Gets the name of this profile
+ *
+ * @return The profile name
+ */
+const std::string& Profile::getName() const
+{
+    return name;
+}

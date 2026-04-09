@@ -1,0 +1,71 @@
+{
+  "profiles": [
+    {
+      "name": "Navigation",
+      "buttons": {
+        "A": {
+          "type": "SendStringAction",
+          "value": " "
+        },
+        "B": {
+          "type": "SendMediaKeyAction",
+          "value": "MEDIA_STOP"
+        },
+        "C": {
+          "type": "SendCharAction",
+          "value": "LEFT_ARROW"
+        },
+        "D": {
+          "type": "SendCharAction",
+          "value": "RIGHT_ARROW"
+        }
+      }
+    },
+    {
+      "name": "Messaging",
+      "buttons": {
+        "A": {
+          "type": "SendStringAction",
+          "value": "Hello"
+        },
+        "B": {
+          "type": "SendStringAction",
+          "value": "World"
+        },
+        "C": {
+          "type": "SendKeyAction",
+          "value": "UP_ARROW"
+        },
+        "D": {
+          "type": "SendKeyAction",
+          "value": "DOWN_ARROW"
+        }
+      }
+    },
+    {
+      "name": "Custom",
+      "buttons": {
+        "A": {
+          "type": "SendStringAction",
+          "value": "Profile 2 A"
+        },
+        "B": {
+          "type": "SerialOutputAction",
+          "value": "Button B pressed - Custom Profile"
+        },
+        "C": {
+          "type": "DelayedAction",
+          "delayMs": 5000,
+          "action": {
+            "type": "SendStringAction",
+            "value": "Profile 2 C"
+          }
+        },
+        "D": {
+          "type": "SendStringAction",
+          "value": "Profile 2 D"
+        }
+      }
+    }
+  ]
+}

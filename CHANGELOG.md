@@ -28,7 +28,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `createBleKeyboardAdapter()` factory function per hardware package — `main.cpp` is now hardware-agnostic
 - Host unit test infrastructure (GoogleTest + CMake) — all tests run without hardware via `make test-host`
 - `ILEDController`, `IButtonController`, `IBleKeyboard` interfaces enabling mock-based unit tests
-- `BankManager`, `EventDispatcher`, `Send`, and `Button` unit tests (22 tests total)
+- `ProfileManager`, `EventDispatcher`, `Send`, and `Button` unit tests (22 tests total)
 - Pre-commit hook running markdownlint and the full host test suite
 - `lib/PedalLogic` — hardware-independent logic extracted into its own library
 - `lib/hardware/esp32` — ESP32-specific drivers extracted into a dedicated package
@@ -36,7 +36,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `TESTING_IMPLEMENTATION.md` — full test infrastructure documentation
 - Release process and branching concept documented in `CONTRIBUTION_GUIDELINE.md`
 - Hardware abstraction layer: `LEDController`, `ButtonController`
-- `BankManager` — encapsulated three-bank switching with LED feedback
+- `ProfileManager` — encapsulated three-profile switching with LED feedback
 - `EventDispatcher` — centralised, decoupled event handling for button presses
 - `Send` class hierarchy: `SendChar`, `SendString`, `SendKey`, `SendMediaKey`
 - Configuration system (`config.h` / `config.cpp`) for centralised pin assignments
@@ -50,9 +50,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `LEDController` and `ButtonController` constructors accept `uint8_t` pin (cast to `gpio_num_t` internally where required)
 - `platformio.ini` uses `lib_ignore` per environment to exclude the other platform's package
 - `main.cpp` uses `Button::setup()` / `reset()` instead of inline GPIO calls
-- `BankManager::updateLEDs()` made private; called from constructor for correct initial LED state
-- `BankManager` magic numbers replaced with `NUM_BANKS` / `NUM_BUTTONS` named constants
-- `BankManager::switchBank()` returns `uint8_t` (current bank index)
+- `ProfileManager::updateLEDs()` made private; called from constructor for correct initial LED state
+- `ProfileManager` magic numbers replaced with `NUM_PROFILES` / `NUM_BUTTONS` named constants
+- `ProfileManager::switchProfile()` returns `uint8_t` (current profile index)
 - Key constants in `i_ble_keyboard.h` guarded with `#ifndef ESP32_BLE_KEYBOARD_H` to prevent redefinition when both headers are included
 - `KEY_MEDIA_STOP` changed from `inline constexpr` to `static constexpr` for C++14 compatibility
 - Branching strategy and contribution workflow documented in `CONTRIBUTION_GUIDELINE.md`

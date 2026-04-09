@@ -59,10 +59,10 @@ public:
 - `SetupAndSetState`: Tests LED initialization and state changes
 - `ToggleFunctionality`: Tests LED toggle behavior
 
-#### test/unit/test_bank_manager.cpp
+#### test/unit/test_profile_manager.cpp
 
 - `AddAndGetAction`: Tests action storage and retrieval
-- `SwitchBankUpdatesLEDs`: Tests bank switching and LED updates
+- `SwitchProfileUpdatesLEDs`: Tests profile switching and LED updates
 
 ### Build Configuration
 
@@ -90,7 +90,7 @@ test-coverage:
 | --- | --- | --- | --- |
 | ButtonController | 1 | 2 | ~60% |
 | LEDController | 1 | 2 | ~50% |
-| BankManager | 1 | 2 | ~40% |
+| ProfileManager | 1 | 2 | ~40% |
 | **Total** | 3 | 6 | ~50% |
 
 ## 🚀 Next Steps for Complete Implementation
@@ -133,7 +133,7 @@ test-coverage:
    - Build verification
 
 2. **Coverage Targets**
-   - BankManager: 95%+
+   - ProfileManager: 95%+
    - EventDispatcher: 90%+
    - Hardware Abstractions: 85%+
 
@@ -187,12 +187,12 @@ make clean-test
 [       OK ] LEDControllerTest.ToggleFunctionality (0 ms)
 [----------] 2 tests from LEDControllerTest (0 ms total)
 
-[----------] 2 tests from BankManagerTest
-[ RUN      ] BankManagerTest.AddAndGetAction
-[       OK ] BankManagerTest.AddAndGetAction (0 ms)
-[ RUN      ] BankManagerTest.SwitchBankUpdatesLEDs
-[       OK ] BankManagerTest.SwitchBankUpdatesLEDs (0 ms)
-[----------] 2 tests from BankManagerTest (0 ms total)
+[----------] 2 tests from ProfileManagerTest
+[ RUN      ] ProfileManagerTest.AddAndGetAction
+[       OK ] ProfileManagerTest.AddAndGetAction (0 ms)
+[ RUN      ] ProfileManagerTest.SwitchProfileUpdatesLEDs
+[       OK ] ProfileManagerTest.SwitchProfileUpdatesLEDs (0 ms)
+[----------] 2 tests from ProfileManagerTest (0 ms total)
 
 [==========] 6 tests from 3 test suites ran. (0 ms total)
 [  PASSED  ] 6 tests.

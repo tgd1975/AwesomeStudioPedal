@@ -52,7 +52,7 @@ Edit `include/config.h` to modify pin assignments for your hardware.
 
 ```text
 include/
-├── bank_manager.h       # Bank switching logic
+├── profile_manager.h       # Profile switching logic
 ├── config.h            # Hardware configuration
 ├── event_dispatcher.h  # Event handling system
 ├── hardware/           # Hardware abstraction layers
@@ -60,7 +60,7 @@ include/
 └── button.h            # Button handling
 
 src/
-├── bank_manager.cpp
+├── profile_manager.cpp
 ├── config.cpp
 ├── event_dispatcher.cpp
 ├── hardware/
@@ -117,6 +117,66 @@ python3 scripts/serial_monitor.py /dev/ttyUSB0 115200
 ```
 
 The script provides a simple terminal interface for debugging your ESP32 device.
+
+## Configuration System (NEW!)
+
+The pedal now features a **flexible JSON-based configuration system** that replaces hardcoded button mappings with external configuration files.
+
+### Key Features
+
+- ✅ **External Configuration**: Edit `data/pedal_config.json` without recompiling
+- ✅ **Automatic Deployment**: Files are automatically uploaded to device
+- ✅ **Multiple Action Types**: Send actions, delayed actions, serial output, etc.
+- ✅ **Runtime Changes**: Modify configuration during operation
+- ✅ **Persistent Storage**: Configuration survives reboots
+
+### Quick Start
+
+1. **Edit configuration:**
+
+   ```bash
+   nano data/pedal_config.json
+   ```
+
+2. **Build and upload:**
+
+   ```bash
+   pio run --target upload
+   ```
+
+3. **Done!** The pedal loads your configuration automatically.
+
+### Example Configuration
+
+```json
+{
+  "profiles": [{
+    "name": "Navigation",
+    "buttons": {
+      "A": {"type": "SendStringAction", "value": " "},
+      "B": {"type": "SendMediaKeyAction", "value": "MEDIA_STOP"},
+      "C": {"type": "SendCharAction", "value": "LEFT_ARROW"},
+      "D": {"type": "SendCharAction", "value": "RIGHT_ARROW"}
+    }
+  }]
+}
+```
+
+### Supported Action Types
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `SendStringAction` | Send text string | `"Hello"` |
+| `SendKeyAction` | Send key press | `"UP_ARROW"` |
+| `SerialOutputAction` | Debug output | `"Debug"` |
+| `DelayedAction` | Delayed execution | 5000ms |
+
+### Documentation
+
+- **[CONFIG_SYSTEM.md](CONFIG_SYSTEM.md)** - Complete configuration guide
+- **[CONFIGURATION.md](CONFIGURATION.md)** - Configuration format details
+- **[DATA_UPLOAD.md](DATA_UPLOAD.md)** - Deployment process
+- **[PARTITIONS.md](PARTITIONS.md)** - Memory layout
 
 ## License
 

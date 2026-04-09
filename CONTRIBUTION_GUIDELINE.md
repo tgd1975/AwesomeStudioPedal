@@ -11,7 +11,7 @@ The project follows a **layered architecture** with clear separation of concerns
 ```mermaid
 ┌─────────────────────────────────────────────────┐
 │                 Application Layer                │
-│  (main.cpp, bank_manager, event_dispatcher)      │
+│  (main.cpp, profile_manager, event_dispatcher)      │
 └─────────────────────────────────────────────────┘
 ┌─────────────────────────────────────────────────┐
 │               Hardware Abstraction               │
@@ -25,7 +25,7 @@ The project follows a **layered architecture** with clear separation of concerns
 
 ### Key Components
 
-#### 1. **BankManager** (`include/bank_manager.h`)
+#### 1. **ProfileManager** (`include/profile_manager.h`)
 
 - **Purpose**: Manages multiple banks of button actions
 - **Pattern**: Strategy Pattern + Composite Pattern
@@ -75,7 +75,7 @@ The project follows a **layered architecture** with clear separation of concerns
 | **Observer** | EventDispatcher | Decoupled event handling |
 | **Adapter** | Hardware controllers | Platform independence |
 | **Facade** | Hardware controllers | Simplified interface |
-| **Composite** | BankManager | Hierarchical action storage |
+| **Composite** | ProfileManager | Hierarchical action storage |
 
 ### Memory Management
 
@@ -260,7 +260,7 @@ test/
 ├── unit/                  # Unit test files
 │   ├── test_button_controller.cpp
 │   ├── test_led_controller.cpp
-│   └── test_bank_manager.cpp
+│   └── test_profile_manager.cpp
 └── test_main.cpp          # Test entry point
 ```
 
@@ -357,12 +357,12 @@ void test_LEDController_ToggleFunctionality(void) {
 #### Bank Manager Tests
 
 ```cpp
-void test_BankManager_AddAndGetAction(void) {
+void test_ProfileManager_AddAndGetProfile(void) {
     // Test action storage and retrieval
     TEST_ASSERT_TRUE(true);
 }
 
-void test_BankManager_SwitchBankUpdatesLEDs(void) {
+void test_ProfileManager_SwitchProfileUpdatesLEDs(void) {
     // Test bank switching and LED updates
     TEST_ASSERT_TRUE(true);
 }
@@ -384,7 +384,7 @@ make clean-test
 | :--- | :--- | :--- |
 | ButtonController | ~60% | 90%+ |
 | LEDController | ~50% | 90%+ |
-| BankManager | ~40% | 95%+ |
+| ProfileManager | ~40% | 95%+ |
 | EventDispatcher | 0% | 90%+ |
 | Send Hierarchy | 0% | 90%+ |
 

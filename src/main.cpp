@@ -7,7 +7,7 @@
 #include "ble_keyboard_adapter.h"
 #include "platform.h"
 
-#include "bank_manager.h"
+#include "profile_manager.h"
 #include "button.h"
 #include "config.h"
 #include "event_dispatcher.h"
@@ -64,9 +64,9 @@ Button BUTTON_D = Button(hardwareConfig.buttonD);           /**< Action button D
 /**
  * @brief Bank management system
  *
- * Handles the three configurable button banks and visual feedback.
+ * Handles the three configurable button profiles and visual feedback.
  */
-BankManager bankManager(ledSelect1, ledSelect2, ledSelect3);
+ProfileManager profileManager(ledSelect1, ledSelect2, ledSelect3);
 
 /**
  * @brief Event handling system
@@ -141,6 +141,30 @@ void setup_hardware()
 }
 
 /**
+ * @brief Executes an action with proper logging
+ * 
+ * @param profileManager Reference to the profile manager
+ * @param buttonName Name of the button (A, B, C, D)
+ * @param buttonIndex Button index (0-3)
+ */
+void executeActionWithLogging(ProfileManager& profileManager, const char* buttonName, uint8_t buttonIndex) {
+    uint8_t profileIndex = profileManager.getCurrentProfile();
+    const char* profileName = profileManager.getProfileName(profileIndex).c_str();
+    Serial.printf("Button %s pressed (Profile: %s)\n", buttonName, profileName);
+    
+    if (auto action = profileManager.getAction(profileIndex, buttonIndex))
+    {
+        const char* actionType = ProfileManager::getActionTypeString(action->getType());
+        Serial.printf("  -> Executing %s action\n", actionType);
+        action->execute();
+    }
+    else
+    {
+        Serial.println("  -> no action configured");
+    }
+}
+
+/**
  * @brief Configures event handlers for all buttons
  *
  * Sets up callbacks that are triggered when buttons are pressed.
@@ -149,71 +173,16 @@ void setup_hardware()
 void setup_event_handlers()
 {
     // Register button event handlers
-    eventDispatcher.registerHandler(
-        0,
-        []()
-        {
-            Serial.printf("Button A pressed (bank %d)\n", bankManager.getCurrentBank() + 1);
-            if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 0))
-            {
-                action->send();
-            }
-            else
-            {
-                Serial.println("  -> no action configured");
-            }
-        });
-
-    eventDispatcher.registerHandler(
-        1,
-        []()
-        {
-            Serial.printf("Button B pressed (bank %d)\n", bankManager.getCurrentBank() + 1);
-            if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 1))
-            {
-                action->send();
-            }
-            else
-            {
-                Serial.println("  -> no action configured");
-            }
-        });
-
-    eventDispatcher.registerHandler(
-        2,
-        []()
-        {
-            Serial.printf("Button C pressed (bank %d)\n", bankManager.getCurrentBank() + 1);
-            if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 2))
-            {
-                action->send();
-            }
-            else
-            {
-                Serial.println("  -> no action configured");
-            }
-        });
-
-    eventDispatcher.registerHandler(
-        3,
-        []()
-        {
-            Serial.printf("Button D pressed (bank %d)\n", bankManager.getCurrentBank() + 1);
-            if (auto action = bankManager.getAction(bankManager.getCurrentBank(), 3))
-            {
-                action->send();
-            }
-            else
-            {
-                Serial.println("  -> no action configured");
-            }
-        });
+    eventDispatcher.registerHandler(0, []() { executeActionWithLogging(profileManager, "A", 0); });
+    eventDispatcher.registerHandler(1, []() { executeActionWithLogging(profileManager, "B", 1); });
+    eventDispatcher.registerHandler(2, []() { executeActionWithLogging(profileManager, "C", 2); });
+    eventDispatcher.registerHandler(3, []() { executeActionWithLogging(profileManager, "D", 3); });
 
     eventDispatcher.registerHandler(4,
                                     []()
                                     {
-                                        uint8_t bank = bankManager.switchBank();
-                                        Serial.printf("Switched to Bank %d\n", bank + 1);
+                                        uint8_t profile = profileManager.switchProfile();
+                                        Serial.printf("Switched to Profile %d\n", profile + 1);
                                     });
 }
 
@@ -235,7 +204,7 @@ void setup()
 
     bleKeyboardAdapter->begin();
 
-    configureBanks(bankManager, bleKeyboardAdapter);
+    configureProfiles(profileManager, bleKeyboardAdapter);
 
     attachInterrupts();
 }

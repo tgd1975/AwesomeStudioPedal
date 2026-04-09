@@ -1,34 +1,34 @@
 #include "send.h"
 
 /**
- * @brief Constructs a Send action
+ * @brief Constructs a SendAction
  *
  * @param bleKeyboard Pointer to BLE keyboard interface
  */
-Send::Send(IBleKeyboard* bleKeyboard) { this->bleKeyboard = bleKeyboard; }
+SendAction::SendAction(IBleKeyboard* bleKeyboard) { this->bleKeyboard = bleKeyboard; }
 
 /**
- * @brief Constructs a SendKey action
+ * @brief Constructs a SendKeyAction
  *
  * @param bleKeyboard Pointer to BLE keyboard interface
  * @param k USB HID key code to send
  */
-SendKey::SendKey(IBleKeyboard* bleKeyboard, uint8_t k) : Send(bleKeyboard) { key = k; }
+SendKeyAction::SendKeyAction(IBleKeyboard* bleKeyboard, uint8_t k) : SendAction(bleKeyboard) { key = k; }
 
 /**
  * @brief Executes the key send action
  *
  * Sends the configured USB HID key code to the BLE keyboard.
  */
-void SendKey::send() { bleKeyboard->write(key); }
+void SendKeyAction::send() { bleKeyboard->write(key); }
 
 /**
- * @brief Constructs a SendMediaKey action
+ * @brief Constructs a SendMediaKeyAction
  *
  * @param bleKeyboard Pointer to BLE keyboard interface
  * @param k Media key report to send
  */
-SendMediaKey::SendMediaKey(IBleKeyboard* bleKeyboard, const MediaKeyReport k) : Send(bleKeyboard)
+SendMediaKeyAction::SendMediaKeyAction(IBleKeyboard* bleKeyboard, const MediaKeyReport k) : SendAction(bleKeyboard)
 {
     key[0] = k[0];
     key[1] = k[1];
@@ -39,34 +39,34 @@ SendMediaKey::SendMediaKey(IBleKeyboard* bleKeyboard, const MediaKeyReport k) : 
  *
  * Sends the configured media key report to the BLE keyboard.
  */
-void SendMediaKey::send() { bleKeyboard->write(key); }
+void SendMediaKeyAction::send() { bleKeyboard->write(key); }
 
 /**
- * @brief Constructs a SendChar action
+ * @brief Constructs a SendCharAction
  *
  * @param bleKeyboard Pointer to BLE keyboard interface
  * @param k Character to send
  */
-SendChar::SendChar(IBleKeyboard* bleKeyboard, char k) : Send(bleKeyboard) { key = k; }
+SendCharAction::SendCharAction(IBleKeyboard* bleKeyboard, char k) : SendAction(bleKeyboard) { key = k; }
 
 /**
  * @brief Executes the character send action
  *
  * Sends the configured character to the BLE keyboard.
  */
-void SendChar::send() { bleKeyboard->write(key); }
+void SendCharAction::send() { bleKeyboard->write(key); }
 
 /**
- * @brief Constructs a SendString action
+ * @brief Constructs a SendStringAction
  *
  * @param bleKeyboard Pointer to BLE keyboard interface
  * @param t Text string to send
  */
-SendString::SendString(IBleKeyboard* bleKeyboard, std::string t) : Send(bleKeyboard) { text = t; }
+SendStringAction::SendStringAction(IBleKeyboard* bleKeyboard, std::string t) : SendAction(bleKeyboard) { text = t; }
 
 /**
  * @brief Executes the string send action
  *
  * Sends the configured text string to the BLE keyboard.
  */
-void SendString::send() { bleKeyboard->print(text.c_str()); }
+void SendStringAction::send() { bleKeyboard->print(text.c_str()); }
