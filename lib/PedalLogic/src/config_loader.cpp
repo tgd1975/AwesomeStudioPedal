@@ -9,34 +9,34 @@
 #include <typeinfo>
 
 // Default configuration (same as the JSON file we created)
-const char* ConfigLoader::DEFAULT_CONFIG = 
+const char* ConfigLoader::DEFAULT_CONFIG =
     "{\n"
     "  \"profiles\": [\n"
     "    {\n"
     "      \"name\": \"Navigation\",\n"
     "      \"buttons\": {\n"
-    "        \"A\": {\"type\": \"SendStringAction\", \"value\": \" \"},\n"
-    "        \"B\": {\"type\": \"SendMediaKeyAction\", \"value\": \"MEDIA_STOP\"},\n"
-    "        \"C\": {\"type\": \"SendCharAction\", \"value\": \"LEFT_ARROW\"},\n"
-    "        \"D\": {\"type\": \"SendCharAction\", \"value\": \"RIGHT_ARROW\"}\n"
+    "        \"A\": {\"type\": \"SendStringAction\", \"name\": \"Space\", \"value\": \" \"},\n"
+    "        \"B\": {\"type\": \"SendMediaKeyAction\", \"name\": \"Stop\", \"value\": \"MEDIA_STOP\"},\n"
+    "        \"C\": {\"type\": \"SendCharAction\", \"name\": \"Rewind\", \"value\": \"LEFT_ARROW\"},\n"
+    "        \"D\": {\"type\": \"SendCharAction\", \"name\": \"Forward\", \"value\": \"RIGHT_ARROW\"}\n"
     "      }\n"
     "    },\n"
     "    {\n"
     "      \"name\": \"Messaging\",\n"
     "      \"buttons\": {\n"
-    "        \"A\": {\"type\": \"SendStringAction\", \"value\": \"Hello\"},\n"
-    "        \"B\": {\"type\": \"SendStringAction\", \"value\": \"World\"},\n"
-    "        \"C\": {\"type\": \"SendKeyAction\", \"value\": \"UP_ARROW\"},\n"
-    "        \"D\": {\"type\": \"SendKeyAction\", \"value\": \"DOWN_ARROW\"}\n"
+    "        \"A\": {\"type\": \"SendStringAction\", \"name\": \"Hello\", \"value\": \"Hello\"},\n"
+    "        \"B\": {\"type\": \"SendStringAction\", \"name\": \"World\", \"value\": \"World\"},\n"
+    "        \"C\": {\"type\": \"SendKeyAction\", \"name\": \"Scroll Up\", \"value\": \"UP_ARROW\"},\n"
+    "        \"D\": {\"type\": \"SendKeyAction\", \"name\": \"Scroll Down\", \"value\": \"DOWN_ARROW\"}\n"
     "      }\n"
     "    },\n"
     "    {\n"
     "      \"name\": \"Custom\",\n"
     "      \"buttons\": {\n"
-    "        \"A\": {\"type\": \"SendStringAction\", \"value\": \"Profile 2 A\"},\n"
-    "        \"B\": {\"type\": \"SerialOutputAction\", \"value\": \"Button B pressed - Custom Profile\"},\n"
-    "        \"C\": {\"type\": \"DelayedAction\", \"delayMs\": 5000, \"action\": {\"type\": \"SendStringAction\", \"value\": \"Profile 2 C\"}},\n"
-    "        \"D\": {\"type\": \"SendStringAction\", \"value\": \"Profile 2 D\"}\n"
+    "        \"A\": {\"type\": \"SendStringAction\", \"name\": \"Custom A\", \"value\": \"Profile 2 A\"},\n"
+    "        \"B\": {\"type\": \"SerialOutputAction\", \"name\": \"Serial Debug\", \"value\": \"Button B pressed - Custom Profile\"},\n"
+    "        \"C\": {\"type\": \"DelayedAction\", \"name\": \"Delayed Send\", \"delayMs\": 5000, \"action\": {\"type\": \"SendStringAction\", \"value\": \"Profile 2 C\"}},\n"
+    "        \"D\": {\"type\": \"SendStringAction\", \"name\": \"Custom D\", \"value\": \"Profile 2 D\"}\n"
     "      }\n"
     "    }\n"
     "  ]\n"
@@ -92,6 +92,10 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager, IBleKeyboard* 
                 
                 std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
                 if (action) {
+                    const char* actionName = actionJson["name"] | "";
+                    if (actionName[0] != '\0') {
+                        action->setName(actionName);
+                    }
                     newProfile->addAction(buttonIndex, std::move(action));
                 }
             }
@@ -205,6 +209,9 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
 
 JsonObject ConfigLoader::actionToJson(const Action* action) const {
     JsonObject result;
+    if (action->hasName()) {
+        result["name"] = action->getName().c_str();
+    }
     
     // Use the new virtual methods instead of typeid
     switch (action->getType()) {

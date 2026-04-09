@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <memory>
+#include <string>
 
 #ifndef HOST_TEST_BUILD
 #include <ArduinoJson.h>
@@ -31,8 +32,27 @@ public:
     };
     
     /**
+     * @brief Sets an optional human-readable name for this action
+     *
+     * @param n Name to assign
+     */
+    void setName(const std::string& n) { name = n; }
+
+    /**
+     * @brief Gets the optional name of this action
+     *
+     * @return The name, or an empty string if none was set
+     */
+    const std::string& getName() const { return name; }
+
+    /**
+     * @brief Returns true if a name has been set
+     */
+    bool hasName() const { return !name.empty(); }
+
+    /**
      * @brief Gets the type of this action
-     * 
+     *
      * @return The action type
      */
     virtual Type getType() const { return Type::Unknown; }
@@ -63,6 +83,9 @@ public:
 #endif
 
     virtual ~Action() = default;
+
+private:
+    std::string name;
 };
 
 /**

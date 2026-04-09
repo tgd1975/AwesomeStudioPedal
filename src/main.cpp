@@ -155,7 +155,11 @@ void executeActionWithLogging(ProfileManager& profileManager, const char* button
     if (auto action = profileManager.getAction(profileIndex, buttonIndex))
     {
         const char* actionType = ProfileManager::getActionTypeString(action->getType());
-        Serial.printf("  -> Executing %s action\n", actionType);
+        if (action->hasName()) {
+            Serial.printf("  -> Executing %s action [%s]\n", actionType, action->getName().c_str());
+        } else {
+            Serial.printf("  -> Executing %s action\n", actionType);
+        }
         action->execute();
     }
     else

@@ -5,18 +5,22 @@
       "buttons": {
         "A": {
           "type": "SendStringAction",
+          "name": "Space",
           "value": " "
         },
         "B": {
           "type": "SendMediaKeyAction",
+          "name": "Stop",
           "value": "MEDIA_STOP"
         },
         "C": {
           "type": "SendCharAction",
+          "name": "Rewind",
           "value": "LEFT_ARROW"
         },
         "D": {
           "type": "SendCharAction",
+          "name": "Forward",
           "value": "RIGHT_ARROW"
         }
       }
@@ -26,18 +30,22 @@
       "buttons": {
         "A": {
           "type": "SendStringAction",
+          "name": "Hello",
           "value": "Hello"
         },
         "B": {
           "type": "SendStringAction",
+          "name": "World",
           "value": "World"
         },
         "C": {
           "type": "SendKeyAction",
+          "name": "Scroll Up",
           "value": "UP_ARROW"
         },
         "D": {
           "type": "SendKeyAction",
+          "name": "Scroll Down",
           "value": "DOWN_ARROW"
         }
       }
@@ -47,14 +55,17 @@
       "buttons": {
         "A": {
           "type": "SendStringAction",
+          "name": "Custom A",
           "value": "Profile 2 A"
         },
         "B": {
           "type": "SerialOutputAction",
+          "name": "Serial Debug",
           "value": "Button B pressed - Custom Profile"
         },
         "C": {
           "type": "DelayedAction",
+          "name": "Delayed Send",
           "delayMs": 5000,
           "action": {
             "type": "SendStringAction",
@@ -63,6 +74,7 @@
         },
         "D": {
           "type": "SendStringAction",
+          "name": "Custom D",
           "value": "Profile 2 D"
         }
       }
