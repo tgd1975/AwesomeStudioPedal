@@ -64,3 +64,6 @@ test/build/
 .idea/
 *.swp
 *.swo
+
+# Doxygen generated output (built by CI, not committed)
+docs/api/

@@ -11,9 +11,6 @@ Profile::Profile(const std::string& name) : name(name), description("") {}
  * @brief Adds an action to a specific button in this profile
  *
  * Performs bounds checking before storing the action.
- *
- * @param button Button index (0-3)
- * @param action Unique pointer to the action to store
  */
 void Profile::addAction(uint8_t button, std::unique_ptr<Action> action)
 {
@@ -27,9 +24,6 @@ void Profile::addAction(uint8_t button, std::unique_ptr<Action> action)
  * @brief Gets the action associated with a button in this profile
  *
  * Performs bounds checking and null checking before returning.
- *
- * @param button Button index (0-3)
- * @return Pointer to the Action, or nullptr if invalid or not set
  */
 Action* Profile::getAction(uint8_t button) const
 {

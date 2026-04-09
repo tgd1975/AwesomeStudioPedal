@@ -1,0 +1,79 @@
+# Doxyfile for AwesomeStudioPedal
+# Run: doxygen Doxyfile
+# Output: docs/api/html/
+
+PROJECT_NAME           = "AwesomeStudioPedal"
+PROJECT_BRIEF          = "A programmable, multi-profile foot controller for DAWs, score readers, and studio automation"
+PROJECT_NUMBER         =
+OUTPUT_DIRECTORY       = docs/api
+
+# Input sources
+INPUT                  = README.md \
+                         docs \
+                         src \
+                         include \
+                         lib/PedalLogic/include \
+                         lib/PedalLogic/src \
+                         lib/hardware/esp32 \
+                         lib/hardware/nrf52840
+INPUT_ENCODING         = UTF-8
+FILE_PATTERNS          = *.cpp *.h *.hpp *.md
+RECURSIVE              = YES
+EXCLUDE_PATTERNS       = */.pio/* \
+                         */.vscode/* \
+                         */test/* \
+                         */data/* \
+                         */docs/api/*
+USE_MDFILE_AS_MAINPAGE = README.md
+
+# Extraction
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+EXTRACT_LOCAL_CLASSES  = YES
+BUILTIN_STL_SUPPORT    = YES
+MARKDOWN_SUPPORT       = YES
+JAVADOC_AUTOBRIEF      = YES
+FULL_PATH_NAMES        = NO
+TOC_INCLUDE_HEADINGS   = 5
+
+# Preprocessor — define guards so conditional blocks parse cleanly
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = NO
+SEARCH_INCLUDES        = YES
+INCLUDE_PATH           = include
+PREDEFINED             = HOST_TEST_BUILD \
+                         ARDUINO=100
+SKIP_FUNCTION_MACROS   = YES
+
+# HTML output
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_TREEVIEW      = YES
+HTML_DYNAMIC_SECTIONS  = NO
+SEARCHENGINE           = YES
+
+# Disable unused output formats
+GENERATE_LATEX         = NO
+GENERATE_RTF           = NO
+GENERATE_MAN           = NO
+GENERATE_XML           = NO
+GENERATE_DOCBOOK       = NO
+GENERATE_PERLMOD       = NO
+
+# Diagrams — disabled; no Graphviz dependency required
+HAVE_DOT               = NO
+
+# Source browser
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+REFERENCES_RELATION    = NO
+REFERENCED_BY_RELATION = NO
+
+# Warnings
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_NO_PARAMDOC       = YES
+WARN_FORMAT            = "$file:$line: $text"

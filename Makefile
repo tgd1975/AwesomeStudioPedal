@@ -1,7 +1,7 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profilemanager test-nrf52840-button test-nrf52840-serial test-nrf52840-profilemanager build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840
+.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profilemanager test-nrf52840-button test-nrf52840-serial test-nrf52840-profilemanager build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840 docs
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
@@ -18,6 +18,7 @@ all:
 	@echo "  make format      - Format all C++ files using clang-format"
 	@echo "  make lint-markdown - Fix markdown linting issues"
 	@echo "  make info        - Show project information"
+	@echo "  make docs        - Generate API documentation with Doxygen"
 	@echo ""
 	@echo "ESP32-Specific Commands:"
 	@echo "  make build-esp32     - Build for ESP32 only"
@@ -135,6 +136,11 @@ flash: upload
 
 # Note: This Makefile assumes PlatformIO is installed and available in PATH
 # Install with: pip install platformio
+
+# Generate API documentation with Doxygen
+docs:
+	doxygen Doxyfile
+	@echo "Documentation generated in docs/api/"
 
 install-hooks:
 	cp scripts/pre-commit .git/hooks/pre-commit

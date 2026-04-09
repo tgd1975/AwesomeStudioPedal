@@ -4,9 +4,6 @@
  * @brief Registers a callback function for a specific button
  *
  * Performs bounds checking to ensure valid button index.
- *
- * @param button Button index (0-4)
- * @param callback Function to call when button is pressed
  */
 void EventDispatcher::registerHandler(uint8_t button, EventCallback callback)
 {
@@ -20,8 +17,6 @@ void EventDispatcher::registerHandler(uint8_t button, EventCallback callback)
  * @brief Executes the callback associated with a button
  *
  * Performs bounds checking and null checking before execution.
- *
- * @param button Button index (0-4) to dispatch
  */
 void EventDispatcher::dispatch(uint8_t button)
 {

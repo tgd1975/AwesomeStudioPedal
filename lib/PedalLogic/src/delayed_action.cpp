@@ -43,9 +43,6 @@ void DelayedAction::execute()
 
 /**
  * @brief Updates the delay timer and checks if ready to execute
- *
- * @param currentTime Current time in milliseconds
- * @return true if the delay has elapsed and action should fire, false otherwise
  */
 bool DelayedAction::update(uint32_t currentTime)
 {

@@ -7,8 +7,6 @@
 
 /**
  * @brief Constructs a SerialOutputAction with the specified message
- *
- * @param message The message to be output to the serial console when executed
  */
 SerialOutputAction::SerialOutputAction(const std::string& message) : message(message) {}
 
