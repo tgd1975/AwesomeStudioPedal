@@ -10,6 +10,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Added
 
+- JSON-based configuration system: `ConfigLoader` reads/writes `data/pedal_config.json` from LittleFS; button mappings are now external and editable without recompiling
+- `Profile` class — dedicated abstraction for per-profile action storage and naming, replacing the flat array in `ProfileManager`
+- Action hierarchy extended: `SerialOutputAction`, `NonSendAction` base class, `DelayedAction` wrapper; each in its own source file
+- LittleFS filesystem support with custom partition table (`partitions.csv`) giving 1.5 MB storage
+- `data/pedal_config.json` — default on-device configuration file deployed via `pio run --target uploadfs`
+- ArduinoJson library dependency for JSON parsing and serialisation
+- New documentation: `CONFIG_SYSTEM.md`, `CONFIGURATION.md`, `DATA_UPLOAD.md`, `DEPLOYMENT.md`, `PARTITIONS.md`, `SERIAL_OUTPUT_ENHANCEMENT.md`
 - nRF52840 hardware package (`lib/hardware/nrf52840`) with `Button`, `LEDController`, `ButtonController`, and `BleKeyboardAdapter` (wrapping `BLEHidAdafruit`)
 - `feather-nrf52840` and `feather-nrf52840-test` PlatformIO environments
 - `build-nrf52840` Makefile target
@@ -28,11 +35,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - `createBleKeyboardAdapter()` factory function per hardware package — `main.cpp` is now hardware-agnostic
 - Host unit test infrastructure (GoogleTest + CMake) — all tests run without hardware via `make test-host`
 - `ILEDController`, `IButtonController`, `IBleKeyboard` interfaces enabling mock-based unit tests
-- `ProfileManager`, `EventDispatcher`, `Send`, and `Button` unit tests (22 tests total)
+- `ProfileManager`, `EventDispatcher`, `Send`, and `Button` unit tests (32 tests total)
 - Pre-commit hook running markdownlint and the full host test suite
 - `lib/PedalLogic` — hardware-independent logic extracted into its own library
 - `lib/hardware/esp32` — ESP32-specific drivers extracted into a dedicated package
-- `pedal_config.cpp` — bank/button mappings moved out of `main.cpp` into `PedalLogic`
+- `pedal_config.cpp` — button mappings moved out of `main.cpp` into `PedalLogic`
 - `TESTING_IMPLEMENTATION.md` — full test infrastructure documentation
 - Release process and branching concept documented in `CONTRIBUTION_GUIDELINE.md`
 - Hardware abstraction layer: `LEDController`, `ButtonController`
@@ -45,6 +52,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Changed
 
+- `configureProfiles()` now delegates to `ConfigLoader` instead of hardcoding actions inline
+- Pre-commit hook now only lints staged `.md` files — was linting all `*.md` including untracked files, blocking unrelated commits
+- Disabled markdownlint rules MD036, MD040, MD060; auto-fixed whitespace issues across all docs
+- `test/build/` added to `.gitignore`
 - `HardwareConfig` fields changed from `gpio_num_t` to `uint8_t` — header now compiles on any Arduino target without ESP-IDF
 - `config.cpp` moved from `src/` to `lib/hardware/esp32/src/` — each hardware package owns its own pin assignments
 - `LEDController` and `ButtonController` constructors accept `uint8_t` pin (cast to `gpio_num_t` internally where required)
@@ -64,8 +75,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Fixed
 
+- Button debounce fully rewritten: press-side and release-side debounce tracked independently, eliminating spurious events and missed presses under bounce noise
+- Host test build broken by `JsonObject` appearing in headers without `HOST_TEST_BUILD` guards; `SendAction` class structure was also corrupted by a `protected` block placed outside the class body after a premature closing brace
 - Bank 2 and Bank 3 LED initialization corrected to `setup(0)` — only Bank 1 LED lit at startup
-- Button debounce logic fixed; `millis()` captured once per debounce check to eliminate timing race
 - Firmware link failure caused by PlatformIO treating `include/` and `src/` as separate flat libraries when `lib_extra_dirs` pointed inside a package directory
 - Trailing comma in `lib/hardware/esp32/library.json` that caused PlatformIO to ignore the entire package
 - ISR safety: removed `Serial.printf` from ISR context
