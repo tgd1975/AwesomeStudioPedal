@@ -57,6 +57,9 @@ dkms.conf
 # VSCode settings (keep config files but ignore build output)
 .vscode/build/
 
+# Host test build artifacts
+test/build/
+
 # IDE/Editor files
 .idea/
 *.swp
