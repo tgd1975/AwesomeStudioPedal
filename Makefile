@@ -24,6 +24,7 @@ all:
 	@echo "  make docs        - Generate API documentation with Doxygen"
 	@echo "  make docs-coverage - Show undocumented symbols in project source"
 	@echo "  make coverage    - Run host tests and generate HTML coverage report (requires lcov)"
+	@echo "  make coverage-clean - Remove coverage build artifacts"
 	@echo ""
 	@echo "ESP32-Specific Commands:"
 	@echo "  make build-esp32     - Build for ESP32 only"
