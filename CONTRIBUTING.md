@@ -8,6 +8,16 @@ This project is maintained by the following contributors:
   - GitHub: [tgd1975]
   - Email: [tobias@strix.at]
 
+## AI Contributors
+
+- **Mistral Vibe** - AI Assistant, Code Generation, Refactoring
+  - Role: Automated code improvements and feature implementation
+  - Email: [vibe@mistral.ai]
+
+- **Claude Code** - AI Assistant, Code Analysis, Documentation
+  - Role: Code review, documentation generation, and technical analysis
+  - Email: [claude@anthropic.com]
+
 ## How to Contribute
 
 We welcome contributions from the community! Please see `CONTRIBUTION_GUIDELINE.md` for details on how to contribute.
