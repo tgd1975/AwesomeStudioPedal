@@ -1,6 +1,10 @@
 #pragma once
-#include <BleKeyboard.h>   // must come first so ESP32_BLE_KEYBOARD_H is defined before i_ble_keyboard.h
+// clang-format off
+// BleKeyboard.h must precede i_ble_keyboard.h: defines ESP32_BLE_KEYBOARD_H guard
+// that prevents duplicate key constant definitions in i_ble_keyboard.h.
+#include <BleKeyboard.h>
 #include "i_ble_keyboard.h"
+// clang-format on
 
 /**
  * @class BleKeyboardAdapter
