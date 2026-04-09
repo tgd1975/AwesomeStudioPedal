@@ -6,6 +6,9 @@
 #include <string>
 #ifndef HOST_TEST_BUILD
 #include <ArduinoJson.h>
+#else
+#include <ArduinoJson.h>
+// String class is provided by arduino_shim.h for host testing
 #endif
 
 /**
@@ -49,6 +52,32 @@ public:
      * @return true if saving succeeded, false otherwise
      */
     bool saveToFile(const ProfileManager& profileManager, const std::string& configPath);
+
+    /**
+     * @brief Merges profiles from a JSON config into the current configuration
+     * 
+     * Adds profiles from the provided JSON config to empty slots in the current configuration.
+     * Existing profiles are preserved unless they have the same name as incoming profiles.
+     * 
+     * @param profileManager Reference to ProfileManager to update
+     * @param keyboard Pointer to BLE keyboard interface for send actions
+     * @param jsonConfig JSON configuration string containing profiles to merge
+     * @return true if merging succeeded, false otherwise
+     */
+    bool mergeConfig(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& jsonConfig);
+
+    /**
+     * @brief Replaces a specific profile in the current configuration
+     * 
+     * Replaces the profile at the specified index with a new profile from JSON config.
+     * 
+     * @param profileManager Reference to ProfileManager to update
+     * @param keyboard Pointer to BLE keyboard interface for send actions
+     * @param profileIndex Index of profile to replace (0-2)
+     * @param jsonConfig JSON configuration string containing the replacement profile
+     * @return true if replacement succeeded, false otherwise
+     */
+    bool replaceProfile(ProfileManager& profileManager, IBleKeyboard* keyboard, uint8_t profileIndex, const std::string& jsonConfig);
     
     /**
      * @brief Gets the default configuration as JSON string
@@ -56,7 +85,22 @@ public:
      * @return JSON string containing default configuration
      */
     const char* getDefaultConfig() const { return DEFAULT_CONFIG; }
+
+    /**
+     * @brief Output debug messages (platform-independent)
+     * 
+     * @param message Message to output
+     */
+    static void debugOutput(const char* message);
     
+    /**
+     * @brief Output debug messages with prefix (platform-independent)
+     * 
+     * @param prefix Prefix for the message
+     * @param message Message to output
+     */
+    static void debugOutput(const char* prefix, const char* message);
+
     /**
      * @brief Converts button name ("A", "B", "C", "D") to button index
      * 
@@ -66,8 +110,6 @@ public:
     static uint8_t getButtonIndex(const char* buttonName);
 
 private:
-#ifndef HOST_TEST_BUILD
-    std::unique_ptr<Action> createActionFromJson(const JsonObject& actionJson, IBleKeyboard* keyboard);
-    JsonObject actionToJson(const Action* action) const;
-#endif
+    std::unique_ptr<Action> createActionFromJson(const ArduinoJson::JsonObject& actionJson, IBleKeyboard* keyboard);
+    ArduinoJson::JsonObject actionToJson(const Action* action) const;
 };

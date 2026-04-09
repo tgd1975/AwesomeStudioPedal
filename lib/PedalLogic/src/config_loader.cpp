@@ -1,12 +1,24 @@
 #include "config_loader.h"
+#include "file_system.h"
 #include "send.h"
 #include "serial_action.h"
 #include "non_send_action.h"
-#include <Arduino.h>
-#include <LittleFS.h>
 #include <ArduinoJson.h>
 #include <cstring>
 #include <typeinfo>
+
+// Arduino compatibility and minimal includes
+#ifndef HOST_TEST_BUILD
+#include <Arduino.h>
+#else
+#include "../test/fakes/arduino_shim.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#endif
+
+// Forward declaration for the file system factory
+IFileSystem* createFileSystem();
 
 // Default configuration (same as the JSON file we created)
 const char* ConfigLoader::DEFAULT_CONFIG =
@@ -40,56 +52,143 @@ const char* ConfigLoader::DEFAULT_CONFIG =
     "      }\n"
     "    }\n"
     "  ]\n"
-    "}";
+    "}\n";
 
-bool ConfigLoader::loadFromFile(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& configPath) {
-    if (!LittleFS.begin(true)) {
-        Serial.println("Failed to mount LittleFS file system");
-        return false;
-    }
-    
-    File configFile = LittleFS.open(configPath.c_str(), "r");
-    if (!configFile) {
-        Serial.println("Failed to open config file");
-        return false;
-    }
-    
-    String configContent = configFile.readString();
-    configFile.close();
-    
-    return loadFromString(profileManager, keyboard, configContent.c_str());
+// Debug output abstraction
+void ConfigLoader::debugOutput(const char* message) {
+#ifndef HOST_TEST_BUILD
+    Serial.println(message);
+#else
+    std::cout << "DEBUG: " << message << std::endl;
+#endif
 }
 
+void ConfigLoader::debugOutput(const char* prefix, const char* message) {
+#ifndef HOST_TEST_BUILD
+    Serial.print(prefix);
+    Serial.println(message);
+#else
+    std::cout << prefix << message << std::endl;
+#endif
+}
+
+/**
+ * @brief File system instance for configuration storage
+ * 
+ * Singleton instance of the file system interface. Uses LittleFS on embedded targets
+ * and standard file system on host for testing.
+ */
+static IFileSystem* fileSystem = createFileSystem();
+
+/**
+ * @brief Load configuration from a file
+ * 
+ * Reads configuration data from a file and loads it into the profile manager.
+ * Works on both embedded targets (using LittleFS) and host systems (using standard files).
+ * 
+ * @param profileManager Profile manager to populate with loaded configuration
+ * @param keyboard BLE keyboard interface for creating send actions
+ * @param configPath Path to the configuration file
+ * @return true if loading succeeded, false otherwise
+ */
+bool ConfigLoader::loadFromFile(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& configPath) {
+    std::string content;
+    if (!fileSystem->readFile(configPath.c_str(), content)) {
+        debugOutput("Failed to read config file");
+        return false;
+    }
+    return loadFromString(profileManager, keyboard, content);
+}
+
+/**
+ * @brief Save current configuration to a file
+ * 
+ * Serializes the current profile configuration to JSON format and saves it to a file.
+ * Works on both embedded targets (using LittleFS) and host systems (using standard files).
+ * 
+ * @param profileManager Profile manager containing current configuration
+ * @param configPath Path where configuration should be saved
+ * @return true if saving succeeded, false otherwise
+ */
+bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::string& configPath) {
+    // Serialize current configuration to JSON
+    DynamicJsonDocument doc(2048);
+    JsonArray profiles = doc.createNestedArray("profiles");
+
+    // Save each profile
+    for (uint8_t profileIndex = 0; profileIndex < ProfileManager::NUM_PROFILES; profileIndex++) {
+        const Profile* profile = profileManager.getProfile(profileIndex);
+        if (!profile) continue;
+
+        JsonObject profileObj = profiles.createNestedObject();
+        profileObj["name"] = profile->getName().c_str();
+
+        JsonObject buttons = profileObj.createNestedObject("buttons");
+
+        // Save each button action
+        for (const char* buttonName : {"A", "B", "C", "D"}) {
+            uint8_t buttonIndex = getButtonIndex(buttonName);
+            Action* action = profile->getAction(buttonIndex);
+
+            if (action) {
+                buttons[buttonName] = actionToJson(action);
+            }
+        }
+    }
+
+    std::string content;
+    serializeJson(doc, content);
+
+    if (!fileSystem->writeFile(configPath.c_str(), content)) {
+        debugOutput("Failed to write config file");
+        return false;
+    }
+
+    return true;
+}
+
+using namespace ArduinoJson;
+
+/**
+ * @brief Load configuration from JSON string
+ * 
+ * Parses a JSON configuration string and loads it into the profile manager.
+ * This is the core configuration loading method that's hardware-independent.
+ * 
+ * @param profileManager Profile manager to populate
+ * @param keyboard BLE keyboard interface for creating send actions
+ * @param jsonConfig JSON configuration string to parse
+ * @return true if loading succeeded, false if JSON parsing failed
+ */
 bool ConfigLoader::loadFromString(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& jsonConfig) {
     DynamicJsonDocument doc(2048);
     DeserializationError error = deserializeJson(doc, jsonConfig);
-    
+
     if (error) {
-        Serial.print("JSON parsing failed: ");
-        Serial.println(error.c_str());
+        debugOutput("JSON parsing failed:", error.c_str());
         return false;
     }
-    
+
     // Clear existing profiles
     for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++) {
         profileManager.addProfile(i, nullptr);
     }
-    
+
     // Load each profile
     JsonArray profiles = doc["profiles"];
     for (uint8_t profileIndex = 0; profileIndex < profiles.size() && profileIndex < ProfileManager::NUM_PROFILES; profileIndex++) {
         JsonObject profile = profiles[profileIndex];
         String profileName = profile["name"];
-        
+
         auto newProfile = std::unique_ptr<Profile>(new Profile(profileName.c_str()));
-        
+
         // Load each button action
         JsonObject buttons = profile["buttons"];
         for (const char* buttonName : {"A", "B", "C", "D"}) {
             if (buttons.containsKey(buttonName)) {
                 JsonObject actionJson = buttons[buttonName];
                 uint8_t buttonIndex = getButtonIndex(buttonName);
-                
+
                 std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
                 if (action) {
                     const char* actionName = actionJson["name"] | "";
@@ -100,57 +199,165 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager, IBleKeyboard* 
                 }
             }
         }
-        
+
         profileManager.addProfile(profileIndex, std::move(newProfile));
     }
-    
+
     return true;
 }
 
-bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::string& configPath) {
-    if (!LittleFS.begin(true)) {
-        Serial.println("Failed to mount LittleFS file system");
+/**
+ * @brief Merge profiles from JSON configuration
+ * 
+ * Adds profiles from a JSON configuration into the profile manager, preserving existing profiles.
+ * New profiles are added to the first available empty slots. Profiles with duplicate names
+ * are skipped to prevent overwriting existing configurations.
+ * 
+ * @param profileManager Profile manager to update
+ * @param keyboard BLE keyboard interface for creating send actions
+ * @param jsonConfig JSON configuration string containing profiles to merge
+ * @return true if merging succeeded, false if JSON parsing failed
+ */
+bool ConfigLoader::mergeConfig(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& jsonConfig) {
+    DynamicJsonDocument doc(2048);
+    DeserializationError error = deserializeJson(doc, jsonConfig);
+
+    if (error) {
+        debugOutput("JSON parsing failed:", error.c_str());
         return false;
     }
-    
-    DynamicJsonDocument doc(2048);
-    JsonArray profiles = doc.createNestedArray("profiles");
-    
-    // Save each profile
-    for (uint8_t profileIndex = 0; profileIndex < ProfileManager::NUM_PROFILES; profileIndex++) {
-        const Profile* profile = profileManager.getProfile(profileIndex);
-        if (!profile) continue;
-        
-        JsonObject profileObj = profiles.createNestedObject();
-        profileObj["name"] = profile->getName().c_str();
-        
-        JsonObject buttons = profileObj.createNestedObject("buttons");
-        
-        // Save each button action
+
+    JsonArray profiles = doc["profiles"];
+
+    // Merge each profile - add to first available empty slot
+    for (uint8_t newProfileIndex = 0; newProfileIndex < profiles.size() && newProfileIndex < ProfileManager::NUM_PROFILES; newProfileIndex++) {
+        JsonObject newProfileJson = profiles[newProfileIndex];
+        String profileName = newProfileJson["name"];
+
+        // Check if profile with same name already exists
+        bool profileExists = false;
+        for (uint8_t existingIndex = 0; existingIndex < ProfileManager::NUM_PROFILES; existingIndex++) {
+            const Profile* existingProfile = profileManager.getProfile(existingIndex);
+            if (existingProfile && existingProfile->getName() == profileName.c_str()) {
+                profileExists = true;
+                break;
+            }
+        }
+
+        if (profileExists) {
+            debugOutput("Profile '", profileName.c_str());
+            debugOutput("' already exists, skipping", "");
+            continue;
+        }
+
+        // Find first empty slot
+        uint8_t targetIndex = 255;
+        for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++) {
+            if (!profileManager.getProfile(i)) {
+                targetIndex = i;
+                break;
+            }
+        }
+
+        if (targetIndex == 255) {
+            debugOutput("No empty profile slots available for merging", "");
+            continue;
+        }
+
+        // Create and add the new profile
+        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName.c_str()));
+
+        // Load each button action
+        JsonObject buttons = newProfileJson["buttons"];
         for (const char* buttonName : {"A", "B", "C", "D"}) {
+            if (buttons.containsKey(buttonName)) {
+                JsonObject actionJson = buttons[buttonName];
+                uint8_t buttonIndex = getButtonIndex(buttonName);
+
+                std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
+                if (action) {
+                    const char* actionName = actionJson["name"] | "";
+                    if (actionName[0] != '\0') {
+                        action->setName(actionName);
+                    }
+                    newProfile->addAction(buttonIndex, std::move(action));
+                }
+            }
+        }
+
+        profileManager.addProfile(targetIndex, std::move(newProfile));
+        debugOutput("Added profile '", profileName.c_str());
+        debugOutput("' to slot ", std::to_string(targetIndex).c_str());
+    }
+
+    return true;
+}
+
+/**
+ * @brief Replace a specific profile in the configuration
+ * 
+ * Replaces the profile at the specified index with a new profile from JSON configuration.
+ * This allows updating individual profiles without affecting others.
+ * 
+ * @param profileManager Profile manager to update
+ * @param keyboard BLE keyboard interface for creating send actions
+ * @param profileIndex Index of profile to replace (0-2)
+ * @param jsonConfig JSON configuration string containing the replacement profile
+ * @return true if replacement succeeded, false if index is invalid or JSON parsing failed
+ */
+bool ConfigLoader::replaceProfile(ProfileManager& profileManager, IBleKeyboard* keyboard, uint8_t profileIndex, const std::string& jsonConfig) {
+    if (profileIndex >= ProfileManager::NUM_PROFILES) {
+        debugOutput("Invalid profile index: ", std::to_string(profileIndex).c_str());
+        return false;
+    }
+
+    DynamicJsonDocument doc(2048);
+    DeserializationError error = deserializeJson(doc, jsonConfig);
+
+    if (error) {
+        debugOutput("JSON parsing failed:", error.c_str());
+        return false;
+    }
+
+    JsonArray profiles = doc["profiles"];
+    if (profiles.size() == 0) {
+        debugOutput("No profiles found in JSON config", "");
+        return false;
+    }
+
+    // Use the first profile in the JSON config
+    JsonObject newProfileJson = profiles[0];
+    String profileName = newProfileJson["name"];
+
+    auto newProfile = std::unique_ptr<Profile>(new Profile(profileName.c_str()));
+
+    // Load each button action
+    JsonObject buttons = newProfileJson["buttons"];
+    for (const char* buttonName : {"A", "B", "C", "D"}) {
+        if (buttons.containsKey(buttonName)) {
+            JsonObject actionJson = buttons[buttonName];
             uint8_t buttonIndex = getButtonIndex(buttonName);
-            Action* action = profile->getAction(buttonIndex);
-            
+
+            std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
             if (action) {
-                buttons[buttonName] = actionToJson(action);
+                const char* actionName = actionJson["name"] | "";
+                if (actionName[0] != '\0') {
+                    action->setName(actionName);
+                }
+                newProfile->addAction(buttonIndex, std::move(action));
             }
         }
     }
-    
-    File configFile = LittleFS.open(configPath.c_str(), "w");
-    if (!configFile) {
-        Serial.println("Failed to open config file for writing");
-        return false;
-    }
-    
-    serializeJsonPretty(doc, configFile);
-    configFile.close();
-    
+
+    profileManager.addProfile(profileIndex, std::move(newProfile));
+    debugOutput("Replaced profile at index ", std::to_string(profileIndex).c_str());
+    debugOutput(" with '", profileName.c_str());
+    debugOutput("'", "");
+
     return true;
 }
 
-
-
+// Existing helper methods remain unchanged
 uint8_t ConfigLoader::getButtonIndex(const char* buttonName) {
     if (strcmp(buttonName, "A") == 0) return Button::A;
     if (strcmp(buttonName, "B") == 0) return Button::B;
@@ -159,9 +366,9 @@ uint8_t ConfigLoader::getButtonIndex(const char* buttonName) {
     return 255; // Invalid
 }
 
-std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& actionJson, IBleKeyboard* keyboard) {
+std::unique_ptr<Action> ConfigLoader::createActionFromJson(const ArduinoJson::JsonObject& actionJson, IBleKeyboard* keyboard) {
     const char* type = actionJson["type"];
-    
+
     if (strcmp(type, "SendStringAction") == 0) {
         const char* value = actionJson["value"];
         return std::unique_ptr<Action>(new SendStringAction(keyboard, value));
@@ -198,21 +405,21 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
         uint32_t delayMs = actionJson["delayMs"];
         JsonObject nestedAction = actionJson["action"];
         std::unique_ptr<Action> innerAction = createActionFromJson(nestedAction, keyboard);
-        
+
         if (innerAction) {
             return std::unique_ptr<Action>(new DelayedAction(std::move(innerAction), delayMs));
         }
     }
-    
+
     return nullptr;
 }
 
-JsonObject ConfigLoader::actionToJson(const Action* action) const {
+ArduinoJson::JsonObject ConfigLoader::actionToJson(const Action* action) const {
     JsonObject result;
     if (action->hasName()) {
         result["name"] = action->getName().c_str();
     }
-    
+
     // Use the new virtual methods instead of typeid
     switch (action->getType()) {
         case Action::Type::SendString:
@@ -243,6 +450,6 @@ JsonObject ConfigLoader::actionToJson(const Action* action) const {
             result["type"] = "UnknownAction";
             break;
     }
-    
+
     return result;
 }
