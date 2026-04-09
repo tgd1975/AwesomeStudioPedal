@@ -19,7 +19,7 @@ add_executable(pedal_tests
     unit/test_profile_manager.cpp
     unit/test_send.cpp
     unit/test_button.cpp
-    test_config_loader.cpp
+    test_config_loader/test_main.cpp
     ${PROD_SOURCES}
 )
 

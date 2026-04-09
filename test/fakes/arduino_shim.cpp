@@ -1,3 +1,4 @@
+#ifdef HOST_TEST_BUILD
 #include "arduino_shim.h"
 
 namespace fake_time
@@ -11,3 +12,4 @@ namespace fake_gpio
 }
 
 FakeSerial Serial;
+#endif // HOST_TEST_BUILD
