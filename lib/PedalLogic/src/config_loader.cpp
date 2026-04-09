@@ -117,6 +117,7 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
 
         JsonObject profileObj = profiles.createNestedObject();
         profileObj["name"] = profile->getName().c_str();
+        profileObj["description"] = profile->getDescription().c_str();
 
         JsonObject buttons = profileObj.createNestedObject("buttons");
 
@@ -158,8 +159,10 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager, IBleKeyboard* 
     for (uint8_t i = 0; i < profiles.size() && i < ProfileManager::NUM_PROFILES; i++) {
         JsonObject profileJson = profiles[i];
         const char* profileName = profileJson["name"] | "";
+        const char* profileDescription = profileJson["description"] | "";
 
         auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+        newProfile->setDescription(profileDescription);
         populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(i, std::move(newProfile));
     }
@@ -182,6 +185,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager, IBleKeyboard* key
     for (uint8_t newIdx = 0; newIdx < profiles.size() && newIdx < ProfileManager::NUM_PROFILES; newIdx++) {
         JsonObject profileJson = profiles[newIdx];
         const char* profileName = profileJson["name"] | "";
+        const char* profileDescription = profileJson["description"] | "";
 
         // Skip if a profile with the same name already exists
         bool exists = false;
@@ -211,6 +215,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager, IBleKeyboard* key
         }
 
         auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+        newProfile->setDescription(profileDescription);
         populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(targetIndex, std::move(newProfile));
         logger_->log("Added profile: ", profileName);
@@ -241,8 +246,10 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager, IBleKeyboard* 
 
     JsonObject profileJson = profiles[0];
     const char* profileName = profileJson["name"] | "";
+    const char* profileDescription = profileJson["description"] | "";
 
     auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+    newProfile->setDescription(profileDescription);
     populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
     profileManager.addProfile(profileIndex, std::move(newProfile));
     logger_->log("Replaced profile with: ", profileName);

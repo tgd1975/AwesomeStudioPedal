@@ -46,7 +46,22 @@ public:
      */
     const std::string& getName() const;
 
+    /**
+     * @brief Gets the description of this profile
+     *
+     * @return The profile description
+     */
+    const std::string& getDescription() const;
+
+    /**
+     * @brief Sets the description of this profile
+     *
+     * @param description The profile description
+     */
+    void setDescription(const std::string& description);
+
 private:
     std::string name; /**< The name of this profile */
+    std::string description; /**< The description of this profile */
     std::array<std::unique_ptr<Action>, NUM_BUTTONS> actions; /**< Actions for each button */
 };

@@ -5,7 +5,7 @@
  *
  * @param name The name of this profile
  */
-Profile::Profile(const std::string& name) : name(name) {}
+Profile::Profile(const std::string& name) : name(name), description("") {}
 
 /**
  * @brief Adds an action to a specific button in this profile
@@ -48,4 +48,24 @@ Action* Profile::getAction(uint8_t button) const
 const std::string& Profile::getName() const
 {
     return name;
+}
+
+/**
+ * @brief Gets the description of this profile
+ *
+ * @return The profile description
+ */
+const std::string& Profile::getDescription() const
+{
+    return description;
+}
+
+/**
+ * @brief Sets the description of this profile
+ *
+ * @param description The profile description
+ */
+void Profile::setDescription(const std::string& description)
+{
+    this->description = description;
 }
