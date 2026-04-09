@@ -5,19 +5,10 @@
 #include "action.h"
 #include "button_constants.h"
 #include "i_led_controller.h"
+#include "null_led_controller.h"
 #include "profile.h"
 #include "profile_manager.h"
 #include "serial_action.h"
-
-// --- Null LED controller (no GPIO side-effects needed for this test) --------
-
-class NullLEDController : public ILEDController
-{
-public:
-    void setup(uint32_t) override {}
-    void setState(bool) override {}
-    void toggle() override {}
-};
 
 // --- Test state -------------------------------------------------------------
 

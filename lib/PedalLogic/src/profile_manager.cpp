@@ -127,6 +127,19 @@ void ProfileManager::update(uint32_t now)
     led3.setState(on);
 }
 
+void ProfileManager::resetToFirstProfile()
+{
+    currentProfile = 0;
+    for (uint8_t i = 0; i < NUM_PROFILES; i++) {
+        if (profileSlots[i]) {
+            currentProfile = i;
+            break;
+        }
+    }
+    postSwitchBlink = false;
+    updateLEDs();
+}
+
 const std::string& ProfileManager::getProfileName(uint8_t profileIndex) const
 {
     if (profileIndex < NUM_PROFILES && profileSlots[profileIndex]) {

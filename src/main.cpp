@@ -13,6 +13,7 @@
 #include "event_dispatcher.h"
 #include "led_controller.h"
 #include "pedal_config.h"
+#include "config_loader.h"
 #include "send_action.h"
 #include "delayed_action.h"
 
@@ -83,6 +84,38 @@ EventDispatcher eventDispatcher;
  * Only processes the interrupt if Bluetooth is connected.
  */
 void attachInterrupts();
+
+/**
+ * @brief Signal a configuration load error by blinking all 5 LEDs, then
+ *        fall back to the hardcoded factory default via configureProfiles().
+ *
+ * Uses blocking delay — only called at startup or during a safe window,
+ * never from within the main loop.
+ */
+void signalLoadError()
+{
+    Serial.println("CONFIG ERROR: falling back to factory default");
+    constexpr int   BLINK_COUNT    = 5;
+    constexpr int   BLINK_DURATION = 100; // ms
+    for (int i = 0; i < BLINK_COUNT; i++) {
+        ledPower.setState(true);
+        ledBluetooth.setState(true);
+        ledSelect1.setState(true);
+        ledSelect2.setState(true);
+        ledSelect3.setState(true);
+        delay(BLINK_DURATION);
+        ledPower.setState(false);
+        ledBluetooth.setState(false);
+        ledSelect1.setState(false);
+        ledSelect2.setState(false);
+        ledSelect3.setState(false);
+        delay(BLINK_DURATION);
+    }
+    // Restore power LED (was on before the error)
+    ledPower.setState(true);
+    // Load hardcoded factory default — pure C++ object construction, cannot fail
+    configureProfiles(profileManager, bleKeyboardAdapter);
+}
 
 void IRAM_ATTR isr_a() { BUTTON_A.isr(); }
 
@@ -215,7 +248,9 @@ void setup()
 
     bleKeyboardAdapter->begin();
 
-    configureProfiles(profileManager, bleKeyboardAdapter);
+    if (!configureProfiles(profileManager, bleKeyboardAdapter)) {
+        signalLoadError();
+    }
 
     attachInterrupts();
 }

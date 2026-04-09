@@ -41,6 +41,14 @@ public:
     const std::string& getProfileName(uint8_t profileIndex) const;
 
     /**
+     * @brief Reset to the first populated slot (or slot 0 if all empty)
+     *
+     * Called after loadFromString clears and repopulates all slots so that
+     * currentProfile is never left pointing at an empty slot.
+     */
+    void resetToFirstProfile();
+
+    /**
      * @brief Returns true if any DelayedAction across all profiles is currently running
      */
     bool hasActiveDelayedAction() const;

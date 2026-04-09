@@ -8,24 +8,26 @@
 #include <memory>
 
 /**
- * @brief Configures the pedal profiles by loading from configuration file
+ * @brief Load profiles from file; fall back to DEFAULT_CONFIG on failure.
  *
- * Attempts to load configuration from "pedal_config.json" file.
- * If the file doesn't exist or is invalid, loads default configuration.
- *
- * @param profileManager Reference to the ProfileManager instance
- * @param keyboard Pointer to the BLE keyboard interface
+ * Returns false only if DEFAULT_CONFIG itself fails to parse — which indicates
+ * a programming error and should never happen at runtime.
  */
-void configureProfiles(ProfileManager& profileManager, IBleKeyboard* keyboard)
+bool configureProfiles(ProfileManager& profileManager, IBleKeyboard* keyboard)
 {
     ConfigLoader configLoader;
-    
-    // Try to load from file first
-    if (!configLoader.loadFromFile(profileManager, keyboard, "/pedal_config.json")) {
-        // If file loading fails, load default configuration
-        configLoader.loadFromString(profileManager, keyboard, configLoader.getDefaultConfig());
-        
-        // Save the default configuration to file for future use
-        configLoader.saveToFile(profileManager, "/pedal_config.json");
+
+    if (configLoader.loadFromFile(profileManager, keyboard, "/pedal_config.json")) {
+        return true;
     }
+
+    // File missing or invalid — load the hardcoded default
+    if (!configLoader.loadFromString(profileManager, keyboard, configLoader.getDefaultConfig())) {
+        // DEFAULT_CONFIG failed to parse: this is a compile-time bug, not a runtime error
+        return false;
+    }
+
+    // Persist the default so future boots load from file
+    configLoader.saveToFile(profileManager, "/pedal_config.json");
+    return true;
 }

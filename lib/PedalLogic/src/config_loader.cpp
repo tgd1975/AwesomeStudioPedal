@@ -181,6 +181,7 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager, IBleKeyboard* 
         profileManager.addProfile(i, std::move(newProfile));
     }
 
+    profileManager.resetToFirstProfile();
     return true;
 }
 
