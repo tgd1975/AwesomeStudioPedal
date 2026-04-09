@@ -91,7 +91,9 @@ make              # Show usage and available commands
 # General commands
 make build        # Build ALL targets (ESP32 + nRF52840)
 make clean       # Clean build artifacts
-make test-host   # Run host unit tests (GoogleTest)
+make test-host           # Run host unit tests (GoogleTest)
+make test-esp32-button   # On-device button tests (ESP32)
+make test-esp32-serial   # On-device serial output tests (ESP32)
 
 # ESP32-specific commands
 make build-esp32     # Build for ESP32 only
@@ -103,6 +105,8 @@ make build-nrf52840    # Build for nRF52840 only
 make upload-nrf52840   # Upload to nRF52840
 make monitor-nrf52840  # Monitor nRF52840 serial
 ```
+
+See [test/README.md](test/README.md) for a full overview of all test targets.
 
 ## Serial Monitoring
 
