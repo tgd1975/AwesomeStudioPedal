@@ -5,8 +5,22 @@
 #include <iostream>
 #endif
 
+/**
+ * @brief Constructs a SerialOutputAction with the specified message
+ *
+ * @param message The message to be output to the serial console when executed
+ */
 SerialOutputAction::SerialOutputAction(const std::string& message) : message(message) {}
 
+/**
+ * @brief Executes the serial output action
+ *
+ * Outputs the configured message to the serial console with an "ACTION: " prefix.
+ * This method handles both Arduino environment (Serial) and host test environment (std::cout).
+ *
+ * @note In Arduino environment, uses Serial.print/println
+ * @note In host test environment, uses std::cout
+ */
 void SerialOutputAction::execute()
 {
 #ifndef HOST_TEST_BUILD

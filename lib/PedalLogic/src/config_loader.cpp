@@ -20,7 +20,12 @@ using namespace ArduinoJson;
 IFileSystem* createFileSystem();
 ILogger* createLogger();
 
-// Default configuration
+/**
+ * @brief Default configuration JSON string
+ *
+ * Contains a single "Navigation" profile with media control button mappings.
+ * Used as fallback when no custom configuration file is available.
+ */
 const char* ConfigLoader::DEFAULT_CONFIG =
     "{\n"
     "  \"profiles\": [\n"
@@ -42,8 +47,22 @@ const char* ConfigLoader::DEFAULT_CONFIG =
 
 // ---- Constructors ----
 
+/**
+ * @brief Default constructor
+ *
+ * Creates a ConfigLoader using production singletons for file system and logging.
+ * Used in firmware builds.
+ */
 ConfigLoader::ConfigLoader() : fileSystem_(createFileSystem()), logger_(createLogger()) {}
 
+/**
+ * @brief Dependency injection constructor
+ *
+ * Creates a ConfigLoader with injected dependencies for testing or custom implementations.
+ *
+ * @param fs File system implementation
+ * @param logger Logger implementation
+ */
 ConfigLoader::ConfigLoader(IFileSystem* fs, ILogger* logger) : fileSystem_(fs), logger_(logger) {}
 
 // ---- Key/action lookup tables ----
@@ -87,6 +106,12 @@ namespace
         {"DelayedAction", Action::Type::Delayed},
     };
 
+    /**
+     * @brief Looks up an action type by name
+     *
+     * @param name The action type name to look up
+     * @return The corresponding Action::Type enum value, or Action::Type::Unknown if not found
+     */
     Action::Type lookupActionType(const char* name)
     {
         for (const auto& e : ACTION_TYPE_TABLE)
@@ -97,6 +122,12 @@ namespace
         return Action::Type::Unknown;
     }
 
+    /**
+     * @brief Looks up a key code by name
+     *
+     * @param name The key name to look up (e.g., "LEFT_ARROW")
+     * @return The corresponding USB HID key code, or 0 if not found
+     */
     uint8_t lookupKey(const char* name)
     {
         for (const auto& e : KEY_TABLE)
@@ -107,6 +138,12 @@ namespace
         return 0;
     }
 
+    /**
+     * @brief Looks up a media key report by name
+     *
+     * @param name The media key name to look up (e.g., "MEDIA_STOP")
+     * @return Pointer to the USB HID report for the media key, or nullptr if not found
+     */
     const uint8_t* lookupMediaKey(const char* name)
     {
         for (const auto& e : MEDIA_KEY_TABLE)
@@ -121,6 +158,16 @@ namespace
 
 // ---- Public API ----
 
+/**
+ * @brief Loads configuration from a file
+ *
+ * Reads the configuration file from the specified path and parses it using loadFromString().
+ *
+ * @param profileManager The profile manager to populate with loaded profiles
+ * @param keyboard The BLE keyboard interface for creating keyboard actions
+ * @param configPath Path to the configuration file
+ * @return true if loading succeeded, false if file read failed
+ */
 bool ConfigLoader::loadFromFile(ProfileManager& profileManager,
                                 IBleKeyboard* keyboard,
                                 const std::string& configPath)
@@ -134,6 +181,16 @@ bool ConfigLoader::loadFromFile(ProfileManager& profileManager,
     return loadFromString(profileManager, keyboard, content);
 }
 
+/**
+ * @brief Saves configuration to a file
+ *
+ * Serializes the current profile manager state to JSON and writes it to the specified file.
+ * Includes all profiles with their names, descriptions, and button action configurations.
+ *
+ * @param profileManager The profile manager containing profiles to save
+ * @param configPath Path to the configuration file to write
+ * @return true if saving succeeded, false if file write failed
+ */
 bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::string& configPath)
 {
     DynamicJsonDocument doc(2048);
@@ -175,6 +232,17 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
     return true;
 }
 
+/**
+ * @brief Loads configuration from a JSON string
+ *
+ * Parses the JSON configuration and populates the profile manager with the defined profiles.
+ * Clears existing profiles before loading new ones.
+ *
+ * @param profileManager The profile manager to populate
+ * @param keyboard The BLE keyboard interface for creating keyboard actions
+ * @param jsonConfig JSON string containing the configuration
+ * @return true if parsing and loading succeeded, false if JSON parsing failed
+ */
 bool ConfigLoader::loadFromString(ProfileManager& profileManager,
                                   IBleKeyboard* keyboard,
                                   const std::string& jsonConfig)
@@ -210,6 +278,18 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
     return true;
 }
 
+/**
+ * @brief Merges configuration from JSON into existing profiles
+ *
+ * Adds new profiles from the JSON configuration to the profile manager,
+ * skipping any profiles that already exist by name. Only adds profiles
+ * to empty slots in the profile manager.
+ *
+ * @param profileManager The profile manager to merge profiles into
+ * @param keyboard The BLE keyboard interface for creating keyboard actions
+ * @param jsonConfig JSON string containing profiles to merge
+ * @return true if merging succeeded, false if JSON parsing failed
+ */
 bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
                                IBleKeyboard* keyboard,
                                const std::string& jsonConfig)
@@ -275,6 +355,19 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
     return true;
 }
 
+/**
+ * @brief Replaces a specific profile with configuration from JSON
+ *
+ * Parses the JSON configuration and replaces the profile at the specified index
+ * with the first profile found in the JSON. Validates the profile index before
+ * attempting replacement.
+ *
+ * @param profileManager The profile manager containing the profile to replace
+ * @param keyboard The BLE keyboard interface for creating keyboard actions
+ * @param profileIndex Index of the profile to replace (0-3)
+ * @param jsonConfig JSON string containing the replacement profile
+ * @return true if replacement succeeded, false if validation failed or JSON parsing failed
+ */
 bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
                                   IBleKeyboard* keyboard,
                                   uint8_t profileIndex,
@@ -317,6 +410,12 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
 
 // ---- Helper methods ----
 
+/**
+ * @brief Converts button name to button index
+ *
+ * @param buttonName The button name ("A", "B", "C", or "D")
+ * @return The corresponding Button:: index, or 255 if not found
+ */
 uint8_t ConfigLoader::getButtonIndex(const char* buttonName)
 {
     if (strcmp(buttonName, "A") == 0)
@@ -330,6 +429,16 @@ uint8_t ConfigLoader::getButtonIndex(const char* buttonName)
     return 255;
 }
 
+/**
+ * @brief Populates a profile with actions from JSON configuration
+ *
+ * Parses the buttons object from JSON and creates appropriate Action objects
+ * for each button, adding them to the profile.
+ *
+ * @param profile The profile to populate
+ * @param buttons JSON object containing button configurations
+ * @param keyboard The BLE keyboard interface for creating keyboard actions
+ */
 void ConfigLoader::populateProfileFromJson(Profile& profile,
                                            JsonObject buttons,
                                            IBleKeyboard* keyboard)
@@ -355,6 +464,17 @@ void ConfigLoader::populateProfileFromJson(Profile& profile,
     }
 }
 
+/**
+ * @brief Creates an Action object from JSON configuration
+ *
+ * Parses the action JSON object and creates the appropriate Action subclass
+ * based on the "type" field. Supports all action types including nested
+ * DelayedAction with inner actions.
+ *
+ * @param actionJson JSON object containing action configuration
+ * @param keyboard BLE keyboard interface for keyboard actions
+ * @return Unique pointer to the created Action, or nullptr if type is unknown or invalid
+ */
 std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& actionJson,
                                                            IBleKeyboard* keyboard)
 {
@@ -410,6 +530,15 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
     return nullptr;
 }
 
+/**
+ * @brief Serializes an Action object to JSON
+ *
+ * Converts an Action object to its JSON representation for saving to configuration files.
+ * Includes the action type, name (if set), and type-specific properties.
+ *
+ * @param action The action to serialize
+ * @param out The JSON object to populate with action properties
+ */
 void ConfigLoader::actionToJson(const Action* action, JsonObject& out) const
 {
     if (action->hasName())

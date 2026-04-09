@@ -6,11 +6,24 @@
 #include "../test/fakes/arduino_shim.h"
 #endif
 
+/**
+ * @brief Constructs a DelayedAction that wraps an action with a time delay
+ *
+ * @param action The action to be executed after the delay
+ * @param delayMs The delay duration in milliseconds
+ */
 DelayedAction::DelayedAction(std::unique_ptr<Action> action, uint32_t delayMs)
     : action(std::move(action)), delayMs(delayMs)
 {
 }
 
+/**
+ * @brief Executes the delayed action
+ *
+ * If not already started, begins the delay timer. If the delay has elapsed,
+ * executes the inner action and resets the timer. Calls before the delay elapses
+ * are ignored (debounce behavior).
+ */
 void DelayedAction::execute()
 {
     if (! started)
@@ -28,6 +41,12 @@ void DelayedAction::execute()
     }
 }
 
+/**
+ * @brief Updates the delay timer and checks if ready to execute
+ *
+ * @param currentTime Current time in milliseconds
+ * @return true if the delay has elapsed and action should fire, false otherwise
+ */
 bool DelayedAction::update(uint32_t currentTime)
 {
     if (! started)
@@ -35,6 +54,11 @@ bool DelayedAction::update(uint32_t currentTime)
     return (currentTime - startTime >= delayMs);
 }
 
+/**
+ * @brief Serializes the delayed action to JSON
+ *
+ * @param json The JSON object to populate with action properties
+ */
 void DelayedAction::getJsonProperties(JsonObject& json) const
 {
     json["delayMs"] = delayMs;
@@ -43,6 +67,12 @@ void DelayedAction::getJsonProperties(JsonObject& json) const
     nestedAction["type"] = getTypeName(action->getType());
 }
 
+/**
+ * @brief Converts an Action::Type enum to its string representation
+ *
+ * @param type The action type enum value
+ * @return String representation of the action type
+ */
 const char* DelayedAction::getTypeName(Action::Type type)
 {
     switch (type)
