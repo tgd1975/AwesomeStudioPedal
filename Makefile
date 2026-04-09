@@ -1,7 +1,7 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-nrf52840-button test-nrf52840-serial build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840
+.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profilemanager test-nrf52840-button test-nrf52840-serial build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
@@ -25,7 +25,8 @@ all:
 	@echo "  make monitor-esp32  - Monitor ESP32 serial"
 	@echo "  make run-esp32      - Build, upload, and monitor ESP32"
 	@echo "  make test-esp32-button   - Run on-device button tests (Unity, requires ESP32)"
-	@echo "  make test-esp32-serial   - Run on-device serial output tests (Unity, requires ESP32)"
+	@echo "  make test-esp32-serial          - Run on-device serial output tests (Unity, requires ESP32)"
+	@echo "  make test-esp32-profilemanager  - Run on-device profile manager tests (Unity, requires ESP32)"
 	@echo ""
 	@echo "nRF52840-Specific Commands:"
 	@echo "  make build-nrf52840    - Build for nRF52840 only"
@@ -86,6 +87,10 @@ test-esp32-button:
 # Run on-device serial output tests (Unity via PlatformIO) — requires ESP32 connected
 test-esp32-serial:
 	pio test -e nodemcu-32s-serial-test -v
+
+# Run on-device profile manager tests (Unity via PlatformIO) — requires ESP32 connected
+test-esp32-profilemanager:
+	pio test -e nodemcu-32s-profilemanager-test -v
 
 # Run on-device button tests (Unity via PlatformIO) — requires nRF52840 connected
 test-nrf52840-button:
