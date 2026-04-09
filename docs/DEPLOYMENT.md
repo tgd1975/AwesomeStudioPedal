@@ -57,7 +57,7 @@ lib_deps =
     bblanchon/ArduinoJson @ ^6.21.0
 ```
 
-### partitions.csv
+### config/esp32/partitions.csv
 
 ```csv
 storage,  data, 0x99,    0x290000,0x170000,

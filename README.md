@@ -180,7 +180,7 @@ The pedal now features a **flexible JSON-based configuration system** that repla
 - **[CONFIG_SYSTEM.md](docs/CONFIG_SYSTEM.md)** - Complete configuration guide
 - **[CONFIGURATION.md](docs/CONFIGURATION.md)** - Configuration format details
 - **[DATA_UPLOAD.md](docs/DATA_UPLOAD.md)** - Deployment process
-- **[PARTITIONS.md](PARTITIONS.md)** - Memory layout
+- **[PARTITIONS.md](docs/PARTITIONS.md)** - Memory layout
 
 ## License
 

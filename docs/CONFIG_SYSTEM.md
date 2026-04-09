@@ -55,7 +55,7 @@ project/
 │   ├── include/config_loader.h # Configuration loader
 │   └── src/config_loader.cpp   # Implementation
 ├── platformio.ini             # Build configuration
-├── partitions.csv             # Flash memory layout
+├── config/esp32/partitions.csv # Flash memory layout
 └── DATA_UPLOAD.md             # Deployment details
 ```
 
@@ -323,7 +323,7 @@ configLoader.loadFromString(profileManager, keyboard, restored);
 | `lib/PedalLogic/include/config_loader.h` | ConfigLoader interface |
 | `lib/PedalLogic/src/config_loader.cpp` | ConfigLoader implementation |
 | `platformio.ini` | Build configuration |
-| `partitions.csv` | Flash memory layout |
+| `config/esp32/partitions.csv` | Flash memory layout |
 | `CONFIGURATION.md` | Configuration format details |
 | `DATA_UPLOAD.md` | Deployment process |
 | `PARTITIONS.md` | Partition table explanation |

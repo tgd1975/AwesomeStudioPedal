@@ -103,7 +103,7 @@ test/
     └── test_config_loader.cpp # New ConfigLoader tests
 
 platformio.ini            # Added LittleFS and ArduinoJSON
-partitions.csv            # New partition table
+config/esp32/partitions.csv # New partition table
 ```
 
 ## 🚀 How to Use
@@ -220,7 +220,7 @@ pio test -f test_config_loader.cpp
 
 - ✅ Format file system: `LittleFS.format()`
 - ✅ Check free space: `LittleFS.totalBytes() - LittleFS.usedBytes()`
-- ✅ Increase storage partition in `partitions.csv` if needed
+- ✅ Increase storage partition in `config/esp32/partitions.csv` if needed
 
 ### Build/Upload Problems
 

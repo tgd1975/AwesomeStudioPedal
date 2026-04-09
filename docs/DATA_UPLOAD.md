@@ -34,10 +34,10 @@ Our configuration uses:
 ```ini
 [env:nodemcu-32s]
 board_build.filesystem = littlefs      # Use LittleFS file system
-board_build.partitions = partitions.csv # Use custom partition table
+board_build.partitions = config/esp32/partitions.csv # Use custom partition table
 ```
 
-The `partitions.csv` defines where the file system goes:
+The `config/esp32/partitions.csv` defines where the file system goes:
 
 ```csv
 storage,  data, 0x99,    0x290000,0x170000,  # 1.5MB LittleFS partition
@@ -53,7 +53,7 @@ pio run
 
 1. Compiles the firmware
 2. **Creates LittleFS image containing `data/pedal_config.json`**
-3. Generates partition table binary from `partitions.csv`
+3. Generates partition table binary from `config/esp32/partitions.csv`
 4. Combines everything into flashable images
 
 ### Upload Phase
@@ -80,7 +80,7 @@ pio run --target uploadfs
 | Development | Device | Purpose |
 |-------------|--------|---------|
 | `data/pedal_config.json` | `/pedal_config.json` | Pedal configuration |
-| `partitions.csv` | N/A | Partition table definition (build-time only) |
+| `config/esp32/partitions.csv` | N/A | Partition table definition (build-time only) |
 
 ## Verification
 

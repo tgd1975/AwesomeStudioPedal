@@ -24,6 +24,6 @@ E (156) esp_core_dump_flash: No core dump partition found!
 ```
 
 These are harmless. The ESP32 checks for a core dump partition on every
-boot to report any previous crash. Because `partitions.csv` does not define
+boot to report any previous crash. Because `config/esp32/partitions.csv` does not define
 a coredump partition, the chip logs these two lines and continues normally.
 They appear before the Unity test runner starts and have no effect on results.

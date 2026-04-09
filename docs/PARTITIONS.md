@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `partitions.csv` file defines how the ESP32's flash memory is divided into different sections for various purposes.
+The `config/esp32/partitions.csv` file defines how the ESP32's flash memory is divided into different sections for various purposes.
 
 ## Partition Table Explanation
 
@@ -54,13 +54,13 @@ The partition table is integrated into PlatformIO via:
 
 ```ini
 [env:nodemcu-32s]
-board_build.partitions = partitions.csv
+board_build.partitions = config/esp32/partitions.csv
 board_build.filesystem = littlefs
 ```
 
 ## How It Works
 
-1. **Build Process**: PlatformIO uses `partitions.csv` to create the partition table binary
+1. **Build Process**: PlatformIO uses `config/esp32/partitions.csv` to create the partition table binary
 2. **Flash Layout**: The ESP32's flash is divided according to the partition table
 3. **File System**: LittleFS uses the "storage" partition (1.5MB) for configuration files
 4. **Runtime**: The pedal accesses `/pedal_config.json` from the LittleFS partition
@@ -136,7 +136,7 @@ Serial.printf("LittleFS: Total: %d KB, Used: %d KB, Free: %d KB\n",
 
 - **Symptom**: OTA updates fail
 - **Solution**: Ensure APP0 and APP1 partitions are same size
-- **Check**: Verify partition sizes match in `partitions.csv`
+- **Check**: Verify partition sizes match in `config/esp32/partitions.csv`
 
 ## Best Practices
 
