@@ -8,6 +8,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/non_send_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/littlefs_file_system.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_logger.cpp
     ${CMAKE_SOURCE_DIR}/lib/hardware/esp32/src/button.cpp
     ${CMAKE_SOURCE_DIR}/test/fakes/arduino_shim.cpp
 )

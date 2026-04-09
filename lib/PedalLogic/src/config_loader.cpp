@@ -1,26 +1,25 @@
 #include "config_loader.h"
 #include "file_system.h"
+#include "i_logger.h"
 #include "send.h"
 #include "serial_action.h"
 #include "non_send_action.h"
 #include <ArduinoJson.h>
 #include <cstring>
-#include <typeinfo>
 
-// Arduino compatibility and minimal includes
 #ifndef HOST_TEST_BUILD
 #include <Arduino.h>
 #else
 #include "../test/fakes/arduino_shim.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #endif
 
-// Forward declaration for the file system factory
-IFileSystem* createFileSystem();
+using namespace ArduinoJson;
 
-// Default configuration (same as the JSON file we created)
+// Forward declarations for platform-specific factories
+IFileSystem* createFileSystem();
+ILogger*     createLogger();
+
+// Default configuration
 const char* ConfigLoader::DEFAULT_CONFIG =
     "{\n"
     "  \"profiles\": [\n"
@@ -54,68 +53,80 @@ const char* ConfigLoader::DEFAULT_CONFIG =
     "  ]\n"
     "}\n";
 
-// Debug output abstraction
-void ConfigLoader::debugOutput(const char* message) {
-#ifndef HOST_TEST_BUILD
-    Serial.println(message);
-#else
-    std::cout << "DEBUG: " << message << std::endl;
-#endif
+// ---- Constructors ----
+
+ConfigLoader::ConfigLoader()
+    : fileSystem_(createFileSystem()), logger_(createLogger()) {}
+
+ConfigLoader::ConfigLoader(IFileSystem* fs, ILogger* logger)
+    : fileSystem_(fs), logger_(logger) {}
+
+// ---- Key/action lookup tables ----
+
+namespace {
+
+struct KeyEntry      { const char* name; uint8_t code; };
+struct MediaKeyEntry { const char* name; const uint8_t* report; };
+struct ActionTypeEntry { const char* name; Action::Type type; };
+
+static const KeyEntry KEY_TABLE[] = {
+    { "LEFT_ARROW",  KEY_LEFT_ARROW  },
+    { "RIGHT_ARROW", KEY_RIGHT_ARROW },
+    { "UP_ARROW",    KEY_UP_ARROW    },
+    { "DOWN_ARROW",  KEY_DOWN_ARROW  },
+};
+
+static const MediaKeyEntry MEDIA_KEY_TABLE[] = {
+    { "MEDIA_STOP", KEY_MEDIA_STOP },
+};
+
+static const ActionTypeEntry ACTION_TYPE_TABLE[] = {
+    { "SendStringAction",   Action::Type::SendString   },
+    { "SendCharAction",     Action::Type::SendChar     },
+    { "SendKeyAction",      Action::Type::SendKey      },
+    { "SendMediaKeyAction", Action::Type::SendMediaKey },
+    { "SerialOutputAction", Action::Type::SerialOutput },
+    { "DelayedAction",      Action::Type::Delayed      },
+};
+
+Action::Type lookupActionType(const char* name) {
+    for (const auto& e : ACTION_TYPE_TABLE) {
+        if (strcmp(e.name, name) == 0) return e.type;
+    }
+    return Action::Type::Unknown;
 }
 
-void ConfigLoader::debugOutput(const char* prefix, const char* message) {
-#ifndef HOST_TEST_BUILD
-    Serial.print(prefix);
-    Serial.println(message);
-#else
-    std::cout << prefix << message << std::endl;
-#endif
+uint8_t lookupKey(const char* name) {
+    for (const auto& e : KEY_TABLE) {
+        if (strcmp(e.name, name) == 0) return e.code;
+    }
+    return 0;
 }
 
-/**
- * @brief File system instance for configuration storage
- * 
- * Singleton instance of the file system interface. Uses LittleFS on embedded targets
- * and standard file system on host for testing.
- */
-static IFileSystem* fileSystem = createFileSystem();
+const uint8_t* lookupMediaKey(const char* name) {
+    for (const auto& e : MEDIA_KEY_TABLE) {
+        if (strcmp(e.name, name) == 0) return e.report;
+    }
+    return nullptr;
+}
 
-/**
- * @brief Load configuration from a file
- * 
- * Reads configuration data from a file and loads it into the profile manager.
- * Works on both embedded targets (using LittleFS) and host systems (using standard files).
- * 
- * @param profileManager Profile manager to populate with loaded configuration
- * @param keyboard BLE keyboard interface for creating send actions
- * @param configPath Path to the configuration file
- * @return true if loading succeeded, false otherwise
- */
+} // namespace
+
+// ---- Public API ----
+
 bool ConfigLoader::loadFromFile(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& configPath) {
     std::string content;
-    if (!fileSystem->readFile(configPath.c_str(), content)) {
-        debugOutput("Failed to read config file");
+    if (!fileSystem_->readFile(configPath.c_str(), content)) {
+        logger_->log("Failed to read config file");
         return false;
     }
     return loadFromString(profileManager, keyboard, content);
 }
 
-/**
- * @brief Save current configuration to a file
- * 
- * Serializes the current profile configuration to JSON format and saves it to a file.
- * Works on both embedded targets (using LittleFS) and host systems (using standard files).
- * 
- * @param profileManager Profile manager containing current configuration
- * @param configPath Path where configuration should be saved
- * @return true if saving succeeded, false otherwise
- */
 bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::string& configPath) {
-    // Serialize current configuration to JSON
     DynamicJsonDocument doc(2048);
     JsonArray profiles = doc.createNestedArray("profiles");
 
-    // Save each profile
     for (uint8_t profileIndex = 0; profileIndex < ProfileManager::NUM_PROFILES; profileIndex++) {
         const Profile* profile = profileManager.getProfile(profileIndex);
         if (!profile) continue;
@@ -125,13 +136,12 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
 
         JsonObject buttons = profileObj.createNestedObject("buttons");
 
-        // Save each button action
         for (const char* buttonName : {"A", "B", "C", "D"}) {
             uint8_t buttonIndex = getButtonIndex(buttonName);
             Action* action = profile->getAction(buttonIndex);
-
             if (action) {
-                buttons[buttonName] = actionToJson(action);
+                JsonObject actionObj = buttons.createNestedObject(buttonName);
+                actionToJson(action, actionObj);
             }
         }
     }
@@ -139,114 +149,66 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
     std::string content;
     serializeJson(doc, content);
 
-    if (!fileSystem->writeFile(configPath.c_str(), content)) {
-        debugOutput("Failed to write config file");
+    if (!fileSystem_->writeFile(configPath.c_str(), content)) {
+        logger_->log("Failed to write config file");
         return false;
     }
 
     return true;
 }
 
-using namespace ArduinoJson;
-
-/**
- * @brief Load configuration from JSON string
- * 
- * Parses a JSON configuration string and loads it into the profile manager.
- * This is the core configuration loading method that's hardware-independent.
- * 
- * @param profileManager Profile manager to populate
- * @param keyboard BLE keyboard interface for creating send actions
- * @param jsonConfig JSON configuration string to parse
- * @return true if loading succeeded, false if JSON parsing failed
- */
 bool ConfigLoader::loadFromString(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& jsonConfig) {
     DynamicJsonDocument doc(2048);
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error) {
-        debugOutput("JSON parsing failed:", error.c_str());
+        logger_->log("JSON parsing failed:", error.c_str());
         return false;
     }
 
-    // Clear existing profiles
     for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++) {
         profileManager.addProfile(i, nullptr);
     }
 
-    // Load each profile
     JsonArray profiles = doc["profiles"];
-    for (uint8_t profileIndex = 0; profileIndex < profiles.size() && profileIndex < ProfileManager::NUM_PROFILES; profileIndex++) {
-        JsonObject profile = profiles[profileIndex];
-        String profileName = profile["name"];
+    for (uint8_t i = 0; i < profiles.size() && i < ProfileManager::NUM_PROFILES; i++) {
+        JsonObject profileJson = profiles[i];
+        const char* profileName = profileJson["name"] | "";
 
-        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName.c_str()));
-
-        // Load each button action
-        JsonObject buttons = profile["buttons"];
-        for (const char* buttonName : {"A", "B", "C", "D"}) {
-            if (buttons.containsKey(buttonName)) {
-                JsonObject actionJson = buttons[buttonName];
-                uint8_t buttonIndex = getButtonIndex(buttonName);
-
-                std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
-                if (action) {
-                    const char* actionName = actionJson["name"] | "";
-                    if (actionName[0] != '\0') {
-                        action->setName(actionName);
-                    }
-                    newProfile->addAction(buttonIndex, std::move(action));
-                }
-            }
-        }
-
-        profileManager.addProfile(profileIndex, std::move(newProfile));
+        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+        populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
+        profileManager.addProfile(i, std::move(newProfile));
     }
 
     return true;
 }
 
-/**
- * @brief Merge profiles from JSON configuration
- * 
- * Adds profiles from a JSON configuration into the profile manager, preserving existing profiles.
- * New profiles are added to the first available empty slots. Profiles with duplicate names
- * are skipped to prevent overwriting existing configurations.
- * 
- * @param profileManager Profile manager to update
- * @param keyboard BLE keyboard interface for creating send actions
- * @param jsonConfig JSON configuration string containing profiles to merge
- * @return true if merging succeeded, false if JSON parsing failed
- */
 bool ConfigLoader::mergeConfig(ProfileManager& profileManager, IBleKeyboard* keyboard, const std::string& jsonConfig) {
     DynamicJsonDocument doc(2048);
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error) {
-        debugOutput("JSON parsing failed:", error.c_str());
+        logger_->log("JSON parsing failed:", error.c_str());
         return false;
     }
 
     JsonArray profiles = doc["profiles"];
 
-    // Merge each profile - add to first available empty slot
-    for (uint8_t newProfileIndex = 0; newProfileIndex < profiles.size() && newProfileIndex < ProfileManager::NUM_PROFILES; newProfileIndex++) {
-        JsonObject newProfileJson = profiles[newProfileIndex];
-        String profileName = newProfileJson["name"];
+    for (uint8_t newIdx = 0; newIdx < profiles.size() && newIdx < ProfileManager::NUM_PROFILES; newIdx++) {
+        JsonObject profileJson = profiles[newIdx];
+        const char* profileName = profileJson["name"] | "";
 
-        // Check if profile with same name already exists
-        bool profileExists = false;
-        for (uint8_t existingIndex = 0; existingIndex < ProfileManager::NUM_PROFILES; existingIndex++) {
-            const Profile* existingProfile = profileManager.getProfile(existingIndex);
-            if (existingProfile && existingProfile->getName() == profileName.c_str()) {
-                profileExists = true;
+        // Skip if a profile with the same name already exists
+        bool exists = false;
+        for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++) {
+            const Profile* p = profileManager.getProfile(i);
+            if (p && p->getName() == profileName) {
+                exists = true;
                 break;
             }
         }
-
-        if (profileExists) {
-            debugOutput("Profile '", profileName.c_str());
-            debugOutput("' already exists, skipping", "");
+        if (exists) {
+            logger_->log("Profile already exists, skipping: ", profileName);
             continue;
         }
 
@@ -258,56 +220,23 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager, IBleKeyboard* key
                 break;
             }
         }
-
         if (targetIndex == 255) {
-            debugOutput("No empty profile slots available for merging", "");
+            logger_->log("No empty profile slots available for merging");
             continue;
         }
 
-        // Create and add the new profile
-        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName.c_str()));
-
-        // Load each button action
-        JsonObject buttons = newProfileJson["buttons"];
-        for (const char* buttonName : {"A", "B", "C", "D"}) {
-            if (buttons.containsKey(buttonName)) {
-                JsonObject actionJson = buttons[buttonName];
-                uint8_t buttonIndex = getButtonIndex(buttonName);
-
-                std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
-                if (action) {
-                    const char* actionName = actionJson["name"] | "";
-                    if (actionName[0] != '\0') {
-                        action->setName(actionName);
-                    }
-                    newProfile->addAction(buttonIndex, std::move(action));
-                }
-            }
-        }
-
+        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+        populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(targetIndex, std::move(newProfile));
-        debugOutput("Added profile '", profileName.c_str());
-        debugOutput("' to slot ", std::to_string(targetIndex).c_str());
+        logger_->log("Added profile: ", profileName);
     }
 
     return true;
 }
 
-/**
- * @brief Replace a specific profile in the configuration
- * 
- * Replaces the profile at the specified index with a new profile from JSON configuration.
- * This allows updating individual profiles without affecting others.
- * 
- * @param profileManager Profile manager to update
- * @param keyboard BLE keyboard interface for creating send actions
- * @param profileIndex Index of profile to replace (0-2)
- * @param jsonConfig JSON configuration string containing the replacement profile
- * @return true if replacement succeeded, false if index is invalid or JSON parsing failed
- */
 bool ConfigLoader::replaceProfile(ProfileManager& profileManager, IBleKeyboard* keyboard, uint8_t profileIndex, const std::string& jsonConfig) {
     if (profileIndex >= ProfileManager::NUM_PROFILES) {
-        debugOutput("Invalid profile index: ", std::to_string(profileIndex).c_str());
+        logger_->log("Invalid profile index");
         return false;
     }
 
@@ -315,141 +244,133 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager, IBleKeyboard* 
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error) {
-        debugOutput("JSON parsing failed:", error.c_str());
+        logger_->log("JSON parsing failed:", error.c_str());
         return false;
     }
 
     JsonArray profiles = doc["profiles"];
     if (profiles.size() == 0) {
-        debugOutput("No profiles found in JSON config", "");
+        logger_->log("No profiles found in JSON config");
         return false;
     }
 
-    // Use the first profile in the JSON config
-    JsonObject newProfileJson = profiles[0];
-    String profileName = newProfileJson["name"];
+    JsonObject profileJson = profiles[0];
+    const char* profileName = profileJson["name"] | "";
 
-    auto newProfile = std::unique_ptr<Profile>(new Profile(profileName.c_str()));
-
-    // Load each button action
-    JsonObject buttons = newProfileJson["buttons"];
-    for (const char* buttonName : {"A", "B", "C", "D"}) {
-        if (buttons.containsKey(buttonName)) {
-            JsonObject actionJson = buttons[buttonName];
-            uint8_t buttonIndex = getButtonIndex(buttonName);
-
-            std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
-            if (action) {
-                const char* actionName = actionJson["name"] | "";
-                if (actionName[0] != '\0') {
-                    action->setName(actionName);
-                }
-                newProfile->addAction(buttonIndex, std::move(action));
-            }
-        }
-    }
-
+    auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+    populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
     profileManager.addProfile(profileIndex, std::move(newProfile));
-    debugOutput("Replaced profile at index ", std::to_string(profileIndex).c_str());
-    debugOutput(" with '", profileName.c_str());
-    debugOutput("'", "");
+    logger_->log("Replaced profile with: ", profileName);
 
     return true;
 }
 
-// Existing helper methods remain unchanged
+// ---- Helper methods ----
+
 uint8_t ConfigLoader::getButtonIndex(const char* buttonName) {
     if (strcmp(buttonName, "A") == 0) return Button::A;
     if (strcmp(buttonName, "B") == 0) return Button::B;
     if (strcmp(buttonName, "C") == 0) return Button::C;
     if (strcmp(buttonName, "D") == 0) return Button::D;
-    return 255; // Invalid
+    return 255;
 }
 
-std::unique_ptr<Action> ConfigLoader::createActionFromJson(const ArduinoJson::JsonObject& actionJson, IBleKeyboard* keyboard) {
-    const char* type = actionJson["type"];
+void ConfigLoader::populateProfileFromJson(Profile& profile, JsonObject buttons, IBleKeyboard* keyboard) {
+    for (const char* buttonName : {"A", "B", "C", "D"}) {
+        if (!buttons.containsKey(buttonName)) continue;
 
-    if (strcmp(type, "SendStringAction") == 0) {
-        const char* value = actionJson["value"];
-        return std::unique_ptr<Action>(new SendStringAction(keyboard, value));
-    }
-    else if (strcmp(type, "SendMediaKeyAction") == 0) {
-        const char* value = actionJson["value"];
-        if (strcmp(value, "MEDIA_STOP") == 0) {
-            return std::unique_ptr<Action>(new SendMediaKeyAction(keyboard, KEY_MEDIA_STOP));
-        }
-    }
-    else if (strcmp(type, "SendCharAction") == 0) {
-        const char* value = actionJson["value"];
-        if (strcmp(value, "LEFT_ARROW") == 0) {
-            return std::unique_ptr<Action>(new SendCharAction(keyboard, KEY_LEFT_ARROW));
-        }
-        else if (strcmp(value, "RIGHT_ARROW") == 0) {
-            return std::unique_ptr<Action>(new SendCharAction(keyboard, KEY_RIGHT_ARROW));
-        }
-    }
-    else if (strcmp(type, "SendKeyAction") == 0) {
-        const char* value = actionJson["value"];
-        if (strcmp(value, "UP_ARROW") == 0) {
-            return std::unique_ptr<Action>(new SendKeyAction(keyboard, KEY_UP_ARROW));
-        }
-        else if (strcmp(value, "DOWN_ARROW") == 0) {
-            return std::unique_ptr<Action>(new SendKeyAction(keyboard, KEY_DOWN_ARROW));
-        }
-    }
-    else if (strcmp(type, "SerialOutputAction") == 0) {
-        const char* value = actionJson["value"];
-        return std::unique_ptr<Action>(new SerialOutputAction(value));
-    }
-    else if (strcmp(type, "DelayedAction") == 0) {
-        uint32_t delayMs = actionJson["delayMs"];
-        JsonObject nestedAction = actionJson["action"];
-        std::unique_ptr<Action> innerAction = createActionFromJson(nestedAction, keyboard);
+        JsonObject actionJson = buttons[buttonName];
+        uint8_t buttonIndex = getButtonIndex(buttonName);
 
-        if (innerAction) {
-            return std::unique_ptr<Action>(new DelayedAction(std::move(innerAction), delayMs));
+        std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
+        if (action) {
+            const char* actionName = actionJson["name"] | "";
+            if (actionName[0] != '\0') {
+                action->setName(actionName);
+            }
+            profile.addAction(buttonIndex, std::move(action));
         }
+    }
+}
+
+std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& actionJson, IBleKeyboard* keyboard) {
+    const char* typeName = actionJson["type"] | "";
+    Action::Type type = lookupActionType(typeName);
+
+    switch (type) {
+        case Action::Type::SendString: {
+            const char* value = actionJson["value"] | "";
+            return std::unique_ptr<Action>(new SendStringAction(keyboard, value));
+        }
+        case Action::Type::SendChar: {
+            uint8_t code = lookupKey(actionJson["value"] | "");
+            if (code != 0)
+                return std::unique_ptr<Action>(new SendCharAction(keyboard, code));
+            break;
+        }
+        case Action::Type::SendKey: {
+            uint8_t code = lookupKey(actionJson["value"] | "");
+            if (code != 0)
+                return std::unique_ptr<Action>(new SendKeyAction(keyboard, code));
+            break;
+        }
+        case Action::Type::SendMediaKey: {
+            const uint8_t* report = lookupMediaKey(actionJson["value"] | "");
+            if (report)
+                return std::unique_ptr<Action>(new SendMediaKeyAction(keyboard, report));
+            break;
+        }
+        case Action::Type::SerialOutput: {
+            const char* value = actionJson["value"] | "";
+            return std::unique_ptr<Action>(new SerialOutputAction(value));
+        }
+        case Action::Type::Delayed: {
+            uint32_t delayMs = actionJson["delayMs"] | 0u;
+            JsonObject nestedJson = actionJson["action"];
+            std::unique_ptr<Action> inner = createActionFromJson(nestedJson, keyboard);
+            if (inner)
+                return std::unique_ptr<Action>(new DelayedAction(std::move(inner), delayMs));
+            break;
+        }
+        default:
+            break;
     }
 
     return nullptr;
 }
 
-ArduinoJson::JsonObject ConfigLoader::actionToJson(const Action* action) const {
-    JsonObject result;
+void ConfigLoader::actionToJson(const Action* action, JsonObject& out) const {
     if (action->hasName()) {
-        result["name"] = action->getName().c_str();
+        out["name"] = action->getName().c_str();
     }
 
-    // Use the new virtual methods instead of typeid
     switch (action->getType()) {
         case Action::Type::SendString:
-            result["type"] = "SendStringAction";
-            action->getJsonProperties(result);
+            out["type"] = "SendStringAction";
+            action->getJsonProperties(out);
             break;
         case Action::Type::SendChar:
-            result["type"] = "SendCharAction";
-            action->getJsonProperties(result);
+            out["type"] = "SendCharAction";
+            action->getJsonProperties(out);
             break;
         case Action::Type::SendKey:
-            result["type"] = "SendKeyAction";
-            action->getJsonProperties(result);
+            out["type"] = "SendKeyAction";
+            action->getJsonProperties(out);
             break;
         case Action::Type::SendMediaKey:
-            result["type"] = "SendMediaKeyAction";
-            action->getJsonProperties(result);
+            out["type"] = "SendMediaKeyAction";
+            action->getJsonProperties(out);
             break;
         case Action::Type::SerialOutput:
-            result["type"] = "SerialOutputAction";
-            action->getJsonProperties(result);
+            out["type"] = "SerialOutputAction";
+            action->getJsonProperties(out);
             break;
         case Action::Type::Delayed:
-            result["type"] = "DelayedAction";
-            action->getJsonProperties(result);
+            out["type"] = "DelayedAction";
+            action->getJsonProperties(out);
             break;
         default:
-            result["type"] = "UnknownAction";
+            out["type"] = "UnknownAction";
             break;
     }
-
-    return result;
 }
