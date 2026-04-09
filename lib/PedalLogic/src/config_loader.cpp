@@ -414,18 +414,18 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
  * @brief Converts button name to button index
  *
  * @param buttonName The button name ("A", "B", "C", or "D")
- * @return The corresponding Button:: index, or 255 if not found
+ * @return The corresponding Btn:: index, or 255 if not found
  */
 uint8_t ConfigLoader::getButtonIndex(const char* buttonName)
 {
     if (strcmp(buttonName, "A") == 0)
-        return Button::A;
+        return Btn::A;
     if (strcmp(buttonName, "B") == 0)
-        return Button::B;
+        return Btn::B;
     if (strcmp(buttonName, "C") == 0)
-        return Button::C;
+        return Btn::C;
     if (strcmp(buttonName, "D") == 0)
-        return Button::D;
+        return Btn::D;
     return 255;
 }
 

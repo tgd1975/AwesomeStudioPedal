@@ -41,7 +41,7 @@ TEST_F(ConfigLoaderTest, LoadFromValidJsonString)
     
     EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, validJson));
     EXPECT_EQ(profileManager.getProfileName(0), "TestProfile");
-    EXPECT_NE(profileManager.getAction(0, Button::A), nullptr);
+    EXPECT_NE(profileManager.getAction(0, Btn::A), nullptr);
 }
 
 TEST_F(ConfigLoaderTest, LoadFromInvalidJsonReturnsFalse) {
@@ -66,7 +66,7 @@ TEST_F(ConfigLoaderTest, UnknownActionTypeReturnsNullptr) {
     });
     
     EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, jsonWithUnknownType));
-    EXPECT_EQ(profileManager.getAction(0, Button::A), nullptr);
+    EXPECT_EQ(profileManager.getAction(0, Btn::A), nullptr);
 }
 
 TEST_F(ConfigLoaderTest, DelayedActionParsing) {
@@ -84,7 +84,7 @@ TEST_F(ConfigLoaderTest, DelayedActionParsing) {
     });
     
     EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, jsonWithDelayedAction));
-    Action* action = profileManager.getAction(0, Button::A);
+    Action* action = profileManager.getAction(0, Btn::A);
     EXPECT_NE(action, nullptr);
     EXPECT_EQ(action->getDelay(), 1000);
     EXPECT_TRUE(action->isSendAction()); // DelayedAction should delegate to inner action
@@ -101,7 +101,7 @@ TEST_F(ConfigLoaderTest, SerialOutputActionParsing) {
     });
     
     EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, jsonWithSerialAction));
-    Action* action = profileManager.getAction(0, Button::A);
+    Action* action = profileManager.getAction(0, Btn::A);
     EXPECT_NE(action, nullptr);
     EXPECT_FALSE(action->isSendAction()); // SerialOutputAction is not a send action
 }

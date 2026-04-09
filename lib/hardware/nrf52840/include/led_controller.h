@@ -17,24 +17,21 @@ public:
      */
     explicit LEDController(uint8_t pin);
 
-    /**
-     * @brief Initializes the pin as output and sets initial state
-     * @param initialState Initial state (0 = off, non-zero = on)
-     */
     void setup(uint32_t initialState = 0) override;
-
-    /**
-     * @brief Sets the LED state
-     * @param state true to turn on, false to turn off
-     */
     void setState(bool state) override;
-
-    /**
-     * @brief Toggles the LED state
-     */
     void toggle() override;
 
+    void startBlink(uint32_t intervalMs, int16_t count = -1) override;
+    void stopBlink() override;
+    void update(uint32_t now) override;
+    bool isBlinking() const override { return blinking; }
+
 private:
-    uint8_t pin;               /**< GPIO pin number */
-    bool currentState = false; /**< Current LED state */
+    uint8_t pin;
+    bool currentState = false;
+    bool blinking = false;
+    bool stateBeforeBlink = false;
+    uint32_t blinkInterval = 0;
+    int16_t blinkRemaining = 0;
+    uint32_t lastToggleTime = 0;
 };

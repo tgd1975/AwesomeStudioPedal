@@ -8,7 +8,7 @@
  * - BUTTON_A, BUTTON_B, BUTTON_C, BUTTON_D: Action buttons (0-3)
  * - BUTTON_BANK: Bank selection button (4)
  */
-namespace Button
+namespace Btn
 {
     static constexpr uint8_t A = 0;    /**< Button A (index 0) */
     static constexpr uint8_t B = 1;    /**< Button B (index 1) */

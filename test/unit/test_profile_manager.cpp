@@ -29,7 +29,7 @@ public:
 static std::unique_ptr<Profile> makeProfile(const char* name)
 {
     auto p = std::make_unique<Profile>(name);
-    p->addAction(Button::A, std::make_unique<FakeAction>());
+    p->addAction(Btn::A, std::make_unique<FakeAction>());
     return p;
 }
 
@@ -102,20 +102,20 @@ TEST_F(ProfileManagerTest, AddAndGetProfileReturnsCorrectAction)
     auto profile = std::make_unique<Profile>("Test");
     auto action = std::make_unique<FakeAction>();
     Action* rawPtr = action.get();
-    profile->addAction(Button::C, std::move(action));
+    profile->addAction(Btn::C, std::move(action));
     manager->addProfile(1, std::move(profile));
-    EXPECT_EQ(manager->getAction(1, Button::C), rawPtr);
+    EXPECT_EQ(manager->getAction(1, Btn::C), rawPtr);
 }
 
 TEST_F(ProfileManagerTest, GetActionOutOfBoundsReturnsNullptr)
 {
-    EXPECT_EQ(manager->getAction(ProfileManager::NUM_PROFILES, Button::A), nullptr);
-    EXPECT_EQ(manager->getAction(0, Button::BANK), nullptr);
+    EXPECT_EQ(manager->getAction(ProfileManager::NUM_PROFILES, Btn::A), nullptr);
+    EXPECT_EQ(manager->getAction(0, Btn::BANK), nullptr);
 }
 
 TEST_F(ProfileManagerTest, GetActionEmptySlotReturnsNullptr)
 {
-    EXPECT_EQ(manager->getAction(0, Button::A), nullptr);
+    EXPECT_EQ(manager->getAction(0, Btn::A), nullptr);
 }
 
 TEST_F(ProfileManagerTest, GetProfileNameReturnsCorrectName)

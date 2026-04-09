@@ -1,7 +1,21 @@
 #include "file_system.h"
 #ifndef HOST_TEST_BUILD
 #include <Arduino.h>
+#ifdef NRF52840_XXAA
+#include <Adafruit_LittleFS.h>
+#include <InternalFileSystem.h>
+using namespace Adafruit_LittleFS_Namespace;
+#define FS_INSTANCE InternalFS
+#define FS_BEGIN() InternalFS.begin()
+#define FS_OPEN_R(p) InternalFS.open(p, FILE_O_READ)
+#define FS_OPEN_W(p) InternalFS.open(p, FILE_O_WRITE)
+#else
 #include <LittleFS.h>
+#define FS_INSTANCE LittleFS
+#define FS_BEGIN() LittleFS.begin(true)
+#define FS_OPEN_R(p) LittleFS.open(p, "r")
+#define FS_OPEN_W(p) LittleFS.open(p, "w")
+#endif
 #else
 #include <fstream>
 #endif
@@ -16,7 +30,7 @@ public:
     bool exists(const char* path) override
     {
 #ifndef HOST_TEST_BUILD
-        return LittleFS.exists(path);
+        return FS_INSTANCE.exists(path);
 #else
         // Mock implementation for host testing
         FILE* file = fopen(path, "r");
@@ -32,12 +46,12 @@ public:
     bool readFile(const char* path, std::string& content) override
     {
 #ifndef HOST_TEST_BUILD
-        if (! LittleFS.begin(true))
+        if (! FS_BEGIN())
         {
             return false;
         }
 
-        File file = LittleFS.open(path, "r");
+        File file = FS_OPEN_R(path);
         if (! file)
         {
             return false;
@@ -64,12 +78,12 @@ public:
     bool writeFile(const char* path, const std::string& content) override
     {
 #ifndef HOST_TEST_BUILD
-        if (! LittleFS.begin(true))
+        if (! FS_BEGIN())
         {
             return false;
         }
 
-        File file = LittleFS.open(path, "w");
+        File file = FS_OPEN_W(path);
         if (! file)
         {
             return false;

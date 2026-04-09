@@ -34,13 +34,13 @@ void test_profile2_name_is_custom()
 
 void test_button_b_action_exists_in_profile2()
 {
-    TEST_ASSERT_NOT_NULL_MESSAGE(pm.getAction(2, Button::B),
+    TEST_ASSERT_NOT_NULL_MESSAGE(pm.getAction(2, Btn::B),
                                  "An action must be configured for Button B in profile 2");
 }
 
 void test_button_b_action_is_serial_output_type()
 {
-    Action* action = pm.getAction(2, Button::B);
+    Action* action = pm.getAction(2, Btn::B);
     TEST_ASSERT_NOT_NULL(action);
     TEST_ASSERT_EQUAL_MESSAGE((int) Action::Type::SerialOutput,
                               (int) action->getType(),
@@ -49,7 +49,7 @@ void test_button_b_action_is_serial_output_type()
 
 void test_action_type_string_is_serialoutput()
 {
-    Action* action = pm.getAction(2, Button::B);
+    Action* action = pm.getAction(2, Btn::B);
     TEST_ASSERT_NOT_NULL(action);
     TEST_ASSERT_EQUAL_STRING_MESSAGE(
         "SerialOutput",
@@ -59,7 +59,7 @@ void test_action_type_string_is_serialoutput()
 
 void test_button_b_serial_message_matches_expected()
 {
-    Action* action = pm.getAction(2, Button::B);
+    Action* action = pm.getAction(2, Btn::B);
     TEST_ASSERT_NOT_NULL(action);
     auto* sa = static_cast<SerialOutputAction*>(action);
     TEST_ASSERT_EQUAL_STRING_MESSAGE("Button B pressed - Custom Profile",
@@ -72,7 +72,7 @@ void test_full_serial_output_format()
     // Verifies the exact text produced on the serial connection when Button B
     // is pressed while profile 2 (Custom) is active, matching the three lines
     // emitted by executeActionWithLogging() + SerialOutputAction::execute().
-    Action* action = pm.getAction(2, Button::B);
+    Action* action = pm.getAction(2, Btn::B);
     TEST_ASSERT_NOT_NULL(action);
 
     char buf[128];
@@ -105,7 +105,7 @@ void setup()
     // The message matches pedal_config.json exactly so the test stays in sync
     // with the shipped configuration.
     std::unique_ptr<Profile> profile2(new Profile("Custom"));
-    profile2->addAction(Button::B,
+    profile2->addAction(Btn::B,
                         std::unique_ptr<SerialOutputAction>(
                             new SerialOutputAction("Button B pressed - Custom Profile")));
     pm.addProfile(2, std::move(profile2));
