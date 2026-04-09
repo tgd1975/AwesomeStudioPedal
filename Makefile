@@ -1,7 +1,7 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32 test-nrf52840 build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840
+.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-nrf52840-button test-nrf52840-serial build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
@@ -24,14 +24,16 @@ all:
 	@echo "  make upload-esp32   - Upload to ESP32"
 	@echo "  make monitor-esp32  - Monitor ESP32 serial"
 	@echo "  make run-esp32      - Build, upload, and monitor ESP32"
-	@echo "  make test-esp32     - Run on-device button tests (Unity, requires ESP32)"
+	@echo "  make test-esp32-button   - Run on-device button tests (Unity, requires ESP32)"
+	@echo "  make test-esp32-serial   - Run on-device serial output tests (Unity, requires ESP32)"
 	@echo ""
 	@echo "nRF52840-Specific Commands:"
 	@echo "  make build-nrf52840    - Build for nRF52840 only"
 	@echo "  make upload-nrf52840   - Upload to nRF52840"
 	@echo "  make monitor-nrf52840  - Monitor nRF52840 serial"
 	@echo "  make run-nrf52840     - Build, upload, and monitor nRF52840"
-	@echo "  make test-nrf52840   - Run on-device button tests (Unity, requires nRF52840)"
+	@echo "  make test-nrf52840-button   - Run on-device button tests (Unity, requires nRF52840)"
+	@echo "  make test-nrf52840-serial   - Run on-device serial output tests (Unity, requires nRF52840)"
 	@echo ""
 	@echo "See README.md for more details"
 
@@ -78,12 +80,20 @@ run-nrf52840: build-nrf52840 upload-nrf52840
 	pio device monitor -e $(NRF52840_ENV) || echo "Monitor failed, but build/upload succeeded"
 
 # Run on-device button tests (Unity via PlatformIO) — requires ESP32 connected
-test-esp32:
+test-esp32-button:
 	pio test -e nodemcu-32s-test -v
 
+# Run on-device serial output tests (Unity via PlatformIO) — requires ESP32 connected
+test-esp32-serial:
+	pio test -e nodemcu-32s-serial-test -v
+
 # Run on-device button tests (Unity via PlatformIO) — requires nRF52840 connected
-test-nrf52840:
+test-nrf52840-button:
 	pio test -e feather-nrf52840-test -v
+
+# Run on-device serial output tests (Unity via PlatformIO) — requires nRF52840 connected
+test-nrf52840-serial:
+	pio test -e feather-nrf52840-serial-test -v
 
 # Run host unit tests (GoogleTest via CMake)
 test-host:

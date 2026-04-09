@@ -9,3 +9,14 @@ in the development cycle.
 
 More information about PIO Unit Testing:
 - https://docs.platformio.org/page/plus/unit-testing.html
+
+## Known startup messages
+
+When running on-device tests you will see two lines like:
+
+    E (156) esp_core_dump_flash: No core dump partition found!
+
+These are harmless. The ESP32 checks for a core dump partition on every
+boot to report any previous crash. Because partitions.csv does not define
+a coredump partition, the chip logs these two lines and continues normally.
+They appear before the Unity test runner starts and have no effect on results.
