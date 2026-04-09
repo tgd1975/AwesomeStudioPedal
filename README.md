@@ -1,187 +1,22 @@
-# Awesome Guitar Pedal - ESP32 BLE Foot Controller
+# AwesomeStudioPedal
 
-A versatile foot pedal controller for musicians with Bluetooth LE connectivity, designed for controlling DAWs, plugins, and other music software.
+A programmable, multi-profile foot controller for DAWs, score readers, and studio automation.
 
-## Features
+AwesomeStudioPedal is an ESP32-based device that connects to any host over Bluetooth and appears as
+a keyboard. Press a button and it sends a keypress, media command, or typed string — no driver, no
+app, no cable required. Seven profiles are stored on the device; a SELECT button cycles through them
+with an LED indicator array. A time-delayed action lets solo performers trigger a command (such as a
+camera shutter) and step into position before it fires.
 
-- **Triple Bank System**: Three configurable banks for different button mappings
-- **BLE Keyboard Emulation**: Works with any device supporting Bluetooth keyboards
-- **Hardware Abstraction**: Portable architecture for different microcontrollers
-- **Memory Safe**: Modern C++ with smart pointers
-- **Extensible Design**: Easy to add new features and button actions
+| I am a... | Start here |
+|-----------|------------|
+| Musician — I have the pedal in front of me | [User Guide](docs/musicians/USER_GUIDE.md) |
+| Builder — I want to build one | [Build Guide](docs/builders/BUILD_GUIDE.md) |
+| Developer — I want to contribute | [Architecture](docs/developers/ARCHITECTURE.md) |
 
-## Hardware Requirements
-
-- ESP32 development board (tested with NodeMCU-32S)
-- 5 buttons (4 action buttons + 1 bank select button)
-- 4 LEDs (1 power, 1 Bluetooth status, 2 bank indicators)
-- Bluetooth LE capable host device
-
-## Software Requirements
-
-- PlatformIO with ESP32 support
-- Arduino framework
-- ESP32 BLE Keyboard library
-
-## Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/your-repo/awesome-guitar-pedal.git
-cd awesome-guitar-pedal
-
-# Install dependencies
-pio lib install
-
-# Build and upload
-make upload
-```
-
-## Usage
-
-1. Power on the pedal - power LED will light up
-2. Connect via Bluetooth to "Strix-Pedal"
-3. Use buttons A-D for configured actions
-4. Press SELECT button to cycle through banks (3 banks total)
-
-## Configuration
-
-Edit `include/config.h` to modify pin assignments for your hardware.
-
-## Project Structure
-
-```text
-include/
-├── profile_manager.h       # Profile switching logic
-├── config.h            # Hardware configuration
-├── event_dispatcher.h  # Event handling system
-├── hardware/           # Hardware abstraction layers
-├── send.h              # Action classes
-└── button.h            # Button handling
-
-src/
-├── profile_manager.cpp
-├── config.cpp
-├── event_dispatcher.cpp
-├── hardware/
-├── send.cpp
-├── button.cpp
-└── main.cpp            # Main application
-```
-
-## Coding Standards
-
-This project uses clang-format for code formatting. The configuration is defined in `.clang-format`.
-
-To format your code:
-
-```bash
-./scripts/format-code.sh
-```
-
-The pre-commit hook will automatically check formatting for changed files.
-
-## Building
-
-Run `make` without arguments to see usage information:
-
-```bash
-make              # Show usage and available commands
-
-# General commands
-make build        # Build ALL targets (ESP32 + nRF52840)
-make clean       # Clean build artifacts
-make test-host           # Run host unit tests (GoogleTest)
-make test-esp32-button   # On-device button tests (ESP32)
-make test-esp32-serial   # On-device serial output tests (ESP32)
-
-# ESP32-specific commands
-make build-esp32     # Build for ESP32 only
-make upload-esp32   # Upload to ESP32
-make monitor-esp32  # Monitor ESP32 serial
-
-# nRF52840-specific commands
-make build-nrf52840    # Build for nRF52840 only
-make upload-nrf52840   # Upload to nRF52840
-make monitor-nrf52840  # Monitor nRF52840 serial
-```
-
-See [test/README.md](test/README.md) for a full overview of all test targets.
-
-## Serial Monitoring
-
-If you experience issues with PlatformIO's built-in serial monitor, you can use the alternative Python script:
-
-```bash
-# List available serial ports
-python3 scripts/serial_monitor.py
-
-# Monitor specific port
-python3 scripts/serial_monitor.py /dev/ttyUSB0 115200
-```
-
-The script provides a simple terminal interface for debugging your ESP32 device.
-
-## Configuration System (NEW!)
-
-The pedal now features a **flexible JSON-based configuration system** that replaces hardcoded button mappings with external configuration files.
-
-### Key Features
-
-- ✅ **External Configuration**: Edit `data/pedal_config.json` without recompiling
-- ✅ **Automatic Deployment**: Files are automatically uploaded to device
-- ✅ **Multiple Action Types**: Send actions, delayed actions, serial output, etc.
-- ✅ **Runtime Changes**: Modify configuration during operation
-- ✅ **Persistent Storage**: Configuration survives reboots
-
-### Quick Start
-
-1. **Edit configuration:**
-
-   ```bash
-   nano data/pedal_config.json
-   ```
-
-2. **Build and upload:**
-
-   ```bash
-   pio run --target upload
-   ```
-
-3. **Done!** The pedal loads your configuration automatically.
-
-### Example Configuration
-
-```json
-{
-  "profiles": [{
-    "name": "Navigation",
-    "buttons": {
-      "A": {"type": "SendStringAction", "value": " "},
-      "B": {"type": "SendMediaKeyAction", "value": "MEDIA_STOP"},
-      "C": {"type": "SendCharAction", "value": "LEFT_ARROW"},
-      "D": {"type": "SendCharAction", "value": "RIGHT_ARROW"}
-    }
-  }]
-}
-```
-
-### Supported Action Types
-
-| Type | Description | Example |
-|------|-------------|---------|
-| `SendStringAction` | Send text string | `"Hello"` |
-| `SendKeyAction` | Send key press | `"UP_ARROW"` |
-| `SerialOutputAction` | Debug output | `"Debug"` |
-| `DelayedAction` | Delayed execution | 5000ms |
-
-### Documentation
-
-- **[CONFIG_SYSTEM.md](docs/CONFIG_SYSTEM.md)** - Complete configuration guide
-- **[CONFIGURATION.md](docs/CONFIGURATION.md)** - Configuration format details
-- **[DATA_UPLOAD.md](docs/DATA_UPLOAD.md)** - Deployment process
-- **[PARTITIONS.md](docs/PARTITIONS.md)** - Memory layout
+ESP32 (NodeMCU-32S) is the only deployed and tested hardware target. nRF52840 is implemented but
+untested — use at your own risk.
 
 ## License
 
-MIT License - See LICENSE file for details.
+MIT License — see LICENSE file for details.

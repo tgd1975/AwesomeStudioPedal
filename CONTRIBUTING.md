@@ -1,45 +1,17 @@
-# Contributors
+# Contributing
 
-This project is maintained by the following contributors:
+Read the developer docs before submitting a pull request — they cover architecture, testing, and
+coding standards.
 
-## Core Team
+## Quick checklist
 
-- **Tobias** - Lead Developer, Architecture, Refactoring
-  - GitHub: [tgd1975]
-  - Email: [tobias@strix.at]
+1. Fork the repository.
+2. Branch off `main`.
+3. `make test-host` passes with zero failures.
+4. Open a pull request.
+5. Squash-merge after review.
 
-## AI Contributors
+## Further reading
 
-- **Mistral Vibe** - AI Assistant, Code Generation, Refactoring
-  - Role: Automated code improvements and feature implementation
-  - Email: [vibe@mistral.ai]
-
-- **Claude Code** - AI Assistant, Code Analysis, Documentation
-  - Role: Code review, documentation generation, and technical analysis
-  - Email: [claude@anthropic.com]
-
-## How to Contribute
-
-We welcome contributions from the community! Please see `CONTRIBUTION_GUIDELINE.md` for details on how to contribute.
-
-### How to Add Your Name
-
-1. Fork the repository
-2. Add your name to this file
-3. Submit a pull request
-
-### Contribution Types
-
-- 🐛 Bug fixes
-- ✨ New features
-- 📝 Documentation improvements
-- 🎨 UI/UX enhancements
-- 🧪 Test coverage
-
-## Hall of Fame
-
-Thank you to all who have contributed to this project!
-
-## Add Your Name
-
-Add your name here when you contribute!
+- [CODING_STANDARDS.md](docs/developers/CODING_STANDARDS.md)
+- [CODE_OF_CONDUCT.md](docs/developers/CODE_OF_CONDUCT.md)

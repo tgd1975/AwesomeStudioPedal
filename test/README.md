@@ -15,6 +15,9 @@ This directory contains all tests for the project, using two frameworks:
 | `make test-nrf52840-button` | On-device button tests (nRF52840) |
 | `make test-nrf52840-serial` | On-device serial output tests (nRF52840) |
 
+For full testing context — hardware seam, mock classes, writing new tests, and coverage — see
+[docs/developers/TESTING.md](../docs/developers/TESTING.md).
+
 ## Known startup messages
 
 When running on-device tests you will see two lines like:
