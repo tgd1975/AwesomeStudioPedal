@@ -23,5 +23,11 @@
     "chat.useAgentSkills": true,
     "claudeCode.environmentVariables": [
 
-    ]
+    ],
+    "yaml.schemaStore.enable": false,
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": [
+            ".github/workflows/test.yml"
+        ]
+    }
 }
