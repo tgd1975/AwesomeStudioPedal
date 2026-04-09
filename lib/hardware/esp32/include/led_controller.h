@@ -5,43 +5,31 @@
 
 /**
  * @class LEDController
- * @brief ESP32-specific implementation of ILEDController interface
+ * @brief ESP32-specific implementation of ILEDController
  *
- * Concrete implementation that controls an LED connected to a GPIO pin
- * on the ESP32 microcontroller.
+ * Supports immediate setState/toggle and non-blocking blink sequences
+ * driven by update() calls from the main loop.
  */
 class LEDController : public ILEDController
 {
 public:
-    /**
-     * @brief Constructs an LEDController for a specific GPIO pin
-     *
-     * @param pin GPIO pin number to which the LED is connected
-     */
-    LEDController(uint8_t pin);
+    explicit LEDController(uint8_t pin);
 
-    /**
-     * @brief Initializes the GPIO pin and sets initial LED state
-     *
-     * @param initialState Initial state (0 = off, non-zero = on)
-     */
-    virtual void setup(uint32_t initialState = 0) override;
+    void setup(uint32_t initialState = 0) override;
+    void setState(bool state) override;
+    void toggle() override;
 
-    /**
-     * @brief Sets the LED state
-     *
-     * @param state true to turn on, false to turn off
-     */
-    virtual void setState(bool state) override;
-
-    /**
-     * @brief Toggles the LED state
-     *
-     * Inverts the current LED state
-     */
-    virtual void toggle() override;
+    void startBlink(uint32_t intervalMs, int16_t count = -1) override;
+    void stopBlink() override;
+    void update(uint32_t now) override;
+    bool isBlinking() const override { return blinking; }
 
 private:
-    uint8_t pin;               /**< GPIO pin number for the LED */
-    bool currentState = false; /**< Current LED state (on/off) */
+    uint8_t  pin;
+    bool     currentState  = false;
+    bool     blinking      = false;
+    bool     stateBeforeBlink = false;
+    uint32_t blinkInterval = 0;
+    int16_t  blinkRemaining = 0;   // -1 = infinite, 0 = done, >0 = half-cycles left
+    uint32_t lastToggleTime = 0;
 };

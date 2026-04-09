@@ -14,6 +14,7 @@
 #include "led_controller.h"
 #include "pedal_config.h"
 #include "send_action.h"
+#include "delayed_action.h"
 
 /**
  * @file main.cpp
@@ -151,9 +152,15 @@ void executeActionWithLogging(ProfileManager& profileManager, const char* button
     uint8_t profileIndex = profileManager.getCurrentProfile();
     const char* profileName = profileManager.getProfileName(profileIndex).c_str();
     Serial.printf("Button %s pressed (Profile: %s)\n", buttonName, profileName);
-    
+
     if (auto action = profileManager.getAction(profileIndex, buttonIndex))
     {
+        // Ignore repeated presses while a DelayedAction for this button is in progress
+        if (action->isInProgress()) {
+            Serial.println("  -> DelayedAction in progress, ignoring");
+            return;
+        }
+
         const char* actionType = ProfileManager::getActionTypeString(action->getType());
         if (action->hasName()) {
             Serial.printf("  -> Executing %s action [%s]\n", actionType, action->getName().c_str());
@@ -314,5 +321,29 @@ void loop()
         }
     }
     process_events();
+
+    // Drive non-blocking LED blink sequences
+    uint32_t now = millis();
+    ledPower.update(now);
+    ledBluetooth.update(now);
+    ledSelect1.update(now);
+    ledSelect2.update(now);
+    ledSelect3.update(now);
+
+    // Drive post-switch blink animation
+    profileManager.update(now);
+
+    // Blink power LED while at least one DelayedAction is running
+    if (profileManager.hasActiveDelayedAction()) {
+        if (!ledPower.isBlinking()) {
+            ledPower.startBlink(500);
+        }
+    } else {
+        if (ledPower.isBlinking()) {
+            ledPower.stopBlink();
+            ledPower.setState(true); // restore solid on
+        }
+    }
+
     delay(10);
 }

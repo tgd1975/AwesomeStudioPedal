@@ -37,14 +37,14 @@ protected:
 
 TEST_F(ProfileManagerTest, StartsAtProfile0) { EXPECT_EQ(manager->getCurrentProfile(), 0); }
 
-TEST_F(ProfileManagerTest, SwitchProfileWrapsAfterThree)
+TEST_F(ProfileManagerTest, SwitchProfileWrapsAfterSeven)
 {
     EXPECT_CALL(led1, setState(_)).Times(::testing::AnyNumber());
     EXPECT_CALL(led2, setState(_)).Times(::testing::AnyNumber());
     EXPECT_CALL(led3, setState(_)).Times(::testing::AnyNumber());
-    manager->switchProfile(); // -> 1
-    manager->switchProfile(); // -> 2
-    manager->switchProfile(); // -> 0
+    // With no profiles loaded, switchProfile skips all empty slots and stays at 0
+    for (int i = 0; i < ProfileManager::NUM_PROFILES; i++)
+        manager->switchProfile();
     EXPECT_EQ(manager->getCurrentProfile(), 0);
 }
 
@@ -67,7 +67,7 @@ TEST_F(ProfileManagerTest, AddAndGetProfileReturnsCorrectAction)
 
 TEST_F(ProfileManagerTest, GetActionOutOfBoundsReturnsNullptr)
 {
-    EXPECT_EQ(manager->getAction(3, Button::A), nullptr);
+    EXPECT_EQ(manager->getAction(ProfileManager::NUM_PROFILES, Button::A), nullptr);
     EXPECT_EQ(manager->getAction(0, Button::BANK), nullptr);
 }
 
@@ -88,13 +88,16 @@ TEST_F(ProfileManagerTest, ConstructorSetsProfile0LEDs)
 TEST_F(ProfileManagerTest, SwitchProfileCallsUpdateLEDs)
 {
     MockLEDController l1, l2, l3;
-    // Constructor sets profile 0 (l1=true); switchProfile goes 0->1 (l2=true)
+    // Constructor sets profile 0; switchProfile goes 0->1.
+    // After post-switch blink completes, profile 1 encoding: LED2 on, LED1/LED3 off.
     EXPECT_CALL(l1, setState(_)).Times(::testing::AnyNumber());
     EXPECT_CALL(l2, setState(true)).Times(::testing::AtLeast(1));
     EXPECT_CALL(l2, setState(false)).Times(::testing::AnyNumber());
     EXPECT_CALL(l3, setState(_)).Times(::testing::AnyNumber());
     ProfileManager bm(l1, l2, l3);
     bm.switchProfile();
+    // Advance past the post-switch blink (3 blinks * 2 * 150ms = 900ms)
+    bm.update(1000);
 }
 
 TEST_F(ProfileManagerTest, GetProfileNameReturnsCorrectName)

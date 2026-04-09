@@ -4,6 +4,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/event_dispatcher.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/send_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/action.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/delayed_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/config_loader.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/non_send_action.cpp

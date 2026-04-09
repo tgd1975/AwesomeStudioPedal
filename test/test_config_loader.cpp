@@ -143,7 +143,7 @@ TEST_F(ConfigLoaderTest, ReplaceProfileInvalidIndexReturnsFalse) {
         "  ]\n"
         "}\n";
 
-    // Try to replace at an invalid index (>= NUM_PROFILES)
-    bool result = loader->replaceProfile(*profileManager, keyboard.get(), 3, config);
+    // Try to replace at an invalid index (>= NUM_PROFILES which is 7)
+    bool result = loader->replaceProfile(*profileManager, keyboard.get(), 7, config);
     ASSERT_FALSE(result);
 }

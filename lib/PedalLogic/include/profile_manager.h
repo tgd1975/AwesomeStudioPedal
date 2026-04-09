@@ -6,94 +6,68 @@
 
 /**
  * @class ProfileManager
- * @brief Manages multiple profiles of button configurations with LED feedback
+ * @brief Manages up to 7 profiles with LED feedback
  *
- * This class handles the three configurable button profiles, allowing different
- * Profile objects to be assigned to each profile slot. It also manages the
- * visual feedback through LED indicators to show the currently active profile.
+ * LED encoding:
+ *   - Profiles 1–3: one LED on exclusively (same as before)
+ *   - Profiles 4–7: binary encoding across 3 LEDs
+ *     bits = profileIndex + 1  →  LED1 = bit0, LED2 = bit1, LED3 = bit2
+ *
+ * After a profile switch all three LEDs blink 3 times, then return to the
+ * encoding for the new profile.  Drive this by calling update() every loop.
  */
 class ProfileManager
 {
 public:
-    static constexpr uint8_t NUM_PROFILES = 3;   /**< Number of available button profiles */
+    static constexpr uint8_t NUM_PROFILES = 7;
 
-    /**
-     * @brief Constructs a ProfileManager with LED controllers
-     *
-     * @param led1 LED controller for profile 1 indicator
-     * @param led2 LED controller for profile 2 indicator
-     * @param led3 LED controller for profile 3 indicator
-     */
     ProfileManager(ILEDController& led1, ILEDController& led2, ILEDController& led3);
 
-    /**
-     * @brief Adds a complete profile to a specific profile slot
-     *
-     * @param profileIndex Profile slot index (0-2)
-     * @param profile Unique pointer to the Profile to be stored
-     */
-    void addProfile(uint8_t profileIndex, std::unique_ptr<Profile> profile);
-
-    /**
-     * @brief Gets the action associated with a profile and button
-     *
-     * @param profileIndex Profile slot index (0-2)
-     * @param button Button index (0-3)
-     * @return Pointer to the Action, or nullptr if none assigned
-     */
+    void    addProfile(uint8_t profileIndex, std::unique_ptr<Profile> profile);
     Action* getAction(uint8_t profileIndex, uint8_t button) const;
-
-    /**
-     * @brief Gets the profile at a specific index
-     *
-     * @param profileIndex Profile slot index (0-2)
-     * @return Pointer to the Profile, or nullptr if none assigned
-     */
     const Profile* getProfile(uint8_t profileIndex) const;
 
     /**
-     * @brief Switches to the next profile and updates LED indicators
+     * @brief Advance to the next populated profile slot and trigger blink feedback
      *
-     * @return Index of the new current profile (0-2)
+     * Skips empty slots and wraps around.  Triggers a 3-blink sequence on all
+     * LEDs; the LEDs return to the profile encoding after the sequence completes.
+     *
+     * @return New current profile index
      */
     uint8_t switchProfile();
 
-    /**
-     * @brief Gets the currently active profile index
-     *
-     * @return Current profile index (0-2)
-     */
-    uint8_t getCurrentProfile() const;
-
-    /**
-     * @brief Gets the name of a profile
-     *
-     * @param profileIndex Profile slot index (0-2)
-     * @return The profile name, or empty string if no profile assigned
-     */
+    uint8_t getCurrentProfile() const { return currentProfile; }
     const std::string& getProfileName(uint8_t profileIndex) const;
 
     /**
-     * @brief Gets a string representation of an action type
-     *
-     * @param actionType The action type to convert to string
-     * @return String representation of the action type
+     * @brief Returns true if any DelayedAction across all profiles is currently running
      */
+    bool hasActiveDelayedAction() const;
+
+    /**
+     * @brief Drive timed LED behaviour — call every loop iteration
+     *
+     * @param now Current time in milliseconds (millis())
+     */
+    void update(uint32_t now);
+
     static const char* getActionTypeString(Action::Type actionType);
 
 private:
-    /**
-     * @brief Updates LED indicators to reflect current profile
-     *
-     * Turns on the LED corresponding to the current profile and
-     * turns off the LEDs for other profiles.
-     */
     void updateLEDs();
 
-    std::array<std::unique_ptr<Profile>, NUM_PROFILES>
-        profileSlots;           /**< Array storing profiles for all profile slots */
-    uint8_t currentProfile = 0; /**< Currently active profile index */
-    ILEDController& led1;    /**< Reference to profile 1 LED controller */
-    ILEDController& led2;    /**< Reference to profile 2 LED controller */
-    ILEDController& led3;    /**< Reference to profile 3 LED controller */
+    std::array<std::unique_ptr<Profile>, NUM_PROFILES> profileSlots;
+    uint8_t currentProfile = 0;
+
+    ILEDController& led1;
+    ILEDController& led2;
+    ILEDController& led3;
+
+    // Post-switch blink state
+    bool     postSwitchBlink   = false;
+    uint32_t blinkStartTime    = 0;
+    uint8_t  blinkPhase        = 0;   // counts half-cycles (on/off)
+    static constexpr uint8_t  BLINK_COUNT    = 3;    // full on/off cycles
+    static constexpr uint32_t BLINK_INTERVAL = 150;  // ms per half-cycle
 };
