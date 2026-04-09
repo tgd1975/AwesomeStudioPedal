@@ -1,15 +1,15 @@
 set(PROD_SOURCES
-    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/bank_manager.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/profile.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/profile_manager.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/event_dispatcher.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/send.cpp
-    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/pedal_config.cpp
     ${CMAKE_SOURCE_DIR}/lib/hardware/esp32/src/button.cpp
     ${CMAKE_SOURCE_DIR}/test/fakes/arduino_shim.cpp
 )
 
 add_executable(pedal_tests
     unit/test_event_dispatcher.cpp
-    unit/test_bank_manager.cpp
+    unit/test_profile_manager.cpp
     unit/test_send.cpp
     unit/test_button.cpp
     ${PROD_SOURCES}
