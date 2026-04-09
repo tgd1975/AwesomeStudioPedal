@@ -98,8 +98,8 @@ void test_double_press_fires_two_events()
 void test_hold_fires_one_event()
 {
     setup_button(btnA, PIN_A);
-    prompt("ACTION: Press and HOLD button A for 2s then release", 3);
-    int n = count_events(btnA, 500);
+    prompt("ACTION: Press and HOLD button A for 2s then release", 6);
+    int n = count_events(btnA, 1000);
     teardown_button(PIN_A);
     TEST_ASSERT_EQUAL_MESSAGE(1, n, "Expected exactly 1 event when holding button");
 }
@@ -197,7 +197,7 @@ void setup()
     TEST_MESSAGE("   1. Do NOT press any button          (2s)");
     TEST_MESSAGE("   2. Press button A ONCE              (3s)");
     TEST_MESSAGE("   3. Press button A TWICE, ~1s apart  (7s)");
-    TEST_MESSAGE("   4. Press and HOLD button A          (3s)");
+    TEST_MESSAGE("   4. Press and HOLD button A          (6s)");
     TEST_MESSAGE("   5. Press button A once, no more     (3s)");
     TEST_MESSAGE("   6. Press button A once, no more     (2s)");
     TEST_MESSAGE("   7. Press button B ONCE              (3s)");

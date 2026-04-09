@@ -5,25 +5,28 @@ Button::Button(uint8_t PIN) : PIN(PIN) {}
 
 void Button::setup() { pinMode(PIN, INPUT_PULLUP); }
 
-bool Button::isDebounced()
+bool Button::isDebounced(unsigned long now) const
 {
-    unsigned long now = millis();
-    bool accepted = (now - lastDebounceTime) > debounceDelay;
-    lastDebounceTime = now;
-    return accepted;
+    return (now - lastDebounceTime) > debounceDelay;
 }
 
 void Button::isr()
 {
+    unsigned long now = millis();
     if (digitalRead(PIN) == HIGH)
     {
-        awaitingRelease = false;
+        if (awaitingRelease && isDebounced(now))
+        {
+            awaitingRelease = false;
+            lastDebounceTime = now;
+        }
         return;
     }
-    if (! awaitingRelease && isDebounced())
+    if (!awaitingRelease && isDebounced(now))
     {
         pressCount++;
         awaitingRelease = true;
+        lastDebounceTime = now;
     }
 }
 
@@ -41,4 +44,5 @@ void Button::reset()
 {
     pressCount = 0;
     awaitingRelease = false;
+    lastDebounceTime = 0;
 }
