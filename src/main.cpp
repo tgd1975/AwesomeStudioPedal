@@ -13,7 +13,7 @@
 #include "event_dispatcher.h"
 #include "led_controller.h"
 #include "pedal_config.h"
-#include "send.h"
+#include "send_action.h"
 
 /**
  * @file main.cpp

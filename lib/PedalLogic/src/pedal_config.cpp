@@ -1,6 +1,6 @@
 #include "pedal_config.h"
 #include "profile.h"
-#include "send.h"
+#include "send_action.h"
 #include "action.h"
 #include "serial_action.h"
 #include "button_constants.h"

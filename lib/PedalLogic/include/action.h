@@ -2,10 +2,7 @@
 #include <cstdint>
 #include <memory>
 #include <string>
-
-#ifndef HOST_TEST_BUILD
 #include <ArduinoJson.h>
-#endif
 
 /**
  * @class Action
@@ -78,9 +75,7 @@ public:
      */
     virtual bool isSendAction() const { return false; }
     
-#ifndef HOST_TEST_BUILD
     virtual void getJsonProperties(JsonObject& json) const {}
-#endif
 
     virtual ~Action() = default;
 
@@ -162,8 +157,6 @@ public:
      */
     Action::Type getType() const override { return Action::Type::Delayed; }
     
-#ifndef HOST_TEST_BUILD
     void getJsonProperties(JsonObject& json) const override;
     static const char* getTypeName(Action::Type type);
-#endif
 };

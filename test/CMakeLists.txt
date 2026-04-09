@@ -2,7 +2,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/profile.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/profile_manager.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/event_dispatcher.cpp
-    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/send.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/send_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/config_loader.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_action.cpp
