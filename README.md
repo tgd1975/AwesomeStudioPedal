@@ -1,5 +1,10 @@
 # AwesomeStudioPedal
 
+[![CI](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/test.yml/badge.svg)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/test.yml)
+[![CodeQL](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/codeql-analysis.yml)
+[![Static Analysis](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/static-analysis.yml)
+[![Test Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/test.yml)
+
 A programmable, multi-profile foot controller for DAWs, score readers, and studio automation.
 
 AwesomeStudioPedal is an ESP32-based device that connects to any host over Bluetooth and appears as
@@ -20,13 +25,6 @@ untested — use at your own risk.
 ## License
 
 MIT License — see LICENSE file for details.
-
-## Status
-
-[![CI](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/test.yml/badge.svg)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/test.yml)
-[![CodeQL](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/codeql-analysis.yml)
-[![Static Analysis](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/static-analysis.yml)
-[![Test Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/test.yml)
 
 ## Future Ideas
 
