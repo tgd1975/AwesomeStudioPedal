@@ -24,3 +24,20 @@ MIT License — see LICENSE file for details.
 ## Test Coverage
 
 [![Test Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/test.yml)
+
+## Future Ideas
+
+The following ideas are potential future enhancements for AwesomeStudioPedal. These are not committed features but represent directions the project could explore:
+
+- **Mobile App Configuration**: Develop Android and/or iOS apps to configure profiles and settings via Bluetooth.
+- **CLI Tools**: Create command-line tools for advanced configuration and automation.
+- **Additional Hardware Support**: Extend compatibility to platforms like Arduino Nano.
+- **nRF Hardware Testing**: Thoroughly test and validate the nRF52840 implementation.
+- **Large Button Pedal Prototype**: Design and build a prototype with larger, more accessible buttons.
+- **Macros**: Implement support for macros, allowing sequences of actions to be triggered with a single button press.
+- **Display Integration**:
+  - **Version A**: Add a small display to show the currently selected profile.
+  - **Version B**: Incorporate a larger display to show more detailed configuration information.
+- **Hybrid Tool with DSP**: Explore a version with more powerful hardware (DSP) and two audio jacks to add guitar pedal functionalities like distortion, creating a hybrid tool.
+
+These ideas are open for community contributions and discussions. If you're interested in working on any of these, please open an issue or start a discussion!
