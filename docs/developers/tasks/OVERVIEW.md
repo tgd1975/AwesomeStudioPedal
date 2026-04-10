@@ -1,63 +1,10 @@
 # Task Overview
 
+- [Open Tasks](#open-tasks)
+- [Closed Tasks](#closed-tasks)
 - [Task Lifecycle](#task-lifecycle)
 - [Column Reference](#column-reference)
 - [Writing a Task File](#writing-a-task-file)
-- [Open Tasks](#open-tasks)
-- [Closed Tasks](#closed-tasks)
-
-## Task Lifecycle
-
-```
-open/ → (pick up) → in progress → /task-done TASK-NNN → closed/
-```
-
-Create a task with `/task-new "Title"`. Pick it up by branching off `main`
-(`feature/TASK-NNN-short-title`). When done, run `/task-done TASK-NNN` to move
-the file to `closed/` and update this overview.
-
-## Column Reference
-
-| Column | Meaning |
-|--------|---------|
-| **ID** | Unique identifier — link to the task file |
-| **Title** | One-line description of the work |
-| **Effort** | Expected size: Small (<2h), Medium (2-8h), Large (8-24h), Extra Large (24-40h) |
-| **Complexity** | Skill level needed: Junior, Medium, Senior |
-
-## Writing a Task File
-
-Each task file has a YAML frontmatter block followed by three sections:
-
-```markdown
----
-id: TASK-NNN
-title: Short imperative title
-status: open
-effort: Small (<2h)
-complexity: Junior
-human-in-loop: No | Clarification | Support | Main
----
-
-## Description
-
-What needs to be done and why.
-
-## Acceptance Criteria
-
-- [ ] Specific, verifiable outcome
-
-## Notes
-
-Progress, decisions, links.
-```
-
-**`human-in-loop`** values:
-
-- `No` — fully automatable, no human input needed
-- `Clarification` — needs a one-time decision before starting
-- `Support` — human provides context or review during the work
-- `Main` — human does the bulk of the work (e.g. video recording)
 
 <!-- GENERATED -->
 
@@ -130,3 +77,57 @@ Progress, decisions, links.
 | [TASK-045](closed/task-045-add-mermaid-validation-script.md) | Add Mermaid validation script | Medium (2-8h) |
 | [TASK-046](closed/task-046-fix-profile-select-button-functionality.md) | Fix profile select button functionality | Medium (2-8h) |
 | [TASK-048](closed/task-048-implement-permanent-profile-storage.md) | Implement permanent profile storage | Medium (2-8h) |
+<!-- END GENERATED -->
+
+## Task Lifecycle
+
+```
+open/ → (pick up) → in progress → /task-done TASK-NNN → closed/
+```
+
+Create a task with `/task-new "Title"`. Pick it up by branching off `main`
+(`feature/TASK-NNN-short-title`). When done, run `/task-done TASK-NNN` to move
+the file to `closed/` and update this overview.
+
+## Column Reference
+
+| Column | Meaning |
+|--------|---------|
+| **ID** | Unique identifier — link to the task file |
+| **Title** | One-line description of the work |
+| **Effort** | Expected size: Small (<2h), Medium (2-8h), Large (8-24h), Extra Large (24-40h) |
+| **Complexity** | Skill level needed: Junior, Medium, Senior |
+
+## Writing a Task File
+
+Each task file has a YAML frontmatter block followed by three sections:
+
+```markdown
+---
+id: TASK-NNN
+title: Short imperative title
+status: open
+effort: Small (<2h)
+complexity: Junior
+human-in-loop: No | Clarification | Support | Main
+---
+
+## Description
+
+What needs to be done and why.
+
+## Acceptance Criteria
+
+- [ ] Specific, verifiable outcome
+
+## Notes
+
+Progress, decisions, links.
+```
+
+**`human-in-loop`** values:
+
+- `No` — fully automatable, no human input needed
+- `Clarification` — needs a one-time decision before starting
+- `Support` — human provides context or review during the work
+- `Main` — human does the bulk of the work (e.g. video recording)

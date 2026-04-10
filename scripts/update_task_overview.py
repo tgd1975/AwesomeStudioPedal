@@ -16,7 +16,8 @@ OVERVIEW = os.path.join(TASKS_DIR, "OVERVIEW.md")
 
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)$", re.MULTILINE)
-GENERATED_MARKER = "<!-- GENERATED -->"
+MARKER_START = "<!-- GENERATED -->"
+MARKER_END = "<!-- END GENERATED -->"
 
 
 def parse_task_file(path):
@@ -44,23 +45,26 @@ def load_tasks(directory, status):
     return tasks
 
 
-def read_static_header():
-    """Return the static header block (everything up to and including GENERATED_MARKER)."""
+def read_frame():
+    """Return (prefix, suffix) — the static content before and after the generated block."""
     if not os.path.exists(OVERVIEW):
-        return GENERATED_MARKER + "\n"
+        return MARKER_START + "\n", "\n" + MARKER_END + "\n"
     with open(OVERVIEW) as f:
         content = f.read()
-    idx = content.find(GENERATED_MARKER)
-    if idx == -1:
-        return content.rstrip("\n") + "\n\n" + GENERATED_MARKER + "\n"
-    return content[: idx + len(GENERATED_MARKER)] + "\n"
+    start = content.find(MARKER_START)
+    end = content.find(MARKER_END)
+    if start == -1:
+        return content.rstrip("\n") + "\n\n" + MARKER_START + "\n", "\n" + MARKER_END + "\n"
+    prefix = content[: start + len(MARKER_START)] + "\n"
+    suffix = "\n" + MARKER_END + (content[end + len(MARKER_END):] if end != -1 else "\n")
+    return prefix, suffix
 
 
 def main():
     open_tasks = load_tasks(OPEN_DIR, "open")
     closed_tasks = load_tasks(CLOSED_DIR, "closed")
 
-    header = read_static_header()
+    prefix, suffix = read_frame()
 
     lines = [
         "",
@@ -94,7 +98,7 @@ def main():
         lines.append(f"| [{task_id}](closed/{t['_file']}) | {title} | {effort} |")
 
     with open(OVERVIEW, "w") as f:
-        f.write(header + "\n".join(lines) + "\n")
+        f.write(prefix + "\n".join(lines) + suffix)
 
     print(f"Updated {OVERVIEW} ({len(open_tasks)} open, {len(closed_tasks)} closed)")
 
