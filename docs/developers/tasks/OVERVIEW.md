@@ -8,7 +8,7 @@
 
 <!-- GENERATED -->
 
-**Open: 31** | **Closed: 29** | **Total: 60**
+**Open: 28** | **Closed: 32** | **Total: 60**
 
 ## Open Tasks
 
@@ -32,14 +32,11 @@
 | [TASK-037](open/task-037-create-real-world-usage-demo-video.md) | Create Real-World Usage Demo Video | Extra Large (24-40h) | Senior |
 | [TASK-038](open/task-038-create-troubleshooting-demo-video.md) | Create Troubleshooting Demo Video | Large (8-24h) | Medium |
 | [TASK-041](open/task-041-update-cross-references.md) | Update cross-references | Medium (2-8h) | Junior |
-| [TASK-042](open/task-042-verify-external-links.md) | Verify external links | Small (<2h) | Junior |
 | [TASK-043](open/task-043-final-proofreading.md) | Final proofreading | Medium (2-8h) | Junior |
-| [TASK-047](open/task-047-fix-profile-led-blinking-behavior.md) | Fix profile LED blinking behavior | Small (<2h) | Junior |
 | [TASK-049](open/task-049-setup-video-platform-channel.md) | Setup video platform channel | Small (<2h) | Junior |
 | [TASK-050](open/task-050-provide-fritzing-wiring-diagram.md) | Provide Fritzing wiring diagram | Medium (2-8h) | Junior |
 | [TASK-051](open/task-051-provide-thingiverse-printables-link.md) | Provide Thingiverse/Printables link | Small (<2h) | Junior |
 | [TASK-053](open/task-053-identify-and-install-agents-and-skills-for-the-pro.md) | Identify and install agents and skills for the project | Medium (2-8h) | Medium |
-| [TASK-055](open/task-055-add-github-readme-badges.md) | Add GitHub README badges | Small (<2h) | Junior |
 | [TASK-056](open/task-056-revisit-firmware-download-links.md) | Revisit firmware download links | Small (<2h) | Junior |
 | [TASK-057](open/task-057-check-if-github-ci-pipeline-is-running-flawlessly.md) | Check if GitHub CI pipeline is running flawlessly | Small (<2h) | Junior |
 | [TASK-058](open/task-058-remove-platformio-tests-from-vs-code-testing-windo.md) | Remove PlatformIO Tests from VS Code testing window | Small (<2h) | Junior |
@@ -73,12 +70,15 @@
 | [TASK-024](closed/task-024-move-readme-data-md-to-docs-data-readme-md.md) | Move README_data.md to docs/data/README.md | Small (<2h) |
 | [TASK-039](closed/task-039-add-mermaid-diagram-linting.md) | Add Mermaid diagram linting | Medium (2-8h) |
 | [TASK-040](closed/task-040-verify-mermaid-diagrams.md) | Verify Mermaid diagrams | Small (<2h) |
+| [TASK-042](closed/task-042-verify-external-links.md) | Verify external links | Small (<2h) |
 | [TASK-044](closed/task-044-create-mermaid-style-guide.md) | Create Mermaid style guide | Medium (2-8h) |
 | [TASK-045](closed/task-045-add-mermaid-validation-script.md) | Add Mermaid validation script | Medium (2-8h) |
 | [TASK-046](closed/task-046-fix-profile-select-button-functionality.md) | Fix profile select button functionality | Medium (2-8h) |
+| [TASK-047](closed/task-047-fix-profile-led-blinking-behavior.md) | Fix profile LED blinking behavior | Small (<2h) |
 | [TASK-048](closed/task-048-implement-permanent-profile-storage.md) | Implement permanent profile storage | Medium (2-8h) |
 | [TASK-052](closed/task-052-move-future-ideas-list-to-github-tasks.md) | Move future ideas list to GitHub tasks | Small (<2h) |
 | [TASK-054](closed/task-054-check-and-resolve-license-inconsistency.md) | Check and resolve license inconsistency | Small (<2h) |
+| [TASK-055](closed/task-055-add-github-readme-badges.md) | Add GitHub README badges | Small (<2h) |
 <!-- END GENERATED -->
 
 ## Task Lifecycle

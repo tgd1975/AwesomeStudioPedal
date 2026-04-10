@@ -92,6 +92,7 @@ private:
 
     // Post-switch blink state
     bool postSwitchBlink = false;
+    bool blinkStarted = false;
     uint32_t blinkStartTime = 0;
     uint8_t blinkPhase = 0;                         // counts half-cycles (on/off)
     static constexpr uint8_t BLINK_COUNT = 3;       // full on/off cycles

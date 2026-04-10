@@ -49,6 +49,7 @@ uint8_t ProfileManager::switchProfile()
     }
     currentProfile = next;
     postSwitchBlink = true;
+    blinkStarted = false;
     blinkPhase = 0;
     blinkStartTime = 0;
 
@@ -99,8 +100,9 @@ void ProfileManager::update(uint32_t now)
         return;
     }
 
-    if (blinkStartTime == 0)
+    if (! blinkStarted)
     {
+        blinkStarted = true;
         blinkStartTime = now;
         for (auto* led : selectLeds)
         {

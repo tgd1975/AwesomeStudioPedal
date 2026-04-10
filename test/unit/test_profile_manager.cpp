@@ -283,6 +283,25 @@ TEST_F(ProfileManagerTest, ConstructorSetsProfile0LEDs)
 // Post-switch blink: LED state immediately after switch vs after update()
 // ---------------------------------------------------------------------------
 
+// Regression: blinkStartTime=0 was previously used as sentinel, causing infinite
+// re-initialisation when update() was called with now=0 (e.g. exactly at boot).
+TEST_F(ProfileManagerTest, PostSwitchBlink_WorksWhenNowIsZero)
+{
+    SpyLEDController l1, l2, l3;
+    ProfileManager pm({&l1, &l2, &l3});
+    pm.addProfile(0, makeProfile("P0"));
+    pm.addProfile(1, makeProfile("P1"));
+    pm.switchProfile();
+
+    pm.update(0);    // initialise blink at t=0
+    pm.update(5000); // complete blink
+
+    // After blink completes, profile 1 in binary mode → bits=2 → LED2 on
+    EXPECT_FALSE(l1.lastState);
+    EXPECT_TRUE(l2.lastState);
+    EXPECT_FALSE(l3.lastState);
+}
+
 TEST_F(ProfileManagerTest, PostSwitchBlink_AllLEDsOnImmediately)
 {
     MockLEDController l1, l2, l3;
