@@ -44,14 +44,7 @@ The following ideas are potential future enhancements for AwesomeStudioPedal. Th
 
 These ideas are open for community contributions and discussions. If you're interested in working on any of these, please open an issue or start a discussion!
 
-## Firmware Versions
+## Firmware
 
-**Current Stable**: v1.2.0
-
-- [ESP32 Firmware](https://github.com/tgd1975/AwesomeGuitarPedal/releases/download/v1.2.0/awesome-pedal-esp32-v1.2.0.bin)
-- [nRF52840 Firmware](https://github.com/tgd1975/AwesomeGuitarPedal/releases/download/v1.2.0/awesome-pedal-nrf52840-v1.2.0.bin)
-
-**Previous Versions**:
-
-- v1.1.0: [ESP32](link) | [nRF52840](link)
-- v1.0.0: [ESP32](link) | [nRF52840](link)
+No pre-built firmware release is available yet. Build from source using the
+[Build Guide](docs/builders/BUILD_GUIDE.md).

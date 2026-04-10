@@ -25,3 +25,6 @@ Focus on: `README.md`, `CONTRIBUTING.md`, `docs/developers/`, `SECURITY.md`.
 Tools: `markdown-link-check` (npm), `lychee` (Rust), or manual review.
 Ignore intentionally unreachable URLs (e.g. localhost examples) using ignore config.
 Related: TASK-041 (internal cross-references).
+
+The broken firmware download links that were previously in `README.md` have been removed
+(replaced by a build-from-source note). TASK-060 covers restoring them after the first release.

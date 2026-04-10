@@ -8,13 +8,12 @@
 
 <!-- GENERATED -->
 
-**Open: 32** | **Closed: 27** | **Total: 59**
+**Open: 32** | **Closed: 28** | **Total: 60**
 
 ## Open Tasks
 
 | ID | Title | Effort | Complexity |
 |----|-------|--------|------------|
-| [TASK-011](open/task-011-add-funding-yml.md) | Add FUNDING.yml | Small (<2h) | Junior |
 | [TASK-020](open/task-020-create-release-workflow.md) | Create release workflow | Extra Large (24-40h) | Senior |
 | [TASK-021](open/task-021-add-package-publishing.md) | Add package publishing | Large (8-24h) | Senior |
 | [TASK-023](open/task-023-add-release-process-to-contributing-md.md) | Add release process to CONTRIBUTING.md | Small (<2h) | Junior |
@@ -46,6 +45,7 @@
 | [TASK-057](open/task-057-check-if-github-ci-pipeline-is-running-flawlessly.md) | Check if GitHub CI pipeline is running flawlessly | Small (<2h) | Junior |
 | [TASK-058](open/task-058-remove-platformio-tests-from-vs-code-testing-windo.md) | Remove PlatformIO Tests from VS Code testing window | Small (<2h) | Junior |
 | [TASK-059](open/task-059-document-scripts-folder.md) | Document the scripts/ folder | Medium (2-8h) | Junior |
+| [TASK-060](open/task-060-add-firmware-download-section-to-readme.md) | Add firmware download section to README | Small (<2h) | Junior |
 
 ## Closed Tasks
 
@@ -61,6 +61,7 @@
 | [TASK-008](closed/task-008-add-dependabot-yml.md) | Add dependabot.yml | Small (<2h) |
 | [TASK-009](closed/task-009-add-dependabot-auto-merge-workflow.md) | Add dependabot auto-merge workflow | Medium (2-8h) |
 | [TASK-010](closed/task-010-add-codeowners-file.md) | Add CODEOWNERS file | Small (<2h) |
+| [TASK-011](closed/task-011-add-funding-yml.md) | Add FUNDING.yml | Small (<2h) |
 | [TASK-012](closed/task-012-add-future-ideas-section-to-readme.md) | Add "Future Ideas" section to README | Small (<2h) |
 | [TASK-013](closed/task-013-enable-github-discussions.md) | Enable GitHub Discussions | Small (<2h) |
 | [TASK-014](closed/task-014-add-test-coverage-badge.md) | Add test coverage badge | Small (<2h) |
