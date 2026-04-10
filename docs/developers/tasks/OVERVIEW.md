@@ -8,7 +8,7 @@
 
 <!-- GENERATED -->
 
-**Open: 31** | **Closed: 27** | **Total: 58**
+**Open: 32** | **Closed: 27** | **Total: 59**
 
 ## Open Tasks
 
@@ -45,6 +45,7 @@
 | [TASK-056](open/task-056-revisit-firmware-download-links.md) | Revisit firmware download links | Small (<2h) | Junior |
 | [TASK-057](open/task-057-check-if-github-ci-pipeline-is-running-flawlessly.md) | Check if GitHub CI pipeline is running flawlessly | Small (<2h) | Junior |
 | [TASK-058](open/task-058-remove-platformio-tests-from-vs-code-testing-windo.md) | Remove PlatformIO Tests from VS Code testing window | Small (<2h) | Junior |
+| [TASK-059](open/task-059-document-scripts-folder.md) | Document the scripts/ folder | Medium (2-8h) | Junior |
 
 ## Closed Tasks
 
