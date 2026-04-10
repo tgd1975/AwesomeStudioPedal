@@ -9,10 +9,18 @@ human-in-loop: Clarification
 
 ## Description
 
-Revisit firmware download links.
+Review all firmware download links in `README.md` and documentation to ensure they point to
+actual existing GitHub Release assets and are not stale or broken.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [ ] All firmware download links verified as reachable
+- [ ] Links updated to point to the latest stable release
+- [ ] Naming convention consistent: `awesome-pedal-[platform]-[version].bin`
+- [ ] Old or dangling links removed
 
 ## Notes
+
+Related to TASK-025 (add firmware versions section) — if that task is done first, this task
+becomes a periodic maintenance check rather than an initial setup.
+Use `gh release list` and `gh release view` to inspect available assets.

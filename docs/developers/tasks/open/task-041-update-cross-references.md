@@ -9,10 +9,17 @@ human-in-loop: Clarification
 
 ## Description
 
-Update cross-references.
+Audit all internal documentation cross-references and ensure every link between markdown files
+is correct, uses consistent anchor format, and points to files that still exist.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [ ] All relative markdown links between docs verified and working
+- [ ] Anchors (`#section-name`) match actual headings (case-insensitive, spaces → hyphens)
+- [ ] No broken or stale references to deleted/renamed files
+- [ ] `README.md` links to the correct documentation files
 
 ## Notes
+
+Focus areas: `README.md`, `CONTRIBUTING.md`, `docs/developers/`, `docs/building.md` (once created).
+Use a link checker or manually audit. Consider running `markdown-link-check` as part of CI (TASK-042 covers external links).

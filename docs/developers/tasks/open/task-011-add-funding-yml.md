@@ -9,10 +9,30 @@ human-in-loop: Clarification
 
 ## Description
 
-Add FUNDING.yml.
+Add `.github/FUNDING.yml` to enable sponsorship buttons on the GitHub repository page.
+The project uses `tgd1975` as the username across all platforms.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [ ] `.github/FUNDING.yml` exists and is valid
+- [ ] GitHub Sponsors entry uses `tgd1975`
+- [ ] Liberapay and Buy Me a Coffee custom URLs are included
 
 ## Notes
+
+Intended file content:
+
+```yaml
+github: tgd1975
+custom: [
+  "https://liberapay.com/tgd1975/donate",
+  "https://buymeacoffee.com/tgd1975"
+]
+```
+
+Platform notes:
+
+- GitHub Sponsors uses the GitHub username automatically
+- Liberapay provides European-friendly payment options (SEPA)
+- Buy Me a Coffee offers simple one-time donations
+- All platforms use consistent `tgd1975` username for branding

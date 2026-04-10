@@ -9,10 +9,16 @@ human-in-loop: Clarification
 
 ## Description
 
-Provide Thingiverse/Printables link.
+Publish the 3D-printable pedal enclosure design on Thingiverse or Printables and link it
+from the project documentation so builders can print their own enclosure.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [ ] 3D model published on Thingiverse or Printables
+- [ ] Page includes a description, required hardware list, and print settings
+- [ ] Link added to `README.md` and builder documentation (TASK-026)
 
 ## Notes
+
+If no enclosure design exists yet, this task should be scoped to design or source one first.
+Printables (by Prusa) is the preferred modern alternative to Thingiverse.

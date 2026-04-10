@@ -9,10 +9,17 @@ human-in-loop: Clarification
 
 ## Description
 
-Add builder documentation.
+Create `docs/building.md` covering everything a builder needs: how to compile the firmware,
+configure the hardware, and prepare a device for end-users.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [ ] `docs/building.md` exists
+- [ ] Covers build prerequisites (PlatformIO, CMake, platform SDKs)
+- [ ] Step-by-step build instructions for ESP32 and nRF52840
+- [ ] References upload instructions (TASK-027) and required tools (TASK-028)
+- [ ] Linked from `README.md`
 
 ## Notes
+
+Related: TASK-027 (upload instructions), TASK-028 (required tools), TASK-025 (firmware versions in README).
