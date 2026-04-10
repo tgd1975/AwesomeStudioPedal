@@ -8,5 +8,6 @@
   },
   "MD036": false,
   "MD040": false,
-  "MD060": false
+  "MD060": false,
+  "fix": true
 }
