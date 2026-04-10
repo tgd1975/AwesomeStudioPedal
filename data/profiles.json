@@ -1,0 +1,80 @@
+{
+  "_doc": "Key reference: docs/builders/KEY_REFERENCE.md",
+  "profiles": [
+    {
+      "name": "01 Score Navigator",
+      "description": "Designed for musicians reading digital sheet music on a tablet or notebook (e.g., forScore, MobileSheets, or Adobe Acrobat). Uses standard navigation keys to turn pages and jump to sections.",
+      "buttons": {
+        "A": { "type": "SendCharAction", "name": "Prev Page", "value": "KEY_PAGE_UP" },
+        "B": { "type": "SendCharAction", "name": "Next Page", "value": "KEY_PAGE_DOWN" },
+        "C": { "type": "SendCharAction", "name": "First Page", "value": "KEY_HOME" },
+        "D": { "type": "SendCharAction", "name": "Last Page", "value": "KEY_END" }
+      }
+    },
+    {
+      "name": "02 Pixel Camera Remote",
+      "description": "Hands-free video and photo control for Google Pixel smartphones. Uses the Volume Up shortcut to trigger the shutter. Includes a 3-second delay on Button A to allow the performer to get into position.",
+      "buttons": {
+        "A": {
+          "type": "DelayedAction",
+          "name": "Delayed Shutter",
+          "delayMs": 3000,
+          "action": { "type": "SendMediaKeyAction", "value": "KEY_VOLUME_UP" }
+        },
+        "B": { "type": "SendMediaKeyAction", "name": "Instant Shutter", "value": "KEY_VOLUME_UP" },
+        "C": { "type": "SendCharAction", "name": "Switch Mode", "value": "KEY_TAB" },
+        "D": { "type": "SendCharAction", "name": "Gallery Preview", "value": "KEY_ENTER" }
+      }
+    },
+    {
+      "name": "03 VLC Mobile Controller",
+      "description": "Optimized for the VLC app on smartphones. Ideal for musicians practicing along with video/audio recordings. Allows for quick pausing and speed adjustments to learn difficult passages.",
+      "buttons": {
+        "A": { "type": "SendMediaKeyAction", "name": "Play/Pause", "value": "MEDIA_PLAY_PAUSE" },
+        "B": { "type": "SendMediaKeyAction", "name": "Stop", "value": "MEDIA_STOP" },
+        "C": { "type": "SendCharAction", "name": "Slow Down", "value": "[" },
+        "D": { "type": "SendCharAction", "name": "Speed Up", "value": "]" }
+      }
+    },
+    {
+      "name": "04 OBS Stream Deck",
+      "description": "A foot-operated switcher for OBS Studio on a PC/Mac. Uses high-range function keys (F13-F16) to switch scenes or mute audio without interfering with standard keyboard typing.",
+      "buttons": {
+        "A": { "type": "SendCharAction", "name": "Intro Scene", "value": "KEY_F13" },
+        "B": { "type": "SendCharAction", "name": "Main Scene", "value": "KEY_F14" },
+        "C": { "type": "SendCharAction", "name": "Mute Mic", "value": "KEY_F15" },
+        "D": { "type": "SendCharAction", "name": "Start Stream", "value": "KEY_F16" }
+      }
+    },
+    {
+      "name": "05 DAW Looper (Ableton)",
+      "description": "General purpose recording and looping profile for DAWs like Ableton Live. Focuses on the 'Solo Performer' workflow where undoing a bad take quickly is essential.",
+      "buttons": {
+        "A": { "type": "SendCharAction", "name": "Record", "value": "F9" },
+        "B": { "type": "SendCharAction", "name": "Play/Stop", "value": " " },
+        "C": { "type": "SendStringAction", "name": "Undo Take", "value": "ctrl+z" },
+        "D": { "type": "SendCharAction", "name": "Metronome", "value": "c" }
+      }
+    },
+    {
+      "name": "06 Social & Comms",
+      "description": "A productivity profile for interacting with Discord, Slack, or Zoom while playing an instrument. Includes a one-touch status update for rehearsals.",
+      "buttons": {
+        "A": { "type": "SendStringAction", "name": "Quick Msg", "value": "Starting now, see you in the chat!" },
+        "B": { "type": "SendStringAction", "name": "Mute App", "value": "ctrl+shift+m" },
+        "C": { "type": "SendStringAction", "name": "Deafen", "value": "ctrl+shift+d" },
+        "D": { "type": "SendCharAction", "name": "Screenshot", "value": "KEY_PRINTSCREEN" }
+      }
+    },
+    {
+      "name": "07 System Debug",
+      "description": "Technical health check profile for the AwesomeStudioPedal. Sends status messages to the Serial Monitor and provides basic OS navigation (Up/Down) for emergency menu control.",
+      "buttons": {
+        "A": { "type": "SerialOutputAction", "name": "Ping Pedal", "value": "AwesomeStudioPedal: Profile 7 Active - All systems nominal." },
+        "B": { "type": "SendStringAction", "name": "Version Info", "value": "v1.2-Extended-Func" },
+        "C": { "type": "SendCharAction", "name": "Nav Up", "value": "KEY_UP_ARROW" },
+        "D": { "type": "SendCharAction", "name": "Nav Down", "value": "KEY_DOWN_ARROW" }
+      }
+    }
+  ]
+}

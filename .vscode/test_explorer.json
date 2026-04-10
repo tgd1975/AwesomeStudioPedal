@@ -1,0 +1,59 @@
+{
+    "version": "0.2.0",
+    "patterns": [
+        {
+            "name": "Native Tests",
+            "type": "test",
+            "path": "test/native_test_runner.cpp",
+            "tests": [
+                {
+                    "name": "Basic Assertion",
+                    "path": "test/native_test_runner.cpp",
+                    "line": 48
+                },
+                {
+                    "name": "Math Operations",
+                    "path": "test/native_test_runner.cpp",
+                    "line": 53
+                },
+                {
+                    "name": "String Operations",
+                    "path": "test/native_test_runner.cpp",
+                    "line": 58
+                },
+                {
+                    "name": "Array Operations",
+                    "path": "test/native_test_runner.cpp",
+                    "line": 65
+                }
+            ]
+        }
+    ],
+    "commands": {
+        "run": {
+            "command": "${workspaceFolder}/.vscode/build/test_runner"
+        },
+        "build": {
+            "command": "g++",
+            "args": [
+                "-std=c++17",
+                "-I.",
+                "-Itest",
+                "-Isrc",
+                "-Iinclude",
+                "-o",
+                "${workspaceFolder}/.vscode/build/test_runner",
+                "${workspaceFolder}/test/native_test_runner.cpp"
+            ]
+        }
+    },
+    "buildTask": {
+        "label": "Build Native Tests",
+        "type": "shell"
+    },
+    "runTask": {
+        "label": "Run Native Tests",
+        "type": "shell",
+        "dependsOn": ["Build Native Tests"]
+    }
+}

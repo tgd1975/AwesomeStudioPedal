@@ -50,3 +50,22 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# PlatformIO build artifacts
+.pio/
+
+# VSCode settings (keep config files but ignore build output)
+.vscode/build/
+.vscode/build-coverage/
+
+# Host test build artifacts
+test/build/
+
+# IDE/Editor files
+.idea/
+*.swp
+*.swo
+
+# Generated documentation (built by CI, not committed)
+docs/api/
+docs/coverage/

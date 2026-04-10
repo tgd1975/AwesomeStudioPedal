@@ -1,0 +1,9 @@
+{
+  "name": "PedalLogic",
+  "version": "1.0.0",
+  "description": "Hardware-independent pedal logic (ProfileManager, Profile, EventDispatcher, Send)",
+  "build": {
+    "srcDirs": ["src"],
+    "includeDir": "include"
+  }
+}
