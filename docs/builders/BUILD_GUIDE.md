@@ -78,7 +78,7 @@ stomping.
 pip install esptool
 
 # Upload firmware (replace COM3 with your port)
-esptool.py --chip esp32 --port COM3 --baud 921600 write_flash 0x1000 awesome-pedal-esp32-v1.2.0.bin
+esptool.py --chip esp32 --port COM3 --baud 921600 write_flash 0x1000 awesome-pedal-esp32-vX.Y.Z.bin
 ```
 
 **nRF52840 (using nrfjprog):**
@@ -86,7 +86,7 @@ esptool.py --chip esp32 --port COM3 --baud 921600 write_flash 0x1000 awesome-ped
 ```bash
 # Install nrfjprog from Nordic Semiconductor
 # Connect your device and run:
-nrfjprog --program awesome-pedal-nrf52840-v1.2.0.bin --verify --reset
+nrfjprog --program awesome-pedal-nrf52840-vX.Y.Z.bin --verify --reset
 ```
 
 ### Required Tools
