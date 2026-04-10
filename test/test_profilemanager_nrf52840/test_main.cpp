@@ -227,7 +227,7 @@ void test_replace_invalid_index_returns_false()
 // loadFromFile — real pedal_config.json on the device filesystem
 //
 // Prerequisites: the filesystem image must be uploaded before running this
-// test suite (pio run -e nodemcu-32s --target uploadfs).
+// test suite (pio run -e feather-nrf52840 --target uploadfs).
 // ---------------------------------------------------------------------------
 
 static const char* CONFIG_PATH = "/pedal_config.json";
@@ -334,8 +334,6 @@ void test_loadFromFile_missing_file_returns_false()
 void test_led_encoding_profile0_visual()
 {
     resetPM();
-    // Re-create with real LEDControllers on the actual GPIO pins for visual check.
-    // Using NullLEDController here — tester observes physical LEDs separately.
     TEST_MESSAGE("LED CHECK: Profile 0 → LED1 ON, LED2 OFF, LED3 OFF");
     TEST_ASSERT_EQUAL(0, pm.getCurrentProfile());
 }

@@ -10,13 +10,69 @@ using MediaKeyReport = uint8_t[2];
 
 // Key constants: define only when BleKeyboard.h has not been included,
 // so that firmware TUs that include both headers don't get redefinitions.
+// Values are identical to BleKeyboard.h (USB HID codes).
 #ifndef ESP32_BLE_KEYBOARD_H
-const uint8_t KEY_UP_ARROW = 0xDA;    /**< USB HID key code for up arrow */
-const uint8_t KEY_DOWN_ARROW = 0xD9;  /**< USB HID key code for down arrow */
-const uint8_t KEY_LEFT_ARROW = 0xD8;  /**< USB HID key code for left arrow */
-const uint8_t KEY_RIGHT_ARROW = 0xD7; /**< USB HID key code for right arrow */
-
-static constexpr uint8_t KEY_MEDIA_STOP[2] = {4, 0}; /**< Media key report for stop */
+// Arrow keys
+const uint8_t KEY_LEFT_ARROW = 0xD8;
+const uint8_t KEY_RIGHT_ARROW = 0xD7;
+const uint8_t KEY_UP_ARROW = 0xDA;
+const uint8_t KEY_DOWN_ARROW = 0xD9;
+// Navigation
+const uint8_t KEY_PAGE_UP = 0xD3;
+const uint8_t KEY_PAGE_DOWN = 0xD6;
+const uint8_t KEY_HOME = 0xD2;
+const uint8_t KEY_END = 0xD5;
+const uint8_t KEY_INSERT = 0xD1;
+const uint8_t KEY_DELETE = 0xD4;
+// Control
+const uint8_t KEY_BACKSPACE = 0xB2;
+const uint8_t KEY_TAB = 0xB3;
+const uint8_t KEY_RETURN = 0xB0;
+const uint8_t KEY_ESC = 0xB1;
+const uint8_t KEY_CAPS_LOCK = 0xC1;
+const uint8_t KEY_PRTSC = 0xCE;
+// Modifiers
+const uint8_t KEY_LEFT_CTRL = 0x80;
+const uint8_t KEY_LEFT_SHIFT = 0x81;
+const uint8_t KEY_LEFT_ALT = 0x82;
+const uint8_t KEY_LEFT_GUI = 0x83;
+const uint8_t KEY_RIGHT_CTRL = 0x84;
+const uint8_t KEY_RIGHT_SHIFT = 0x85;
+const uint8_t KEY_RIGHT_ALT = 0x86;
+const uint8_t KEY_RIGHT_GUI = 0x87;
+// Function keys
+const uint8_t KEY_F1 = 0xC2;
+const uint8_t KEY_F2 = 0xC3;
+const uint8_t KEY_F3 = 0xC4;
+const uint8_t KEY_F4 = 0xC5;
+const uint8_t KEY_F5 = 0xC6;
+const uint8_t KEY_F6 = 0xC7;
+const uint8_t KEY_F7 = 0xC8;
+const uint8_t KEY_F8 = 0xC9;
+const uint8_t KEY_F9 = 0xCA;
+const uint8_t KEY_F10 = 0xCB;
+const uint8_t KEY_F11 = 0xCC;
+const uint8_t KEY_F12 = 0xCD;
+const uint8_t KEY_F13 = 0xF0;
+const uint8_t KEY_F14 = 0xF1;
+const uint8_t KEY_F15 = 0xF2;
+const uint8_t KEY_F16 = 0xF3;
+const uint8_t KEY_F17 = 0xF4;
+const uint8_t KEY_F18 = 0xF5;
+const uint8_t KEY_F19 = 0xF6;
+const uint8_t KEY_F20 = 0xF7;
+const uint8_t KEY_F21 = 0xF8;
+const uint8_t KEY_F22 = 0xF9;
+const uint8_t KEY_F23 = 0xFA;
+const uint8_t KEY_F24 = 0xFB;
+// Media key reports
+static constexpr uint8_t KEY_MEDIA_NEXT_TRACK[2] = {1, 0};
+static constexpr uint8_t KEY_MEDIA_PREVIOUS_TRACK[2] = {2, 0};
+static constexpr uint8_t KEY_MEDIA_STOP[2] = {4, 0};
+static constexpr uint8_t KEY_MEDIA_PLAY_PAUSE[2] = {8, 0};
+static constexpr uint8_t KEY_MEDIA_MUTE[2] = {16, 0};
+static constexpr uint8_t KEY_MEDIA_VOLUME_UP[2] = {32, 0};
+static constexpr uint8_t KEY_MEDIA_VOLUME_DOWN[2] = {64, 0};
 #endif
 
 /**

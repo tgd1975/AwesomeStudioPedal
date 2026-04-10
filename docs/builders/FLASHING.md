@@ -14,25 +14,43 @@ cd AwesomeStudioPedal
 pio lib install
 ```
 
-## Flash firmware and filesystem
+## First flash (firmware + filesystem)
 
-Use this on first flash or after any firmware change:
-
-```bash
-make upload-esp32
-```
-
-This uploads both the compiled firmware and the `data/` directory (which contains `pedal_config.json`)
-to the device in one step.
-
-## Filesystem-only update
-
-If you only edited `data/pedal_config.json` and the firmware has not changed, a filesystem-only upload
-is faster:
+On first flash, or after any firmware change, you need to upload both the firmware and the
+filesystem. Run these two commands in order:
 
 ```bash
-pio run -e nodemcu-32s --target uploadfs
+make upload-esp32      # flash compiled firmware
+make uploadfs-esp32    # flash data/ directory (pedal_config.json)
 ```
+
+Or use the combined shortcut that builds, uploads firmware, uploads filesystem, and opens the
+serial monitor:
+
+```bash
+make run-esp32
+```
+
+## Updating the configuration without recompiling
+
+The device configuration lives in `data/pedal_config.json`. You can edit it and push it to
+the device without touching or recompiling the firmware. Only the filesystem partition is
+re-written — takes a few seconds.
+
+**ESP32:**
+
+```bash
+make uploadfs-esp32
+```
+
+**nRF52840:**
+
+```bash
+make uploadfs-nrf52840
+```
+
+This is the normal workflow for customising profiles, adding new button mappings, or changing
+action values. No build step is needed; just edit the JSON file and run the upload.
 
 ## Serial port permissions on Linux
 
@@ -55,5 +73,5 @@ The partition table is at `config/esp32/partitions.csv`. No changes are needed f
 - **Permission denied (Linux):** verify `dialout` group membership and restart your session.
 - **Config not loading:** validate `data/pedal_config.json` with a JSON linter, then re-run the
   filesystem upload.
-- **LittleFS mount failed** (appears in serial output): run
-  `pio run -e nodemcu-32s --target uploadfs` to re-upload the filesystem.
+- **LittleFS mount failed** (appears in serial output): run `make uploadfs-esp32` to re-upload
+  the filesystem.

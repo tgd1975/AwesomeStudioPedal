@@ -1,7 +1,7 @@
 # Makefile for AwesomeGuitarPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profilemanager test-nrf52840-button test-nrf52840-serial test-nrf52840-profilemanager build-nrf52840 build-esp32 upload-esp32 monitor-esp32 upload-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean
+.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profiles test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
@@ -15,34 +15,36 @@ all:
 	@echo "Awesome Guitar Pedal - Makefile Usage"
 	@echo ""
 	@echo "General Commands:"
-	@echo "  make build        - Build ALL targets (ESP32 + nRF52840)"
-	@echo "  make clean       - Clean build artifacts"
-	@echo "  make test-host   - Run host unit tests (GoogleTest)"
-	@echo "  make format      - Format all C++ files using clang-format"
-	@echo "  make lint-markdown - Fix markdown linting issues"
-	@echo "  make info        - Show project information"
-	@echo "  make docs        - Generate API documentation with Doxygen"
-	@echo "  make docs-coverage - Show undocumented symbols in project source"
-	@echo "  make coverage    - Run host tests and generate HTML coverage report (requires lcov)"
+	@echo "  make build          - Build ALL targets (ESP32 + nRF52840)"
+	@echo "  make clean          - Clean build artifacts"
+	@echo "  make test-host      - Run host unit tests (GoogleTest)"
+	@echo "  make format         - Format all C++ files using clang-format"
+	@echo "  make lint-markdown  - Fix markdown linting issues"
+	@echo "  make info           - Show project information"
+	@echo "  make docs           - Generate API documentation with Doxygen"
+	@echo "  make docs-coverage  - Show undocumented symbols in project source"
+	@echo "  make coverage       - Run host tests and generate HTML coverage report (requires lcov)"
 	@echo "  make coverage-clean - Remove coverage build artifacts"
 	@echo ""
 	@echo "ESP32-Specific Commands:"
-	@echo "  make build-esp32     - Build for ESP32 only"
-	@echo "  make upload-esp32   - Upload to ESP32"
-	@echo "  make monitor-esp32  - Monitor ESP32 serial"
-	@echo "  make run-esp32      - Build, upload, and monitor ESP32"
-	@echo "  make test-esp32-button   - Run on-device button tests (Unity, requires ESP32)"
-	@echo "  make test-esp32-serial          - Run on-device serial output tests (Unity, requires ESP32)"
-	@echo "  make test-esp32-profilemanager  - Run on-device profile manager tests (Unity, requires ESP32)"
+	@echo "  make build-esp32         - Build for ESP32 only"
+	@echo "  make upload-esp32        - Upload firmware to ESP32"
+	@echo "  make uploadfs-esp32      - Upload filesystem image (data/) to ESP32 — run once after adding/changing config files"
+	@echo "  make monitor-esp32       - Monitor ESP32 serial"
+	@echo "  make run-esp32           - Build, upload firmware + filesystem, and monitor ESP32"
+	@echo "  make test-esp32-button   - Upload filesystem + run on-device button tests (Unity, requires ESP32)"
+	@echo "  make test-esp32-serial   - Upload filesystem + run on-device serial output tests (Unity, requires ESP32)"
+	@echo "  make test-esp32-profiles - Upload filesystem + run on-device profile manager tests (Unity, requires ESP32)"
 	@echo ""
 	@echo "nRF52840-Specific Commands:"
-	@echo "  make build-nrf52840    - Build for nRF52840 only"
-	@echo "  make upload-nrf52840   - Upload to nRF52840"
-	@echo "  make monitor-nrf52840  - Monitor nRF52840 serial"
-	@echo "  make run-nrf52840     - Build, upload, and monitor nRF52840"
-	@echo "  make test-nrf52840-button          - Run on-device button tests (Unity, requires nRF52840)"
-	@echo "  make test-nrf52840-serial          - Run on-device serial output tests (Unity, requires nRF52840)"
-	@echo "  make test-nrf52840-profilemanager  - Run on-device profile manager tests (Unity, requires nRF52840)"
+	@echo "  make build-nrf52840         - Build for nRF52840 only"
+	@echo "  make upload-nrf52840        - Upload to nRF52840"
+	@echo "  make uploadfs-nrf52840      - Upload filesystem image (data/) to nRF52840 — run once after adding/changing config files"
+	@echo "  make monitor-nrf52840       - Monitor nRF52840 serial"
+	@echo "  make run-nrf52840           - Build, upload firmware + filesystem, and monitor nRF52840"
+	@echo "  make test-nrf52840-button   - Upload filesystem + run on-device button tests (Unity, requires nRF52840)"
+	@echo "  make test-nrf52840-serial   - Upload filesystem + run on-device serial output tests (Unity, requires nRF52840)"
+	@echo "  make test-nrf52840-profiles - Upload filesystem + run on-device profile manager tests (Unity, requires nRF52840)"
 	@echo ""
 	@echo "See README.md for more details"
 
@@ -67,10 +69,13 @@ build-esp32:
 upload-esp32:
 	pio run -e $(ESP32_ENV) --target upload
 
+uploadfs-esp32:
+	pio run -e $(ESP32_ENV) --target uploadfs
+
 monitor-esp32:
 	pio device monitor -e $(ESP32_ENV)
 
-run-esp32: build-esp32 upload-esp32
+run-esp32: build-esp32 upload-esp32 uploadfs-esp32
 	@echo "Build and upload complete. Starting monitor..."
 	pio device monitor -e $(ESP32_ENV) || echo "Monitor failed, but build/upload succeeded"
 
@@ -81,35 +86,38 @@ build-nrf52840:
 upload-nrf52840:
 	pio run -e $(NRF52840_ENV) --target upload
 
+uploadfs-nrf52840:
+	pio run -e $(NRF52840_ENV) --target uploadfs
+
 monitor-nrf52840:
 	pio device monitor -e $(NRF52840_ENV)
 
-run-nrf52840: build-nrf52840 upload-nrf52840
+run-nrf52840: build-nrf52840 upload-nrf52840 uploadfs-nrf52840
 	@echo "Build and upload complete. Starting monitor..."
 	pio device monitor -e $(NRF52840_ENV) || echo "Monitor failed, but build/upload succeeded"
 
 # Run on-device button tests (Unity via PlatformIO) — requires ESP32 connected
-test-esp32-button:
+test-esp32-button: uploadfs-esp32
 	pio test -e nodemcu-32s-test -v
 
 # Run on-device serial output tests (Unity via PlatformIO) — requires ESP32 connected
-test-esp32-serial:
+test-esp32-serial: uploadfs-esp32
 	pio test -e nodemcu-32s-serial-test -v
 
 # Run on-device profile manager tests (Unity via PlatformIO) — requires ESP32 connected
-test-esp32-profilemanager:
+test-esp32-profiles: uploadfs-esp32
 	pio test -e nodemcu-32s-profilemanager-test -v
 
 # Run on-device button tests (Unity via PlatformIO) — requires nRF52840 connected
-test-nrf52840-button:
+test-nrf52840-button: uploadfs-nrf52840
 	pio test -e feather-nrf52840-test -v
 
 # Run on-device serial output tests (Unity via PlatformIO) — requires nRF52840 connected
-test-nrf52840-serial:
+test-nrf52840-serial: uploadfs-nrf52840
 	pio test -e feather-nrf52840-serial-test -v
 
 # Run on-device profile manager tests (Unity via PlatformIO) — requires nRF52840 connected
-test-nrf52840-profilemanager:
+test-nrf52840-profiles: uploadfs-nrf52840
 	pio test -e feather-nrf52840-profilemanager-test -v
 
 # Run host unit tests (GoogleTest via CMake)

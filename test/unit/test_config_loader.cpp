@@ -19,7 +19,7 @@ public:
     void print(const char* text) override {}
 };
 
-class ConfigLoaderTest : public ::testing::Test
+class ConfigLoaderUnitTest : public ::testing::Test
 {
 protected:
     MockLEDController led1, led2, led3;
@@ -28,49 +28,53 @@ protected:
     ConfigLoader configLoader;
 };
 
-TEST_F(ConfigLoaderTest, LoadFromValidJsonString)
+TEST_F(ConfigLoaderUnitTest, LoadFromValidJsonString)
 {
-    std::string validJson = R"({
+    std::string validJson = R"json({
         "profiles": [{
             "name": "TestProfile",
             "buttons": {
                 "A": {"type": "SendStringAction", "value": "Test"}
             }
         }]
-    });
-    
+    })json";
+
     EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, validJson));
     EXPECT_EQ(profileManager.getProfileName(0), "TestProfile");
     EXPECT_NE(profileManager.getAction(0, Btn::A), nullptr);
 }
 
-TEST_F(ConfigLoaderTest, LoadFromInvalidJsonReturnsFalse) {
+TEST_F(ConfigLoaderUnitTest, LoadFromInvalidJsonReturnsFalse)
+{
     std::string invalidJson = "not valid json";
     EXPECT_FALSE(configLoader.loadFromString(profileManager, &keyboard, invalidJson));
 }
 
-TEST_F(ConfigLoaderTest, GetDefaultConfigReturnsValidJson) {
+TEST_F(ConfigLoaderUnitTest, GetDefaultConfigReturnsValidJson)
+{
     const char* defaultConfig = configLoader.getDefaultConfig();
     EXPECT_FALSE(defaultConfig == nullptr);
     EXPECT_NE(std::string(defaultConfig).find("profiles"), std::string::npos);
 }
 
-TEST_F(ConfigLoaderTest, UnknownActionTypeReturnsNullptr) {
-    std::string jsonWithUnknownType = R"({
+TEST_F(ConfigLoaderUnitTest, UnknownActionTypeReturnsNullptr)
+{
+    std::string json = R"json({
         "profiles": [{
             "name": "Test",
             "buttons": {
                 "A": {"type": "UnknownAction", "value": "test"}
             }
         }]
-    });
-    
-    EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, jsonWithUnknownType));
+    })json";
+
+    EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, json));
     EXPECT_EQ(profileManager.getAction(0, Btn::A), nullptr);
 }
 
-TEST_F(ConfigLoaderTest, DelayedActionParsing) {
-    std::string jsonWithDelayedAction = R"({
+TEST_F(ConfigLoaderUnitTest, DelayedActionParsing)
+{
+    std::string json = R"json({
         "profiles": [{
             "name": "Test",
             "buttons": {
@@ -81,27 +85,27 @@ TEST_F(ConfigLoaderTest, DelayedActionParsing) {
                 }
             }
         }]
-    });
-    
-    EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, jsonWithDelayedAction));
+    })json";
+
+    EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, json));
     Action* action = profileManager.getAction(0, Btn::A);
     EXPECT_NE(action, nullptr);
-    EXPECT_EQ(action->getDelay(), 1000);
-    EXPECT_TRUE(action->isSendAction()); // DelayedAction should delegate to inner action
+    EXPECT_EQ(action->getDelay(), 1000u);
 }
 
-TEST_F(ConfigLoaderTest, SerialOutputActionParsing) {
-    std::string jsonWithSerialAction = R"({
+TEST_F(ConfigLoaderUnitTest, SerialOutputActionParsing)
+{
+    std::string json = R"json({
         "profiles": [{
             "name": "Test",
             "buttons": {
                 "A": {"type": "SerialOutputAction", "value": "Debug message"}
             }
         }]
-    });
-    
-    EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, jsonWithSerialAction));
+    })json";
+
+    EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, json));
     Action* action = profileManager.getAction(0, Btn::A);
     EXPECT_NE(action, nullptr);
-    EXPECT_FALSE(action->isSendAction()); // SerialOutputAction is not a send action
+    EXPECT_FALSE(action->isSendAction());
 }

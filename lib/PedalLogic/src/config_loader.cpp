@@ -87,14 +87,99 @@ namespace
     };
 
     static const KeyEntry KEY_TABLE[] = {
+        // Arrow keys
+        {"KEY_LEFT_ARROW", KEY_LEFT_ARROW},
+        {"KEY_RIGHT_ARROW", KEY_RIGHT_ARROW},
+        {"KEY_UP_ARROW", KEY_UP_ARROW},
+        {"KEY_DOWN_ARROW", KEY_DOWN_ARROW},
+        // Legacy names (no KEY_ prefix)
         {"LEFT_ARROW", KEY_LEFT_ARROW},
         {"RIGHT_ARROW", KEY_RIGHT_ARROW},
         {"UP_ARROW", KEY_UP_ARROW},
         {"DOWN_ARROW", KEY_DOWN_ARROW},
+        // Navigation
+        {"KEY_PAGE_UP", KEY_PAGE_UP},
+        {"KEY_PAGE_DOWN", KEY_PAGE_DOWN},
+        {"KEY_HOME", KEY_HOME},
+        {"KEY_END", KEY_END},
+        {"KEY_INSERT", KEY_INSERT},
+        {"KEY_DELETE", KEY_DELETE},
+        // Control
+        {"KEY_BACKSPACE", KEY_BACKSPACE},
+        {"KEY_TAB", KEY_TAB},
+        {"KEY_RETURN", KEY_RETURN},
+        {"KEY_ENTER", KEY_RETURN},
+        {"KEY_ESC", KEY_ESC},
+        {"KEY_CAPS_LOCK", KEY_CAPS_LOCK},
+        {"KEY_PRINTSCREEN", KEY_PRTSC},
+        // Modifiers
+        {"KEY_LEFT_CTRL", KEY_LEFT_CTRL},
+        {"KEY_LEFT_SHIFT", KEY_LEFT_SHIFT},
+        {"KEY_LEFT_ALT", KEY_LEFT_ALT},
+        {"KEY_LEFT_GUI", KEY_LEFT_GUI},
+        {"KEY_RIGHT_CTRL", KEY_RIGHT_CTRL},
+        {"KEY_RIGHT_SHIFT", KEY_RIGHT_SHIFT},
+        {"KEY_RIGHT_ALT", KEY_RIGHT_ALT},
+        {"KEY_RIGHT_GUI", KEY_RIGHT_GUI},
+        // Function keys
+        {"KEY_F1", KEY_F1},
+        {"KEY_F2", KEY_F2},
+        {"KEY_F3", KEY_F3},
+        {"KEY_F4", KEY_F4},
+        {"KEY_F5", KEY_F5},
+        {"KEY_F6", KEY_F6},
+        {"KEY_F7", KEY_F7},
+        {"KEY_F8", KEY_F8},
+        {"KEY_F9", KEY_F9},
+        {"KEY_F10", KEY_F10},
+        {"KEY_F11", KEY_F11},
+        {"KEY_F12", KEY_F12},
+        {"KEY_F13", KEY_F13},
+        {"KEY_F14", KEY_F14},
+        {"KEY_F15", KEY_F15},
+        {"KEY_F16", KEY_F16},
+        {"KEY_F17", KEY_F17},
+        {"KEY_F18", KEY_F18},
+        {"KEY_F19", KEY_F19},
+        {"KEY_F20", KEY_F20},
+        {"KEY_F21", KEY_F21},
+        {"KEY_F22", KEY_F22},
+        {"KEY_F23", KEY_F23},
+        {"KEY_F24", KEY_F24},
+        // Legacy F-key names (no KEY_ prefix)
+        {"F1", KEY_F1},
+        {"F2", KEY_F2},
+        {"F3", KEY_F3},
+        {"F4", KEY_F4},
+        {"F5", KEY_F5},
+        {"F6", KEY_F6},
+        {"F7", KEY_F7},
+        {"F8", KEY_F8},
+        {"F9", KEY_F9},
+        {"F10", KEY_F10},
+        {"F11", KEY_F11},
+        {"F12", KEY_F12},
     };
 
     static const MediaKeyEntry MEDIA_KEY_TABLE[] = {
+        {"MEDIA_NEXT_TRACK", KEY_MEDIA_NEXT_TRACK},
+        {"MEDIA_PREVIOUS_TRACK", KEY_MEDIA_PREVIOUS_TRACK},
         {"MEDIA_STOP", KEY_MEDIA_STOP},
+        {"MEDIA_PLAY_PAUSE", KEY_MEDIA_PLAY_PAUSE},
+        {"MEDIA_MUTE", KEY_MEDIA_MUTE},
+        {"MEDIA_VOLUME_UP", KEY_MEDIA_VOLUME_UP},
+        {"MEDIA_VOLUME_DOWN", KEY_MEDIA_VOLUME_DOWN},
+        // KEY_-prefixed aliases
+        {"KEY_MEDIA_NEXT_TRACK", KEY_MEDIA_NEXT_TRACK},
+        {"KEY_MEDIA_PREVIOUS_TRACK", KEY_MEDIA_PREVIOUS_TRACK},
+        {"KEY_MEDIA_STOP", KEY_MEDIA_STOP},
+        {"KEY_MEDIA_PLAY_PAUSE", KEY_MEDIA_PLAY_PAUSE},
+        {"KEY_MEDIA_MUTE", KEY_MEDIA_MUTE},
+        {"KEY_MEDIA_VOLUME_UP", KEY_MEDIA_VOLUME_UP},
+        {"KEY_MEDIA_VOLUME_DOWN", KEY_MEDIA_VOLUME_DOWN},
+        // Short aliases used in config
+        {"KEY_VOLUME_UP", KEY_MEDIA_VOLUME_UP},
+        {"KEY_VOLUME_DOWN", KEY_MEDIA_VOLUME_DOWN},
     };
 
     static const ActionTypeEntry ACTION_TYPE_TABLE[] = {
@@ -193,7 +278,7 @@ bool ConfigLoader::loadFromFile(ProfileManager& profileManager,
  */
 bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::string& configPath)
 {
-    DynamicJsonDocument doc(2048);
+    DynamicJsonDocument doc(8192);
     JsonArray profiles = doc.createNestedArray("profiles");
 
     for (uint8_t profileIndex = 0; profileIndex < ProfileManager::NUM_PROFILES; profileIndex++)
@@ -247,7 +332,7 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
                                   IBleKeyboard* keyboard,
                                   const std::string& jsonConfig)
 {
-    DynamicJsonDocument doc(2048);
+    DynamicJsonDocument doc(8192);
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error)
@@ -275,6 +360,7 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
     }
 
     profileManager.resetToFirstProfile();
+    logLoadedConfig(profileManager);
     return true;
 }
 
@@ -294,7 +380,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
                                IBleKeyboard* keyboard,
                                const std::string& jsonConfig)
 {
-    DynamicJsonDocument doc(2048);
+    DynamicJsonDocument doc(8192);
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error)
@@ -352,6 +438,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
         logger_->log("Added profile: ", profileName);
     }
 
+    logLoadedConfig(profileManager);
     return true;
 }
 
@@ -379,7 +466,7 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
         return false;
     }
 
-    DynamicJsonDocument doc(2048);
+    DynamicJsonDocument doc(8192);
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error)
@@ -404,6 +491,7 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
     populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
     profileManager.addProfile(profileIndex, std::move(newProfile));
     logger_->log("Replaced profile with: ", profileName);
+    logLoadedConfig(profileManager);
 
     return true;
 }
@@ -490,9 +578,14 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
         }
         case Action::Type::SendChar:
         {
-            uint8_t code = lookupKey(actionJson["value"] | "");
+            const char* value = actionJson["value"] | "";
+            uint8_t code = lookupKey(value);
             if (code != 0)
-                return std::unique_ptr<Action>(new SendCharAction(keyboard, code));
+                return std::unique_ptr<Action>(new SendCharAction(keyboard, (char) code));
+            // Single printable ASCII character (e.g. "[", "]", "c", " ")
+            if (value[0] != '\0' && value[1] == '\0')
+                return std::unique_ptr<Action>(new SendCharAction(keyboard, value[0]));
+            logger_->log("SendChar: unknown key value: ", value);
             break;
         }
         case Action::Type::SendKey:
@@ -539,6 +632,50 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
  * @param action The action to serialize
  * @param out The JSON object to populate with action properties
  */
+/**
+ * @brief Logs the currently loaded configuration to serial
+ *
+ * Iterates all populated profile slots and prints each profile name and its
+ * button actions (type and optional name) via the logger.
+ *
+ * @param profileManager The profile manager whose state should be logged
+ */
+void ConfigLoader::logLoadedConfig(const ProfileManager& profileManager) const
+{
+    static const char* BUTTON_LABELS[] = {"A", "B", "C", "D"};
+
+    logger_->log("--- Config loaded ---");
+    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    {
+        const Profile* profile = profileManager.getProfile(i);
+        if (! profile)
+            continue;
+
+        logger_->log("Profile: ", profile->getName().c_str());
+
+        for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++)
+        {
+            const Action* action = profile->getAction(b);
+            if (! action)
+                continue;
+
+            const char* typeStr = ProfileManager::getActionTypeString(action->getType());
+
+            std::string line = "  ";
+            line += BUTTON_LABELS[b];
+            line += ": ";
+            line += typeStr;
+            if (action->hasName())
+            {
+                line += " [";
+                line += action->getName();
+                line += "]";
+            }
+            logger_->log(line.c_str());
+        }
+    }
+}
+
 void ConfigLoader::actionToJson(const Action* action, JsonObject& out) const
 {
     if (action->hasName())

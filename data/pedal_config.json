@@ -51,7 +51,7 @@
       "buttons": {
         "A": { "type": "SendCharAction", "name": "Record", "value": "F9" },
         "B": { "type": "SendCharAction", "name": "Play/Stop", "value": " " },
-        "C": { "type": "SendCharAction", "name": "Undo Take", "value": "KEY_LEFT_CTRL+z" },
+        "C": { "type": "SendStringAction", "name": "Undo Take", "value": "ctrl+z" },
         "D": { "type": "SendCharAction", "name": "Metronome", "value": "c" }
       }
     },
@@ -60,8 +60,8 @@
       "description": "A productivity profile for interacting with Discord, Slack, or Zoom while playing an instrument. Includes a one-touch status update for rehearsals.",
       "buttons": {
         "A": { "type": "SendStringAction", "name": "Quick Msg", "value": "Starting now, see you in the chat!" },
-        "B": { "type": "SendCharAction", "name": "Mute App", "value": "KEY_LEFT_CTRL+KEY_LEFT_SHIFT+m" },
-        "C": { "type": "SendCharAction", "name": "Deafen", "value": "KEY_LEFT_CTRL+KEY_LEFT_SHIFT+d" },
+        "B": { "type": "SendStringAction", "name": "Mute App", "value": "ctrl+shift+m" },
+        "C": { "type": "SendStringAction", "name": "Deafen", "value": "ctrl+shift+d" },
         "D": { "type": "SendCharAction", "name": "Screenshot", "value": "KEY_PRINTSCREEN" }
       }
     },

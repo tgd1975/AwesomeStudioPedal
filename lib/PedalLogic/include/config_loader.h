@@ -55,4 +55,5 @@ private:
     void populateProfileFromJson(Profile& profile,
                                  ArduinoJson::JsonObject buttons,
                                  IBleKeyboard* keyboard);
+    void logLoadedConfig(const ProfileManager& profileManager) const;
 };
