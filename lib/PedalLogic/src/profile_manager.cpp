@@ -48,8 +48,6 @@ uint8_t ProfileManager::switchProfile()
         }
     }
     currentProfile = next;
-    updateLEDs();
-
     postSwitchBlink = true;
     blinkPhase = 0;
     blinkStartTime = 0;
@@ -132,6 +130,15 @@ void ProfileManager::update(uint32_t now)
     for (auto* led : selectLeds)
     {
         led->setState(on);
+    }
+}
+
+void ProfileManager::setCurrentProfile(uint8_t profileIndex)
+{
+    if (profileIndex < MAX_PROFILES && profileSlots[profileIndex])
+    {
+        currentProfile = profileIndex;
+        updateLEDs();
     }
 }
 

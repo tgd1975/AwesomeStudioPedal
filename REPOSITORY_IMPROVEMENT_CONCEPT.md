@@ -107,9 +107,9 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 | ❌ | TASK-043 | Final proofreading | 7 | M | Yes | Junior |
 | ❌ | TASK-044 | Create Mermaid style guide | 7 | M | Yes | Medium |
 | ❌ | TASK-045 | Add Mermaid validation script | 7 | M | Yes | Medium |
-| ❌ | TASK-046 | Fix profile select button functionality | 7 | M | Yes | Medium |
-| ❌ | TASK-047 | Fix profile LED blinking behavior | 7 | S | Yes | Junior |
-| ❌ | TASK-048 | Implement permanent profile storage | 7 | M | Yes | Medium |
+| ✅ | TASK-046 | Fix profile select button functionality | 7 | M | Yes | Medium |
+| ✅ | TASK-047 | Fix profile LED blinking behavior | 7 | S | Yes | Junior |
+| ✅ | TASK-048 | Implement permanent profile storage | 7 | M | Yes | Medium |
 | ❌ | TASK-049 | Setup video platform channel | 6 | S | Yes | Junior |
 
 **Effort Legend**: S (Small: <2h), M (Medium: 2-8h), L (Large: 8-24h), XL (Extra Large: 24-40h)

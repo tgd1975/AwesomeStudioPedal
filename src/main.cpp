@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <Preferences.h>
 #include <memory>
 // #include "freertos/FreeRTOS.h"
 // #include "freertos/task.h"
@@ -27,6 +28,26 @@
  */
 
 BleKeyboardAdapter* bleKeyboardAdapter = createBleKeyboardAdapter();
+
+static constexpr const char* NVS_NAMESPACE = "pedal";
+static constexpr const char* NVS_KEY_PROFILE = "profile";
+
+static void saveCurrentProfile(uint8_t index)
+{
+    Preferences prefs;
+    prefs.begin(NVS_NAMESPACE, false);
+    prefs.putUChar(NVS_KEY_PROFILE, index);
+    prefs.end();
+}
+
+static uint8_t loadSavedProfile()
+{
+    Preferences prefs;
+    prefs.begin(NVS_NAMESPACE, true);
+    uint8_t index = prefs.getUChar(NVS_KEY_PROFILE, 0);
+    prefs.end();
+    return index;
+}
 
 bool connected = false;
 
@@ -107,7 +128,7 @@ void IRAM_ATTR isr_btn25() { isr_buttons(25); }
 
 void IRAM_ATTR isr_select()
 {
-    // SELECT button — static, not part of action button array
+    BUTTON_SELECT.isr();
 }
 
 using IsrFunc = void (*)();
@@ -199,6 +220,7 @@ void setup_event_handlers()
                                     {
                                         uint8_t profile = profileManager->switchProfile();
                                         Serial.printf("Switched to Profile %d\n", profile + 1);
+                                        saveCurrentProfile(profile);
                                     });
 }
 
@@ -221,6 +243,15 @@ void setup()
     if (! configureProfiles(*profileManager, bleKeyboardAdapter))
     {
         signalLoadError();
+    }
+
+    // Restore last-used profile from NVS
+    uint8_t savedProfile = loadSavedProfile();
+    if (savedProfile != profileManager->getCurrentProfile() &&
+        profileManager->getProfile(savedProfile) != nullptr)
+    {
+        profileManager->setCurrentProfile(savedProfile);
+        Serial.printf("Restored profile %d from NVS\n", savedProfile + 1);
     }
 
     attachInterrupts();

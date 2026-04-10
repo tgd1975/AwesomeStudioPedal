@@ -49,6 +49,15 @@ public:
     uint8_t switchProfile();
 
     uint8_t getCurrentProfile() const { return currentProfile; }
+
+    /**
+     * @brief Directly set the current profile without triggering blink feedback
+     *
+     * Used to restore a saved profile on boot. Caller must ensure the profile
+     * slot is populated before calling.
+     */
+    void setCurrentProfile(uint8_t profileIndex);
+
     const std::string& getProfileName(uint8_t profileIndex) const;
 
     /**
