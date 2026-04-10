@@ -9,7 +9,7 @@ void EventDispatcher::registerHandler(uint8_t button, EventCallback callback)
 {
     if (button < handlers.size())
     {
-        handlers[button] = callback;
+        handlers[button] = std::move(callback);
     }
 }
 

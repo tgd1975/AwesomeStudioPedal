@@ -77,8 +77,8 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 | ❌ | TASK-013 | Enable GitHub Discussions | 3 | S | Yes | Junior |
 | ✅ | TASK-014 | Add test coverage badge | 3 | S | No | Junior |
 | ✅ | TASK-015 | Add compiler warning flags | 4 | M | No | Medium |
-| ❌ | TASK-016 | Create .clang-tidy configuration | 4 | M | Yes | Medium |
-| ❌ | TASK-017 | Add static analysis workflow | 4 | L | No | Senior |
+| ✅ | TASK-016 | Create .clang-tidy configuration | 4 | M | Yes | Medium |
+| ✅ | TASK-017 | Add static analysis workflow | 4 | L | No | Senior |
 | ❌ | TASK-018 | Create code smell detection scripts | 4 | L | Yes | Senior |
 | ❌ | TASK-019 | Update CONTRIBUTING.md with quality standards | 4 | S | Yes | Junior |
 | ❌ | TASK-020 | Create release workflow | 5 | XL | Yes | Senior |

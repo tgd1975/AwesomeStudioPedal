@@ -33,7 +33,7 @@ public:
      * Sends the configured input to the BLE keyboard.
      */
     virtual void send() = 0;
-    virtual ~SendAction() = default;
+    ~SendAction() override = default;
 
 protected:
     IBleKeyboard* bleKeyboard; /**< Pointer to BLE keyboard interface */
@@ -188,7 +188,7 @@ public:
 class SendMediaKeyAction : public SendAction
 {
 private:
-    MediaKeyReport key; /**< Media key report to send */
+    MediaKeyReport key{}; /**< Media key report to send */
 
 public:
     /**

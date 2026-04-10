@@ -23,7 +23,7 @@ bool configureProfiles(ProfileManager& profileManager, IBleKeyboard* keyboard)
     }
 
     // File missing or invalid — load the hardcoded default
-    if (! configLoader.loadFromString(profileManager, keyboard, configLoader.getDefaultConfig()))
+    if (! configLoader.loadFromString(profileManager, keyboard, ConfigLoader::getDefaultConfig()))
     {
         // DEFAULT_CONFIG failed to parse: this is a compile-time bug, not a runtime error
         return false;

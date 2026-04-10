@@ -30,7 +30,7 @@ public:
      * @param currentTime Current time in milliseconds (e.g. millis())
      * @return true if the delay has elapsed and the inner action should fire
      */
-    bool update(uint32_t currentTime);
+    bool update(uint32_t currentTime) const;
 
     bool isStarted() const { return started; }
     const Action* getInnerAction() const { return action.get(); }

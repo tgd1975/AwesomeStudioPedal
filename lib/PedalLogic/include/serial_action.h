@@ -20,7 +20,7 @@ public:
      *
      * @param message The message to output to serial console
      */
-    explicit SerialOutputAction(const std::string& message);
+    explicit SerialOutputAction(std::string message);
 
     /**
      * @brief Executes the serial output action

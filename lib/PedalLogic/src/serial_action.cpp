@@ -8,7 +8,7 @@
 /**
  * @brief Constructs a SerialOutputAction with the specified message
  */
-SerialOutputAction::SerialOutputAction(const std::string& message) : message(message) {}
+SerialOutputAction::SerialOutputAction(std::string message) : message(std::move(message)) {}
 
 /**
  * @brief Executes the serial output action
@@ -25,6 +25,6 @@ void SerialOutputAction::execute()
     Serial.print("ACTION: ");
     Serial.println(message.c_str());
 #else
-    std::cout << "ACTION: " << message << std::endl;
+    std::cout << "ACTION: " << message << '\n';
 #endif
 }

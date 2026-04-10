@@ -21,7 +21,7 @@ public:
      *
      * @param name The name of this profile
      */
-    explicit Profile(const std::string& name);
+    explicit Profile(std::string name);
 
     /**
      * @brief Adds an action to a specific button in this profile

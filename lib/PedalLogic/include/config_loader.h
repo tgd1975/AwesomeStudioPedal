@@ -39,7 +39,7 @@ public:
                         uint8_t profileIndex,
                         const std::string& jsonConfig);
 
-    const char* getDefaultConfig() const { return DEFAULT_CONFIG; }
+    static const char* getDefaultConfig() { return DEFAULT_CONFIG; }
 
     static uint8_t getButtonIndex(const char* buttonName);
 
@@ -51,7 +51,7 @@ private:
 
     std::unique_ptr<Action> createActionFromJson(const ArduinoJson::JsonObject& actionJson,
                                                  IBleKeyboard* keyboard);
-    void actionToJson(const Action* action, ArduinoJson::JsonObject& out) const;
+    static void actionToJson(const Action* action, ArduinoJson::JsonObject& out);
     void populateProfileFromJson(Profile& profile,
                                  ArduinoJson::JsonObject buttons,
                                  IBleKeyboard* keyboard);

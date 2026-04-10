@@ -20,7 +20,7 @@ using namespace ArduinoJson;
 
 // Forward declarations for platform-specific factories
 IFileSystem* createFileSystem();
-ILogger* createLogger();
+ILogger* createLogger(); // NOLINT(readability-redundant-declaration)
 
 /**
  * @brief Default configuration JSON string
@@ -244,7 +244,9 @@ namespace
         for (const auto& e : ACTION_TYPE_TABLE)
         {
             if (strcmp(e.name, name) == 0)
+            {
                 return e.type;
+            }
         }
         return Action::Type::Unknown;
     }
@@ -260,7 +262,9 @@ namespace
         for (const auto& e : KEY_TABLE)
         {
             if (strcmp(e.name, name) == 0)
+            {
                 return e.code;
+            }
         }
         return 0;
     }
@@ -276,7 +280,9 @@ namespace
         for (const auto& e : MEDIA_KEY_TABLE)
         {
             if (strcmp(e.name, name) == 0)
+            {
                 return e.report;
+            }
         }
         return nullptr;
     }
@@ -327,7 +333,9 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
     {
         const Profile* profile = profileManager.getProfile(profileIndex);
         if (! profile)
+        {
             continue;
+        }
 
         JsonObject profileObj = profiles.createNestedObject();
         profileObj["name"] = profile->getName().c_str();
@@ -396,7 +404,7 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
         const char* profileName = profileJson["name"] | "";
         const char* profileDescription = profileJson["description"] | "";
 
-        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+        auto newProfile = std::make_unique<Profile>(profileName);
         newProfile->setDescription(profileDescription);
         populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(i, std::move(newProfile));
@@ -474,7 +482,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
             continue;
         }
 
-        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+        auto newProfile = std::make_unique<Profile>(profileName);
         newProfile->setDescription(profileDescription);
         populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(targetIndex, std::move(newProfile));
@@ -529,7 +537,7 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
     const char* profileName = profileJson["name"] | "";
     const char* profileDescription = profileJson["description"] | "";
 
-    auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+    auto newProfile = std::make_unique<Profile>(profileName);
     newProfile->setDescription(profileDescription);
     populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
     profileManager.addProfile(profileIndex, std::move(newProfile));
@@ -550,7 +558,9 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
 uint8_t ConfigLoader::getButtonIndex(const char* buttonName)
 {
     if (buttonName[0] >= 'A' && buttonName[0] <= ('A' + Btn::MAX - 1) && buttonName[1] == '\0')
+    {
         return static_cast<uint8_t>(buttonName[0] - 'A');
+    }
     return 255;
 }
 
@@ -573,7 +583,9 @@ void ConfigLoader::populateProfileFromJson(Profile& profile,
     {
         Btn::name(b, buttonName);
         if (! buttons.containsKey(buttonName))
+        {
             continue;
+        }
 
         JsonObject actionJson = buttons[buttonName];
 
@@ -619,10 +631,14 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
             const char* value = actionJson["value"] | "";
             uint8_t code = lookupKey(value);
             if (code != 0)
+            {
                 return std::unique_ptr<Action>(new SendCharAction(keyboard, (char) code));
+            }
             // Single printable ASCII character (e.g. "[", "]", "c", " ")
             if (value[0] != '\0' && value[1] == '\0')
+            {
                 return std::unique_ptr<Action>(new SendCharAction(keyboard, value[0]));
+            }
             logger_->log("SendChar: unknown key value: ", value);
             break;
         }
@@ -630,14 +646,18 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
         {
             uint8_t code = lookupKey(actionJson["value"] | "");
             if (code != 0)
+            {
                 return std::unique_ptr<Action>(new SendKeyAction(keyboard, code));
+            }
             break;
         }
         case Action::Type::SendMediaKey:
         {
             const uint8_t* report = lookupMediaKey(actionJson["value"] | "");
             if (report)
+            {
                 return std::unique_ptr<Action>(new SendMediaKeyAction(keyboard, report));
+            }
             break;
         }
         case Action::Type::SerialOutput:
@@ -647,11 +667,13 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
         }
         case Action::Type::Delayed:
         {
-            uint32_t delayMs = actionJson["delayMs"] | 0u;
+            uint32_t delayMs = actionJson["delayMs"] | 0U;
             JsonObject nestedJson = actionJson["action"];
             std::unique_ptr<Action> inner = createActionFromJson(nestedJson, keyboard);
             if (inner)
+            {
                 return std::unique_ptr<Action>(new DelayedAction(std::move(inner), delayMs));
+            }
             break;
         }
         default:
@@ -685,7 +707,9 @@ void ConfigLoader::logLoadedConfig(const ProfileManager& profileManager) const
     {
         const Profile* profile = profileManager.getProfile(i);
         if (! profile)
+        {
             continue;
+        }
 
         logger_->log("Profile: ", profile->getName().c_str());
 
@@ -694,7 +718,9 @@ void ConfigLoader::logLoadedConfig(const ProfileManager& profileManager) const
         {
             const Action* action = profile->getAction(b);
             if (! action)
+            {
                 continue;
+            }
 
             Btn::name(b, btnLabel);
             const char* typeStr = ProfileManager::getActionTypeString(action->getType());
@@ -714,7 +740,7 @@ void ConfigLoader::logLoadedConfig(const ProfileManager& profileManager) const
     }
 }
 
-void ConfigLoader::actionToJson(const Action* action, JsonObject& out) const
+void ConfigLoader::actionToJson(const Action* action, JsonObject& out)
 {
     if (action->hasName())
     {

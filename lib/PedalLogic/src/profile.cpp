@@ -5,7 +5,7 @@
  *
  * @param name The name of this profile
  */
-Profile::Profile(const std::string& name) : name(name), description("") {}
+Profile::Profile(std::string name) : name(std::move(name)) {}
 
 /**
  * @brief Adds an action to a specific button in this profile

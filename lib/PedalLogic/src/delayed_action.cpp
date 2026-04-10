@@ -44,10 +44,12 @@ void DelayedAction::execute()
 /**
  * @brief Updates the delay timer and checks if ready to execute
  */
-bool DelayedAction::update(uint32_t currentTime)
+bool DelayedAction::update(uint32_t currentTime) const
 {
     if (! started)
+    {
         return false;
+    }
     return (currentTime - startTime >= delayMs);
 }
 

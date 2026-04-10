@@ -26,7 +26,7 @@ public:
 #ifndef HOST_TEST_BUILD
         Serial.println(message);
 #else
-        std::cout << "DEBUG: " << message << std::endl;
+        std::cout << "DEBUG: " << message << '\n';
 #endif
     }
 
@@ -42,7 +42,7 @@ public:
         Serial.print(prefix);
         Serial.println(message);
 #else
-        std::cout << prefix << message << std::endl;
+        std::cout << prefix << message << '\n';
 #endif
     }
 };

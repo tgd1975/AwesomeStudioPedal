@@ -43,7 +43,9 @@ uint8_t ProfileManager::switchProfile()
         int temp = (next + 1) % numProfiles;
         next = static_cast<uint8_t>(temp);
         if (profileSlots[next])
+        {
             break;
+        }
     }
     currentProfile = next;
     updateLEDs();
@@ -66,7 +68,9 @@ uint8_t ProfileManager::switchProfile()
 void ProfileManager::updateLEDs()
 {
     if (postSwitchBlink)
+    {
         return;
+    }
 
     uint8_t numLeds = hardwareConfig.numSelectLeds;
     uint8_t numProfiles = hardwareConfig.numProfiles;
@@ -82,10 +86,10 @@ void ProfileManager::updateLEDs()
     else
     {
         // Binary: encode 1-based profile number
-        uint8_t bits = static_cast<uint8_t>(currentProfile + 1);
+        auto bits = static_cast<uint8_t>(currentProfile + 1);
         for (uint8_t i = 0; i < numLeds && i < static_cast<uint8_t>(selectLeds.size()); i++)
         {
-            selectLeds[i]->setState((bits & (1u << i)) != 0);
+            selectLeds[i]->setState((bits & (1U << i)) != 0);
         }
     }
 }
@@ -93,21 +97,27 @@ void ProfileManager::updateLEDs()
 void ProfileManager::update(uint32_t now)
 {
     if (! postSwitchBlink)
+    {
         return;
+    }
 
     if (blinkStartTime == 0)
     {
         blinkStartTime = now;
         for (auto* led : selectLeds)
+        {
             led->setState(true);
+        }
         return;
     }
 
     uint32_t elapsed = now - blinkStartTime;
-    uint8_t phase = static_cast<uint8_t>(elapsed / BLINK_INTERVAL);
+    auto phase = static_cast<uint8_t>(elapsed / BLINK_INTERVAL);
 
     if (phase == blinkPhase)
+    {
         return;
+    }
     blinkPhase = phase;
 
     uint8_t totalHalfCycles = BLINK_COUNT * 2;
@@ -120,7 +130,9 @@ void ProfileManager::update(uint32_t now)
 
     bool on = (phase % 2 == 0);
     for (auto* led : selectLeds)
+    {
         led->setState(on);
+    }
 }
 
 void ProfileManager::resetToFirstProfile()
@@ -154,12 +166,16 @@ bool ProfileManager::hasActiveDelayedAction() const
     for (const auto& slot : profileSlots)
     {
         if (! slot)
+        {
             continue;
+        }
         for (uint8_t b = 0; b < Profile::MAX_BUTTONS; b++)
         {
             const Action* action = slot->getAction(b);
             if (action && action->isInProgress())
+            {
                 return true;
+            }
         }
     }
     return false;
