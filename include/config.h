@@ -16,14 +16,14 @@
  */
 struct HardwareConfig
 {
-    uint8_t numProfiles;    /**< Number of active profiles (1..MAX_PROFILES) */
-    uint8_t numSelectLeds;  /**< Profile-select LEDs wired; caps profiles at 2^n − 1 */
-    uint8_t numButtons;     /**< Action buttons wired (1..26, A–Z) */
+    uint8_t numProfiles;   /**< Number of active profiles (1..MAX_PROFILES) */
+    uint8_t numSelectLeds; /**< Profile-select LEDs wired; caps profiles at 2^n − 1 */
+    uint8_t numButtons;    /**< Action buttons wired (1..26, A–Z) */
 
     // LED pins
-    uint8_t ledBluetooth;   /**< Bluetooth status LED pin */
-    uint8_t ledPower;       /**< Power indicator LED pin */
-    uint8_t ledSelect[6];   /**< Profile-select LED pins (up to 6) */
+    uint8_t ledBluetooth; /**< Bluetooth status LED pin */
+    uint8_t ledPower;     /**< Power indicator LED pin */
+    uint8_t ledSelect[6]; /**< Profile-select LED pins (up to 6) */
 
     // Button pins
     uint8_t buttonSelect;   /**< Profile-cycle button pin */

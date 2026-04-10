@@ -3,8 +3,7 @@
 #include "delayed_action.h"
 #include <vector>
 
-ProfileManager::ProfileManager(std::vector<ILEDController*> leds)
-    : selectLeds(std::move(leds))
+ProfileManager::ProfileManager(std::vector<ILEDController*> leds) : selectLeds(std::move(leds))
 {
     updateLEDs();
 }
@@ -68,7 +67,7 @@ void ProfileManager::updateLEDs()
     if (postSwitchBlink)
         return;
 
-    uint8_t numLeds    = hardwareConfig.numSelectLeds;
+    uint8_t numLeds = hardwareConfig.numSelectLeds;
     uint8_t numProfiles = hardwareConfig.numProfiles;
 
     if (numProfiles <= numLeds)

@@ -50,8 +50,8 @@ protected:
         EXPECT_CALL(led1, setState(::testing::_)).Times(::testing::AnyNumber());
         EXPECT_CALL(led2, setState(::testing::_)).Times(::testing::AnyNumber());
         EXPECT_CALL(led3, setState(::testing::_)).Times(::testing::AnyNumber());
-        profileManager = std::make_unique<ProfileManager>(
-            std::vector<ILEDController*>{&led1, &led2, &led3});
+        profileManager =
+            std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
         loader = std::make_unique<ConfigLoader>();
     }
 

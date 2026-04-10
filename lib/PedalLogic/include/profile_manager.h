@@ -25,7 +25,7 @@
 class ProfileManager
 {
 public:
-    static constexpr uint8_t MAX_PROFILES    = 63; /**< 2^6 − 1 (6 select LEDs max) */
+    static constexpr uint8_t MAX_PROFILES = 63; /**< 2^6 − 1 (6 select LEDs max) */
     static constexpr uint8_t MAX_SELECT_LEDS = 6;
 
     /**

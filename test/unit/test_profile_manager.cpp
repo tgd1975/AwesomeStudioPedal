@@ -206,13 +206,13 @@ static void assertLEDPattern(uint8_t profileIndex, uint8_t pattern)
 // Profile 4 → bits=5 → 101 (LED1+LED3)
 // Profile 5 → bits=6 → 110 (LED2+LED3)
 // Profile 6 → bits=7 → 111 (LED1+LED2+LED3)
-TEST_F(ProfileManagerTest, LEDEncoding_Profile0_LED1Only)     { assertLEDPattern(0, 0b001); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile1_LED2Only)     { assertLEDPattern(1, 0b010); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile2_LED1andLED2)  { assertLEDPattern(2, 0b011); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile3_LED3Only)     { assertLEDPattern(3, 0b100); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile4_LED1andLED3)  { assertLEDPattern(4, 0b101); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile5_LED2andLED3)  { assertLEDPattern(5, 0b110); }
-TEST_F(ProfileManagerTest, LEDEncoding_Profile6_AllLEDs)      { assertLEDPattern(6, 0b111); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile0_LED1Only) { assertLEDPattern(0, 0b001); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile1_LED2Only) { assertLEDPattern(1, 0b010); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile2_LED1andLED2) { assertLEDPattern(2, 0b011); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile3_LED3Only) { assertLEDPattern(3, 0b100); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile4_LED1andLED3) { assertLEDPattern(4, 0b101); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile5_LED2andLED3) { assertLEDPattern(5, 0b110); }
+TEST_F(ProfileManagerTest, LEDEncoding_Profile6_AllLEDs) { assertLEDPattern(6, 0b111); }
 
 // ---------------------------------------------------------------------------
 // switchProfile skips empty slots

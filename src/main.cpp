@@ -50,7 +50,7 @@ EventDispatcher eventDispatcher;
 void signalLoadError()
 {
     Serial.println("CONFIG ERROR: falling back to factory default");
-    constexpr int BLINK_COUNT    = 5;
+    constexpr int BLINK_COUNT = 5;
     constexpr int BLINK_DURATION = 100;
     for (int i = 0; i < BLINK_COUNT; i++)
     {
@@ -78,16 +78,16 @@ void IRAM_ATTR isr_buttons(uint8_t index)
 }
 
 // Individual ISR stubs for up to 26 buttons — only used entries are attached
-void IRAM_ATTR isr_btn0()  { isr_buttons(0);  }
-void IRAM_ATTR isr_btn1()  { isr_buttons(1);  }
-void IRAM_ATTR isr_btn2()  { isr_buttons(2);  }
-void IRAM_ATTR isr_btn3()  { isr_buttons(3);  }
-void IRAM_ATTR isr_btn4()  { isr_buttons(4);  }
-void IRAM_ATTR isr_btn5()  { isr_buttons(5);  }
-void IRAM_ATTR isr_btn6()  { isr_buttons(6);  }
-void IRAM_ATTR isr_btn7()  { isr_buttons(7);  }
-void IRAM_ATTR isr_btn8()  { isr_buttons(8);  }
-void IRAM_ATTR isr_btn9()  { isr_buttons(9);  }
+void IRAM_ATTR isr_btn0() { isr_buttons(0); }
+void IRAM_ATTR isr_btn1() { isr_buttons(1); }
+void IRAM_ATTR isr_btn2() { isr_buttons(2); }
+void IRAM_ATTR isr_btn3() { isr_buttons(3); }
+void IRAM_ATTR isr_btn4() { isr_buttons(4); }
+void IRAM_ATTR isr_btn5() { isr_buttons(5); }
+void IRAM_ATTR isr_btn6() { isr_buttons(6); }
+void IRAM_ATTR isr_btn7() { isr_buttons(7); }
+void IRAM_ATTR isr_btn8() { isr_buttons(8); }
+void IRAM_ATTR isr_btn9() { isr_buttons(9); }
 void IRAM_ATTR isr_btn10() { isr_buttons(10); }
 void IRAM_ATTR isr_btn11() { isr_buttons(11); }
 void IRAM_ATTR isr_btn12() { isr_buttons(12); }
@@ -112,11 +112,10 @@ void IRAM_ATTR isr_select()
 
 using IsrFunc = void (*)();
 static const IsrFunc BTN_ISRS[Btn::MAX] = {
-    isr_btn0,  isr_btn1,  isr_btn2,  isr_btn3,  isr_btn4,  isr_btn5,
-    isr_btn6,  isr_btn7,  isr_btn8,  isr_btn9,  isr_btn10, isr_btn11,
-    isr_btn12, isr_btn13, isr_btn14, isr_btn15, isr_btn16, isr_btn17,
-    isr_btn18, isr_btn19, isr_btn20, isr_btn21, isr_btn22, isr_btn23,
-    isr_btn24, isr_btn25,
+    isr_btn0,  isr_btn1,  isr_btn2,  isr_btn3,  isr_btn4,  isr_btn5,  isr_btn6,
+    isr_btn7,  isr_btn8,  isr_btn9,  isr_btn10, isr_btn11, isr_btn12, isr_btn13,
+    isr_btn14, isr_btn15, isr_btn16, isr_btn17, isr_btn18, isr_btn19, isr_btn20,
+    isr_btn21, isr_btn22, isr_btn23, isr_btn24, isr_btn25,
 };
 
 Button BUTTON_SELECT(hardwareConfig.buttonSelect);

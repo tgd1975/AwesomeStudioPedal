@@ -1,5 +1,5 @@
-#include "builder_config.h"
 #include "config.h"
+#include "builder_config.h"
 #include <driver/gpio.h>
 
 /**
@@ -16,6 +16,29 @@ const HardwareConfig hardwareConfig = {
     CONF_LED_POWER,
     {CONF_LED_SELECT[0], CONF_LED_SELECT[1], CONF_LED_SELECT[2], 0, 0, 0},
     CONF_BUTTON_SELECT,
-    {CONF_BUTTON_PINS[0], CONF_BUTTON_PINS[1], CONF_BUTTON_PINS[2], CONF_BUTTON_PINS[3],
-     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-};
+    {CONF_BUTTON_PINS[0],
+     CONF_BUTTON_PINS[1],
+     CONF_BUTTON_PINS[2],
+     CONF_BUTTON_PINS[3],
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0}};

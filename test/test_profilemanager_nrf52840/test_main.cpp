@@ -1,10 +1,11 @@
 #include <Arduino.h>
 #include <memory>
-#include <vector>
 #include <unity.h>
+#include <vector>
 
 #include "action.h"
 #include "button_constants.h"
+#include "config.h"
 #include "config_loader.h"
 #include "delayed_action.h"
 #include "i_led_controller.h"
@@ -261,7 +262,7 @@ void test_loadFromFile_profile_names_match()
 {
     resetPM();
     loader.loadFromFile(pm, &keyboard, CONFIG_PATH);
-    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
+    for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
     {
         const Profile* p = pm.getProfile(i);
         TEST_ASSERT_NOT_NULL_MESSAGE(p, "Profile slot must not be null");
@@ -273,9 +274,9 @@ void test_loadFromFile_every_profile_has_4_actions()
 {
     resetPM();
     loader.loadFromFile(pm, &keyboard, CONFIG_PATH);
-    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
+    for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
     {
-        for (uint8_t b = 0; b < Profile::MAX_BUTTONS; b++)
+        for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
         {
             Action* a = pm.getAction(i, b);
             char msg[64];
@@ -300,7 +301,7 @@ void test_loadFromFile_profile0_all_sendchar()
 {
     resetPM();
     loader.loadFromFile(pm, &keyboard, CONFIG_PATH);
-    for (uint8_t b = 0; b < Profile::MAX_BUTTONS; b++)
+    for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
     {
         Action* a = pm.getAction(0, b);
         TEST_ASSERT_NOT_NULL(a);
