@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <memory>
 #include <unity.h>
+#include <vector>
 
 #include "action.h"
 #include "button_constants.h"
@@ -22,7 +23,7 @@ public:
 // --- Test state -------------------------------------------------------------
 
 static NullLEDController led1, led2, led3;
-static ProfileManager pm(led1, led2, led3);
+static ProfileManager pm(std::vector<ILEDController*>{&led1, &led2, &led3});
 
 void setUp() {}
 void tearDown() {}
