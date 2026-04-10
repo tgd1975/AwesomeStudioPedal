@@ -126,10 +126,7 @@ void IRAM_ATTR isr_btn23() { isr_buttons(23); }
 void IRAM_ATTR isr_btn24() { isr_buttons(24); }
 void IRAM_ATTR isr_btn25() { isr_buttons(25); }
 
-void IRAM_ATTR isr_select()
-{
-    BUTTON_SELECT.isr();
-}
+void IRAM_ATTR isr_select() { BUTTON_SELECT.isr(); }
 
 using IsrFunc = void (*)();
 static const IsrFunc BTN_ISRS[Btn::MAX] = {

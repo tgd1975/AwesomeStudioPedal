@@ -29,13 +29,22 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 Types: `feat`, `fix`, `docs`, `chore`, `test`, `refactor`
 
+## Code Quality Standards
+
+- **Zero Warnings**: All compiler warnings are errors (`-Werror`). Fix before committing.
+- **Static Analysis**: Code must pass `clang-tidy` — run locally with `clang-tidy -p .vscode/build <file>`
+- **Formatting**: Run `clang-format` before committing — the pre-commit hook enforces this automatically.
+- **No Code Smells**: New code must not introduce magic numbers, deep nesting, or long functions.
+- **Test Coverage**: New behaviour must have a corresponding host unit test.
+
 ## Quick Checklist
 
 1. Fork the repository.
 2. Branch off `main` using the naming convention above.
 3. `make test-host` passes with zero failures.
-4. Open a pull request — the PR template will guide you.
-5. Squash-merge after review.
+4. `clang-tidy` produces no errors on changed files.
+5. Open a pull request — the PR template will guide you.
+6. Squash-merge after review.
 
 ## Further Reading
 
