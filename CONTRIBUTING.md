@@ -29,6 +29,13 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 Types: `feat`, `fix`, `docs`, `chore`, `test`, `refactor`
 
+When a commit relates to a tracked task, include the task ID in the scope:
+
+```
+feat(TASK-047): fix profile LED blinking after profile switch
+fix(TASK-054): resolve license inconsistency in package manifest
+```
+
 ## Code Quality Standards
 
 - **Zero Warnings**: All compiler warnings are errors (`-Werror`). Fix before committing.
