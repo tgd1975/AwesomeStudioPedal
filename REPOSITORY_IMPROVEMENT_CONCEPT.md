@@ -63,54 +63,54 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 | Status | ID | Short Description | Phase | Effort | Human-in-the-Loop | Complexity |
 |--------|----|-------------------|-------|--------|-------------------|------------|
 | ✅ | TASK-001 | Create branch protection concept | 1 | S | No | Junior |
-| ✅ | TASK-002 | Add `.github/settings.yml` for branch protection | 1 | M | Yes | Junior |
-| ✅ | TASK-003 | Configure branch protection in GitHub UI | 1 | S | Yes | Junior |
-| ✅ | TASK-004 | Update CONTRIBUTING.md with branch strategy | 1 | S | Yes | Junior |
-| ✅ | TASK-005 | Add issue and PR templates | 1 | M | Yes | Junior |
-| ✅ | TASK-006 | Create SECURITY.md | 2 | M | Yes | Medium |
+| ✅ | TASK-002 | Add `.github/settings.yml` for branch protection | 1 | M | Clarification | Junior |
+| ✅ | TASK-003 | Configure branch protection in GitHub UI | 1 | S | Clarification | Junior |
+| ✅ | TASK-004 | Update CONTRIBUTING.md with branch strategy | 1 | S | Clarification | Junior |
+| ✅ | TASK-005 | Add issue and PR templates | 1 | M | Clarification | Junior |
+| ✅ | TASK-006 | Create SECURITY.md | 2 | M | Clarification | Medium |
 | ✅ | TASK-007 | Add CodeQL analysis workflow | 2 | L | No | Senior |
 | ✅ | TASK-008 | Add dependabot.yml | 2 | S | No | Junior |
-| ✅ | TASK-009 | Add dependabot auto-merge workflow | 2 | M | Yes | Medium |
-| ✅ | TASK-010 | Add CODEOWNERS file | 2 | S | Yes | Junior |
-| ✅ | TASK-011 | Add FUNDING.yml | 3 | S | Yes | Junior |
-| ❌ | TASK-012 | Add "Future Ideas" section to README | 3 | S | Yes | Junior |
-| ❌ | TASK-013 | Enable GitHub Discussions | 3 | S | Yes | Junior |
+| ✅ | TASK-009 | Add dependabot auto-merge workflow | 2 | M | Clarification | Medium |
+| ✅ | TASK-010 | Add CODEOWNERS file | 2 | S | Clarification | Junior |
+| ✅ | TASK-011 | Add FUNDING.yml | 3 | S | Clarification | Junior |
+| ✅ | TASK-012 | Add "Future Ideas" section to README | 3 | S | Clarification | Junior |
+| ✅ | TASK-013 | Enable GitHub Discussions | 3 | S | Clarification | Junior |
 | ✅ | TASK-014 | Add test coverage badge | 3 | S | No | Junior |
 | ✅ | TASK-015 | Add compiler warning flags | 4 | M | No | Medium |
-| ✅ | TASK-016 | Create .clang-tidy configuration | 4 | M | Yes | Medium |
+| ✅ | TASK-016 | Create .clang-tidy configuration | 4 | M | Clarification | Medium |
 | ✅ | TASK-017 | Add static analysis workflow | 4 | L | No | Senior |
-| ✅ | TASK-018 | Create code smell detection scripts | 4 | L | Yes | Senior |
-| ✅ | TASK-019 | Update CONTRIBUTING.md with quality standards | 4 | S | Yes | Junior |
-| ❌ | TASK-020 | Create release workflow | 5 | XL | Yes | Senior |
-| ❌ | TASK-021 | Add package publishing | 5 | L | Yes | Senior |
-| ❌ | TASK-022 | Create release checklist | 5 | M | Yes | Medium |
-| ❌ | TASK-023 | Add release process to CONTRIBUTING.md | 5 | S | Yes | Junior |
-| ✅ | TASK-024 | Move README_data.md to docs/data/README.md | 6 | S | Yes | Junior |
-| ❌ | TASK-025 | Update README.md with firmware versions | 6 | S | Yes | Junior |
-| ❌ | TASK-026 | Add builder documentation | 6 | M | Yes | Medium |
-| ❌ | TASK-027 | Create upload instructions | 6 | M | Yes | Medium |
-| ❌ | TASK-028 | Document required tools | 6 | S | Yes | Junior |
-| ❌ | TASK-029 | Create release cleanup script | 6 | M | Yes | Medium |
-| ❌ | TASK-030 | Add .devcontainer configuration | 7 | M | Yes | Medium |
-| ❌ | TASK-031 | Create web-based simulator | 7 | XL | Yes | Senior |
-| ❌ | TASK-032 | Create configuration builder tool | 7 | L | Yes | Senior |
-| ❌ | TASK-033 | Create Setup/Installation Demo Video | 7 | L | Yes | Medium |
-| ❌ | TASK-034 | Create Button Configuration Demo Video | 7 | L | Yes | Medium |
-| ❌ | TASK-035 | Create Builder Workflow Demo Video | 7 | L | Yes | Medium |
-| ❌ | TASK-036 | Create Advanced Features Demo Video | 7 | XL | Yes | Senior |
-| ❌ | TASK-037 | Create Real-World Usage Demo Video | 7 | XL | Yes | Senior |
-| ❌ | TASK-038 | Create Troubleshooting Demo Video | 7 | L | Yes | Medium |
+| ✅ | TASK-018 | Create code smell detection scripts | 4 | L | Clarification | Senior |
+| ✅ | TASK-019 | Update CONTRIBUTING.md with quality standards | 4 | S | Clarification | Junior |
+| ❌ | TASK-020 | Create release workflow | 5 | XL | Clarification | Senior |
+| ❌ | TASK-021 | Add package publishing | 5 | L | Clarification | Senior |
+| ❌ | TASK-022 | Create release checklist | 5 | M | Clarification | Medium |
+| ❌ | TASK-023 | Add release process to CONTRIBUTING.md | 5 | S | Clarification | Junior |
+| ✅ | TASK-024 | Move README_data.md to docs/data/README.md | 6 | S | Clarification | Junior |
+| ❌ | TASK-025 | Update README.md with firmware versions | 6 | S | Clarification | Junior |
+| ❌ | TASK-026 | Add builder documentation | 6 | M | Clarification | Medium |
+| ❌ | TASK-027 | Create upload instructions | 6 | M | Clarification | Medium |
+| ❌ | TASK-028 | Document required tools | 6 | S | Clarification | Junior |
+| ❌ | TASK-029 | Create release cleanup script | 6 | M | Clarification | Medium |
+| ❌ | TASK-030 | Add .devcontainer configuration | 7 | M | Clarification | Medium |
+| ❌ | TASK-031 | Create web-based simulator | 7 | XL | Clarification | Senior |
+| ❌ | TASK-032 | Create configuration builder tool | 7 | L | Clarification | Senior |
+| ❌ | TASK-033 | Create Setup/Installation Demo Video | 7 | L | Main | Medium |
+| ❌ | TASK-034 | Create Button Configuration Demo Video | 7 | L | Main | Medium |
+| ❌ | TASK-035 | Create Builder Workflow Demo Video | 7 | L | Main | Medium |
+| ❌ | TASK-036 | Create Advanced Features Demo Video | 7 | XL | Main | Senior |
+| ❌ | TASK-037 | Create Real-World Usage Demo Video | 7 | XL | Main | Senior |
+| ❌ | TASK-038 | Create Troubleshooting Demo Video | 7 | L | Main | Medium |
 | ✅ | TASK-039 | Add Mermaid diagram linting | 7 | M | No | Medium |
-| ✅ | TASK-040 | Verify Mermaid diagrams | 7 | S | Yes | Junior |
-| ❌ | TASK-041 | Update cross-references | 7 | M | Yes | Junior |
-| ❌ | TASK-042 | Verify external links | 7 | S | Yes | Junior |
-| ❌ | TASK-043 | Final proofreading | 7 | M | Yes | Junior |
-| ✅ | TASK-044 | Create Mermaid style guide | 7 | M | Yes | Medium |
-| ✅ | TASK-045 | Add Mermaid validation script | 7 | M | Yes | Medium |
-| ✅ | TASK-046 | Fix profile select button functionality | 7 | M | Yes | Medium |
-| ✅ | TASK-047 | Fix profile LED blinking behavior | 7 | S | Yes | Junior |
-| ✅ | TASK-048 | Implement permanent profile storage | 7 | M | Yes | Medium |
-| ❌ | TASK-049 | Setup video platform channel | 6 | S | Yes | Junior |
+| ✅ | TASK-040 | Verify Mermaid diagrams | 7 | S | Clarification | Junior |
+| ❌ | TASK-041 | Update cross-references | 7 | M | Clarification | Junior |
+| ❌ | TASK-042 | Verify external links | 7 | S | Clarification | Junior |
+| ❌ | TASK-043 | Final proofreading | 7 | M | Clarification | Junior |
+| ✅ | TASK-044 | Create Mermaid style guide | 7 | M | Clarification | Medium |
+| ✅ | TASK-045 | Add Mermaid validation script | 7 | M | Clarification | Medium |
+| ✅ | TASK-046 | Fix profile select button functionality | 7 | M | Support | Medium |
+| ✅ | TASK-047 | Fix profile LED blinking behavior | 7 | S | Support | Junior |
+| ✅ | TASK-048 | Implement permanent profile storage | 7 | M | Support | Medium |
+| ❌ | TASK-049 | Setup video platform channel | 6 | S | Clarification | Junior |
 
 **Effort Legend**: S (Small: <2h), M (Medium: 2-8h), L (Large: 8-24h), XL (Extra Large: 24-40h)
 **Complexity Legend**: Junior (<1 year exp), Medium (1-3 years exp), Senior (>3 years exp)
