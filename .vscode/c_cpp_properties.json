@@ -9,6 +9,7 @@
             "name": "PlatformIO",
             "includePath": [
                 "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/src",
+                "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/Preferences/src",
                 "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/lib/hardware/esp32/include",
                 "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/lib/hardware/esp32/src",
                 "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/lib/PedalLogic/include",
@@ -231,7 +232,6 @@
                 "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/I2S/src",
                 "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/Insights/src",
                 "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/NetBIOS/src",
-                "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/Preferences/src",
                 "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/RainMaker/src",
                 "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/SD/src",
                 "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/SD_MMC/src",
@@ -252,6 +252,7 @@
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
                     "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/src",
+                    "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/Preferences/src",
                     "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/lib/hardware/esp32/include",
                     "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/lib/hardware/esp32/src",
                     "/home/tobias/Dokumente/Projekte/AwesomeGuitarPedal/lib/PedalLogic/include",
@@ -474,7 +475,6 @@
                     "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/I2S/src",
                     "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/Insights/src",
                     "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/NetBIOS/src",
-                    "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/Preferences/src",
                     "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/RainMaker/src",
                     "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/SD/src",
                     "/home/tobias/.platformio/packages/framework-arduinoespressif32/libraries/SD_MMC/src",

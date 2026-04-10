@@ -46,6 +46,18 @@ Types: `feat`, `fix`, `docs`, `chore`, `test`, `refactor`
 5. Open a pull request — the PR template will guide you.
 6. Squash-merge after review.
 
+## Task Workflow
+
+Open tasks are tracked in [docs/developers/tasks/](docs/developers/tasks/).
+
+- **Browse tasks**: see [OVERVIEW.md](docs/developers/tasks/OVERVIEW.md) or look in `open/`
+- **Pick up a task**: read its file, branch off `main` (`feature/TASK-NNN-short-title`)
+- **Close a task**: use `/task-done TASK-NNN` — moves the file to `closed/` and updates the overview
+- **Create a task**: use `/task-new "Short title"` — scaffolds the file and updates the overview
+- **Update overview manually**: `python scripts/update_task_overview.py`
+
+Each task file contains a description, acceptance criteria, and notes.
+
 ## Further Reading
 
 - [BRANCH_PROTECTION_CONCEPT.md](docs/developers/BRANCH_PROTECTION_CONCEPT.md)
