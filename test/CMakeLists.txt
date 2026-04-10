@@ -12,6 +12,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_logger.cpp
     ${CMAKE_SOURCE_DIR}/lib/hardware/esp32/src/button.cpp
     ${CMAKE_SOURCE_DIR}/test/fakes/arduino_shim.cpp
+    ${CMAKE_SOURCE_DIR}/test/fakes/hardware_config_fake.cpp
 )
 
 add_executable(pedal_tests

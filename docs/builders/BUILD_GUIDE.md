@@ -8,13 +8,18 @@ nRF52840 (Adafruit Feather nRF52840) is implemented but not tested — no build 
 ## Bill of materials
 
 - ESP32 NodeMCU-32S development board
-- 4 momentary tactile buttons (action: A, B, C, D)
+- 1–26 momentary tactile buttons (action buttons A–Z); default build uses 4 (A, B, C, D)
 - 1 momentary tactile button (SELECT / profile cycle)
-- 3 LEDs + current-limiting resistors (profile indicator array)
+- 1–6 LEDs + current-limiting resistors (profile-select indicator array); default build uses 3
 - 1 LED + resistor (Bluetooth status)
 - 1 LED + resistor (power indicator)
 - USB power supply or LiPo battery with regulator
 - Enclosure (see options below)
+
+To customise pin assignments or counts, edit
+`lib/hardware/esp32/include/builder_config.h` before building.
+Wiring more select LEDs raises the maximum number of profiles (see
+[HARDWARE_CONFIG.md](HARDWARE_CONFIG.md) for the encoding table).
 
 ## Wiring diagram
 
@@ -24,9 +29,9 @@ graph LR
 
     ESP -->|GPIO 26| BLE_LED["LED: Bluetooth status"]
     ESP -->|GPIO 25| PWR_LED["LED: Power indicator"]
-    ESP -->|GPIO 5|  BIT1["LED: Profile bit 1 (LSB)"]
-    ESP -->|GPIO 18| BIT2["LED: Profile bit 2"]
-    ESP -->|GPIO 19| BIT3["LED: Profile bit 3 (MSB)"]
+    ESP -->|GPIO 5|  SEL1["LED: Profile select 1"]
+    ESP -->|GPIO 18| SEL2["LED: Profile select 2"]
+    ESP -->|GPIO 19| SEL3["LED: Profile select 3"]
 
     SEL["Button: SELECT"] -->|GPIO 21 pull-up| ESP
     BTN_A["Button: A"] -->|GPIO 13 pull-up| ESP
@@ -39,9 +44,9 @@ graph LR
 |--------|------|------|
 | LED: Bluetooth status | GPIO 26 | Output |
 | LED: Power indicator | GPIO 25 | Output |
-| LED: Profile bit 1 (LSB) | GPIO 5 | Output |
-| LED: Profile bit 2 | GPIO 18 | Output |
-| LED: Profile bit 3 (MSB) | GPIO 19 | Output |
+| LED: Profile select 1 | GPIO 5 | Output |
+| LED: Profile select 2 | GPIO 18 | Output |
+| LED: Profile select 3 | GPIO 19 | Output |
 | Button: SELECT | GPIO 21 | Input (pull-up) |
 | Button: A | GPIO 13 | Input (pull-up) |
 | Button: B | GPIO 12 | Input (pull-up) |

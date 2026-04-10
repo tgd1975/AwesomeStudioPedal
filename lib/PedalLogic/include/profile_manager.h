@@ -1,27 +1,38 @@
 #pragma once
+#include "config.h"
 #include "i_led_controller.h"
 #include "profile.h"
 #include <array>
 #include <memory>
+#include <vector>
 
 /**
  * @class ProfileManager
- * @brief Manages up to 7 profiles with LED feedback
+ * @brief Manages up to MAX_PROFILES profiles with LED feedback
  *
- * LED encoding:
- *   - Profiles 1–3: one LED on exclusively (same as before)
- *   - Profiles 4–7: binary encoding across 3 LEDs
- *     bits = profileIndex + 1  →  LED1 = bit0, LED2 = bit1, LED3 = bit2
+ * LED encoding (chosen at runtime based on numProfiles vs numSelectLeds):
+ *   - One-hot mode (numProfiles <= numSelectLeds):
+ *     Profile N lights LED N exclusively. Intuitive and direct.
+ *   - Binary mode (numProfiles > numSelectLeds):
+ *     The 1-based profile number is binary-encoded across all select LEDs.
+ *     LED 1 = bit 0 (LSB), LED 2 = bit 1, etc.
  *
- * After a profile switch all three LEDs blink 3 times, then return to the
+ * Maximum profiles for a given wiring: 2^numSelectLeds − 1.
+ *
+ * After a profile switch all select LEDs blink 3 times, then return to the
  * encoding for the new profile.  Drive this by calling update() every loop.
  */
 class ProfileManager
 {
 public:
-    static constexpr uint8_t NUM_PROFILES = 7;
+    static constexpr uint8_t MAX_PROFILES    = 63; /**< 2^6 − 1 (6 select LEDs max) */
+    static constexpr uint8_t MAX_SELECT_LEDS = 6;
 
-    ProfileManager(ILEDController& led1, ILEDController& led2, ILEDController& led3);
+    /**
+     * @param leds   Pointers to LED controllers for profile-select LEDs.
+     *               Size must match hardwareConfig.numSelectLeds.
+     */
+    explicit ProfileManager(std::vector<ILEDController*> leds);
 
     void addProfile(uint8_t profileIndex, std::unique_ptr<Profile> profile);
     Action* getAction(uint8_t profileIndex, uint8_t button) const;
@@ -31,7 +42,7 @@ public:
      * @brief Advance to the next populated profile slot and trigger blink feedback
      *
      * Skips empty slots and wraps around.  Triggers a 3-blink sequence on all
-     * LEDs; the LEDs return to the profile encoding after the sequence completes.
+     * select LEDs; the LEDs return to the profile encoding after the sequence completes.
      *
      * @return New current profile index
      */
@@ -65,12 +76,10 @@ public:
 private:
     void updateLEDs();
 
-    std::array<std::unique_ptr<Profile>, NUM_PROFILES> profileSlots;
+    std::array<std::unique_ptr<Profile>, MAX_PROFILES> profileSlots;
     uint8_t currentProfile = 0;
 
-    ILEDController& led1;
-    ILEDController& led2;
-    ILEDController& led3;
+    std::vector<ILEDController*> selectLeds; /**< Profile-select LED controllers */
 
     // Post-switch blink state
     bool postSwitchBlink = false;

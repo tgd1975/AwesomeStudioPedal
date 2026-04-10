@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <memory>
+#include <vector>
 #include <unity.h>
 
 #include "action.h"
@@ -17,7 +18,7 @@
 // ---------------------------------------------------------------------------
 
 static NullLEDController led1, led2, led3;
-static ProfileManager pm(led1, led2, led3);
+static ProfileManager pm(std::vector<ILEDController*>{&led1, &led2, &led3});
 static ConfigLoader loader;
 
 // Null keyboard — send actions are not exercised here
@@ -36,7 +37,7 @@ static NullKeyboard keyboard;
 static uint8_t countPopulated()
 {
     uint8_t n = 0;
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
         if (pm.getProfile(i))
             n++;
     return n;
@@ -73,7 +74,7 @@ static std::string nProfilesJson(uint8_t n)
 // Reset the profile manager to a clean state before each test group
 static void resetPM()
 {
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
         pm.addProfile(i, nullptr);
     pm.resetToFirstProfile();
 }
@@ -230,7 +231,7 @@ void test_replace_invalid_index_returns_false()
 // test suite (pio run -e feather-nrf52840 --target uploadfs).
 // ---------------------------------------------------------------------------
 
-static const char* CONFIG_PATH = "/pedal_config.json";
+static const char* CONFIG_PATH = "/profiles.json";
 
 static const char* EXPECTED_NAMES[7] = {
     "01 Score Navigator",
@@ -260,7 +261,7 @@ void test_loadFromFile_profile_names_match()
 {
     resetPM();
     loader.loadFromFile(pm, &keyboard, CONFIG_PATH);
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
     {
         const Profile* p = pm.getProfile(i);
         TEST_ASSERT_NOT_NULL_MESSAGE(p, "Profile slot must not be null");
@@ -272,9 +273,9 @@ void test_loadFromFile_every_profile_has_4_actions()
 {
     resetPM();
     loader.loadFromFile(pm, &keyboard, CONFIG_PATH);
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
     {
-        for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++)
+        for (uint8_t b = 0; b < Profile::MAX_BUTTONS; b++)
         {
             Action* a = pm.getAction(i, b);
             char msg[64];
@@ -299,7 +300,7 @@ void test_loadFromFile_profile0_all_sendchar()
 {
     resetPM();
     loader.loadFromFile(pm, &keyboard, CONFIG_PATH);
-    for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++)
+    for (uint8_t b = 0; b < Profile::MAX_BUTTONS; b++)
     {
         Action* a = pm.getAction(0, b);
         TEST_ASSERT_NOT_NULL(a);

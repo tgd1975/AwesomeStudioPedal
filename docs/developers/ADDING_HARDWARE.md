@@ -8,7 +8,11 @@ See [HARDWARE_CONFIG.md](../builders/HARDWARE_CONFIG.md) for the hardware maturi
 
 1. Add a `[env:new-board]` section to `platformio.ini`.
 2. Create `lib/hardware/<target>/` with these source files:
-   - `config.cpp` — pin assignments
+   - `include/builder_config.h` — builder-facing pin and count configuration, with
+     `constexpr` values and `static_assert` validation; this is the only file a
+     builder needs to edit for custom wiring
+   - `src/config.cpp` — constructs `hardwareConfig` from `builder_config.h`; builders
+     never open this file
    - `led_controller.cpp` — implements `ILEDController`
    - `button_controller.cpp` — implements `IButtonController`
    - `ble_keyboard_adapter.cpp` — implements `IBleKeyboard`

@@ -1,4 +1,6 @@
 #include "config_loader.h"
+#include "button_constants.h"
+#include "config.h"
 #include "delayed_action.h"
 #include "file_system.h"
 #include "i_logger.h"
@@ -159,6 +161,36 @@ namespace
         {"F10", KEY_F10},
         {"F11", KEY_F11},
         {"F12", KEY_F12},
+        // Legacy F13-F24 aliases (for consistency with F1-F12 above)
+        {"F13", KEY_F13},
+        {"F14", KEY_F14},
+        {"F15", KEY_F15},
+        {"F16", KEY_F16},
+        {"F17", KEY_F17},
+        {"F18", KEY_F18},
+        {"F19", KEY_F19},
+        {"F20", KEY_F20},
+        {"F21", KEY_F21},
+        {"F22", KEY_F22},
+        {"F23", KEY_F23},
+        {"F24", KEY_F24},
+        // Numpad
+        {"KEY_NUM_0", KEY_NUM_0},
+        {"KEY_NUM_1", KEY_NUM_1},
+        {"KEY_NUM_2", KEY_NUM_2},
+        {"KEY_NUM_3", KEY_NUM_3},
+        {"KEY_NUM_4", KEY_NUM_4},
+        {"KEY_NUM_5", KEY_NUM_5},
+        {"KEY_NUM_6", KEY_NUM_6},
+        {"KEY_NUM_7", KEY_NUM_7},
+        {"KEY_NUM_8", KEY_NUM_8},
+        {"KEY_NUM_9", KEY_NUM_9},
+        {"KEY_NUM_SLASH", KEY_NUM_SLASH},
+        {"KEY_NUM_ASTERISK", KEY_NUM_ASTERISK},
+        {"KEY_NUM_MINUS", KEY_NUM_MINUS},
+        {"KEY_NUM_PLUS", KEY_NUM_PLUS},
+        {"KEY_NUM_ENTER", KEY_NUM_ENTER},
+        {"KEY_NUM_PERIOD", KEY_NUM_PERIOD},
     };
 
     static const MediaKeyEntry MEDIA_KEY_TABLE[] = {
@@ -180,6 +212,16 @@ namespace
         // Short aliases used in config
         {"KEY_VOLUME_UP", KEY_MEDIA_VOLUME_UP},
         {"KEY_VOLUME_DOWN", KEY_MEDIA_VOLUME_DOWN},
+        // Extended media keys
+        {"KEY_MEDIA_WWW_HOME", KEY_MEDIA_WWW_HOME},
+        {"KEY_MEDIA_WWW_BACK", KEY_MEDIA_WWW_BACK},
+        {"KEY_MEDIA_WWW_STOP", KEY_MEDIA_WWW_STOP},
+        {"KEY_MEDIA_WWW_SEARCH", KEY_MEDIA_WWW_SEARCH},
+        {"KEY_MEDIA_WWW_BOOKMARKS", KEY_MEDIA_WWW_BOOKMARKS},
+        {"KEY_MEDIA_CALCULATOR", KEY_MEDIA_CALCULATOR},
+        {"KEY_MEDIA_EMAIL_READER", KEY_MEDIA_EMAIL_READER},
+        {"KEY_MEDIA_LOCAL_MACHINE_BROWSER", KEY_MEDIA_LOCAL_MACHINE_BROWSER},
+        {"KEY_MEDIA_CONSUMER_CONTROL_CONFIGURATION", KEY_MEDIA_CONSUMER_CONTROL_CONFIGURATION},
     };
 
     static const ActionTypeEntry ACTION_TYPE_TABLE[] = {
@@ -281,7 +323,7 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
     DynamicJsonDocument doc(8192);
     JsonArray profiles = doc.createNestedArray("profiles");
 
-    for (uint8_t profileIndex = 0; profileIndex < ProfileManager::NUM_PROFILES; profileIndex++)
+    for (uint8_t profileIndex = 0; profileIndex < hardwareConfig.numProfiles; profileIndex++)
     {
         const Profile* profile = profileManager.getProfile(profileIndex);
         if (! profile)
@@ -293,13 +335,14 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
 
         JsonObject buttons = profileObj.createNestedObject("buttons");
 
-        for (const char* buttonName : {"A", "B", "C", "D"})
+        char btnName[2];
+        for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
         {
-            uint8_t buttonIndex = getButtonIndex(buttonName);
-            Action* action = profile->getAction(buttonIndex);
+            Btn::name(b, btnName);
+            Action* action = profile->getAction(b);
             if (action)
             {
-                JsonObject actionObj = buttons.createNestedObject(buttonName);
+                JsonObject actionObj = buttons.createNestedObject(btnName);
                 actionToJson(action, actionObj);
             }
         }
@@ -341,13 +384,13 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
         return false;
     }
 
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
     {
         profileManager.addProfile(i, nullptr);
     }
 
     JsonArray profiles = doc["profiles"];
-    for (uint8_t i = 0; i < profiles.size() && i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < profiles.size() && i < hardwareConfig.numProfiles; i++)
     {
         JsonObject profileJson = profiles[i];
         const char* profileName = profileJson["name"] | "";
@@ -391,7 +434,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
 
     JsonArray profiles = doc["profiles"];
 
-    for (uint8_t newIdx = 0; newIdx < profiles.size() && newIdx < ProfileManager::NUM_PROFILES;
+    for (uint8_t newIdx = 0; newIdx < profiles.size() && newIdx < hardwareConfig.numProfiles;
          newIdx++)
     {
         JsonObject profileJson = profiles[newIdx];
@@ -400,7 +443,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
 
         // Skip if a profile with the same name already exists
         bool exists = false;
-        for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+        for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
         {
             const Profile* p = profileManager.getProfile(i);
             if (p && p->getName() == profileName)
@@ -417,7 +460,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
 
         // Find first empty slot
         uint8_t targetIndex = 255;
-        for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+        for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
         {
             if (! profileManager.getProfile(i))
             {
@@ -460,7 +503,7 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
                                   uint8_t profileIndex,
                                   const std::string& jsonConfig)
 {
-    if (profileIndex >= ProfileManager::NUM_PROFILES)
+    if (profileIndex >= hardwareConfig.numProfiles)
     {
         logger_->log("Invalid profile index");
         return false;
@@ -506,14 +549,8 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
  */
 uint8_t ConfigLoader::getButtonIndex(const char* buttonName)
 {
-    if (strcmp(buttonName, "A") == 0)
-        return Btn::A;
-    if (strcmp(buttonName, "B") == 0)
-        return Btn::B;
-    if (strcmp(buttonName, "C") == 0)
-        return Btn::C;
-    if (strcmp(buttonName, "D") == 0)
-        return Btn::D;
+    if (buttonName[0] >= 'A' && buttonName[0] <= ('A' + Btn::MAX - 1) && buttonName[1] == '\0')
+        return static_cast<uint8_t>(buttonName[0] - 'A');
     return 255;
 }
 
@@ -531,13 +568,14 @@ void ConfigLoader::populateProfileFromJson(Profile& profile,
                                            JsonObject buttons,
                                            IBleKeyboard* keyboard)
 {
-    for (const char* buttonName : {"A", "B", "C", "D"})
+    char buttonName[2];
+    for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
     {
+        Btn::name(b, buttonName);
         if (! buttons.containsKey(buttonName))
             continue;
 
         JsonObject actionJson = buttons[buttonName];
-        uint8_t buttonIndex = getButtonIndex(buttonName);
 
         std::unique_ptr<Action> action = createActionFromJson(actionJson, keyboard);
         if (action)
@@ -547,7 +585,7 @@ void ConfigLoader::populateProfileFromJson(Profile& profile,
             {
                 action->setName(actionName);
             }
-            profile.addAction(buttonIndex, std::move(action));
+            profile.addAction(b, std::move(action));
         }
     }
 }
@@ -642,10 +680,8 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
  */
 void ConfigLoader::logLoadedConfig(const ProfileManager& profileManager) const
 {
-    static const char* BUTTON_LABELS[] = {"A", "B", "C", "D"};
-
     logger_->log("--- Config loaded ---");
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
     {
         const Profile* profile = profileManager.getProfile(i);
         if (! profile)
@@ -653,16 +689,18 @@ void ConfigLoader::logLoadedConfig(const ProfileManager& profileManager) const
 
         logger_->log("Profile: ", profile->getName().c_str());
 
-        for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++)
+        char btnLabel[2];
+        for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
         {
             const Action* action = profile->getAction(b);
             if (! action)
                 continue;
 
+            Btn::name(b, btnLabel);
             const char* typeStr = ProfileManager::getActionTypeString(action->getType());
 
             std::string line = "  ";
-            line += BUTTON_LABELS[b];
+            line += btnLabel;
             line += ": ";
             line += typeStr;
             if (action->hasName())

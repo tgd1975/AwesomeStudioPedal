@@ -21,7 +21,7 @@ filesystem. Run these two commands in order:
 
 ```bash
 make upload-esp32      # flash compiled firmware
-make uploadfs-esp32    # flash data/ directory (pedal_config.json)
+make uploadfs-esp32    # flash data/ directory (profiles.json)
 ```
 
 Or use the combined shortcut that builds, uploads firmware, uploads filesystem, and opens the
@@ -33,7 +33,7 @@ make run-esp32
 
 ## Updating the configuration without recompiling
 
-The device configuration lives in `data/pedal_config.json`. You can edit it and push it to
+The device configuration lives in `data/profiles.json`. You can edit it and push it to
 the device without touching or recompiling the firmware. Only the filesystem partition is
 re-written — takes a few seconds.
 
@@ -71,7 +71,7 @@ The partition table is at `config/esp32/partitions.csv`. No changes are needed f
 
 - **Device not found:** check the USB cable and connection; try a different port.
 - **Permission denied (Linux):** verify `dialout` group membership and restart your session.
-- **Config not loading:** validate `data/pedal_config.json` with a JSON linter, then re-run the
+- **Config not loading:** validate `data/profiles.json` with a JSON linter, then re-run the
   filesystem upload.
 - **LittleFS mount failed** (appears in serial output): run `make uploadfs-esp32` to re-upload
   the filesystem.

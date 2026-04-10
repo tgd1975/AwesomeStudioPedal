@@ -8,6 +8,7 @@
 #include "platform.h"
 
 #include "button.h"
+#include "button_constants.h"
 #include "config.h"
 #include "config_loader.h"
 #include "delayed_action.h"
@@ -25,174 +26,139 @@
  * for the ESP32-based guitar pedal controller.
  */
 
-/**
- * @brief BLE keyboard adapter
- *
- * Platform-specific adapter created via factory. Owns the underlying
- * BLE keyboard object for the current hardware target.
- */
 BleKeyboardAdapter* bleKeyboardAdapter = createBleKeyboardAdapter();
 
-/**
- * @brief Bluetooth connection status flag
- *
- * Tracks whether the pedal is currently connected to a host device.
- */
 bool connected = false;
 
-/**
- * @brief LED controllers for visual feedback
- *
- * Each LED controller manages a specific indicator light on the pedal.
- */
-LEDController ledBluetooth(hardwareConfig.ledBluetooth); /**< Bluetooth status LED */
-LEDController ledPower(hardwareConfig.ledPower);         /**< Power indicator LED */
-LEDController ledSelect1(hardwareConfig.ledSelect1);     /**< Bank 1 selection LED */
-LEDController ledSelect2(hardwareConfig.ledSelect2);     /**< Bank 2 selection LED */
-LEDController ledSelect3(hardwareConfig.ledSelect3);     /**< Bank 3 selection LED */
+LEDController ledBluetooth(hardwareConfig.ledBluetooth);
+LEDController ledPower(hardwareConfig.ledPower);
 
-/**
- * @brief Button instances for user input
- *
- * Each button is configured with its respective GPIO pin and handles
- * interrupt-based press detection with debouncing.
- */
-Button BUTTON_SELECT = Button(hardwareConfig.buttonSelect); /**< Bank selection button */
-Button BUTTON_A = Button(hardwareConfig.buttonA);           /**< Action button A */
-Button BUTTON_B = Button(hardwareConfig.buttonB);           /**< Action button B */
-Button BUTTON_C = Button(hardwareConfig.buttonC);           /**< Action button C */
-Button BUTTON_D = Button(hardwareConfig.buttonD);           /**< Action button D */
+// Profile-select LEDs — one entry per hardwareConfig.numSelectLeds
+LEDController* selectLedObjects[ProfileManager::MAX_SELECT_LEDS] = {};
+std::vector<ILEDController*> selectLeds;
 
-/**
- * @brief Bank management system
- *
- * Handles the three configurable button profiles and visual feedback.
- */
-ProfileManager profileManager(ledSelect1, ledSelect2, ledSelect3);
+// Action buttons — one entry per hardwareConfig.numButtons
+Button* actionButtonObjects[Btn::MAX] = {};
 
-/**
- * @brief Event handling system
- *
- * Dispatches button press events to appropriate handlers.
- */
+ProfileManager* profileManager = nullptr;
 EventDispatcher eventDispatcher;
 
 /**
- * @brief Interrupt service routine for Button A
- *
- * Called when Button A GPIO pin detects a falling edge.
- * Only processes the interrupt if Bluetooth is connected.
- */
-void attachInterrupts();
-
-/**
- * @brief Signal a configuration load error by blinking all 5 LEDs, then
+ * @brief Signal a configuration load error by blinking all LEDs, then
  *        fall back to the hardcoded factory default via configureProfiles().
- *
- * Uses blocking delay — only called at startup or during a safe window,
- * never from within the main loop.
  */
 void signalLoadError()
 {
     Serial.println("CONFIG ERROR: falling back to factory default");
-    constexpr int BLINK_COUNT = 5;
-    constexpr int BLINK_DURATION = 100; // ms
+    constexpr int BLINK_COUNT    = 5;
+    constexpr int BLINK_DURATION = 100;
     for (int i = 0; i < BLINK_COUNT; i++)
     {
         ledPower.setState(true);
         ledBluetooth.setState(true);
-        ledSelect1.setState(true);
-        ledSelect2.setState(true);
-        ledSelect3.setState(true);
+        for (auto* led : selectLeds)
+            led->setState(true);
         delay(BLINK_DURATION);
         ledPower.setState(false);
         ledBluetooth.setState(false);
-        ledSelect1.setState(false);
-        ledSelect2.setState(false);
-        ledSelect3.setState(false);
+        for (auto* led : selectLeds)
+            led->setState(false);
         delay(BLINK_DURATION);
     }
-    // Restore power LED (was on before the error)
     ledPower.setState(true);
-    // Load hardcoded factory default — pure C++ object construction, cannot fail
-    configureProfiles(profileManager, bleKeyboardAdapter);
+    configureProfiles(*profileManager, bleKeyboardAdapter);
 }
 
-void IRAM_ATTR isr_a() { BUTTON_A.isr(); }
+void attachInterrupts();
 
-/**
- * @brief Interrupt service routine for Button B
- *
- * Called when Button B GPIO pin detects a falling edge.
- * Only processes the interrupt if Bluetooth is connected.
- */
-void IRAM_ATTR isr_b() { BUTTON_B.isr(); }
+void IRAM_ATTR isr_buttons(uint8_t index)
+{
+    if (actionButtonObjects[index])
+        actionButtonObjects[index]->isr();
+}
 
-/**
- * @brief Interrupt service routine for Button C
- *
- * Called when Button C GPIO pin detects a falling edge.
- * Only processes the interrupt if Bluetooth is connected.
- */
-void IRAM_ATTR isr_c() { BUTTON_C.isr(); }
+// Individual ISR stubs for up to 26 buttons — only used entries are attached
+void IRAM_ATTR isr_btn0()  { isr_buttons(0);  }
+void IRAM_ATTR isr_btn1()  { isr_buttons(1);  }
+void IRAM_ATTR isr_btn2()  { isr_buttons(2);  }
+void IRAM_ATTR isr_btn3()  { isr_buttons(3);  }
+void IRAM_ATTR isr_btn4()  { isr_buttons(4);  }
+void IRAM_ATTR isr_btn5()  { isr_buttons(5);  }
+void IRAM_ATTR isr_btn6()  { isr_buttons(6);  }
+void IRAM_ATTR isr_btn7()  { isr_buttons(7);  }
+void IRAM_ATTR isr_btn8()  { isr_buttons(8);  }
+void IRAM_ATTR isr_btn9()  { isr_buttons(9);  }
+void IRAM_ATTR isr_btn10() { isr_buttons(10); }
+void IRAM_ATTR isr_btn11() { isr_buttons(11); }
+void IRAM_ATTR isr_btn12() { isr_buttons(12); }
+void IRAM_ATTR isr_btn13() { isr_buttons(13); }
+void IRAM_ATTR isr_btn14() { isr_buttons(14); }
+void IRAM_ATTR isr_btn15() { isr_buttons(15); }
+void IRAM_ATTR isr_btn16() { isr_buttons(16); }
+void IRAM_ATTR isr_btn17() { isr_buttons(17); }
+void IRAM_ATTR isr_btn18() { isr_buttons(18); }
+void IRAM_ATTR isr_btn19() { isr_buttons(19); }
+void IRAM_ATTR isr_btn20() { isr_buttons(20); }
+void IRAM_ATTR isr_btn21() { isr_buttons(21); }
+void IRAM_ATTR isr_btn22() { isr_buttons(22); }
+void IRAM_ATTR isr_btn23() { isr_buttons(23); }
+void IRAM_ATTR isr_btn24() { isr_buttons(24); }
+void IRAM_ATTR isr_btn25() { isr_buttons(25); }
 
-/**
- * @brief Interrupt service routine for Button D
- *
- * Called when Button D GPIO pin detects a falling edge.
- * Only processes the interrupt if Bluetooth is connected.
- */
-void IRAM_ATTR isr_d() { BUTTON_D.isr(); }
+void IRAM_ATTR isr_select()
+{
+    // SELECT button — static, not part of action button array
+}
 
-/**
- * @brief Interrupt service routine for Select Button
- *
- * Called when Select Button GPIO pin detects a falling edge.
- * Processes the interrupt regardless of Bluetooth connection status
- * since bank switching should work even when disconnected.
- */
-void IRAM_ATTR isr_select() { BUTTON_SELECT.isr(); }
+using IsrFunc = void (*)();
+static const IsrFunc BTN_ISRS[Btn::MAX] = {
+    isr_btn0,  isr_btn1,  isr_btn2,  isr_btn3,  isr_btn4,  isr_btn5,
+    isr_btn6,  isr_btn7,  isr_btn8,  isr_btn9,  isr_btn10, isr_btn11,
+    isr_btn12, isr_btn13, isr_btn14, isr_btn15, isr_btn16, isr_btn17,
+    isr_btn18, isr_btn19, isr_btn20, isr_btn21, isr_btn22, isr_btn23,
+    isr_btn24, isr_btn25,
+};
+
+Button BUTTON_SELECT(hardwareConfig.buttonSelect);
 
 /**
  * @brief Initializes all hardware components
- *
- * Configures GPIO pins for LEDs and buttons, sets initial LED states.
  */
 void setup_hardware()
 {
-    // Setup LEDs
-    ledPower.setup(1);     // Turn on power LED
-    ledBluetooth.setup(0); // Turn off Bluetooth LED initially
-    ledSelect1.setup(1);   // Turn on Bank 1 LED (default bank)
-    ledSelect2.setup(0);   // Turn off Bank 2 LED
-    ledSelect3.setup(0);   // Turn off Bank 3 LED
+    ledPower.setup(1);
+    ledBluetooth.setup(0);
 
-    // Setup buttons (configure GPIO pins as input with pull-up)
+    for (uint8_t i = 0; i < hardwareConfig.numSelectLeds; i++)
+    {
+        selectLedObjects[i] = new LEDController(hardwareConfig.ledSelect[i]);
+        selectLedObjects[i]->setup(i == 0 ? 1 : 0);
+        selectLeds.push_back(selectLedObjects[i]);
+    }
+
+    for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
+    {
+        actionButtonObjects[i] = new Button(hardwareConfig.buttonPins[i]);
+        actionButtonObjects[i]->setup();
+    }
+
     BUTTON_SELECT.setup();
-    BUTTON_A.setup();
-    BUTTON_B.setup();
-    BUTTON_C.setup();
-    BUTTON_D.setup();
 }
 
 /**
  * @brief Executes an action with proper logging
- *
- * @param profileManager Reference to the profile manager
- * @param buttonName Name of the button (A, B, C, D)
- * @param buttonIndex Button index (0-3)
  */
-void executeActionWithLogging(ProfileManager& profileManager,
-                              const char* buttonName,
-                              uint8_t buttonIndex)
+void executeActionWithLogging(uint8_t buttonIndex)
 {
-    uint8_t profileIndex = profileManager.getCurrentProfile();
-    const char* profileName = profileManager.getProfileName(profileIndex).c_str();
-    Serial.printf("Button %s pressed (Profile: %s)\n", buttonName, profileName);
+    char btnLabel[2];
+    Btn::name(buttonIndex, btnLabel);
 
-    if (auto action = profileManager.getAction(profileIndex, buttonIndex))
+    uint8_t profileIndex = profileManager->getCurrentProfile();
+    const char* profileName = profileManager->getProfileName(profileIndex).c_str();
+    Serial.printf("Button %s pressed (Profile: %s)\n", btnLabel, profileName);
+
+    if (auto action = profileManager->getAction(profileIndex, buttonIndex))
     {
-        // Ignore repeated presses while a DelayedAction for this button is in progress
         if (action->isInProgress())
         {
             Serial.println("  -> DelayedAction in progress, ignoring");
@@ -218,45 +184,42 @@ void executeActionWithLogging(ProfileManager& profileManager,
 
 /**
  * @brief Configures event handlers for all buttons
- *
- * Sets up callbacks that are triggered when buttons are pressed.
- * Handles both action buttons (A-D) and bank selection button.
  */
 void setup_event_handlers()
 {
-    // Register button event handlers
-    eventDispatcher.registerHandler(0, []() { executeActionWithLogging(profileManager, "A", 0); });
-    eventDispatcher.registerHandler(1, []() { executeActionWithLogging(profileManager, "B", 1); });
-    eventDispatcher.registerHandler(2, []() { executeActionWithLogging(profileManager, "C", 2); });
-    eventDispatcher.registerHandler(3, []() { executeActionWithLogging(profileManager, "D", 3); });
+    for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
+    {
+        uint8_t idx = i; // capture by value
+        eventDispatcher.registerHandler(idx, [idx]() { executeActionWithLogging(idx); });
+    }
 
-    eventDispatcher.registerHandler(4,
+    // SELECT button is registered at index numButtons
+    uint8_t selectHandlerIdx = hardwareConfig.numButtons;
+    eventDispatcher.registerHandler(selectHandlerIdx,
                                     []()
                                     {
-                                        uint8_t profile = profileManager.switchProfile();
+                                        uint8_t profile = profileManager->switchProfile();
                                         Serial.printf("Switched to Profile %d\n", profile + 1);
                                     });
 }
 
 /**
  * @brief Arduino setup function - runs once at startup
- *
- * Initializes serial communication, hardware components, event handlers,
- * Bluetooth keyboard, and button configurations.
  */
 void setup()
 {
-    // put your setup code here, to run once:
     Serial.begin(115200);
     delay(2000);
     Serial.println("started");
 
     setup_hardware();
+
+    profileManager = new ProfileManager(selectLeds);
     setup_event_handlers();
 
     bleKeyboardAdapter->begin();
 
-    if (! configureProfiles(profileManager, bleKeyboardAdapter))
+    if (! configureProfiles(*profileManager, bleKeyboardAdapter))
     {
         signalLoadError();
     }
@@ -266,84 +229,56 @@ void setup()
 
 /**
  * @brief Attaches interrupt handlers to all buttons
- *
- * Configures hardware interrupts for falling edge detection on all button pins.
- * Called when Bluetooth connection is established.
  */
 void attachInterrupts()
 {
-    BUTTON_A.reset();
-    attachInterrupt(hardwareConfig.buttonA, isr_a, CHANGE);
-    BUTTON_B.reset();
-    attachInterrupt(hardwareConfig.buttonB, isr_b, CHANGE);
-    BUTTON_C.reset();
-    attachInterrupt(hardwareConfig.buttonC, isr_c, CHANGE);
-    BUTTON_D.reset();
-    attachInterrupt(hardwareConfig.buttonD, isr_d, CHANGE);
+    for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
+    {
+        actionButtonObjects[i]->reset();
+        attachInterrupt(hardwareConfig.buttonPins[i], BTN_ISRS[i], CHANGE);
+    }
     BUTTON_SELECT.reset();
     attachInterrupt(hardwareConfig.buttonSelect, isr_select, CHANGE);
 }
 
 /**
  * @brief Detaches interrupt handlers from all buttons
- *
- * Removes hardware interrupts for all button pins.
- * Called when Bluetooth connection is lost.
  */
 void detachInterrupts()
 {
-    BUTTON_A.reset();
-    detachInterrupt(hardwareConfig.buttonA);
-    BUTTON_B.reset();
-    detachInterrupt(hardwareConfig.buttonB);
-    BUTTON_C.reset();
-    detachInterrupt(hardwareConfig.buttonC);
-    BUTTON_D.reset();
-    detachInterrupt(hardwareConfig.buttonD);
+    for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
+    {
+        actionButtonObjects[i]->reset();
+        detachInterrupt(hardwareConfig.buttonPins[i]);
+    }
     BUTTON_SELECT.reset();
     detachInterrupt(hardwareConfig.buttonSelect);
 }
 
 /**
  * @brief Processes button events and dispatches them to handlers
- *
- * Checks each button for press events and triggers the appropriate
- * event handler through the event dispatcher.
  */
 void process_events()
 {
-    if (BUTTON_A.event())
+    for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
     {
-        eventDispatcher.dispatch(0);
-    }
-    if (BUTTON_B.event())
-    {
-        eventDispatcher.dispatch(1);
-    }
-    if (BUTTON_C.event())
-    {
-        eventDispatcher.dispatch(2);
-    }
-    if (BUTTON_D.event())
-    {
-        eventDispatcher.dispatch(3);
+        if (actionButtonObjects[i] && actionButtonObjects[i]->event())
+        {
+            eventDispatcher.dispatch(i);
+        }
     }
 
     if (BUTTON_SELECT.event())
     {
-        eventDispatcher.dispatch(4);
+        eventDispatcher.dispatch(hardwareConfig.numButtons);
     }
 }
 
 /**
  * @brief Arduino main loop - runs repeatedly
- *
- * Handles Bluetooth connection state changes, processes button events,
- * and manages interrupt attachment/detachment based on connection status.
  */
 void loop()
 {
-    // put your main code here, to run repeatedly:
     if (bleKeyboardAdapter->isConnected())
     {
         if (! connected)
@@ -366,19 +301,15 @@ void loop()
     }
     process_events();
 
-    // Drive non-blocking LED blink sequences
     uint32_t now = millis();
     ledPower.update(now);
     ledBluetooth.update(now);
-    ledSelect1.update(now);
-    ledSelect2.update(now);
-    ledSelect3.update(now);
+    for (auto* led : selectLeds)
+        led->update(now);
 
-    // Drive post-switch blink animation
-    profileManager.update(now);
+    profileManager->update(now);
 
-    // Blink power LED while at least one DelayedAction is running
-    if (profileManager.hasActiveDelayedAction())
+    if (profileManager->hasActiveDelayedAction())
     {
         if (! ledPower.isBlinking())
         {
@@ -390,7 +321,7 @@ void loop()
         if (ledPower.isBlinking())
         {
             ledPower.stopBlink();
-            ledPower.setState(true); // restore solid on
+            ledPower.setState(true);
         }
     }
 

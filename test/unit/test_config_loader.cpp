@@ -5,6 +5,7 @@
 #include "send_action.h"
 #include "serial_action.h"
 #include <gtest/gtest.h>
+#include <vector>
 
 // Note: File system tests (loadFromFile/saveToFile) are not tested in host environment
 // since LittleFS is not available. Only JSON parsing and string-based loading is tested.
@@ -23,7 +24,7 @@ class ConfigLoaderUnitTest : public ::testing::Test
 {
 protected:
     MockLEDController led1, led2, led3;
-    ProfileManager profileManager{led1, led2, led3};
+    ProfileManager profileManager{std::vector<ILEDController*>{&led1, &led2, &led3}};
     MockKeyboard keyboard;
     ConfigLoader configLoader;
 };

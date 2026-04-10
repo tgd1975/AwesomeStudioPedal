@@ -1,4 +1,5 @@
 {
+  "_doc": "Key reference: docs/builders/KEY_REFERENCE.md",
   "profiles": [
     {
       "name": "01 Score Navigator",

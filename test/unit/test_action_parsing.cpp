@@ -1,4 +1,5 @@
 #include "button_constants.h"
+#include "config.h"
 #include "config_loader.h"
 #include "delayed_action.h"
 #include "mock_ble_keyboard.h"
@@ -7,6 +8,7 @@
 #include "send_action.h"
 #include "serial_action.h"
 #include <gtest/gtest.h>
+#include <vector>
 
 using ::testing::_;
 using ::testing::AnyNumber;
@@ -23,7 +25,7 @@ protected:
         EXPECT_CALL(led1, setState(_)).Times(AnyNumber());
         EXPECT_CALL(led2, setState(_)).Times(AnyNumber());
         EXPECT_CALL(led3, setState(_)).Times(AnyNumber());
-        pm = std::make_unique<ProfileManager>(led1, led2, led3);
+        pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
     }
 
     // Load a single-button config and return the parsed action for button A.
@@ -40,7 +42,7 @@ protected:
             json += extra;
         }
         json += "}}}]})";
-        pm = std::make_unique<ProfileManager>(led1, led2, led3);
+        pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
         loader.loadFromString(*pm, &kb, json);
         return pm->getAction(0, Btn::A);
     }
@@ -284,7 +286,7 @@ TEST_F(ActionParsingTest, DelayedAction_WithInner_SendMediaKey)
             "delayMs":3000,
             "action":{"type":"SendMediaKeyAction","value":"KEY_VOLUME_UP"}
         }}}]})";
-    pm = std::make_unique<ProfileManager>(led1, led2, led3);
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
     loader.loadFromString(*pm, &kb, json);
     Action* a = pm->getAction(0, Btn::A);
     ASSERT_NE(a, nullptr);
@@ -302,7 +304,7 @@ TEST_F(ActionParsingTest, ActionName_IsPreserved)
         "profiles":[{"name":"T","buttons":{"A":{
             "type":"SendCharAction","name":"Next Page","value":"KEY_PAGE_DOWN"
         }}}]})";
-    pm = std::make_unique<ProfileManager>(led1, led2, led3);
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
     loader.loadFromString(*pm, &kb, json);
     Action* a = pm->getAction(0, Btn::A);
     ASSERT_NE(a, nullptr);
@@ -416,7 +418,7 @@ protected:
         EXPECT_CALL(led1, setState(_)).Times(AnyNumber());
         EXPECT_CALL(led2, setState(_)).Times(AnyNumber());
         EXPECT_CALL(led3, setState(_)).Times(AnyNumber());
-        pm = std::make_unique<ProfileManager>(led1, led2, led3);
+        pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
         ok = loader.loadFromString(*pm, &kb, REAL_PEDAL_CONFIG);
     }
 
@@ -431,13 +433,13 @@ TEST_F(RealConfigTest, LoadReturnsTrue) { EXPECT_TRUE(ok); }
 
 TEST_F(RealConfigTest, All7ProfileSlotsPopulated)
 {
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
         EXPECT_NE(pm->getProfile(i), nullptr) << "profile slot " << (int) i << " is null";
 }
 
 TEST_F(RealConfigTest, ProfileNamesMatchConfig)
 {
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
     {
         const Profile* p = pm->getProfile(i);
         ASSERT_NE(p, nullptr) << "slot " << (int) i;
@@ -447,9 +449,9 @@ TEST_F(RealConfigTest, ProfileNamesMatchConfig)
 
 TEST_F(RealConfigTest, Every_Profile_Has_4_NonNull_Actions)
 {
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
     {
-        for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++)
+        for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
         {
             EXPECT_NE(pm->getAction(i, b), nullptr)
                 << "profile " << EXPECTED_PROFILE_NAMES[i] << " button " << (int) b << " is null";
@@ -460,7 +462,7 @@ TEST_F(RealConfigTest, Every_Profile_Has_4_NonNull_Actions)
 // Spot-check action types for each profile
 TEST_F(RealConfigTest, Profile0_AllSendChar)
 {
-    for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++)
+    for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
         EXPECT_EQ(pm->getAction(0, b)->getType(), Action::Type::SendChar) << "button " << (int) b;
 }
 
@@ -488,7 +490,7 @@ TEST_F(RealConfigTest, Profile2_ButtonsC_D_AreSendChar)
 
 TEST_F(RealConfigTest, Profile3_AllSendChar_Fkeys)
 {
-    for (uint8_t b = 0; b < Profile::NUM_BUTTONS; b++)
+    for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
         EXPECT_EQ(pm->getAction(3, b)->getType(), Action::Type::SendChar) << "button " << (int) b;
 }
 
@@ -523,9 +525,9 @@ TEST_F(ActionParsingTest, LargeJson_AllProfilesLoaded)
 
     ASSERT_GT(json.size(), 2048u) << "pre-condition: JSON must exceed old 2048-byte limit";
 
-    pm = std::make_unique<ProfileManager>(led1, led2, led3);
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
     bool result = loader.loadFromString(*pm, &kb, json);
     EXPECT_TRUE(result);
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
         EXPECT_NE(pm->getProfile(i), nullptr) << "profile slot " << (int) i << " is null";
 }

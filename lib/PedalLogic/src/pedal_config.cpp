@@ -17,7 +17,7 @@ bool configureProfiles(ProfileManager& profileManager, IBleKeyboard* keyboard)
 {
     ConfigLoader configLoader;
 
-    if (configLoader.loadFromFile(profileManager, keyboard, "/pedal_config.json"))
+    if (configLoader.loadFromFile(profileManager, keyboard, "/profiles.json"))
     {
         return true;
     }
@@ -30,6 +30,6 @@ bool configureProfiles(ProfileManager& profileManager, IBleKeyboard* keyboard)
     }
 
     // Persist the default so future boots load from file
-    configLoader.saveToFile(profileManager, "/pedal_config.json");
+    configLoader.saveToFile(profileManager, "/profiles.json");
     return true;
 }

@@ -14,7 +14,7 @@
 class Profile
 {
 public:
-    static constexpr uint8_t NUM_BUTTONS = 4; /**< Number of buttons per profile */
+    static constexpr uint8_t MAX_BUTTONS = 26; /**< Maximum buttons per profile (A–Z) */
 
     /**
      * @brief Constructs a Profile with a name
@@ -26,7 +26,7 @@ public:
     /**
      * @brief Adds an action to a specific button in this profile
      *
-     * @param button Button index (0-3)
+     * @param button Button index (0..MAX_BUTTONS-1)
      * @param action Unique pointer to the action to be executed
      */
     void addAction(uint8_t button, std::unique_ptr<Action> action);
@@ -34,7 +34,7 @@ public:
     /**
      * @brief Gets the action associated with a button in this profile
      *
-     * @param button Button index (0-3)
+     * @param button Button index (0..MAX_BUTTONS-1)
      * @return Pointer to the Action, or nullptr if none assigned
      */
     Action* getAction(uint8_t button) const;
@@ -63,5 +63,5 @@ public:
 private:
     std::string name;        /**< The name of this profile */
     std::string description; /**< The description of this profile */
-    std::array<std::unique_ptr<Action>, NUM_BUTTONS> actions; /**< Actions for each button */
+    std::array<std::unique_ptr<Action>, MAX_BUTTONS> actions; /**< Actions for each button */
 };

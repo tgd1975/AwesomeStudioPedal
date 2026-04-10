@@ -9,22 +9,25 @@
  * target without pulling in ESP-IDF or platform-specific headers.
  * Each hardware package provides its own config.cpp with the concrete
  * pin assignments for that board.
+ *
+ * Runtime active counts (numProfiles, numSelectLeds, numButtons) control
+ * loop bounds throughout the firmware. The compile-time ceilings in
+ * ProfileManager and Profile determine array sizes only.
  */
 struct HardwareConfig
 {
+    uint8_t numProfiles;    /**< Number of active profiles (1..MAX_PROFILES) */
+    uint8_t numSelectLeds;  /**< Profile-select LEDs wired; caps profiles at 2^n − 1 */
+    uint8_t numButtons;     /**< Action buttons wired (1..26, A–Z) */
+
     // LED pins
-    uint8_t ledBluetooth; /**< Bluetooth status LED pin */
-    uint8_t ledPower;     /**< Power indicator LED pin */
-    uint8_t ledSelect1;   /**< Bank 1 selection LED pin */
-    uint8_t ledSelect2;   /**< Bank 2 selection LED pin */
-    uint8_t ledSelect3;   /**< Bank 3 selection LED pin */
+    uint8_t ledBluetooth;   /**< Bluetooth status LED pin */
+    uint8_t ledPower;       /**< Power indicator LED pin */
+    uint8_t ledSelect[6];   /**< Profile-select LED pins (up to 6) */
 
     // Button pins
-    uint8_t buttonSelect; /**< Bank selection button pin */
-    uint8_t buttonA;      /**< Action button A pin */
-    uint8_t buttonB;      /**< Action button B pin */
-    uint8_t buttonC;      /**< Action button C pin */
-    uint8_t buttonD;      /**< Action button D pin */
+    uint8_t buttonSelect;   /**< Profile-cycle button pin */
+    uint8_t buttonPins[26]; /**< Action button pins: index 0 = A, 1 = B, ..., 25 = Z */
 };
 
 /**

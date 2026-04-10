@@ -5,6 +5,7 @@
 #include <ArduinoJson.h>
 #include <gtest/gtest.h>
 #include <string>
+#include <vector>
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -31,7 +32,7 @@ static std::string makeConfig(std::initializer_list<const char*> names)
 static uint8_t countPopulated(const ProfileManager& pm)
 {
     uint8_t n = 0;
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
         if (pm.getProfile(i))
             n++;
     return n;
@@ -49,7 +50,8 @@ protected:
         EXPECT_CALL(led1, setState(::testing::_)).Times(::testing::AnyNumber());
         EXPECT_CALL(led2, setState(::testing::_)).Times(::testing::AnyNumber());
         EXPECT_CALL(led3, setState(::testing::_)).Times(::testing::AnyNumber());
-        profileManager = std::make_unique<ProfileManager>(led1, led2, led3);
+        profileManager = std::make_unique<ProfileManager>(
+            std::vector<ILEDController*>{&led1, &led2, &led3});
         loader = std::make_unique<ConfigLoader>();
     }
 
@@ -75,7 +77,7 @@ TEST_F(ConfigLoaderTest, Load1Profile_Slot0PopulatedRest_Null)
     ASSERT_TRUE(loader->loadFromString(*profileManager, &keyboard, makeConfig({"Alpha"})));
     EXPECT_NE(profileManager->getProfile(0), nullptr);
     EXPECT_EQ(profileManager->getProfile(0)->getName(), "Alpha");
-    for (uint8_t i = 1; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 1; i < ProfileManager::MAX_PROFILES; i++)
         EXPECT_EQ(profileManager->getProfile(i), nullptr) << "slot " << (int) i;
     EXPECT_EQ(profileManager->getCurrentProfile(), 0);
 }
@@ -105,7 +107,7 @@ TEST_F(ConfigLoaderTest, Load8Profiles_ClampedTo7)
         makeConfig({"P0", "P1", "P2", "P3", "P4", "P5", "P6", "P7_dropped"})));
     EXPECT_EQ(countPopulated(*profileManager), 7);
     // The 8th profile must not appear anywhere
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
         if (profileManager->getProfile(i))
             EXPECT_NE(profileManager->getProfile(i)->getName(), "P7_dropped");
 }
@@ -159,7 +161,7 @@ TEST_F(ConfigLoaderTest, MergeIntoFullManager_ExtraProfileDropped)
         *profileManager, &keyboard, makeConfig({"P0", "P1", "P2", "P3", "P4", "P5", "P6"})));
     ASSERT_TRUE(loader->mergeConfig(*profileManager, &keyboard, makeConfig({"Overflow"})));
     EXPECT_EQ(countPopulated(*profileManager), 7);
-    for (uint8_t i = 0; i < ProfileManager::NUM_PROFILES; i++)
+    for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
         if (profileManager->getProfile(i))
             EXPECT_NE(profileManager->getProfile(i)->getName(), "Overflow");
 }

@@ -65,6 +65,23 @@ const uint8_t KEY_F21 = 0xF8;
 const uint8_t KEY_F22 = 0xF9;
 const uint8_t KEY_F23 = 0xFA;
 const uint8_t KEY_F24 = 0xFB;
+// Numpad
+const uint8_t KEY_NUM_0 = 0xEA;
+const uint8_t KEY_NUM_1 = 0xE1;
+const uint8_t KEY_NUM_2 = 0xE2;
+const uint8_t KEY_NUM_3 = 0xE3;
+const uint8_t KEY_NUM_4 = 0xE4;
+const uint8_t KEY_NUM_5 = 0xE5;
+const uint8_t KEY_NUM_6 = 0xE6;
+const uint8_t KEY_NUM_7 = 0xE7;
+const uint8_t KEY_NUM_8 = 0xE8;
+const uint8_t KEY_NUM_9 = 0xE9;
+const uint8_t KEY_NUM_SLASH = 0xDC;
+const uint8_t KEY_NUM_ASTERISK = 0xDD;
+const uint8_t KEY_NUM_MINUS = 0xDE;
+const uint8_t KEY_NUM_PLUS = 0xDF;
+const uint8_t KEY_NUM_ENTER = 0xE0;
+const uint8_t KEY_NUM_PERIOD = 0xEB;
 // Media key reports
 static constexpr uint8_t KEY_MEDIA_NEXT_TRACK[2] = {1, 0};
 static constexpr uint8_t KEY_MEDIA_PREVIOUS_TRACK[2] = {2, 0};
@@ -73,6 +90,16 @@ static constexpr uint8_t KEY_MEDIA_PLAY_PAUSE[2] = {8, 0};
 static constexpr uint8_t KEY_MEDIA_MUTE[2] = {16, 0};
 static constexpr uint8_t KEY_MEDIA_VOLUME_UP[2] = {32, 0};
 static constexpr uint8_t KEY_MEDIA_VOLUME_DOWN[2] = {64, 0};
+// Extended media keys
+static constexpr uint8_t KEY_MEDIA_WWW_HOME[2] = {128, 0};
+static constexpr uint8_t KEY_MEDIA_LOCAL_MACHINE_BROWSER[2] = {0, 1};
+static constexpr uint8_t KEY_MEDIA_CALCULATOR[2] = {0, 2};
+static constexpr uint8_t KEY_MEDIA_WWW_BOOKMARKS[2] = {0, 4};
+static constexpr uint8_t KEY_MEDIA_WWW_SEARCH[2] = {0, 8};
+static constexpr uint8_t KEY_MEDIA_WWW_STOP[2] = {0, 16};
+static constexpr uint8_t KEY_MEDIA_WWW_BACK[2] = {0, 32};
+static constexpr uint8_t KEY_MEDIA_CONSUMER_CONTROL_CONFIGURATION[2] = {0, 64};
+static constexpr uint8_t KEY_MEDIA_EMAIL_READER[2] = {0, 128};
 #endif
 
 /**

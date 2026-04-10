@@ -14,7 +14,7 @@ Profile::Profile(const std::string& name) : name(name), description("") {}
  */
 void Profile::addAction(uint8_t button, std::unique_ptr<Action> action)
 {
-    if (button < NUM_BUTTONS)
+    if (button < MAX_BUTTONS)
     {
         actions[button] = std::move(action);
     }
@@ -27,7 +27,7 @@ void Profile::addAction(uint8_t button, std::unique_ptr<Action> action)
  */
 Action* Profile::getAction(uint8_t button) const
 {
-    if (button < NUM_BUTTONS && actions[button])
+    if (button < MAX_BUTTONS && actions[button])
     {
         return actions[button].get();
     }
