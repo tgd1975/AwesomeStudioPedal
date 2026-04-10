@@ -8,7 +8,7 @@
 
 <!-- GENERATED -->
 
-**Open: 32** | **Closed: 26** | **Total: 58**
+**Open: 31** | **Closed: 27** | **Total: 58**
 
 ## Open Tasks
 
@@ -39,7 +39,6 @@
 | [TASK-049](open/task-049-setup-video-platform-channel.md) | Setup video platform channel | Small (<2h) | Junior |
 | [TASK-050](open/task-050-provide-fritzing-wiring-diagram.md) | Provide Fritzing wiring diagram | Medium (2-8h) | Junior |
 | [TASK-051](open/task-051-provide-thingiverse-printables-link.md) | Provide Thingiverse/Printables link | Small (<2h) | Junior |
-| [TASK-052](open/task-052-move-future-ideas-list-to-github-tasks.md) | Move future ideas list to GitHub tasks | Small (<2h) | Junior |
 | [TASK-053](open/task-053-identify-and-install-agents-and-skills-for-the-pro.md) | Identify and install agents and skills for the project | Medium (2-8h) | Medium |
 | [TASK-054](open/task-054-check-and-resolve-license-inconsistency.md) | Check and resolve license inconsistency | Small (<2h) | Junior |
 | [TASK-055](open/task-055-add-github-readme-badges.md) | Add GitHub README badges | Small (<2h) | Junior |
@@ -77,6 +76,7 @@
 | [TASK-045](closed/task-045-add-mermaid-validation-script.md) | Add Mermaid validation script | Medium (2-8h) |
 | [TASK-046](closed/task-046-fix-profile-select-button-functionality.md) | Fix profile select button functionality | Medium (2-8h) |
 | [TASK-048](closed/task-048-implement-permanent-profile-storage.md) | Implement permanent profile storage | Medium (2-8h) |
+| [TASK-052](closed/task-052-move-future-ideas-list-to-github-tasks.md) | Move future ideas list to GitHub tasks | Small (<2h) |
 <!-- END GENERATED -->
 
 ## Task Lifecycle

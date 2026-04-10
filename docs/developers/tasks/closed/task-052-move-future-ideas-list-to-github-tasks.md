@@ -1,7 +1,7 @@
 ---
 id: TASK-052
 title: Move future ideas list to GitHub tasks
-status: open
+status: closed
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: Clarification
