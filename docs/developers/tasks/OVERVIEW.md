@@ -8,7 +8,7 @@
 
 <!-- GENERATED -->
 
-**Open: 32** | **Closed: 28** | **Total: 60**
+**Open: 31** | **Closed: 29** | **Total: 60**
 
 ## Open Tasks
 
@@ -39,7 +39,6 @@
 | [TASK-050](open/task-050-provide-fritzing-wiring-diagram.md) | Provide Fritzing wiring diagram | Medium (2-8h) | Junior |
 | [TASK-051](open/task-051-provide-thingiverse-printables-link.md) | Provide Thingiverse/Printables link | Small (<2h) | Junior |
 | [TASK-053](open/task-053-identify-and-install-agents-and-skills-for-the-pro.md) | Identify and install agents and skills for the project | Medium (2-8h) | Medium |
-| [TASK-054](open/task-054-check-and-resolve-license-inconsistency.md) | Check and resolve license inconsistency | Small (<2h) | Junior |
 | [TASK-055](open/task-055-add-github-readme-badges.md) | Add GitHub README badges | Small (<2h) | Junior |
 | [TASK-056](open/task-056-revisit-firmware-download-links.md) | Revisit firmware download links | Small (<2h) | Junior |
 | [TASK-057](open/task-057-check-if-github-ci-pipeline-is-running-flawlessly.md) | Check if GitHub CI pipeline is running flawlessly | Small (<2h) | Junior |
@@ -79,6 +78,7 @@
 | [TASK-046](closed/task-046-fix-profile-select-button-functionality.md) | Fix profile select button functionality | Medium (2-8h) |
 | [TASK-048](closed/task-048-implement-permanent-profile-storage.md) | Implement permanent profile storage | Medium (2-8h) |
 | [TASK-052](closed/task-052-move-future-ideas-list-to-github-tasks.md) | Move future ideas list to GitHub tasks | Small (<2h) |
+| [TASK-054](closed/task-054-check-and-resolve-license-inconsistency.md) | Check and resolve license inconsistency | Small (<2h) |
 <!-- END GENERATED -->
 
 ## Task Lifecycle
