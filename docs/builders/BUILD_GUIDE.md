@@ -66,3 +66,39 @@ stomping.
 ## Next step
 
 [FLASHING.md](FLASHING.md) — flash the firmware and upload the configuration.
+
+## Builder Documentation
+
+### Upload Instructions
+
+**ESP32 (using esptool):**
+
+```bash
+# Install esptool
+pip install esptool
+
+# Upload firmware (replace COM3 with your port)
+esptool.py --chip esp32 --port COM3 --baud 921600 write_flash 0x1000 awesome-pedal-esp32-v1.2.0.bin
+```
+
+**nRF52840 (using nrfjprog):**
+
+```bash
+# Install nrfjprog from Nordic Semiconductor
+# Connect your device and run:
+nrfjprog --program awesome-pedal-nrf52840-v1.2.0.bin --verify --reset
+```
+
+### Required Tools
+
+**For ESP32:**
+
+- [esptool](https://github.com/espressif/esptool) (Python-based)
+- Python 3.7+
+- USB drivers for your specific ESP32 board
+
+**For nRF52840:**
+
+- [nRF Command Line Tools](https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools)
+- J-Link software (for programming)
+- USB drivers for your nRF52840 board

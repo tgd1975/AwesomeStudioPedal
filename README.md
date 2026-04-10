@@ -41,3 +41,15 @@ The following ideas are potential future enhancements for AwesomeStudioPedal. Th
 - **Hybrid Tool with DSP**: Explore a version with more powerful hardware (DSP) and two audio jacks to add guitar pedal functionalities like distortion, creating a hybrid tool.
 
 These ideas are open for community contributions and discussions. If you're interested in working on any of these, please open an issue or start a discussion!
+
+## Firmware Versions
+
+**Current Stable**: v1.2.0
+
+- [ESP32 Firmware](https://github.com/tgd1975/AwesomeGuitarPedal/releases/download/v1.2.0/awesome-pedal-esp32-v1.2.0.bin)
+- [nRF52840 Firmware](https://github.com/tgd1975/AwesomeGuitarPedal/releases/download/v1.2.0/awesome-pedal-nrf52840-v1.2.0.bin)
+
+**Previous Versions**:
+
+- v1.1.0: [ESP32](link) | [nRF52840](link)
+- v1.0.0: [ESP32](link) | [nRF52840](link)
