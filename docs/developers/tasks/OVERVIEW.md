@@ -8,7 +8,7 @@
 
 <!-- GENERATED -->
 
-**Open: 29** | **Closed: 32** | **Total: 61**
+**Open: 30** | **Closed: 32** | **Total: 62**
 
 ## Open Tasks
 
@@ -43,6 +43,7 @@
 | [TASK-059](open/task-059-document-scripts-folder.md) | Document the scripts/ folder | Medium (2-8h) | Junior |
 | [TASK-060](open/task-060-add-firmware-download-section-to-readme.md) | Add firmware download section to README | Small (<2h) | Junior |
 | [TASK-061](open/task-061-fix-led-blink-trigger-on-profile-switch.md) | Fix LED blink trigger on profile switch | Small (<2h) | Medium |
+| [TASK-062](open/task-062-add-firmware-version-constant.md) | Add firmware version constant | Small (<2h) | Junior |
 
 ## Closed Tasks
 
