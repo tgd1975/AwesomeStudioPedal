@@ -10,7 +10,7 @@ This document defines the style guidelines for Mermaid diagrams in the AwesomeGu
    - `gantt` for project timelines and planning
    - `graph LR` (left-right) for wiring and connection diagrams
 
-2. **Orientation**: 
+2. **Orientation**:
    - Use `TD` (top-down) for most flowcharts
    - Use `LR` (left-right) for wiring diagrams and simple connections
 
@@ -185,6 +185,7 @@ find docs/ -name "*.md" -exec mmdc --input {} --output /tmp/test.svg \;
 ## Examples from Codebase
 
 ### Good Architecture Diagram
+
 ```mermaid
 flowchart TD
     main["main.cpp"]
@@ -199,6 +200,7 @@ flowchart TD
 ```
 
 ### Good Wiring Diagram
+
 ```mermaid
 graph LR
     ESP["ESP32 NodeMCU-32S"]
@@ -207,6 +209,7 @@ graph LR
 ```
 
 ### Good Class Diagram
+
 ```mermaid
 classDiagram
     Action <|-- SendAction
