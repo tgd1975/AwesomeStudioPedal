@@ -113,6 +113,10 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 | ❌ | TASK-049 | Setup video platform channel | 6 | S | Clarification | Junior |
 | ❌ | TASK-050 | Provide Fritzing wiring diagram | 6 | M | Clarification | Junior |
 | ❌ | TASK-051 | Provide Thingiverse/Printables link | 6 | S | Clarification | Junior |
+| ❌ | TASK-052 | Move future ideas list to GitHub tasks | 6 | S | Clarification | Junior |
+| ❌ | TASK-053 | Identify and install agents and skills for the project | 6 | M | Clarification | Medium |
+| ❌ | TASK-054 | Check and resolve license inconsistency | 6 | S | Clarification | Junior |
+| ❌ | TASK-055 | Add GitHub README badges | 6 | S | Clarification | Junior |
 
 **Effort Legend**: S (Small: <2h), M (Medium: 2-8h), L (Large: 8-24h), XL (Extra Large: 24-40h)
 **Complexity Legend**: Junior (<1 year exp), Medium (1-3 years exp), Senior (>3 years exp)
@@ -1457,6 +1461,8 @@ gantt
 - [ ] `docs/developers/ARCHITECTURE.md` (add branch diagram)
 - [ ] `docs/builders/BUILD_GUIDE.md` (add Fritzing diagram link)
 - [ ] `docs/builders/BUILD_GUIDE.md` (add Thingiverse/Printables link)
+- [ ] `README.md` (add GitHub badges)
+- [ ] `LICENSE` (resolve license inconsistency)
 
 ### GitHub UI Configuration
 

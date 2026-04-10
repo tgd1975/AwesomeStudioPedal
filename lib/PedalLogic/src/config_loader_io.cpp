@@ -1,6 +1,6 @@
-#include "config_loader.h"
 #include "button_constants.h"
 #include "config.h"
+#include "config_loader.h"
 #include "profile_manager.h"
 #include <ArduinoJson.h>
 

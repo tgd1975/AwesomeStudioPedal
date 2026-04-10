@@ -282,4 +282,3 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
 
     return nullptr;
 }
-

@@ -1,5 +1,5 @@
-#include "config_loader.h"
 #include "config.h"
+#include "config_loader.h"
 #include "profile.h"
 #include "profile_manager.h"
 #include <ArduinoJson.h>
@@ -8,8 +8,7 @@ using namespace ArduinoJson;
 
 // ---- mergeConfig helpers ----
 
-bool ConfigLoader::profileExistsByName(const ProfileManager& profileManager,
-                                       const char* name) const
+bool ConfigLoader::profileExistsByName(const ProfileManager& profileManager, const char* name) const
 {
     for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
     {
