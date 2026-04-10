@@ -9,10 +9,14 @@ human-in-loop: Clarification
 
 ## Description
 
-Enable GitHub Discussions.
+Enable GitHub Discussions on the repository to provide a community forum for questions,
+ideas, and general conversation outside of issues and PRs.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] GitHub Discussions enabled on the repository
 
 ## Notes
+
+Completed via GitHub UI (no code change required). Discussions are available at
+`https://github.com/tgd1975/AwesomeGuitarPedal/discussions`.

@@ -9,10 +9,18 @@ human-in-loop: Clarification
 
 ## Description
 
-Update CONTRIBUTING.md with quality standards.
+Add a "Code Quality Standards" section to `CONTRIBUTING.md` documenting the zero-warnings
+policy, clang-tidy requirement, clang-format enforcement, code smell rules, and test coverage
+expectation.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] "Code Quality Standards" section added to `CONTRIBUTING.md`
+- [x] Zero-warnings policy documented (`-Werror`)
+- [x] Static analysis requirement documented (run `clang-tidy` locally before submitting)
+- [x] Code smell rules documented (no magic numbers, deep nesting, long functions)
+- [x] Test coverage requirement documented (new behaviour needs a host unit test)
 
 ## Notes
+
+Delivered in commit `d6f9e90`. See [CONTRIBUTING.md](../../../CONTRIBUTING.md).

@@ -9,10 +9,15 @@ human-in-loop: Clarification
 
 ## Description
 
-Add "Future Ideas" section to README.
+Add a "Future Ideas" section to `README.md` listing aspirational features without committing
+to a formal roadmap, keeping contributor expectations realistic.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] "Future Ideas" section added to `README.md`
+- [x] Section presents ideas as possibilities, not promises
 
 ## Notes
+
+Delivered in commit `f8b6c25`. The future ideas list was later migrated to the task system
+(closed via TASK-052).

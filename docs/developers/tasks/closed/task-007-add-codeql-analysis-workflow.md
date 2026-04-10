@@ -9,10 +9,15 @@ human-in-loop: No
 
 ## Description
 
-Add CodeQL analysis workflow.
+Add a GitHub Actions workflow to run CodeQL security analysis on C++ source code on every
+push to `main` and on pull requests.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] `.github/workflows/codeql-analysis.yml` created
+- [x] Runs on push to `main`, on PRs, and on a weekly schedule
+- [x] Analyzes C++ with `security-extended` queries
 
 ## Notes
+
+Delivered in commit `42d02f6`. See [.github/workflows/codeql-analysis.yml](../../../.github/workflows/codeql-analysis.yml).

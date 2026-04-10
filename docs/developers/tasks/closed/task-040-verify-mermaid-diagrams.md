@@ -9,10 +9,15 @@ human-in-loop: Clarification
 
 ## Description
 
-Verify Mermaid diagrams.
+Audit all existing Mermaid diagrams in the documentation for syntax validity and style
+consistency, fixing any issues found.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] All Mermaid diagrams in `docs/` pass the validation script
+- [x] Diagrams updated to comply with the style guide (TASK-044)
+- [x] No diagram causes CI `mermaid-lint` failures
 
 ## Notes
+
+Delivered in commit `ddfa7dd`. All diagrams verified and style-guide fixes applied.

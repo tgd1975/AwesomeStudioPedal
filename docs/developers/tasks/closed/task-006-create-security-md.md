@@ -9,10 +9,16 @@ human-in-loop: Clarification
 
 ## Description
 
-Create SECURITY.md.
+Create `SECURITY.md` to document the vulnerability reporting process, supported versions,
+response time expectations, and disclosure policy.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] `SECURITY.md` exists at the repository root
+- [x] Vulnerability reporting process documented
+- [x] Supported versions table included
+- [x] Response time expectations stated
 
 ## Notes
+
+Delivered in commit `42d02f6`. See [SECURITY.md](../../../SECURITY.md).

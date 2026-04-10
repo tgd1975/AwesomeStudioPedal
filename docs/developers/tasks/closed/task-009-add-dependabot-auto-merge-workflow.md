@@ -9,10 +9,15 @@ human-in-loop: Clarification
 
 ## Description
 
-Add dependabot auto-merge workflow.
+Add a GitHub Actions workflow to automatically merge Dependabot PRs that only bump
+patch versions, after all CI checks pass.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] `.github/workflows/dependabot-automerge.yml` created
+- [x] Auto-merges patch-level Dependabot PRs after CI passes
+- [x] Does not auto-merge minor or major version bumps
 
 ## Notes
+
+Delivered in commit `42d02f6`. See [.github/workflows/dependabot-automerge.yml](../../../.github/workflows/dependabot-automerge.yml).

@@ -9,10 +9,17 @@ human-in-loop: Clarification
 
 ## Description
 
-Update CONTRIBUTING.md with branch strategy.
+Document the branch naming conventions, commit message format (Conventional Commits),
+and PR/review workflow in `CONTRIBUTING.md`.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] Branch naming conventions documented (`feature/`, `fix/`, `docs/`, `chore/`)
+- [x] Conventional Commits format documented with type list
+- [x] PR review requirement and squash-merge policy documented
+- [x] Task ID in commit scope convention documented
 
 ## Notes
+
+Delivered across commits `0c2febc` and `0efde16` (task ID scope added later in `0a e8d6d`).
+See [CONTRIBUTING.md](../../../CONTRIBUTING.md).

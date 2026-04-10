@@ -9,10 +9,18 @@ human-in-loop: Clarification
 
 ## Description
 
-Add Mermaid validation script.
+Create `scripts/validate_mermaid.py` to extract and validate Mermaid code blocks from
+markdown files, used by both the pre-commit hook and the CI `mermaid-lint` job.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] `scripts/validate_mermaid.py` created
+- [x] Extracts all ` ```mermaid ` blocks from provided markdown files
+- [x] Validates syntax (catches malformed diagrams)
+- [x] Used by CI workflow (TASK-039)
+- [x] Exit code non-zero on any validation failure
 
 ## Notes
+
+Delivered in commit `ddfa7dd`, improved in `9b00e3f`.
+See [scripts/validate_mermaid.py](../../../scripts/validate_mermaid.py).

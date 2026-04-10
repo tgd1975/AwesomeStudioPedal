@@ -9,10 +9,15 @@ human-in-loop: No
 
 ## Description
 
-Add dependabot.yml.
+Add `.github/dependabot.yml` to enable automated weekly dependency update PRs for
+GitHub Actions workflows and PlatformIO packages.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] `.github/dependabot.yml` created
+- [x] GitHub Actions ecosystem configured for weekly updates
+- [x] PlatformIO ecosystem configured for weekly updates
 
 ## Notes
+
+Delivered in commit `42d02f6`. See [.github/dependabot.yml](../../../.github/dependabot.yml).

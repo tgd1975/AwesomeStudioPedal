@@ -9,10 +9,15 @@ human-in-loop: Clarification
 
 ## Description
 
-Configure branch protection in GitHub UI.
+Apply the branch protection rules defined in TASK-002 via the GitHub repository settings UI
+to enforce them at the platform level.
 
 ## Acceptance Criteria
 
-- [ ] (fill in when picking up this task)
+- [x] Branch protection rules active on `main` in GitHub UI
+- [x] Rules match those declared in `.github/settings.yml`
 
 ## Notes
+
+Completed and marked done in commit `4f02aa4`. The `.github/settings.yml` file (TASK-002) serves
+as the source of truth; GitHub UI configuration mirrors it.
