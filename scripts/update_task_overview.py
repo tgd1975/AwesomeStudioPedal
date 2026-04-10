@@ -16,13 +16,7 @@ OVERVIEW = os.path.join(TASKS_DIR, "OVERVIEW.md")
 
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)$", re.MULTILINE)
-
-EFFORT_ORDER = {
-    "Small (<2h)": 0,
-    "Medium (2-8h)": 1,
-    "Large (8-24h)": 2,
-    "Extra Large (24-40h)": 3,
-}
+GENERATED_MARKER = "<!-- GENERATED -->"
 
 
 def parse_task_file(path):
@@ -50,16 +44,30 @@ def load_tasks(directory, status):
     return tasks
 
 
+def read_static_header():
+    """Return the static header block (everything up to and including GENERATED_MARKER)."""
+    if not os.path.exists(OVERVIEW):
+        return GENERATED_MARKER + "\n"
+    with open(OVERVIEW) as f:
+        content = f.read()
+    idx = content.find(GENERATED_MARKER)
+    if idx == -1:
+        return content.rstrip("\n") + "\n\n" + GENERATED_MARKER + "\n"
+    return content[: idx + len(GENERATED_MARKER)] + "\n"
+
+
 def main():
     open_tasks = load_tasks(OPEN_DIR, "open")
     closed_tasks = load_tasks(CLOSED_DIR, "closed")
 
+    header = read_static_header()
+
     lines = [
-        "# Task Overview\n",
-        "_This file is auto-generated. Do not edit manually._",
-        "_Update it by running `python scripts/update_task_overview.py`._\n",
-        f"**Open: {len(open_tasks)}** | **Closed: {len(closed_tasks)}** | **Total: {len(open_tasks) + len(closed_tasks)}**\n",
-        "## Open Tasks\n",
+        "",
+        f"**Open: {len(open_tasks)}** | **Closed: {len(closed_tasks)}** | **Total: {len(open_tasks) + len(closed_tasks)}**",
+        "",
+        "## Open Tasks",
+        "",
         "| ID | Title | Effort | Complexity |",
         "|----|-------|--------|------------|",
     ]
@@ -72,7 +80,9 @@ def main():
         lines.append(f"| [{task_id}](open/{t['_file']}) | {title} | {effort} | {complexity} |")
 
     lines += [
-        "\n## Closed Tasks\n",
+        "",
+        "## Closed Tasks",
+        "",
         "| ID | Title | Effort |",
         "|----|-------|--------|",
     ]
@@ -84,7 +94,7 @@ def main():
         lines.append(f"| [{task_id}](closed/{t['_file']}) | {title} | {effort} |")
 
     with open(OVERVIEW, "w") as f:
-        f.write("\n".join(lines) + "\n")
+        f.write(header + "\n".join(lines) + "\n")
 
     print(f"Updated {OVERVIEW} ({len(open_tasks)} open, {len(closed_tasks)} closed)")
 
