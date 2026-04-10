@@ -30,7 +30,7 @@ Findings:
 - Stale firmware download links (`v1.2.0`) already removed from `README.md` (see TASK-060).
 - `BUILD_GUIDE.md` had `v1.2.0` version number in example `esptool.py` / `nrfjprog` commands —
   replaced with `vX.Y.Z` placeholder since no real release exists yet.
-- `conventionalcommits.org`, `github.com/tgd1975/AwesomeGuitarPedal/security` — valid.
+- `conventionalcommits.org`, `github.com/tgd1975/AwesomeStudioPedal/security` — valid.
 - Double-slash lcov URL (`github.com//linux-test-project/lcov`) only in generated HTML
   coverage reports, not in authored markdown — ignored.
 - `github.com/apps/settings` only referenced in generated/task docs — not a broken user-facing link.

@@ -22,7 +22,7 @@ firmware download, first-time setup, and BLE connection.
 
 ## Notes
 
-**Title**: "Getting Started with AwesomeGuitarPedal - Setup & BLE Keyboard Demo"
+**Title**: "Getting Started with AwesomeStudioPedal - Setup & BLE Keyboard Demo"
 
 Suggested script outline:
 

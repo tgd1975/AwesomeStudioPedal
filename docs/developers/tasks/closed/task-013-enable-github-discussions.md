@@ -21,4 +21,4 @@ ideas, and general conversation outside of issues and PRs.
 ## Notes
 
 Completed via GitHub UI (no code change required). Discussions are available at
-`https://github.com/tgd1975/AwesomeGuitarPedal/discussions`.
+`https://github.com/tgd1975/AwesomeStudioPedal/discussions`.

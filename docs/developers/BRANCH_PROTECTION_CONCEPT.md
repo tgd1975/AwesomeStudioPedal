@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the branch protection strategy for the AwesomeGuitarPedal repository.
+This document describes the branch protection strategy for the AwesomeStudioPedal repository.
 
 ## Branch Strategy
 

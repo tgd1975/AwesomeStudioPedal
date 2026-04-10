@@ -16,7 +16,7 @@ The preferred platform is Dailymotion; YouTube is the fallback.
 ## Acceptance Criteria
 
 - [ ] Channel created on the chosen platform
-- [ ] Channel name and branding consistent with the project (`AwesomeGuitarPedal` / `tgd1975`)
+- [ ] Channel name and branding consistent with the project (`AwesomeStudioPedal` / `tgd1975`)
 - [ ] Channel URL documented in the project (e.g. in `README.md` or `docs/`)
 - [ ] Playlist structure prepared for the video series
 

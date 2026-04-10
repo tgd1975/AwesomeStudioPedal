@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Code smell detector for AwesomeGuitarPedal C++ sources.
+Code smell detector for AwesomeStudioPedal C++ sources.
 
 Checks for common C++ anti-patterns that clang-tidy does not cover:
   - Functions longer than MAX_FUNCTION_LINES lines  (.cpp only)

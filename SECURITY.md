@@ -14,7 +14,7 @@ Please **do not** open a public GitHub issue for security vulnerabilities.
 
 Report vulnerabilities privately via GitHub's built-in security advisory feature:
 
-1. Go to the [Security tab](https://github.com/tgd1975/AwesomeGuitarPedal/security)
+1. Go to the [Security tab](https://github.com/tgd1975/AwesomeStudioPedal/security)
 2. Click **Report a vulnerability**
 3. Fill in the details
 

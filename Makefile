@@ -1,4 +1,4 @@
-# Makefile for AwesomeGuitarPedal ESP32 project
+# Makefile for AwesomeStudioPedal ESP32 project
 # Uses PlatformIO as the build system
 
 .PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profiles test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean

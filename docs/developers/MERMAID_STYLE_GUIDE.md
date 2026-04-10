@@ -1,6 +1,6 @@
 # Mermaid Diagram Style Guide
 
-This document defines the style guidelines for Mermaid diagrams in the AwesomeGuitarPedal project to ensure consistency and readability.
+This document defines the style guidelines for Mermaid diagrams in the AwesomeStudioPedal project to ensure consistency and readability.
 
 ## General Rules
 
