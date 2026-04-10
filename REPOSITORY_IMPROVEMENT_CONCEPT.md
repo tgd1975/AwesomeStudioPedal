@@ -126,8 +126,6 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 - **TASK-014**: Add test coverage badge (Junior, S)
 - **TASK-015**: Add compiler warning flags (Medium, M)
 - **TASK-039**: Add Mermaid diagram linting (Medium, M)
-- **TASK-047**: Fix profile LED blinking behavior (Junior, S)
-- **TASK-049**: Setup video platform channel (Junior, S)
 
 ## Current State Assessment
 
