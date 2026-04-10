@@ -1,5 +1,11 @@
 # Task Overview
 
+- [Task Lifecycle](#task-lifecycle)
+- [Column Reference](#column-reference)
+- [Writing a Task File](#writing-a-task-file)
+- [Open Tasks](#open-tasks)
+- [Closed Tasks](#closed-tasks)
+
 ## Task Lifecycle
 
 ```
