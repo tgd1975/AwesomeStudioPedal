@@ -72,7 +72,7 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 | ✅ | TASK-008 | Add dependabot.yml | 2 | S | No | Junior |
 | ✅ | TASK-009 | Add dependabot auto-merge workflow | 2 | M | Yes | Medium |
 | ✅ | TASK-010 | Add CODEOWNERS file | 2 | S | Yes | Junior |
-| ❌ | TASK-011 | Add FUNDING.yml | 3 | S | Yes | Junior |
+| ✅ | TASK-011 | Add FUNDING.yml | 3 | S | Yes | Junior |
 | ❌ | TASK-012 | Add "Future Ideas" section to README | 3 | S | Yes | Junior |
 | ❌ | TASK-013 | Enable GitHub Discussions | 3 | S | Yes | Junior |
 | ✅ | TASK-014 | Add test coverage badge | 3 | S | No | Junior |
