@@ -3,6 +3,7 @@
 #include "profile.h"
 #include "profile_manager.h"
 #include <ArduinoJson.h>
+#include <memory>
 
 using namespace ArduinoJson;
 
@@ -80,7 +81,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
             continue;
         }
 
-        auto newProfile = std::make_unique<Profile>(profileName);
+        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
         newProfile->setDescription(profileDescription);
         populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(targetIndex, std::move(newProfile));
@@ -135,7 +136,7 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
     const char* profileName = profileJson["name"] | "";
     const char* profileDescription = profileJson["description"] | "";
 
-    auto newProfile = std::make_unique<Profile>(profileName);
+    auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
     newProfile->setDescription(profileDescription);
     populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
     profileManager.addProfile(profileIndex, std::move(newProfile));

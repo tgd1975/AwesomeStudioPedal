@@ -10,6 +10,7 @@
 #include "serial_action.h"
 #include <ArduinoJson.h>
 #include <cstring>
+#include <memory>
 
 #ifndef HOST_TEST_BUILD
 #include <Arduino.h>
@@ -129,7 +130,7 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
         const char* profileName = profileJson["name"] | "";
         const char* profileDescription = profileJson["description"] | "";
 
-        auto newProfile = std::make_unique<Profile>(profileName);
+        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
         newProfile->setDescription(profileDescription);
         populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(i, std::move(newProfile));

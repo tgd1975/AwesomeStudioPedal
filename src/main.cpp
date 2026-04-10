@@ -98,6 +98,8 @@ void IRAM_ATTR isr_buttons(uint8_t index)
         actionButtonObjects[index]->isr();
 }
 
+Button BUTTON_SELECT(hardwareConfig.buttonSelect);
+
 // Individual ISR stubs for up to 26 buttons — only used entries are attached
 void IRAM_ATTR isr_btn0() { isr_buttons(0); }
 void IRAM_ATTR isr_btn1() { isr_buttons(1); }
@@ -135,8 +137,6 @@ static const IsrFunc BTN_ISRS[Btn::MAX] = {
     isr_btn14, isr_btn15, isr_btn16, isr_btn17, isr_btn18, isr_btn19, isr_btn20,
     isr_btn21, isr_btn22, isr_btn23, isr_btn24, isr_btn25,
 };
-
-Button BUTTON_SELECT(hardwareConfig.buttonSelect);
 
 /**
  * @brief Initializes all hardware components
