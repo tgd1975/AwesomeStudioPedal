@@ -49,13 +49,12 @@ jobs:
           node-version: 20
       - name: Install mermaid-cli
         run: npm install -g @mermaid-js/mermaid-cli
-      - name: Lint Mermaid diagrams
-        run: |
-          # Lint all markdown files for Mermaid syntax
-          find . -name "*.md" -exec grep -l "mermaid" {} \; | while read -r file; do
-            echo "Linting $file"
-            npx mmdc --input "$file" --output /tmp/mermaid-test.svg || exit 1
-          done
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run Mermaid validation script
+        run: python scripts/validate_mermaid.py
 
   unit-tests:
     name: Host Unit Tests
