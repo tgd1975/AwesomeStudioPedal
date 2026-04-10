@@ -2,6 +2,7 @@
 id: TASK-029
 title: Create release cleanup script
 status: open
+opened: 2026-04-10
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: Clarification

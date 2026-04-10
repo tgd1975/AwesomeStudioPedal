@@ -13,6 +13,7 @@ Steps:
    given task ID (case-insensitive, e.g. `task-047`).
 2. If not found, report the error and stop.
 3. Update the `status:` field in the file's frontmatter from `open` to `closed`.
+   Add `closed: <today's date as YYYY-MM-DD>` on the line after `status: closed`.
 4. Move the file to `docs/developers/tasks/closed/` using `git mv`.
 5. Run `python scripts/update_task_overview.py` to regenerate `OVERVIEW.md`.
 6. Report: "TASK-NNN moved to closed. OVERVIEW.md updated."

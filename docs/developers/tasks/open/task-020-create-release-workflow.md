@@ -2,6 +2,7 @@
 id: TASK-020
 title: Create release workflow
 status: open
+opened: 2026-04-10
 effort: Extra Large (24-40h)
 complexity: Senior
 human-in-loop: Clarification

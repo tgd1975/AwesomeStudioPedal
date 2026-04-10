@@ -2,6 +2,7 @@
 id: TASK-047
 title: Fix profile LED blinking behavior
 status: open
+opened: 2026-04-10
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: Support

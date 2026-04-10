@@ -2,6 +2,8 @@
 id: TASK-045
 title: Add Mermaid validation script
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: Clarification

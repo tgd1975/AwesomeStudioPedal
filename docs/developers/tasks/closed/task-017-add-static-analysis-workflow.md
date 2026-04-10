@@ -2,6 +2,8 @@
 id: TASK-017
 title: Add static analysis workflow
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Large (8-24h)
 complexity: Senior
 human-in-loop: No

@@ -2,6 +2,8 @@
 id: TASK-046
 title: Fix profile select button functionality
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: Support

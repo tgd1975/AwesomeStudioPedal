@@ -2,6 +2,7 @@
 id: TASK-035
 title: Create Builder Workflow Demo Video
 status: open
+opened: 2026-04-10
 effort: Large (8-24h)
 complexity: Medium
 human-in-loop: Main

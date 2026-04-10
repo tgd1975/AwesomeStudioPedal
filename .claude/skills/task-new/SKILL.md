@@ -21,9 +21,10 @@ Steps:
 id: TASK-NNN
 title: <title>
 status: open
-effort: <effort label or "?">
-complexity: <complexity or "?">
-human-in-loop: ?
+opened: <YYYY-MM-DD>
+effort: <effort label>
+complexity: <complexity>
+human-in-loop: <hil value>
 ---
 
 ## Description
@@ -37,8 +38,13 @@ human-in-loop: ?
 ## Notes
 ```
 
+   Set `opened` to today's date in `YYYY-MM-DD` format.
+   Effort labels (`--effort`): S → `Small (<2h)`, M → `Medium (2-8h)`, L → `Large (8-24h)`, XL → `Extra Large (24-40h)`.
+   Complexity values (`--complexity`): `Junior`, `Medium`, `Senior`.
+   `human-in-loop` values: `No`, `Clarification`, `Support`, `Main`.
+   If the user does not supply a value, infer it from context or ask. Do not leave these as `?` — they must be set so the overview table is meaningful.
+
 1. Run `python scripts/update_task_overview.py` to regenerate `OVERVIEW.md`.
 1. Report the new task ID and file path.
 
-Effort labels: S → "Small (<2h)", M → "Medium (2-8h)", L → "Large (8-24h)", XL → "Extra Large (24-40h)".
 Do not commit.

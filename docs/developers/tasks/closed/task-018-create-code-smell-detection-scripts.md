@@ -2,6 +2,8 @@
 id: TASK-018
 title: Create code smell detection scripts
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Large (8-24h)
 complexity: Senior
 human-in-loop: Clarification

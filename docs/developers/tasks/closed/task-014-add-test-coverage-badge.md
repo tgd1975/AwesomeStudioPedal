@@ -2,6 +2,8 @@
 id: TASK-014
 title: Add test coverage badge
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: No

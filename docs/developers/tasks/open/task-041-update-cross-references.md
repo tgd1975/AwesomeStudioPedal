@@ -2,6 +2,7 @@
 id: TASK-041
 title: Update cross-references
 status: open
+opened: 2026-04-10
 effort: Medium (2-8h)
 complexity: Junior
 human-in-loop: Clarification

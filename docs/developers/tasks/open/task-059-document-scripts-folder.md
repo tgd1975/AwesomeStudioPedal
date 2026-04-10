@@ -2,6 +2,7 @@
 id: TASK-059
 title: Document the scripts/ folder
 status: open
+opened: 2026-04-10
 effort: Medium (2-8h)
 complexity: Junior
 human-in-loop: No

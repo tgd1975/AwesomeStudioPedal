@@ -2,6 +2,7 @@
 id: TASK-058
 title: Remove PlatformIO Tests from VS Code testing window
 status: open
+opened: 2026-04-10
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: Clarification

@@ -2,6 +2,8 @@
 id: TASK-002
 title: Add .github/settings.yml for branch protection
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Medium (2-8h)
 complexity: Junior
 human-in-loop: Clarification

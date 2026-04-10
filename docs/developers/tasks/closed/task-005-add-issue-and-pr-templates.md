@@ -2,6 +2,8 @@
 id: TASK-005
 title: Add issue and PR templates
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Medium (2-8h)
 complexity: Junior
 human-in-loop: Clarification

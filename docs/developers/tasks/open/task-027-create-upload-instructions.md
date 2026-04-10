@@ -2,6 +2,7 @@
 id: TASK-027
 title: Create upload instructions
 status: open
+opened: 2026-04-10
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: Clarification

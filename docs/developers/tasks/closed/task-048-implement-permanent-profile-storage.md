@@ -2,6 +2,8 @@
 id: TASK-048
 title: Implement permanent profile storage
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: Support

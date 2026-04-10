@@ -2,6 +2,8 @@
 id: TASK-019
 title: Update CONTRIBUTING.md with quality standards
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: Clarification

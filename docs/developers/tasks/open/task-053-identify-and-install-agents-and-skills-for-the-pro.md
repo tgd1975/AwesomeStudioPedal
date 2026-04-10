@@ -2,6 +2,7 @@
 id: TASK-053
 title: Identify and install agents and skills for the project
 status: open
+opened: 2026-04-10
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: Clarification

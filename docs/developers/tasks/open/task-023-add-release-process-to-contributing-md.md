@@ -2,6 +2,7 @@
 id: TASK-023
 title: Add release process to CONTRIBUTING.md
 status: open
+opened: 2026-04-10
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: Clarification

@@ -101,16 +101,19 @@ the file to `closed/` and update this overview.
 
 ## Writing a Task File
 
-Each task file has a YAML frontmatter block followed by three sections:
+Each task file has a YAML frontmatter block followed by three sections.
+The `id`, `title`, `effort`, and `complexity` fields are read directly from frontmatter
+to generate the overview table — set them correctly when creating a task.
 
 ```markdown
 ---
 id: TASK-NNN
 title: Short imperative title
 status: open
+opened: YYYY-MM-DD
 effort: Small (<2h)
 complexity: Junior
-human-in-loop: No | Clarification | Support | Main
+human-in-loop: No
 ---
 
 ## Description
@@ -125,6 +128,13 @@ What needs to be done and why.
 
 Progress, decisions, links.
 ```
+
+**`opened`** / **`closed`** — ISO date (`YYYY-MM-DD`). Set `opened` when creating the task.
+Add `closed` when moving to `closed/` via `/task-done`.
+
+**`effort`** values: `Small (<2h)`, `Medium (2-8h)`, `Large (8-24h)`, `Extra Large (24-40h)`
+
+**`complexity`** values: `Junior`, `Medium`, `Senior`
 
 **`human-in-loop`** values:
 

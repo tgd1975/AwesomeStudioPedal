@@ -2,6 +2,7 @@
 id: TASK-032
 title: Create configuration builder tool
 status: open
+opened: 2026-04-10
 effort: Large (8-24h)
 complexity: Senior
 human-in-loop: Clarification

@@ -2,6 +2,8 @@
 id: TASK-022
 title: Create release checklist
 status: closed
+opened: 2026-04-10
+closed: 2026-04-10
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: Clarification
