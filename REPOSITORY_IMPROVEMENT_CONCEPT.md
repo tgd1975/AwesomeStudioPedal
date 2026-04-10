@@ -64,7 +64,7 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 |--------|----|-------------------|-------|--------|-------------------|------------|
 | ✅ | TASK-001 | Create branch protection concept | 1 | S | No | Junior |
 | ✅ | TASK-002 | Add `.github/settings.yml` for branch protection | 1 | M | Yes | Junior |
-| ❌ | TASK-003 | Configure branch protection in GitHub UI | 1 | S | Yes | Junior |
+| ✅ | TASK-003 | Configure branch protection in GitHub UI | 1 | S | Yes | Junior |
 | ✅ | TASK-004 | Update CONTRIBUTING.md with branch strategy | 1 | S | Yes | Junior |
 | ✅ | TASK-005 | Add issue and PR templates | 1 | M | Yes | Junior |
 | ❌ | TASK-006 | Create SECURITY.md | 2 | M | Yes | Medium |
