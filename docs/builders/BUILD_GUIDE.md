@@ -29,7 +29,7 @@ graph LR
 
     ESP -->|GPIO 26| BLE_LED["LED: Bluetooth status"]
     ESP -->|GPIO 25| PWR_LED["LED: Power indicator"]
-    ESP -->|GPIO 5|  SEL1["LED: Profile select 1"]
+    ESP -->|GPIO 5| SEL1["LED: Profile select 1"]
     ESP -->|GPIO 18| SEL2["LED: Profile select 2"]
     ESP -->|GPIO 19| SEL3["LED: Profile select 3"]
 
