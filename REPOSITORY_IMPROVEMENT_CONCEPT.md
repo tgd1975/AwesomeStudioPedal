@@ -69,14 +69,14 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 | ❌ | TASK-005 | Add issue and PR templates | 1 | M | Yes | Junior |
 | ❌ | TASK-006 | Create SECURITY.md | 2 | M | Yes | Medium |
 | ❌ | TASK-007 | Add CodeQL analysis workflow | 2 | L | No | Senior |
-| ❌ | TASK-008 | Add dependabot.yml | 2 | S | No | Junior |
+| ✅ | TASK-008 | Add dependabot.yml | 2 | S | No | Junior |
 | ❌ | TASK-009 | Add dependabot auto-merge workflow | 2 | M | Yes | Medium |
 | ❌ | TASK-010 | Add CODEOWNERS file | 2 | S | Yes | Junior |
 | ❌ | TASK-011 | Add FUNDING.yml | 3 | S | Yes | Junior |
 | ❌ | TASK-012 | Add "Future Ideas" section to README | 3 | S | Yes | Junior |
 | ❌ | TASK-013 | Enable GitHub Discussions | 3 | S | Yes | Junior |
-| ❌ | TASK-014 | Add test coverage badge | 3 | S | No | Junior |
-| ❌ | TASK-015 | Add compiler warning flags | 4 | M | No | Medium |
+| ✅ | TASK-014 | Add test coverage badge | 3 | S | No | Junior |
+| ✅ | TASK-015 | Add compiler warning flags | 4 | M | No | Medium |
 | ❌ | TASK-016 | Create .clang-tidy configuration | 4 | M | Yes | Medium |
 | ❌ | TASK-017 | Add static analysis workflow | 4 | L | No | Senior |
 | ❌ | TASK-018 | Create code smell detection scripts | 4 | L | Yes | Senior |
@@ -121,10 +121,10 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 
 **Tasks requiring no human-in-the-loop and are either Junior (S-XL) or Medium (S-M) complexity**:
 
-- **TASK-001**: Create branch protection concept (Junior, S)
-- **TASK-008**: Add dependabot.yml (Junior, S)
-- **TASK-014**: Add test coverage badge (Junior, S)
-- **TASK-015**: Add compiler warning flags (Medium, M)
+- ~~**TASK-001**: Create branch protection concept (Junior, S)~~ ✅
+- ~~**TASK-008**: Add dependabot.yml (Junior, S)~~ ✅
+- ~~**TASK-014**: Add test coverage badge (Junior, S)~~ ✅
+- ~~**TASK-015**: Add compiler warning flags (Medium, M)~~ ✅
 - **TASK-039**: Add Mermaid diagram linting (Medium, M)
 
 ## Current State Assessment
