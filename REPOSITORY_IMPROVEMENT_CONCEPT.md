@@ -111,6 +111,8 @@ This document outlines a comprehensive improvement plan for the AwesomeGuitarPed
 | ✅ | TASK-047 | Fix profile LED blinking behavior | 7 | S | Support | Junior |
 | ✅ | TASK-048 | Implement permanent profile storage | 7 | M | Support | Medium |
 | ❌ | TASK-049 | Setup video platform channel | 6 | S | Clarification | Junior |
+| ❌ | TASK-050 | Provide Fritzing wiring diagram | 6 | M | Clarification | Junior |
+| ❌ | TASK-051 | Provide Thingiverse/Printables link | 6 | S | Clarification | Junior |
 
 **Effort Legend**: S (Small: <2h), M (Medium: 2-8h), L (Large: 8-24h), XL (Extra Large: 24-40h)
 **Complexity Legend**: Junior (<1 year exp), Medium (1-3 years exp), Senior (>3 years exp)
@@ -1439,6 +1441,8 @@ gantt
 - [ ] `docs/tools/config-builder/builder.js`
 - [ ] `docs/tools/config-builder/schema.json`
 - [ ] `scripts/config_builder.py` (optional)
+- [ ] `docs/hardware/fritzing_diagram.fzz` (Fritzing wiring diagram)
+- [ ] `docs/hardware/3d_printable_enclosure.stl` (3D printable enclosure)
 
 ### Files to Update
 
@@ -1451,6 +1455,8 @@ gantt
 - [ ] `.github/workflows/ci.yml` (integrate static analysis)
 - [ ] `CONTRIBUTING.md` (add code review checklist)
 - [ ] `docs/developers/ARCHITECTURE.md` (add branch diagram)
+- [ ] `docs/builders/BUILD_GUIDE.md` (add Fritzing diagram link)
+- [ ] `docs/builders/BUILD_GUIDE.md` (add Thingiverse/Printables link)
 
 ### GitHub UI Configuration
 

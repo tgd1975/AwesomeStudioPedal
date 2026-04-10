@@ -39,6 +39,8 @@ The following ideas are potential future enhancements for AwesomeStudioPedal. Th
   - **Version A**: Add a small display to show the currently selected profile.
   - **Version B**: Incorporate a larger display to show more detailed configuration information.
 - **Hybrid Tool with DSP**: Explore a version with more powerful hardware (DSP) and two audio jacks to add guitar pedal functionalities like distortion, creating a hybrid tool.
+- **Long Press Event**: Implement support for long press events to trigger different actions based on button hold duration.
+- **Double Press Event**: Add support for double press events to enable quick successive button presses for additional functionality.
 
 These ideas are open for community contributions and discussions. If you're interested in working on any of these, please open an issue or start a discussion!
 
