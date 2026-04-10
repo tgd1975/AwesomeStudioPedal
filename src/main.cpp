@@ -1,5 +1,7 @@
 #include <Arduino.h>
+#ifdef ESP32
 #include <Preferences.h>
+#endif
 #include <memory>
 // #include "freertos/FreeRTOS.h"
 // #include "freertos/task.h"
@@ -29,6 +31,7 @@
 
 BleKeyboardAdapter* bleKeyboardAdapter = createBleKeyboardAdapter();
 
+#ifdef ESP32
 static constexpr const char* NVS_NAMESPACE = "pedal";
 static constexpr const char* NVS_KEY_PROFILE = "profile";
 
@@ -48,6 +51,11 @@ static uint8_t loadSavedProfile()
     prefs.end();
     return index;
 }
+#else
+// Profile persistence not yet implemented for this platform
+static void saveCurrentProfile(uint8_t) {}
+static uint8_t loadSavedProfile() { return 0; }
+#endif
 
 bool connected = false;
 
