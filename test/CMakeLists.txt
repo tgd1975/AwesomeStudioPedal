@@ -6,6 +6,9 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/delayed_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/config_loader.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/config_loader_io.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/config_loader_merge.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/key_lookup.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/non_send_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/littlefs_file_system.cpp

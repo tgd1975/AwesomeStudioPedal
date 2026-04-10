@@ -57,6 +57,9 @@ def check_file(path: Path) -> list[str]:
     func_start = None
     func_line_count = 0
     in_function = False
+    prev_nonempty = ""
+
+    CONTAINER_RE = re.compile(r"^\s*(namespace|class|struct)\b")
 
     for lineno, line in enumerate(lines, 1):
         stripped = line.strip()
@@ -78,9 +81,13 @@ def check_file(path: Path) -> list[str]:
                 f"{path}:{lineno}: nesting depth {nesting} exceeds {MAX_NESTING_DEPTH}"
             )
 
-        # Function length — only for .cpp files and only top-level bodies
+        # Function length — only for .cpp files and only top-level bodies.
+        # Skip namespace/class/struct blocks — they are containers, not functions.
+        # The opening brace may appear on the same line as the keyword or on the
+        # next non-empty line (Allman style), so we check both current and previous.
+        is_container = CONTAINER_RE.match(line) or CONTAINER_RE.match(prev_nonempty)
         if is_cpp:
-            if opens > closes and nesting == 1 and not in_function:
+            if opens > closes and nesting == 1 and not in_function and not is_container:
                 in_function = True
                 func_start = lineno
                 func_line_count = 1
@@ -94,6 +101,9 @@ def check_file(path: Path) -> list[str]:
                         )
                     in_function = False
                     func_line_count = 0
+
+        if stripped:
+            prev_nonempty = line
 
     return issues
 

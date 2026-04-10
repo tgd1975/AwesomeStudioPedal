@@ -51,9 +51,13 @@ private:
 
     std::unique_ptr<Action> createActionFromJson(const ArduinoJson::JsonObject& actionJson,
                                                  IBleKeyboard* keyboard);
+    std::unique_ptr<Action> createSendCharActionFromJson(const ArduinoJson::JsonObject& actionJson,
+                                                         IBleKeyboard* keyboard);
     static void actionToJson(const Action* action, ArduinoJson::JsonObject& out);
     void populateProfileFromJson(Profile& profile,
                                  ArduinoJson::JsonObject buttons,
                                  IBleKeyboard* keyboard);
     void logLoadedConfig(const ProfileManager& profileManager) const;
+    bool profileExistsByName(const ProfileManager& profileManager, const char* name) const;
+    static uint8_t findEmptyProfileSlot(const ProfileManager& profileManager);
 };
