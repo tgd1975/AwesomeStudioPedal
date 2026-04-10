@@ -40,7 +40,8 @@ uint8_t ProfileManager::switchProfile()
     uint8_t next = currentProfile;
     for (uint8_t i = 0; i < numProfiles; i++)
     {
-        next = (next + 1) % numProfiles;
+        int temp = (next + 1) % numProfiles;
+        next = static_cast<uint8_t>(temp);
         if (profileSlots[next])
             break;
     }

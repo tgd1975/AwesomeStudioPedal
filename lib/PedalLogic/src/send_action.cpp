@@ -61,7 +61,7 @@ SendCharAction::SendCharAction(IBleKeyboard* bleKeyboard, char k) : SendAction(b
  *
  * Sends the configured character to the BLE keyboard.
  */
-void SendCharAction::send() { bleKeyboard->write(key); }
+void SendCharAction::send() { bleKeyboard->write(static_cast<uint8_t>(key)); }
 
 /**
  * @brief Constructs a SendStringAction

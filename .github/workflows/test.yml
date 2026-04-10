@@ -38,6 +38,25 @@ jobs:
         with:
           globs: "*.md"
 
+  mermaid-lint:
+    name: Mermaid Diagram Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install mermaid-cli
+        run: npm install -g @mermaid-js/mermaid-cli
+      - name: Lint Mermaid diagrams
+        run: |
+          # Lint all markdown files for Mermaid syntax
+          find . -name "*.md" -exec grep -l "mermaid" {} \; | while read -r file; do
+            echo "Linting $file"
+            npx mmdc --input "$file" --output /tmp/mermaid-test.svg || exit 1
+          done
+
   unit-tests:
     name: Host Unit Tests
     runs-on: ubuntu-latest
@@ -86,4 +105,17 @@ jobs:
         with:
           name: test-results
           path: test-results/
+          retention-days: 30
+
+      - name: Generate coverage report
+        run: |
+          # Generate coverage report using gcovr
+          pip install gcovr
+          gcovr -r . --xml -o coverage.xml
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
           retention-days: 30

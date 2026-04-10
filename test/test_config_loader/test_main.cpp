@@ -108,8 +108,12 @@ TEST_F(ConfigLoaderTest, Load8Profiles_ClampedTo7)
     EXPECT_EQ(countPopulated(*profileManager), 7);
     // The 8th profile must not appear anywhere
     for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
+    {
         if (profileManager->getProfile(i))
+        {
             EXPECT_NE(profileManager->getProfile(i)->getName(), "P7_dropped");
+        }
+    }
 }
 
 TEST_F(ConfigLoaderTest, LoadResetsCurrentProfileTo0_EvenIfPreviouslyHigher)
@@ -162,8 +166,12 @@ TEST_F(ConfigLoaderTest, MergeIntoFullManager_ExtraProfileDropped)
     ASSERT_TRUE(loader->mergeConfig(*profileManager, &keyboard, makeConfig({"Overflow"})));
     EXPECT_EQ(countPopulated(*profileManager), 7);
     for (uint8_t i = 0; i < ProfileManager::MAX_PROFILES; i++)
+    {
         if (profileManager->getProfile(i))
+        {
             EXPECT_NE(profileManager->getProfile(i)->getName(), "Overflow");
+        }
+    }
 }
 
 TEST_F(ConfigLoaderTest, MergeSkipsDuplicateName)

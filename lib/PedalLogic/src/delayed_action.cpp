@@ -28,7 +28,7 @@ void DelayedAction::execute()
 {
     if (! started)
     {
-        startTime = millis();
+        startTime = static_cast<uint32_t>(millis());
         started = true;
     }
     else

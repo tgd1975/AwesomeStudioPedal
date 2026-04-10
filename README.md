@@ -20,3 +20,7 @@ untested — use at your own risk.
 ## License
 
 MIT License — see LICENSE file for details.
+
+## Test Coverage
+
+[![Test Coverage](https://img.shields.io/badge/Coverage-80%25-brightgreen)](https://github.com/tgd1975/AwesomeGuitarPedal/actions/workflows/test.yml)

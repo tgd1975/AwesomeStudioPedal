@@ -36,7 +36,7 @@ public:
      */
     virtual bool isInProgress() const { return false; }
 
-    virtual void getJsonProperties(JsonObject& json) const {}
+    virtual void getJsonProperties(JsonObject& json) const { (void) json; }
 
     virtual ~Action() = default;
 

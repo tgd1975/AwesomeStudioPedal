@@ -15,9 +15,9 @@ class MockKeyboard : public IBleKeyboard
 public:
     void begin() override {}
     bool isConnected() override { return true; }
-    void write(uint8_t key) override {}
-    void write(const MediaKeyReport key) override {}
-    void print(const char* text) override {}
+    void write(uint8_t key) override { (void) key; }
+    void write(const MediaKeyReport key) override { (void) key; }
+    void print(const char* text) override { (void) text; }
 };
 
 class ConfigLoaderUnitTest : public ::testing::Test
