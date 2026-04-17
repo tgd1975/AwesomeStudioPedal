@@ -75,8 +75,19 @@ Invoke as `/release-branch vX.Y.Z`. If no version is given, read the current ver
    git push --force-with-lease origin <branch>
    ```
 
-8. **Open PR**: create a pull request targeting `main`. Use the CHANGELOG versioned
-   section as the PR body:
+8. **Open PR**: before running `gh pr create`, verify `gh` is authenticated:
+
+   ```bash
+   gh auth status
+   ```
+
+   If the output contains "not logged in" or exits non-zero, stop and ask the user to run:
+
+   ```
+   gh auth login
+   ```
+
+   Wait for confirmation that login succeeded, then proceed. Create a pull request targeting `main`:
 
    ```bash
    gh pr create --title "Release vX.Y.Z" --body "$(cat <<'EOF'
