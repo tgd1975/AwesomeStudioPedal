@@ -1,7 +1,8 @@
 ---
 id: TASK-101
 title: Audit and Fill PinAction Host Test Gaps
-status: open
+status: closed
+closed: 2026-04-17
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior
