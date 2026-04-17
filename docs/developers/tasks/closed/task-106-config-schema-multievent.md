@@ -1,7 +1,8 @@
 ---
 id: TASK-106
 title: Config Schema Extension for Multi-Event Bindings
-status: open
+status: closed
+closed: 2026-04-17
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior

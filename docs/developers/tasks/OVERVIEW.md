@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 45** | **Closed: 2** | **Total: 47**
+**Open: 40** | **Closed: 7** | **Total: 47**
 
 ## Open Tasks
 
@@ -27,11 +27,6 @@
 | [TASK-101](open/task-101-pinaction-host-test-audit.md) | Audit and Fill PinAction Host Test Gaps | Small (<2h) | Junior |
 | [TASK-102](open/task-102-getjsonproperties-on-pinaction.md) | Implement getJsonProperties on PinAction | Small (<2h) | Junior |
 | [TASK-103](open/task-103-on-device-gpio-testrig-esp32.md) | On-Device GPIO Testrig for PinAction (ESP32) | Medium (2-8h) | Medium |
-| [TASK-104](open/task-104-button-longpress-doublepress-detection.md) | Button Long-Press and Double-Press Detection | Medium (2-8h) | Medium |
-| [TASK-105](open/task-105-eventdispatcher-multievent-api.md) | EventDispatcher Multi-Event API | Small (<2h) | Junior |
-| [TASK-106](open/task-106-config-schema-multievent.md) | Config Schema Extension for Multi-Event Bindings | Small (<2h) | Junior |
-| [TASK-107](open/task-107-mainloop-multievent-wiring.md) | Wire Multi-Event Dispatch in main.cpp | Small (<2h) | Junior |
-| [TASK-108](open/task-108-host-tests-longpress-doublepress.md) | Host Tests for Long Press and Double Press | Medium (2-8h) | Medium |
 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium |
 | [TASK-110](open/task-110-macro-action-type-keylookup.md) | Add Macro to Action::Type and key_lookup | Trivial (<30m) | Junior |
 | [TASK-111](open/task-111-macroaction-class.md) | MacroAction Class and Step Engine | Medium (2-8h) | Medium |
@@ -101,11 +96,11 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 
 | Order | ID | Title | Effort | Complexity | Human-in-loop |
 |-------|----|-------|--------|------------|---------------|
-| 1 | [TASK-104](open/task-104-button-longpress-doublepress-detection.md) | Button Long-Press and Double-Press Detection | Medium (2-8h) | Medium | No |
-| 2 | [TASK-105](open/task-105-eventdispatcher-multievent-api.md) | EventDispatcher Multi-Event API | Small (<2h) | Junior | No |
-| 3 | [TASK-106](open/task-106-config-schema-multievent.md) | Config Schema Extension for Multi-Event Bindings | Small (<2h) | Junior | No |
-| 4 | [TASK-107](open/task-107-mainloop-multievent-wiring.md) | Wire Multi-Event Dispatch in main.cpp | Small (<2h) | Junior | No |
-| 5 | [TASK-108](open/task-108-host-tests-longpress-doublepress.md) | Host Tests for Long Press and Double Press | Medium (2-8h) | Medium | No |
+| 1 | ~~[TASK-104](closed/task-104-button-longpress-doublepress-detection.md)~~ | ~~Button Long-Press and Double-Press Detection~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
+| 2 | ~~[TASK-105](closed/task-105-eventdispatcher-multievent-api.md)~~ | ~~EventDispatcher Multi-Event API~~ | ~~Small (<2h)~~ | ~~Junior~~ | ~~No~~ |
+| 3 | ~~[TASK-106](closed/task-106-config-schema-multievent.md)~~ | ~~Config Schema Extension for Multi-Event Bindings~~ | ~~Small (<2h)~~ | ~~Junior~~ | ~~No~~ |
+| 4 | ~~[TASK-107](closed/task-107-mainloop-multievent-wiring.md)~~ | ~~Wire Multi-Event Dispatch in main.cpp~~ | ~~Small (<2h)~~ | ~~Junior~~ | ~~No~~ |
+| 5 | ~~[TASK-108](closed/task-108-host-tests-longpress-doublepress.md)~~ | ~~Host Tests for Long Press and Double Press~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
 | 6 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium | Support |
 | 7 | ~~[TASK-138](closed/task-138-simulator-longpress-doublepress.md)~~ | ~~Simulator — Long-Press and Double-Press Support~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
 | 8 | ~~[TASK-139](closed/task-139-config-builder-longpress-doublepress.md)~~ | ~~Profile Configurator — Long-Press and Double-Press Fields~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
@@ -141,6 +136,11 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 
 | ID | Title | Effort |
 |----|-------|--------|
+| [TASK-104](closed/task-104-button-longpress-doublepress-detection.md) | Button Long-Press and Double-Press Detection | Medium (2-8h) |
+| [TASK-105](closed/task-105-eventdispatcher-multievent-api.md) | EventDispatcher Multi-Event API | Small (<2h) |
+| [TASK-106](closed/task-106-config-schema-multievent.md) | Config Schema Extension for Multi-Event Bindings | Small (<2h) |
+| [TASK-107](closed/task-107-mainloop-multievent-wiring.md) | Wire Multi-Event Dispatch in main.cpp | Small (<2h) |
+| [TASK-108](closed/task-108-host-tests-longpress-doublepress.md) | Host Tests for Long Press and Double Press | Medium (2-8h) |
 | [TASK-138](closed/task-138-simulator-longpress-doublepress.md) | Simulator — Long-Press and Double-Press Support | Medium (2-8h) |
 | [TASK-139](closed/task-139-config-builder-longpress-doublepress.md) | Profile Configurator — Long-Press and Double-Press Fields | Medium (2-8h) |
 

@@ -1,7 +1,8 @@
 ---
 id: TASK-105
 title: EventDispatcher Multi-Event API
-status: open
+status: closed
+closed: 2026-04-17
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior

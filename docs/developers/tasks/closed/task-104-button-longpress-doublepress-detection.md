@@ -1,7 +1,8 @@
 ---
 id: TASK-104
 title: Button Long-Press and Double-Press Detection
-status: open
+status: closed
+closed: 2026-04-17
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium

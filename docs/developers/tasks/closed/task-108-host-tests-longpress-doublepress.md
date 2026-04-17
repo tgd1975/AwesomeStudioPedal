@@ -1,7 +1,8 @@
 ---
 id: TASK-108
 title: Host Tests for Long Press and Double Press
-status: open
+status: closed
+closed: 2026-04-17
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium

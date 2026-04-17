@@ -1,7 +1,8 @@
 ---
 id: TASK-107
 title: Wire Multi-Event Dispatch in main.cpp
-status: open
+status: closed
+closed: 2026-04-17
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior
