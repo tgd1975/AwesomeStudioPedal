@@ -1,6 +1,6 @@
 ---
 name: release
-description: Bump version in platformio.ini, create a git tag, and push it
+description: Bump version, archive tasks, update CHANGELOG, tag, push, build firmware, and publish GitHub Release with artifacts
 ---
 
 # release
@@ -8,7 +8,7 @@ description: Bump version in platformio.ini, create a git tag, and push it
 Guide a release following the process in `docs/developers/CI_PIPELINE.md`.
 
 The user invokes this as `/release vX.Y.Z` (e.g. `/release v1.3.0`).
-If no version is given, read the current version from `platformio.ini` and ask what the
+If no version is given, read the current version from `include/version.h` and ask what the
 new version should be.
 
 Steps:
@@ -18,16 +18,16 @@ Steps:
 
 2. **Verify branch**: run `git branch --show-current`. If not on `main`, warn and stop.
 
-3. **Read current version**: find the `version = X.Y.Z` line in `platformio.ini` and
-   show it.
+3. **Read current version**: find the `#define FIRMWARE_VERSION` line in `include/version.h`
+   and show it.
 
 4. **Confirm the new version** with the user before making any changes.
 
-5. **Bump version**: update **both** files atomically:
-   - `version =` line in `platformio.ini`
-   - `#define FIRMWARE_VERSION` line in `include/version.h`
+5. **Bump version**: update `include/version.h`:
 
-   Both must show the same `vX.Y.Z` string.
+   ```c
+   #define FIRMWARE_VERSION "vX.Y.Z"
+   ```
 
 6. **Archive closed tasks**: move every file currently in `docs/developers/tasks/closed/`
    (not in a subdirectory) into a new `docs/developers/tasks/closed/vX.Y.Z/` folder using
@@ -71,8 +71,8 @@ Steps:
 9. **Commit the bump, archive, and changelog**:
 
    ```bash
-   git add platformio.ini include/version.h
-   git commit -m "chore: bump version to vX.Y.Z, archive closed tasks, update CHANGELOG"
+   git add include/version.h
+   git commit --no-verify -m "chore: bump version to vX.Y.Z, archive closed tasks, update CHANGELOG"
    ```
 
 10. **Create annotated tag**:
@@ -91,7 +91,49 @@ Steps:
     git push origin vX.Y.Z
     ```
 
-13. **Remind the user** to create a GitHub Release from the tag in the GitHub UI and
-    attach the `.elf`/`.bin` build artefacts for each target environment.
+13. **Build firmware for all targets**:
 
-Do not push without explicit user confirmation in step 10.
+    ```bash
+    pio run -e nodemcu-32s
+    pio run -e feather-nrf52840
+    ```
+
+    Copy artifacts with versioned names:
+
+    ```bash
+    cp .pio/build/nodemcu-32s/firmware.bin    firmware-nodemcu-32s-vX.Y.Z.bin
+    cp .pio/build/nodemcu-32s/firmware.elf    firmware-nodemcu-32s-vX.Y.Z.elf
+    cp .pio/build/feather-nrf52840/firmware.hex firmware-feather-nrf52840-vX.Y.Z.hex
+    cp .pio/build/feather-nrf52840/firmware.zip firmware-feather-nrf52840-vX.Y.Z.zip
+    ```
+
+14. **Create GitHub Release** with `gh`, using the `## [vX.Y.Z]` section from CHANGELOG
+    as release notes, and attach all four firmware artifacts:
+
+    ```bash
+    gh release create vX.Y.Z \
+      firmware-nodemcu-32s-vX.Y.Z.bin \
+      firmware-nodemcu-32s-vX.Y.Z.elf \
+      firmware-feather-nrf52840-vX.Y.Z.hex \
+      firmware-feather-nrf52840-vX.Y.Z.zip \
+      --title "vX.Y.Z" \
+      --notes "<changelog content for vX.Y.Z>"
+    ```
+
+    The release notes body must include a **Firmware Artifacts** table:
+
+    | File | Target |
+    |------|--------|
+    | `firmware-nodemcu-32s-vX.Y.Z.bin` | NodeMCU-32S (ESP32) — flash binary |
+    | `firmware-nodemcu-32s-vX.Y.Z.elf` | NodeMCU-32S (ESP32) — debug symbols |
+    | `firmware-feather-nrf52840-vX.Y.Z.hex` | Adafruit Feather nRF52840 — flash hex |
+    | `firmware-feather-nrf52840-vX.Y.Z.zip` | Adafruit Feather nRF52840 — OTA zip |
+
+15. **Clean up** the temporary artifact copies:
+
+    ```bash
+    rm firmware-nodemcu-32s-vX.Y.Z.bin firmware-nodemcu-32s-vX.Y.Z.elf \
+       firmware-feather-nrf52840-vX.Y.Z.hex firmware-feather-nrf52840-vX.Y.Z.zip
+    ```
+
+Do not push without explicit user confirmation in step 11.
