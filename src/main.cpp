@@ -58,7 +58,10 @@ static void saveCurrentProfile(uint8_t) {}
 static uint8_t loadSavedProfile() { return 0; }
 #endif
 
+static constexpr uint32_t LONG_PRESS_THRESHOLD_MS = 500;
+
 bool connected = false;
+bool longPressArmed[Btn::MAX] = {};
 
 LEDController ledBluetooth(hardwareConfig.ledBluetooth);
 LEDController ledPower(hardwareConfig.ledPower);
@@ -233,6 +236,34 @@ void setup_event_handlers()
             });
     }
 
+    // Long press and double press handlers
+    for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
+    {
+        uint8_t idx = i;
+        eventDispatcher.registerLongPressHandler(
+            idx,
+            [idx]()
+            {
+                uint8_t profile = profileManager->getCurrentProfile();
+                if (auto action = profileManager->getProfile(profile)->getLongPressAction(idx))
+                {
+                    action->execute();
+                }
+            },
+            LONG_PRESS_THRESHOLD_MS);
+
+        eventDispatcher.registerDoublePressHandler(
+            idx,
+            [idx]()
+            {
+                uint8_t profile = profileManager->getCurrentProfile();
+                if (auto action = profileManager->getProfile(profile)->getDoublePressAction(idx))
+                {
+                    action->execute();
+                }
+            });
+    }
+
     // SELECT button is registered at index numButtons (press only — no release handler)
     uint8_t selectHandlerIdx = hardwareConfig.numButtons;
     eventDispatcher.registerHandler(selectHandlerIdx,
@@ -316,10 +347,27 @@ void process_events()
         {
             continue;
         }
-        if (actionButtonObjects[i]->event())
+
+        if (actionButtonObjects[i]->doublePressEvent())
+        {
+            eventDispatcher.dispatchDoublePress(i);
+        }
+        else if (actionButtonObjects[i]->event())
         {
             eventDispatcher.dispatch(i);
         }
+
+        if (actionButtonObjects[i]->holdDurationMs() >= LONG_PRESS_THRESHOLD_MS &&
+            ! longPressArmed[i])
+        {
+            eventDispatcher.dispatchLongPress(i);
+            longPressArmed[i] = true;
+        }
+        if (! actionButtonObjects[i]->awaitingRelease)
+        {
+            longPressArmed[i] = false;
+        }
+
         if (actionButtonObjects[i]->releaseEvent())
         {
             eventDispatcher.dispatchRelease(i);

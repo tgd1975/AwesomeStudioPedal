@@ -170,6 +170,7 @@ namespace
         {"PinToggleAction", Action::Type::PinToggle},
         {"PinHighWhilePressedAction", Action::Type::PinHighWhilePressed},
         {"PinLowWhilePressedAction", Action::Type::PinLowWhilePressed},
+        {"MacroAction", Action::Type::Macro},
     };
 
 } // namespace

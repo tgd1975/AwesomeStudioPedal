@@ -505,6 +505,66 @@ TEST_F(RealConfigTest, Profile6_ButtonA_IsSerialOutput)
 // must still load all profiles correctly.
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// longPress / doublePress sub-action parsing
+// ---------------------------------------------------------------------------
+
+TEST_F(ActionParsingTest, LongPress_ParsedIntoProfile)
+{
+    const char* json = R"({
+        "profiles":[{"name":"T","buttons":{"A":{
+            "type":"SendCharAction","value":"KEY_F1",
+            "longPress":{"type":"SendMediaKeyAction","value":"MEDIA_STOP","name":"Stop"}
+        }}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    const Profile* p = pm->getProfile(0);
+    ASSERT_NE(p, nullptr);
+    Action* lp = p->getLongPressAction(Btn::A);
+    ASSERT_NE(lp, nullptr);
+    EXPECT_EQ(lp->getType(), Action::Type::SendMediaKey);
+    EXPECT_EQ(lp->getName(), "Stop");
+}
+
+TEST_F(ActionParsingTest, DoublePress_ParsedIntoProfile)
+{
+    const char* json = R"({
+        "profiles":[{"name":"T","buttons":{"A":{
+            "type":"SendCharAction","value":"KEY_F1",
+            "doublePress":{"type":"SendCharAction","value":"KEY_F2","name":"Record"}
+        }}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    const Profile* p = pm->getProfile(0);
+    ASSERT_NE(p, nullptr);
+    Action* dp = p->getDoublePressAction(Btn::A);
+    ASSERT_NE(dp, nullptr);
+    EXPECT_EQ(dp->getType(), Action::Type::SendChar);
+    EXPECT_EQ(dp->getName(), "Record");
+}
+
+TEST_F(ActionParsingTest, MissingLongPress_ReturnsNullptr)
+{
+    const char* json =
+        R"({"profiles":[{"name":"T","buttons":{"A":{"type":"SendCharAction","value":"KEY_F1"}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    const Profile* p = pm->getProfile(0);
+    ASSERT_NE(p, nullptr);
+    EXPECT_EQ(p->getLongPressAction(Btn::A), nullptr);
+}
+
+TEST_F(ActionParsingTest, MissingDoublePress_ReturnsNullptr)
+{
+    const char* json =
+        R"({"profiles":[{"name":"T","buttons":{"A":{"type":"SendCharAction","value":"KEY_F1"}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    const Profile* p = pm->getProfile(0);
+    ASSERT_NE(p, nullptr);
+    EXPECT_EQ(p->getDoublePressAction(Btn::A), nullptr);
+}
+
 TEST_F(ActionParsingTest, LargeJson_AllProfilesLoaded)
 {
     // Build a JSON with 7 profiles where each description is 200 chars,

@@ -39,6 +39,11 @@ public:
      */
     Action* getAction(uint8_t button) const;
 
+    void addLongPressAction(uint8_t button, std::unique_ptr<Action> action);
+    void addDoublePressAction(uint8_t button, std::unique_ptr<Action> action);
+    Action* getLongPressAction(uint8_t button) const;
+    Action* getDoublePressAction(uint8_t button) const;
+
     /**
      * @brief Gets the name of this profile
      *
@@ -63,5 +68,8 @@ public:
 private:
     std::string name;        /**< The name of this profile */
     std::string description; /**< The description of this profile */
-    std::array<std::unique_ptr<Action>, MAX_BUTTONS> actions; /**< Actions for each button */
+    std::array<std::unique_ptr<Action>, MAX_BUTTONS> actions;           /**< Primary actions */
+    std::array<std::unique_ptr<Action>, MAX_BUTTONS> longPressActions_; /**< Long-press actions */
+    std::array<std::unique_ptr<Action>, MAX_BUTTONS>
+        doublePressActions_; /**< Double-press actions */
 };

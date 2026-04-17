@@ -194,6 +194,32 @@ void ConfigLoader::populateProfileFromJson(Profile& profile,
             }
             profile.addAction(b, std::move(action));
         }
+
+        if (actionJson.containsKey("longPress"))
+        {
+            JsonObject lpJson = actionJson["longPress"];
+            auto lpAction = createActionFromJson(lpJson, keyboard);
+            if (lpAction)
+            {
+                const char* lpName = lpJson["name"] | "";
+                if (lpName[0] != '\0')
+                    lpAction->setName(lpName);
+                profile.addLongPressAction(b, std::move(lpAction));
+            }
+        }
+
+        if (actionJson.containsKey("doublePress"))
+        {
+            JsonObject dpJson = actionJson["doublePress"];
+            auto dpAction = createActionFromJson(dpJson, keyboard);
+            if (dpAction)
+            {
+                const char* dpName = dpJson["name"] | "";
+                if (dpName[0] != '\0')
+                    dpAction->setName(dpName);
+                profile.addDoublePressAction(b, std::move(dpAction));
+            }
+        }
     }
 }
 

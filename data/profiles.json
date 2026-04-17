@@ -5,7 +5,10 @@
       "name": "01 Score Navigator",
       "description": "Designed for musicians reading digital sheet music on a tablet or notebook (e.g., forScore, MobileSheets, or Adobe Acrobat). Uses standard navigation keys to turn pages and jump to sections.",
       "buttons": {
-        "A": { "type": "SendCharAction", "name": "Prev Page", "value": "KEY_PAGE_UP" },
+        "A": {
+          "type": "SendCharAction", "name": "Prev Page", "value": "KEY_PAGE_UP",
+          "longPress": { "type": "SendCharAction", "name": "First Page", "value": "KEY_HOME" }
+        },
         "B": { "type": "SendCharAction", "name": "Next Page", "value": "KEY_PAGE_DOWN" },
         "C": { "type": "SendCharAction", "name": "First Page", "value": "KEY_HOME" },
         "D": { "type": "SendCharAction", "name": "Last Page", "value": "KEY_END" }

@@ -80,9 +80,26 @@ TEST_F(ButtonTest, SecondPressAfterDebounceWindowIsAccepted)
     btn.event();
     fake_time::value = 310;
     release(btn); // 110ms after press — debounce elapsed, lastDebounceTime=310
+    // Second press at t=420: 220ms after first press, within 300ms double-press window.
+    // This triggers a double-press: event() is suppressed, doublePressEvent() fires.
     fake_time::value = 420;
-    press(btn); // 110ms after release — debounce elapsed → accepted
+    press(btn); // debounce elapsed (110ms > 100ms) → accepted but suppressed as double press
+    EXPECT_FALSE(btn.event());           // suppressed — this is a double press
+    EXPECT_TRUE(btn.doublePressEvent()); // double press confirmed
+}
+
+TEST_F(ButtonTest, SecondPressOutsideDoublePressWindowAcceptedAsSinglePress)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);  // first press at t=200
+    btn.event(); // consume
+    fake_time::value = 310;
+    release(btn);
+    fake_time::value = 520; // 320ms after first press — outside 300ms double-press window
+    press(btn);             // debounce elapsed (210ms > 100ms), not a double press
     EXPECT_TRUE(btn.event());
+    EXPECT_FALSE(btn.doublePressEvent());
 }
 
 // THE CRITICAL CASE: hold > debounceDelay, then release with bounce
@@ -247,4 +264,106 @@ TEST_F(ButtonTest, ResetClearsReleaseEvent)
     release(btn);
     btn.reset();
     EXPECT_FALSE(btn.releaseEvent());
+}
+
+// ---------------------------------------------------------------------------
+// holdDurationMs()
+// ---------------------------------------------------------------------------
+
+TEST_F(ButtonTest, HoldDurationMs_ZeroBeforePress)
+{
+    Button btn(5);
+    fake_time::value = 1000;
+    EXPECT_EQ(btn.holdDurationMs(), 0UL);
+}
+
+TEST_F(ButtonTest, HoldDurationMs_NonZeroWhileHeld)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    fake_time::value = 700; // held for 500ms
+    EXPECT_EQ(btn.holdDurationMs(), 500UL);
+}
+
+TEST_F(ButtonTest, HoldDurationMs_ZeroAfterRelease)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    fake_time::value = 700;
+    release(btn); // awaitingRelease cleared
+    EXPECT_EQ(btn.holdDurationMs(), 0UL);
+}
+
+// ---------------------------------------------------------------------------
+// doublePressEvent()
+// ---------------------------------------------------------------------------
+
+TEST_F(ButtonTest, DoublePressEvent_FalseInitially)
+{
+    Button btn(5);
+    EXPECT_FALSE(btn.doublePressEvent());
+}
+
+TEST_F(ButtonTest, DoublePressEvent_FalseForSinglePress)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    EXPECT_FALSE(btn.doublePressEvent());
+}
+
+TEST_F(ButtonTest, DoublePressEvent_TrueForTwoPressesWithinWindow)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    btn.event(); // consume
+    fake_time::value = 310;
+    release(btn);
+    fake_time::value = 420; // 220ms after first press — within 300ms window
+    press(btn);
+    EXPECT_TRUE(btn.doublePressEvent());
+}
+
+TEST_F(ButtonTest, DoublePressEvent_FalseForTwoPressesOutsideWindow)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    btn.event();
+    fake_time::value = 310;
+    release(btn);
+    fake_time::value = 520; // 320ms after first press — outside 300ms window
+    press(btn);
+    EXPECT_FALSE(btn.doublePressEvent());
+}
+
+TEST_F(ButtonTest, DoublePressEvent_FiresOnlyOnce)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    fake_time::value = 310;
+    release(btn);
+    fake_time::value = 420;
+    press(btn);
+    EXPECT_TRUE(btn.doublePressEvent());
+    EXPECT_FALSE(btn.doublePressEvent()); // cleared
+}
+
+TEST_F(ButtonTest, DoublePressEvent_SuppressesSinglePress)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    btn.event(); // consume first single press
+    fake_time::value = 310;
+    release(btn);
+    fake_time::value = 420;
+    press(btn); // second press — double confirmed
+    // doublePressEvent() should be true, event() should be false
+    EXPECT_TRUE(btn.doublePressEvent());
+    EXPECT_FALSE(btn.event()); // suppressed
 }

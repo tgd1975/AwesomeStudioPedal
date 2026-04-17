@@ -24,7 +24,8 @@ public:
         PinLow,
         PinToggle,
         PinHighWhilePressed,
-        PinLowWhilePressed
+        PinLowWhilePressed,
+        Macro
     };
 
     void setName(const std::string& n) { name = n; }
