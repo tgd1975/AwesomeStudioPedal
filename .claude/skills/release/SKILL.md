@@ -29,18 +29,17 @@ Steps:
    #define FIRMWARE_VERSION "vX.Y.Z"
    ```
 
-6. **Archive closed tasks**: move every file currently in `docs/developers/tasks/closed/`
-   (not in a subdirectory) into a new `docs/developers/tasks/closed/vX.Y.Z/` folder using
-   `git mv`. Skip any existing version subdirectories — only move flat `.md` files.
+6. **Archive closed tasks**: move every flat `.md` file in `docs/developers/tasks/closed/`
+   into `docs/developers/tasks/archive/vX.Y.Z/` using `git mv`.
 
    ```bash
-   mkdir -p docs/developers/tasks/closed/vX.Y.Z
+   mkdir -p docs/developers/tasks/archive/vX.Y.Z
    for f in docs/developers/tasks/closed/*.md; do
-     git mv "$f" docs/developers/tasks/closed/vX.Y.Z/
+     git mv "$f" docs/developers/tasks/archive/vX.Y.Z/
    done
    ```
 
-7. **Regenerate task overview** (generates OVERVIEW.md and `closed/vX.Y.Z/OVERVIEW.md`):
+7. **Regenerate task overview** (generates OVERVIEW.md and `archive/vX.Y.Z/OVERVIEW.md`):
 
    ```bash
    python scripts/update_task_overview.py

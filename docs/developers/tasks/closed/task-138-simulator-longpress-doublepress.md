@@ -1,7 +1,8 @@
 ---
 id: TASK-138
 title: Simulator — Long-Press and Double-Press Support
-status: open
+status: closed
+closed: 2026-04-17
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium

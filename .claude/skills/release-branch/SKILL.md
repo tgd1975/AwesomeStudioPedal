@@ -121,13 +121,12 @@ Invoke as `/release-branch vX.Y.Z`. If no version is given, read the current ver
     Both must show the same `vX.Y.Z` string.
 
 12. **Archive closed tasks**: move every flat `.md` file in `docs/developers/tasks/closed/`
-    into `docs/developers/tasks/closed/vX.Y.Z/` using `git mv`. Skip existing version
-    subdirectories.
+    into `docs/developers/tasks/archive/vX.Y.Z/` using `git mv`.
 
     ```bash
-    mkdir -p docs/developers/tasks/closed/vX.Y.Z
+    mkdir -p docs/developers/tasks/archive/vX.Y.Z
     for f in docs/developers/tasks/closed/*.md; do
-      git mv "$f" docs/developers/tasks/closed/vX.Y.Z/
+      git mv "$f" docs/developers/tasks/archive/vX.Y.Z/
     done
     ```
 

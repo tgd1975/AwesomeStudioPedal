@@ -12,6 +12,7 @@ import re
 TASKS_DIR = "docs/developers/tasks"
 OPEN_DIR = os.path.join(TASKS_DIR, "open")
 CLOSED_DIR = os.path.join(TASKS_DIR, "closed")
+ARCHIVE_DIR = os.path.join(TASKS_DIR, "archive")
 OVERVIEW = os.path.join(TASKS_DIR, "OVERVIEW.md")
 
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
@@ -49,13 +50,13 @@ def load_tasks(directory, status):
     return tasks
 
 
-def load_archived_releases(closed_dir):
-    """Return sorted list of version subdirectory names (e.g. ['v0.1.0', 'v0.2.0'])."""
-    if not os.path.isdir(closed_dir):
+def load_archived_releases(archive_dir):
+    """Return sorted list of version subdirectory names under archive/ (e.g. ['v0.1.0', 'v0.2.0'])."""
+    if not os.path.isdir(archive_dir):
         return []
     return sorted(
-        entry for entry in os.listdir(closed_dir)
-        if os.path.isdir(os.path.join(closed_dir, entry))
+        entry for entry in os.listdir(archive_dir)
+        if os.path.isdir(os.path.join(archive_dir, entry))
         and re.fullmatch(r"v\d+\.\d+\.\d+", entry)
     )
 
@@ -86,11 +87,11 @@ def generate_release_overview(version, release_dir):
     return out_path
 
 
-def generate_release_overviews(closed_dir, versions):
+def generate_release_overviews(archive_dir, versions):
     """Generate OVERVIEW.md for every archived release version."""
     generated = []
     for version in versions:
-        release_dir = os.path.join(closed_dir, version)
+        release_dir = os.path.join(archive_dir, version)
         out_path = generate_release_overview(version, release_dir)
         generated.append(out_path)
     return generated
@@ -114,7 +115,7 @@ def read_frame():
 def main():
     open_tasks = load_tasks(OPEN_DIR, "open")
     closed_tasks = load_tasks(CLOSED_DIR, "closed")
-    archived_releases = load_archived_releases(CLOSED_DIR)
+    archived_releases = load_archived_releases(ARCHIVE_DIR)
 
     prefix, suffix = read_frame()
 
@@ -225,13 +226,13 @@ def main():
             "",
         ]
         for version in archived_releases:
-            lines.append(f"- [{version}](closed/{version}/OVERVIEW.md)")
+            lines.append(f"- [{version}](archive/{version}/OVERVIEW.md)")
 
     with open(OVERVIEW, "w") as f:
         f.write(prefix + "\n".join(lines) + suffix)
 
     # Generate per-release OVERVIEW.md files
-    release_overviews = generate_release_overviews(CLOSED_DIR, archived_releases)
+    release_overviews = generate_release_overviews(ARCHIVE_DIR, archived_releases)
 
     print(f"Updated {OVERVIEW} ({len(open_tasks)} open, {len(closed_tasks)} closed, {len(archived_releases)} archived releases)")
     for p in release_overviews:
