@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 7** | **Closed: 0** | **Total: 7**
+**Open: 44** | **Closed: 0** | **Total: 44**
 
 ## Open Tasks
 
@@ -24,11 +24,115 @@
 | [TASK-037](open/task-037-create-real-world-usage-demo-video.md) | Create Real-World Usage Demo Video | Extra Large (24-40h) | Senior |
 | [TASK-038](open/task-038-create-troubleshooting-demo-video.md) | Create Troubleshooting Demo Video | Large (8-24h) | Medium |
 | [TASK-049](open/task-049-setup-video-platform-channel.md) | Setup video platform channel | Small (<2h) | Junior |
+| [TASK-101](open/task-101-pinaction-host-test-audit.md) | Audit and Fill PinAction Host Test Gaps | Small (<2h) | Junior |
+| [TASK-102](open/task-102-getjsonproperties-on-pinaction.md) | Implement getJsonProperties on PinAction | Small (<2h) | Junior |
+| [TASK-103](open/task-103-on-device-gpio-testrig-esp32.md) | On-Device GPIO Testrig for PinAction (ESP32) | Medium (2-8h) | Medium |
+| [TASK-104](open/task-104-button-longpress-doublepress-detection.md) | Button Long-Press and Double-Press Detection | Medium (2-8h) | Medium |
+| [TASK-105](open/task-105-eventdispatcher-multievent-api.md) | EventDispatcher Multi-Event API | Small (<2h) | Junior |
+| [TASK-106](open/task-106-config-schema-multievent.md) | Config Schema Extension for Multi-Event Bindings | Small (<2h) | Junior |
+| [TASK-107](open/task-107-mainloop-multievent-wiring.md) | Wire Multi-Event Dispatch in main.cpp | Small (<2h) | Junior |
+| [TASK-108](open/task-108-host-tests-longpress-doublepress.md) | Host Tests for Long Press and Double Press | Medium (2-8h) | Medium |
+| [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium |
+| [TASK-110](open/task-110-macro-action-type-keylookup.md) | Add Macro to Action::Type and key_lookup | Trivial (<30m) | Junior |
+| [TASK-111](open/task-111-macroaction-class.md) | MacroAction Class and Step Engine | Medium (2-8h) | Medium |
+| [TASK-112](open/task-112-config-loader-macro-steps.md) | Config Loader: Parse Macro Steps | Small (<2h) | Junior |
+| [TASK-113](open/task-113-mainloop-macro-update.md) | Wire MacroAction::update in main.cpp | Trivial (<30m) | Junior |
+| [TASK-114](open/task-114-host-tests-macroaction.md) | Host Tests for MacroAction | Medium (2-8h) | Medium |
+| [TASK-115](open/task-115-profiles-schema-json.md) | Create profiles.schema.json and Pre-Commit Validation | Small (<2h) | Junior |
+| [TASK-116](open/task-116-config-schema-json.md) | Create config.schema.json and data/config.json | Small (<2h) | Junior |
+| [TASK-117](open/task-117-ble-config-gatt-spec.md) | BLE Config GATT Service Spec Document | Small (<2h) | Junior |
+| [TASK-118](open/task-118-esp32-ble-config-service.md) | ESP32 BLE Config Service Implementation | Large (>8h) | Senior |
+| [TASK-119](open/task-119-python-cli-tool.md) | Python CLI Tool for Profile Upload | Medium (2-8h) | Medium |
+| [TASK-120](open/task-120-cli-ble-host-tests.md) | Host and Unit Tests for CLI and BLE Reassembly | Medium (2-8h) | Medium |
+| [TASK-121](open/task-121-ble-config-integration-tests.md) | BLE Config Integration Tests (Host + On-Device) | Large (>8h) | Senior |
+| [TASK-122](open/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) | Medium |
+| [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium |
+| [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer (Scan, Connect, Chunked Upload) | Medium (2-8h) | Medium |
+| [TASK-125](open/task-125-dart-data-models.md) | Dart Data Models and Schema Validation Service | Medium (2-8h) | Medium |
+| [TASK-126](open/task-126-profile-configurator-ui.md) | Profile Configurator UI (Port of Web Config-Builder) | Large (>8h) | Senior |
+| [TASK-127](open/task-127-ble-scan-upload-flow.md) | BLE Scan Screen and Upload Flow with Progress | Medium (2-8h) | Medium |
+| [TASK-128](open/task-128-file-import-export.md) | File Import / Export and Auto-Save | Small (<2h) | Junior |
+| [TASK-129](open/task-129-ios-ble-permissions.md) | iOS BLE Permissions and Build Verification | Small (<2h) | Junior |
+| [TASK-130](open/task-130-app-tests.md) | App Unit, Widget, and Integration Tests | Medium (2-8h) | Medium |
+| [TASK-131](open/task-131-docs-builders-cli.md) | Builders Docs — CLI Tool Usage | Small (<2h) | Junior |
+| [TASK-132](open/task-132-docs-builders-app.md) | Builders Docs — Mobile App Walkthrough | Small (<2h) | Junior |
+| [TASK-133](open/task-133-docs-musicians-profile-management.md) | Musicians Docs — Profile Management Overview | Small (<2h) | Junior |
+| [TASK-134](open/task-134-cleanup-idea-009-010.md) | Delete idea-009 and idea-010 After Group B | Trivial (<30m) | Junior |
+| [TASK-135](open/task-135-cleanup-idea-006.md) | Delete idea-006 After Group C | Trivial (<30m) | Junior |
+| [TASK-136](open/task-136-cleanup-idea-002.md) | Delete idea-002 After CLI Ships | Trivial (<30m) | Junior |
+| [TASK-137](open/task-137-cleanup-idea-001.md) | Delete idea-001 After App Ships | Trivial (<30m) | Junior |
 
 ## Task Groups
 
 Groups with at least one open task are shown below. Each group lists all its tasks — open and closed. Closed tasks are ~~struck through~~.
 _If no sub-sections appear here, there are currently no open tasks assigned to a group._
+
+### BLEConfig
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| 1 | [TASK-115](open/task-115-profiles-schema-json.md) | Create profiles.schema.json and Pre-Commit Validation | Small (<2h) | Junior | No |
+| 2 | [TASK-116](open/task-116-config-schema-json.md) | Create config.schema.json and data/config.json | Small (<2h) | Junior | No |
+| 3 | [TASK-117](open/task-117-ble-config-gatt-spec.md) | BLE Config GATT Service Spec Document | Small (<2h) | Junior | No |
+| 4 | [TASK-118](open/task-118-esp32-ble-config-service.md) | ESP32 BLE Config Service Implementation | Large (>8h) | Senior | Support |
+| 5 | [TASK-119](open/task-119-python-cli-tool.md) | Python CLI Tool for Profile Upload | Medium (2-8h) | Medium | No |
+| 6 | [TASK-120](open/task-120-cli-ble-host-tests.md) | Host and Unit Tests for CLI and BLE Reassembly | Medium (2-8h) | Medium | No |
+| 7 | [TASK-121](open/task-121-ble-config-integration-tests.md) | BLE Config Integration Tests (Host + On-Device) | Large (>8h) | Senior | Support |
+
+### Cleanup
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| 1 | [TASK-134](open/task-134-cleanup-idea-009-010.md) | Delete idea-009 and idea-010 After Group B | Trivial (<30m) | Junior | No |
+| 2 | [TASK-135](open/task-135-cleanup-idea-006.md) | Delete idea-006 After Group C | Trivial (<30m) | Junior | No |
+| 3 | [TASK-136](open/task-136-cleanup-idea-002.md) | Delete idea-002 After CLI Ships | Trivial (<30m) | Junior | No |
+| 4 | [TASK-137](open/task-137-cleanup-idea-001.md) | Delete idea-001 After App Ships | Trivial (<30m) | Junior | No |
+
+### IOTestrig
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| 1 | [TASK-101](open/task-101-pinaction-host-test-audit.md) | Audit and Fill PinAction Host Test Gaps | Small (<2h) | Junior | No |
+| 2 | [TASK-102](open/task-102-getjsonproperties-on-pinaction.md) | Implement getJsonProperties on PinAction | Small (<2h) | Junior | No |
+| 3 | [TASK-103](open/task-103-on-device-gpio-testrig-esp32.md) | On-Device GPIO Testrig for PinAction (ESP32) | Medium (2-8h) | Medium | Support |
+
+### LongDoublePress
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| 1 | [TASK-104](open/task-104-button-longpress-doublepress-detection.md) | Button Long-Press and Double-Press Detection | Medium (2-8h) | Medium | No |
+| 2 | [TASK-105](open/task-105-eventdispatcher-multievent-api.md) | EventDispatcher Multi-Event API | Small (<2h) | Junior | No |
+| 3 | [TASK-106](open/task-106-config-schema-multievent.md) | Config Schema Extension for Multi-Event Bindings | Small (<2h) | Junior | No |
+| 4 | [TASK-107](open/task-107-mainloop-multievent-wiring.md) | Wire Multi-Event Dispatch in main.cpp | Small (<2h) | Junior | No |
+| 5 | [TASK-108](open/task-108-host-tests-longpress-doublepress.md) | Host Tests for Long Press and Double Press | Medium (2-8h) | Medium | No |
+| 6 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium | Support |
+
+### Macros
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| 1 | [TASK-110](open/task-110-macro-action-type-keylookup.md) | Add Macro to Action::Type and key_lookup | Trivial (<30m) | Junior | No |
+| 2 | [TASK-111](open/task-111-macroaction-class.md) | MacroAction Class and Step Engine | Medium (2-8h) | Medium | No |
+| 3 | [TASK-112](open/task-112-config-loader-macro-steps.md) | Config Loader: Parse Macro Steps | Small (<2h) | Junior | No |
+| 4 | [TASK-113](open/task-113-mainloop-macro-update.md) | Wire MacroAction::update in main.cpp | Trivial (<30m) | Junior | No |
+| 5 | [TASK-114](open/task-114-host-tests-macroaction.md) | Host Tests for MacroAction | Medium (2-8h) | Medium | No |
+
+### MobileApp
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| 1 | [TASK-122](open/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) | Medium | Support |
+| 2 | [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium | No |
+| 3 | [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer (Scan, Connect, Chunked Upload) | Medium (2-8h) | Medium | No |
+| 4 | [TASK-125](open/task-125-dart-data-models.md) | Dart Data Models and Schema Validation Service | Medium (2-8h) | Medium | No |
+| 5 | [TASK-126](open/task-126-profile-configurator-ui.md) | Profile Configurator UI (Port of Web Config-Builder) | Large (>8h) | Senior | Support |
+| 6 | [TASK-127](open/task-127-ble-scan-upload-flow.md) | BLE Scan Screen and Upload Flow with Progress | Medium (2-8h) | Medium | No |
+| 7 | [TASK-128](open/task-128-file-import-export.md) | File Import / Export and Auto-Save | Small (<2h) | Junior | No |
+| 8 | [TASK-129](open/task-129-ios-ble-permissions.md) | iOS BLE Permissions and Build Verification | Small (<2h) | Junior | Support |
+| 9 | [TASK-130](open/task-130-app-tests.md) | App Unit, Widget, and Integration Tests | Medium (2-8h) | Medium | No |
+| 10 | [TASK-131](open/task-131-docs-builders-cli.md) | Builders Docs — CLI Tool Usage | Small (<2h) | Junior | No |
+| 11 | [TASK-132](open/task-132-docs-builders-app.md) | Builders Docs — Mobile App Walkthrough | Small (<2h) | Junior | No |
+| 12 | [TASK-133](open/task-133-docs-musicians-profile-management.md) | Musicians Docs — Profile Management Overview | Small (<2h) | Junior | No |
 
 ## Closed Tasks
 
