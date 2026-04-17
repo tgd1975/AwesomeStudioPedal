@@ -9,7 +9,7 @@ using namespace ArduinoJson;
 
 // ---- mergeConfig helpers ----
 
-bool ConfigLoader::profileExistsByName(const ProfileManager& profileManager, const char* name) const
+bool ConfigLoader::profileExistsByName(const ProfileManager& profileManager, const char* name)
 {
     for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
     {
@@ -81,7 +81,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
             continue;
         }
 
-        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+        auto newProfile = std::make_unique<Profile>(profileName);
         newProfile->setDescription(profileDescription);
         populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(targetIndex, std::move(newProfile));
@@ -136,7 +136,7 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
     const char* profileName = profileJson["name"] | "";
     const char* profileDescription = profileJson["description"] | "";
 
-    auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+    auto newProfile = std::make_unique<Profile>(profileName);
     newProfile->setDescription(profileDescription);
     populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
     profileManager.addProfile(profileIndex, std::move(newProfile));

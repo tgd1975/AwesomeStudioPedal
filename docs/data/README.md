@@ -8,7 +8,7 @@ This directory contains files that are deployed to the device's LittleFS filesys
 
 | Source File | Device Path | Purpose | Configuration Guide |
 |-------------|-------------|---------|---------------------|
-| `data/profiles.json` | `/profiles.json` | Button profile configuration | [HARDWARE_CONFIG.md](../../builders/HARDWARE_CONFIG.md) |
+| `data/profiles.json` | `/profiles.json` | Button profile configuration | [HARDWARE_CONFIG.md](../builders/HARDWARE_CONFIG.md) |
 
 ## Usage
 
@@ -33,6 +33,5 @@ This directory contains files that are deployed to the device's LittleFS filesys
 
 ## Related Documentation
 
-- [Button Configuration Guide](../../builders/HARDWARE_CONFIG.md)
-- [Firmware Upload Instructions](../../building.md)
-- [File Format Specifications](../../developers/FILE_FORMATS.md)
+- [Button Configuration Guide](../builders/HARDWARE_CONFIG.md)
+- [Firmware Upload Instructions](../building.md)

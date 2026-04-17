@@ -10,6 +10,60 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [0.3.0] — 2026-04-17
+
+### Added
+
+**Firmware**
+
+- Pin operation action types: `PinHighAction`, `PinLowAction`, `PinToggleAction`,
+  `PinHighWhilePressedAction`, `PinLowWhilePressedAction`
+- Button release event support via extended trigger system
+- Verified and fixed delayed action polling in main loop
+- LED blink trigger on profile switch fixed
+- Firmware version constant (`FIRMWARE_VERSION` in `include/version.h`)
+- BLE device renamed to `AwesomeStudioPedal` / `tgd1975`
+
+**Web Tools**
+
+- Web-based simulator with BLE connect/disconnect toggle, configurable hardware
+  layout, IO state change log panel, and example data loaded by default
+- Profile builder: fixed Ajv CDN, "Load Example" NetworkError resolved,
+  simulator button colors matched to physical prototype
+- Hardware configuration builder
+- Cross-links between simulator, profile builder, and configuration builder
+
+**Developer Tooling**
+
+- Full release pipeline: `/release`, `/release-branch`, `/ci-status`, `/format`,
+  `/fix-markdown`, `/clang-tidy`, `/test`, `/lint`, `/doc-check`,
+  `/devcontainer-sync`, `/check-branch`, `/os-context`, `/update-scripts-readme`,
+  `/task-new`, `/task-done`, `/tasks` skills
+- Dev container with GitHub Codespaces support and full toolchain
+- Coverage and Doxygen integrated into CI pipeline
+- Task management system with grouped tasks, OVERVIEW.md generation, and
+  per-release closed-task archiving
+- Future ideas system (`docs/developers/tasks/future/`)
+- Printables link for 3D-printable enclosure
+
+### Fixed
+
+- CI pipeline failures across all workflows
+- clang-tidy violations and test coverage raised to ≥80%
+- clang-format sync with clang-format 18 (devcontainer)
+- ESP32 test build blocked by C++11/C++14 standard conflict
+- `build_unflags` scoped correctly to ESP32 test environments
+- XSS escaping hardened in config-builder `esc()` function
+
+### Changed
+
+- Architecture diagram corrected (removed phantom `NonSendAction` / `SerialAction`)
+- Profile 6 renamed from "Social & Comms" to "Social and Comms"
+- `std::unique_ptr<X>(new X)` refactored to `std::make_unique<X>()` throughout
+- Prototype images and Fritzing files moved to `docs/media/`
+
+---
+
 ## [0.2.0] — 2026-04-10
 
 ### Added

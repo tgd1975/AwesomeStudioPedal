@@ -20,6 +20,11 @@
         "**/build": true
     },
     "testMate.cpp.test.executables": "${workspaceFolder}/.vscode/build/test/pedal_tests",
+    "testMate.cpp.test.workspaceDiscover.ignoredPaths": [
+        "${workspaceFolder}/.pio/**",
+        "${workspaceFolder}/test/test_*/**"
+    ],
+    "platformio-ide.disablePIOHomeStartup": true,
     "chat.useAgentSkills": true,
     "claudeCode.environmentVariables": [
 

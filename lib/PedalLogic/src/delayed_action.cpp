@@ -88,6 +88,16 @@ const char* DelayedAction::getTypeName(Action::Type type)
             return "SerialOutputAction";
         case Action::Type::Delayed:
             return "DelayedAction";
+        case Action::Type::PinHigh:
+            return "PinHighAction";
+        case Action::Type::PinLow:
+            return "PinLowAction";
+        case Action::Type::PinToggle:
+            return "PinToggleAction";
+        case Action::Type::PinHighWhilePressed:
+            return "PinHighWhilePressedAction";
+        case Action::Type::PinLowWhilePressed:
+            return "PinLowWhilePressedAction";
         default:
             return "UnknownAction";
     }

@@ -55,3 +55,43 @@ TEST(EventDispatcher, DispatchMultipleTimes)
     dispatcher.dispatch(3);
     EXPECT_EQ(callCount, 2);
 }
+
+// ---------------------------------------------------------------------------
+// Release handler
+// ---------------------------------------------------------------------------
+
+TEST(EventDispatcher, RegisterReleaseAndDispatchRelease)
+{
+    EventDispatcher dispatcher;
+    int callCount = 0;
+    dispatcher.registerReleaseHandler(0, [&]() { callCount++; });
+    dispatcher.dispatchRelease(0);
+    EXPECT_EQ(callCount, 1);
+}
+
+TEST(EventDispatcher, DispatchReleaseWithNoHandlerIsSafe)
+{
+    EventDispatcher dispatcher;
+    EXPECT_NO_THROW(dispatcher.dispatchRelease(2));
+}
+
+TEST(EventDispatcher, DispatchReleaseDoesNotFirePressHandler)
+{
+    EventDispatcher dispatcher;
+    int pressCount = 0, releaseCount = 0;
+    dispatcher.registerHandler(1, [&]() { pressCount++; });
+    dispatcher.registerReleaseHandler(1, [&]() { releaseCount++; });
+    dispatcher.dispatchRelease(1);
+    EXPECT_EQ(pressCount, 0);
+    EXPECT_EQ(releaseCount, 1);
+}
+
+TEST(EventDispatcher, ClearHandlersClearsReleaseToo)
+{
+    EventDispatcher dispatcher;
+    int callCount = 0;
+    dispatcher.registerReleaseHandler(0, [&]() { callCount++; });
+    dispatcher.clearHandlers();
+    dispatcher.dispatchRelease(0);
+    EXPECT_EQ(callCount, 0);
+}

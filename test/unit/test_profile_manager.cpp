@@ -73,13 +73,12 @@ protected:
         }
     }
 
-    // Advance to a specific profile index by repeatedly calling switchProfile,
-    // then drain the blink so updateLEDs() runs with the correct state
+    // Advance to a specific profile index by repeatedly calling switchProfile.
+    // LEDs update immediately — no blink on normal profile switch.
     void switchTo(uint8_t target)
     {
         while (manager->getCurrentProfile() != target)
             manager->switchProfile();
-        manager->update(1000); // complete post-switch blink
     }
 };
 
@@ -173,20 +172,18 @@ static void assertLEDPattern(uint8_t profileIndex, uint8_t pattern)
         pm.addProfile(i, makeProfile(name));
     }
 
-    // Advance to target profile
+    // Advance to target profile — switchProfile() updates LEDs immediately.
     while (pm.getCurrentProfile() != profileIndex)
         pm.switchProfile();
 
-    // Drive updateLEDs: for profile 0 use resetToFirstProfile(),
-    // for others complete the post-switch blink via update().
+    // For profile 0 the constructor already set LEDs; resetToFirstProfile triggers blink
+    // but does not change LED state until update() drains it.
+    // For others, switchProfile() has already called updateLEDs().
     if (profileIndex == 0)
     {
         pm.resetToFirstProfile();
-    }
-    else
-    {
-        pm.update(1);    // initialise blink: sets blinkStartTime=1, turns all LEDs on
-        pm.update(5000); // far enough ahead to complete all half-cycles → calls updateLEDs
+        pm.update(1);    // start blink
+        pm.update(5000); // complete blink → updateLEDs runs
     }
 
     EXPECT_EQ(l1.lastState, (pattern & 0b001) != 0)
@@ -283,41 +280,56 @@ TEST_F(ProfileManagerTest, ConstructorSetsProfile0LEDs)
 // Post-switch blink: LED state immediately after switch vs after update()
 // ---------------------------------------------------------------------------
 
-// Regression: blinkStartTime=0 was previously used as sentinel, causing infinite
-// re-initialisation when update() was called with now=0 (e.g. exactly at boot).
-TEST_F(ProfileManagerTest, PostSwitchBlink_WorksWhenNowIsZero)
+// switchProfile() now updates LEDs immediately — no blink sequence.
+// Profile 1 in binary mode: bits=2 → LED2 on, LED1/LED3 off.
+TEST_F(ProfileManagerTest, SwitchProfile_UpdatesLEDsImmediatelyWithoutBlink)
+{
+    SpyLEDController l1, l2, l3;
+    ProfileManager pm({&l1, &l2, &l3});
+    pm.addProfile(0, makeProfile("P0"));
+    pm.addProfile(1, makeProfile("P1"));
+    pm.switchProfile(); // LEDs update immediately
+
+    EXPECT_FALSE(l1.lastState);
+    EXPECT_TRUE(l2.lastState);
+    EXPECT_FALSE(l3.lastState);
+}
+
+// update() after switchProfile() should be a no-op (no postSwitchBlink).
+TEST_F(ProfileManagerTest, SwitchProfile_UpdateDoesNotTriggerBlink)
 {
     SpyLEDController l1, l2, l3;
     ProfileManager pm({&l1, &l2, &l3});
     pm.addProfile(0, makeProfile("P0"));
     pm.addProfile(1, makeProfile("P1"));
     pm.switchProfile();
+    // updateLEDs already ran: profile 1 → LED2 on
+    pm.update(0);    // should be a no-op
+    pm.update(5000); // should be a no-op
 
-    pm.update(0);    // initialise blink at t=0
-    pm.update(5000); // complete blink
-
-    // After blink completes, profile 1 in binary mode → bits=2 → LED2 on
     EXPECT_FALSE(l1.lastState);
     EXPECT_TRUE(l2.lastState);
     EXPECT_FALSE(l3.lastState);
 }
 
-TEST_F(ProfileManagerTest, PostSwitchBlink_AllLEDsOnImmediately)
+// triggerBlink() causes the next update() call to start the blink sequence.
+// Regression: blinkStartTime=0 was previously used as sentinel.
+TEST_F(ProfileManagerTest, TriggerBlink_BlinkCompletesCorrectly)
 {
-    MockLEDController l1, l2, l3;
-    EXPECT_CALL(l1, setState(_)).Times(AnyNumber());
-    EXPECT_CALL(l2, setState(_)).Times(AnyNumber());
-    EXPECT_CALL(l3, setState(_)).Times(AnyNumber());
+    SpyLEDController l1, l2, l3;
     ProfileManager pm({&l1, &l2, &l3});
     pm.addProfile(0, makeProfile("P0"));
     pm.addProfile(1, makeProfile("P1"));
+    pm.switchProfile(); // profile 1, LEDs updated immediately
+    pm.triggerBlink();  // start blink sequence
 
-    pm.switchProfile();
+    pm.update(0);    // initialise blink at t=0
+    pm.update(5000); // complete blink
 
-    EXPECT_CALL(l1, setState(true)).Times(::testing::AtLeast(1));
-    EXPECT_CALL(l2, setState(true)).Times(::testing::AtLeast(1));
-    EXPECT_CALL(l3, setState(true)).Times(::testing::AtLeast(1));
-    pm.update(1);
+    // After blink completes: profile 1, binary mode → bits=2 → LED2 on
+    EXPECT_FALSE(l1.lastState);
+    EXPECT_TRUE(l2.lastState);
+    EXPECT_FALSE(l3.lastState);
 }
 
 TEST_F(ProfileManagerTest, SwitchProfileCallsUpdateLEDs)
@@ -332,7 +344,5 @@ TEST_F(ProfileManagerTest, SwitchProfileCallsUpdateLEDs)
     ProfileManager bm({&l1, &l2, &l3});
     bm.addProfile(0, makeProfile("P0"));
     bm.addProfile(1, makeProfile("P1"));
-    bm.switchProfile();
-    bm.update(1);
-    bm.update(5000);
+    bm.switchProfile(); // updateLEDs runs immediately
 }

@@ -6,6 +6,15 @@
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
 NRF52840_ENV ?= feather-nrf52840
+
+# Use separate build dirs for host and dev container to avoid CMake cache
+# conflicts caused by differing absolute paths (/home/... vs /workspaces/...).
+ifeq ($(shell test -f /.dockerenv && echo yes),yes)
+  HOST_BUILD_DIR = .vscode/build
+else
+  HOST_BUILD_DIR = .vscode/build-host
+endif
+
 COVERAGE_BUILD_DIR = .vscode/build-coverage
 COVERAGE_INFO      = $(COVERAGE_BUILD_DIR)/coverage.info
 COVERAGE_REPORT    = docs/coverage
@@ -122,7 +131,7 @@ test-nrf52840-profiles: uploadfs-nrf52840
 
 # Run host unit tests (GoogleTest via CMake)
 test-host:
-	cmake --build .vscode/build --target pedal_tests && .vscode/build/test/pedal_tests
+	cmake --build $(HOST_BUILD_DIR) --target pedal_tests && $(HOST_BUILD_DIR)/test/pedal_tests
 
 # Format all C++ files using clang-format
 format:

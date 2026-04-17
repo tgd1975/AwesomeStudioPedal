@@ -25,6 +25,7 @@ void Button::isr()
         if (awaitingRelease && isDebounced(now))
         {
             awaitingRelease = false;
+            released = true;
             lastDebounceTime = now;
         }
         return;
@@ -51,5 +52,16 @@ void Button::reset()
 {
     pressCount = 0;
     awaitingRelease = false;
+    released = false;
     lastDebounceTime = 0;
+}
+
+bool Button::releaseEvent()
+{
+    if (released)
+    {
+        released = false;
+        return true;
+    }
+    return false;
 }
