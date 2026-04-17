@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 44** | **Closed: 0** | **Total: 44**
+**Open: 47** | **Closed: 0** | **Total: 47**
 
 ## Open Tasks
 
@@ -61,6 +61,9 @@
 | [TASK-135](open/task-135-cleanup-idea-006.md) | Delete idea-006 After Group C | Trivial (<30m) | Junior |
 | [TASK-136](open/task-136-cleanup-idea-002.md) | Delete idea-002 After CLI Ships | Trivial (<30m) | Junior |
 | [TASK-137](open/task-137-cleanup-idea-001.md) | Delete idea-001 After App Ships | Trivial (<30m) | Junior |
+| [TASK-138](open/task-138-simulator-longpress-doublepress.md) | Simulator — Long-Press and Double-Press Support | Medium (2-8h) | Medium |
+| [TASK-139](open/task-139-config-builder-longpress-doublepress.md) | Profile Configurator — Long-Press and Double-Press Fields | Medium (2-8h) | Medium |
+| [TASK-140](open/task-140-mobile-responsive-tools.md) | Mobile-Responsive Layout for Simulator and Configurator Tools | Large (8-24h) | Medium |
 
 ## Task Groups
 
@@ -106,6 +109,8 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | 4 | [TASK-107](open/task-107-mainloop-multievent-wiring.md) | Wire Multi-Event Dispatch in main.cpp | Small (<2h) | Junior | No |
 | 5 | [TASK-108](open/task-108-host-tests-longpress-doublepress.md) | Host Tests for Long Press and Double Press | Medium (2-8h) | Medium | No |
 | 6 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium | Support |
+| 7 | [TASK-138](open/task-138-simulator-longpress-doublepress.md) | Simulator — Long-Press and Double-Press Support | Medium (2-8h) | Medium | No |
+| 8 | [TASK-139](open/task-139-config-builder-longpress-doublepress.md) | Profile Configurator — Long-Press and Double-Press Fields | Medium (2-8h) | Medium | No |
 
 ### Macros
 

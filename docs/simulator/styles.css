@@ -223,6 +223,13 @@ main {
   white-space: nowrap;
 }
 
+.btn-badges {
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+  min-height: 14px;
+}
+
 /* ── Profile section ───────────────────────────────────────────────────── */
 .profile-section {
   width: 100%;

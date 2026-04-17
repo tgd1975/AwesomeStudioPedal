@@ -34,8 +34,9 @@ opened: <YYYY-MM-DD>
 effort: <effort label>
 complexity: <complexity>
 human-in-loop: <hil value>
-group: <GroupName>    # omit entirely if no group
-order: <N>            # omit entirely if no group; integer execution order within the group
+group: <GroupName>        # omit entirely if no group
+order: <N>                # omit entirely if no group; integer execution order within the group
+prerequisites: [TASK-NNN, TASK-NNN]   # omit entirely if none
 ---
 
 ## Description
@@ -52,6 +53,13 @@ order: <N>            # omit entirely if no group; integer execution order withi
 
 <See rules below — fill in the appropriate section(s)>
 
+## Prerequisites
+
+<!-- Omit this section entirely if the frontmatter prerequisites field is absent -->
+
+- **TASK-NNN** — <one line: what this task delivers that the current task needs>
+- **TASK-NNN** — <one line: what this task delivers that the current task needs>
+
 ## Notes
 
 <dependencies, risks, considerations, and other context>
@@ -65,12 +73,42 @@ order: <N>            # omit entirely if no group; integer execution order withi
    does not belong to a group. When provided, also set `order` to the integer execution
    sequence within the group (1 = first). Tasks in the same group are displayed together in
    OVERVIEW.md and `/tasks` output, sorted by `order`.
+   `prerequisites`: optional list of TASK-IDs that must be complete before this task starts.
+   Omit the field entirely if the task has no prerequisites. When present, also add a
+   `## Prerequisites` section in the body explaining what each predecessor delivers.
    If the user does not supply required values, infer them from context or ask. Do not leave
    these as `?` — they must be set so the overview table is meaningful.
 
 <!-- markdownlint-disable MD029 -->
 6. Run `python scripts/update_task_overview.py` to regenerate `OVERVIEW.md`.
-7. Report the new task ID and file path.
+7. **Documentation check** — after writing the task file, assess whether the work
+   described would require updating user-facing or developer documentation:
+
+   - **User-facing docs** (`docs/builders/`, `docs/musicians/`, `README.md`): new
+     features, changed behaviour, new config keys, new CLI commands, new action types.
+   - **Developer docs** (`docs/developers/ARCHITECTURE.md`, `TESTING.md`, etc.):
+     new classes, changed interfaces, new test patterns, changed data-flow.
+   - **Inline tool docs** (`docs/simulator/`, `docs/tools/config-builder/`): new
+     action types or config keys that the simulator or builder need to support.
+
+   Apply this rule:
+
+   | Situation | Action |
+   |-----------|--------|
+   | The task explicitly says to update docs, or the scope obviously requires it (e.g. "add new action type") | Add a **Documentation** section to the task body listing which files need updating and what to add/change. |
+   | The task description is silent on docs and the impact is unclear | Ask the user: *"Should this task include updating [specific doc files]? Or is that a separate follow-up task?"* — then wait for the answer before writing the file. |
+   | The task is purely internal (tests, refactors, CI, infra) with no user-visible change | No documentation step needed — omit the section. |
+
+   When a Documentation section is warranted, add it to the task body after the Test Plan:
+
+   ```markdown
+   ## Documentation
+
+   - `docs/builders/KEY_REFERENCE.md` — add a section for the new action type with a JSON example
+   - `docs/developers/ARCHITECTURE.md` — update the Action class hierarchy diagram
+   ```
+
+8. Report the new task ID and file path.
 <!-- markdownlint-enable MD029 -->
 
 Do not commit.

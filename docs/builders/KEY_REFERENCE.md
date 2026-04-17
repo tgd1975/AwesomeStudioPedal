@@ -198,3 +198,29 @@ Waits, then executes any other action. The power LED blinks while the countdown 
 ```
 
 `delayMs` is the wait time in milliseconds. The nested `action` is any other action type.
+
+---
+
+## Long Press and Double Press
+
+Any button action can optionally include a `longPress` and/or `doublePress` sub-action.
+These are triggered by different physical gestures on the same button:
+
+| Gesture | Threshold | JSON key |
+|---------|-----------|----------|
+| Short tap | < 500 ms | *(primary action)* |
+| Hold | ≥ 500 ms | `longPress` |
+| Two taps within 300 ms | — | `doublePress` |
+
+Priority: double press is detected first. If confirmed, the single-press action does **not** also fire.
+
+```json
+"A": {
+  "type": "SendCharAction", "value": "KEY_F1", "name": "Play",
+  "longPress":   { "type": "SendMediaKeyAction", "value": "MEDIA_STOP",  "name": "Stop" },
+  "doublePress": { "type": "SendCharAction",     "value": "KEY_F2",      "name": "Record" }
+}
+```
+
+Both keys are optional. The nested action object uses the same format as any primary action.
+The long-press threshold (500 ms) and double-press window (300 ms) are fixed in firmware.

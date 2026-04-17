@@ -57,7 +57,7 @@ classDiagram
 | Component | File | Pattern | Responsibility |
 |-----------|------|---------|----------------|
 | `main.cpp` | `src/main.cpp` | Composition root | Wires all components together; owns the main loop |
-| `EventDispatcher` | `include/event_dispatcher.h` | Observer | Registers button handlers; dispatches button presses to the correct action |
+| `EventDispatcher` | `include/event_dispatcher.h` | Observer | Registers press, release, long-press, and double-press handlers; dispatches button events to the correct action |
 | `ProfileManager` | `include/profile_manager.h` | Strategy + Composite | Stores per-profile action sets; handles profile switching and LED feedback |
 | Action hierarchy | `lib/PedalLogic/include/` | Strategy | Polymorphic actions executed on button press |
 | `LEDController` | `lib/hardware/esp32/` | Adapter | Abstracts LED GPIO |
