@@ -58,6 +58,8 @@ jobs:
           cp -r docs/simulator/. docs/api/html/simulator/
           mkdir -p docs/api/html/tools/config-builder
           cp -r docs/tools/config-builder/. docs/api/html/tools/config-builder/
+          mkdir -p docs/api/html/tools/configuration-builder
+          cp -r docs/tools/configuration-builder/. docs/api/html/tools/configuration-builder/
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'

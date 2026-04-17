@@ -183,7 +183,7 @@ coverage:
 	$(COVERAGE_BUILD_DIR)/test/pedal_tests
 	lcov --capture --directory $(COVERAGE_BUILD_DIR) \
 		--output-file $(COVERAGE_INFO) \
-		--ignore-errors inconsistent,inconsistent
+		--ignore-errors inconsistent,inconsistent,mismatch
 	lcov --extract $(COVERAGE_INFO) \
 		'*/lib/PedalLogic/*' \
 		'*/lib/hardware/*' \

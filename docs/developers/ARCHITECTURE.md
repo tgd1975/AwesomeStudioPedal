@@ -1,5 +1,8 @@
 # Architecture
 
+> **Auto-generated API reference** (Doxygen): [tgd1975.github.io/AwesomeStudioPedal](https://tgd1975.github.io/AwesomeStudioPedal/)
+> Regenerated on every push to `main` by the Docs CI workflow.
+
 ## High-level component diagram
 
 ```mermaid

@@ -23,7 +23,7 @@ camera shutter) and step into position before it fires.
 |-----------|------------|
 | Musician — I have the pedal in front of me | [User Guide](docs/musicians/USER_GUIDE.md) |
 | Musician (no hardware) — I want to try it | [Simulator](https://tgd1975.github.io/AwesomeStudioPedal/simulator/) |
-| Builder — I want to build one | [Build Guide](docs/builders/BUILD_GUIDE.md) · [Building from Source](docs/building.md) · [3D-printable enclosure](https://www.printables.com/model/1683455-awesomestudiopedal) · [Simulator](https://tgd1975.github.io/AwesomeStudioPedal/simulator/) · [Config Builder](https://tgd1975.github.io/AwesomeStudioPedal/tools/config-builder/) |
+| Builder — I want to build one | [Build Guide](docs/builders/BUILD_GUIDE.md) · [Building from Source](docs/building.md) · [3D-printable enclosure](https://www.printables.com/model/1683455-awesomestudiopedal) · [Simulator](https://tgd1975.github.io/AwesomeStudioPedal/simulator/) · [Profile Builder](https://tgd1975.github.io/AwesomeStudioPedal/tools/config-builder/) · [Configuration Builder](https://tgd1975.github.io/AwesomeStudioPedal/tools/configuration-builder/) |
 | Developer — I want to contribute | [Architecture](docs/developers/ARCHITECTURE.md) · [Development Setup & Required Tools](docs/developers/DEVELOPMENT_SETUP.md) · [Dev Container](.devcontainer/devcontainer.json) |
 
 ESP32 (NodeMCU-32S) is the only deployed and tested hardware target. nRF52840 is implemented but
