@@ -11,6 +11,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/key_lookup.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/non_send_action.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/pin_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/littlefs_file_system.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_logger.cpp
     ${CMAKE_SOURCE_DIR}/lib/hardware/esp32/src/button.cpp
@@ -25,6 +26,8 @@ add_executable(pedal_tests
     unit/test_button.cpp
     unit/test_config_loader.cpp
     unit/test_action_parsing.cpp
+    unit/test_non_keyboard_actions.cpp
+    unit/test_pin_action.cpp
     test_config_loader/test_main.cpp
     ${PROD_SOURCES}
 )
@@ -35,7 +38,7 @@ target_include_directories(pedal_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/lib/hardware/esp32/include
     ${CMAKE_SOURCE_DIR}/test/mocks
     ${CMAKE_SOURCE_DIR}/test/fakes
-    ${CMAKE_SOURCE_DIR}/.pio/libdeps/nodemcu-32s/ArduinoJson/src
+    ${arduinojson_SOURCE_DIR}/src
 )
 
 target_compile_definitions(pedal_tests PRIVATE HOST_TEST_BUILD)

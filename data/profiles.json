@@ -57,7 +57,7 @@
       }
     },
     {
-      "name": "06 Social & Comms",
+      "name": "06 Social and Comms",
       "description": "A productivity profile for interacting with Discord, Slack, or Zoom while playing an instrument. Includes a one-touch status update for rehearsals.",
       "buttons": {
         "A": { "type": "SendStringAction", "name": "Quick Msg", "value": "Starting now, see you in the chat!" },

@@ -188,3 +188,63 @@ TEST_F(ButtonTest, ResetClearsPendingEventsAndDebounceTimer)
     EXPECT_FALSE(btn.event());
     EXPECT_EQ(btn.lastDebounceTime, 0UL);
 }
+
+// ---------------------------------------------------------------------------
+// releaseEvent()
+// ---------------------------------------------------------------------------
+
+TEST_F(ButtonTest, ReleaseEvent_ReturnsFalseInitially)
+{
+    Button btn(5);
+    EXPECT_FALSE(btn.releaseEvent());
+}
+
+TEST_F(ButtonTest, ReleaseEvent_ReturnsTrueAfterPressAndRelease)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    fake_time::value = 310;
+    release(btn); // accepted release edge
+    EXPECT_TRUE(btn.releaseEvent());
+}
+
+TEST_F(ButtonTest, ReleaseEvent_ClearsAfterSingleConsumption)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    fake_time::value = 310;
+    release(btn);
+    EXPECT_TRUE(btn.releaseEvent());
+    EXPECT_FALSE(btn.releaseEvent()); // consumed
+}
+
+TEST_F(ButtonTest, ReleaseEvent_NotSetByBouncedRelease)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    fake_time::value = 260; // 60ms < 100ms debounce
+    release(btn);           // rejected
+    EXPECT_FALSE(btn.releaseEvent());
+}
+
+TEST_F(ButtonTest, ReleaseEvent_NotSetWithoutPriorPress)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    release(btn); // awaitingRelease=false → ignored
+    EXPECT_FALSE(btn.releaseEvent());
+}
+
+TEST_F(ButtonTest, ResetClearsReleaseEvent)
+{
+    Button btn(5);
+    fake_time::value = 200;
+    press(btn);
+    fake_time::value = 310;
+    release(btn);
+    btn.reset();
+    EXPECT_FALSE(btn.releaseEvent());
+}

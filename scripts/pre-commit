@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
+# Comprehensive pre-commit hook for code quality checks
+# Usage: ./pre-commit
+
 set -euo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-BUILD_DIR="${REPO_ROOT}/.vscode/build"
+# Use separate build dirs for host and dev container to avoid CMake cache
+# conflicts caused by differing absolute paths (/home/... vs /workspaces/...).
+if [ -f "/.dockerenv" ]; then
+    BUILD_DIR="${REPO_ROOT}/.vscode/build"
+else
+    BUILD_DIR="${REPO_ROOT}/.vscode/build-host"
+fi
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -86,4 +95,9 @@ if [ $TEST_STATUS -ne 0 ]; then
 fi
 
 echo -e "${GREEN}All tests passed.${NC}"
+
+echo -e "${YELLOW}Updating README future ideas...${NC}"
+python "${REPO_ROOT}/scripts/update_future_ideas.py"
+git add "${REPO_ROOT}/README.md"
+
 exit 0

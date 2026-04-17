@@ -23,8 +23,9 @@ private:
 public:
     volatile uint8_t pressCount = 0;       /**< Incremented by ISR, decremented by event() */
     volatile bool awaitingRelease = false; /**< True after press, until pin goes HIGH */
-    unsigned long lastDebounceTime = 0;    /**< Timestamp of last accepted press */
-    unsigned long debounceDelay = 100;     /**< Debounce window in milliseconds */
+    volatile bool released = false; /**< Set by ISR on release edge; cleared by releaseEvent() */
+    unsigned long lastDebounceTime = 0; /**< Timestamp of last accepted press */
+    unsigned long debounceDelay = 100;  /**< Debounce window in milliseconds */
 
     /**
      * @brief Constructs a Button for the given GPIO pin
@@ -58,4 +59,9 @@ public:
      * Call before attachInterrupt() to discard any stale press.
      */
     void reset() override;
+
+    /**
+     * @brief Returns true once per release edge, then resets the flag
+     */
+    bool releaseEvent() override;
 };

@@ -9,6 +9,8 @@ namespace fake_time
 namespace fake_gpio
 {
     int pin_state = LOW;
+    int written_pin = -1;
+    int written_value = -1;
 }
 
 FakeSerial Serial;

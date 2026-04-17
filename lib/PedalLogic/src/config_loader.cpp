@@ -6,6 +6,7 @@
 #include "i_logger.h"
 #include "key_lookup.h"
 #include "non_send_action.h"
+#include "pin_action.h"
 #include "send_action.h"
 #include "serial_action.h"
 #include <ArduinoJson.h>
@@ -85,7 +86,7 @@ bool ConfigLoader::loadFromFile(ProfileManager& profileManager,
                                 IBleKeyboard* keyboard,
                                 const std::string& configPath)
 {
-    std::string content;
+    std::string content{};
     if (! fileSystem_->readFile(configPath.c_str(), content))
     {
         logger_->log("Failed to read config file");
@@ -130,7 +131,7 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
         const char* profileName = profileJson["name"] | "";
         const char* profileDescription = profileJson["description"] | "";
 
-        auto newProfile = std::unique_ptr<Profile>(new Profile(profileName));
+        auto newProfile = std::make_unique<Profile>(profileName);
         newProfile->setDescription(profileDescription);
         populateProfileFromJson(*newProfile, profileJson["buttons"], keyboard);
         profileManager.addProfile(i, std::move(newProfile));
@@ -206,12 +207,12 @@ std::unique_ptr<Action> ConfigLoader::createSendCharActionFromJson(const JsonObj
     uint8_t code = lookupKey(value);
     if (code != 0)
     {
-        return std::unique_ptr<Action>(new SendCharAction(keyboard, static_cast<char>(code)));
+        return std::make_unique<SendCharAction>(keyboard, static_cast<char>(code));
     }
     // Single printable ASCII character (e.g. "[", "]", "c", " ")
     if (value[0] != '\0' && value[1] == '\0')
     {
-        return std::unique_ptr<Action>(new SendCharAction(keyboard, value[0]));
+        return std::make_unique<SendCharAction>(keyboard, value[0]);
     }
     logger_->log("SendChar: unknown key value: ", value);
     return nullptr;
@@ -239,7 +240,7 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
         case Action::Type::SendString:
         {
             const char* value = actionJson["value"] | "";
-            return std::unique_ptr<Action>(new SendStringAction(keyboard, value));
+            return std::make_unique<SendStringAction>(keyboard, value);
         }
         case Action::Type::SendChar:
             return createSendCharActionFromJson(actionJson, keyboard);
@@ -248,7 +249,7 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
             uint8_t code = lookupKey(actionJson["value"] | "");
             if (code != 0)
             {
-                return std::unique_ptr<Action>(new SendKeyAction(keyboard, code));
+                return std::make_unique<SendKeyAction>(keyboard, code);
             }
             break;
         }
@@ -257,14 +258,14 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
             const uint8_t* report = lookupMediaKey(actionJson["value"] | "");
             if (report)
             {
-                return std::unique_ptr<Action>(new SendMediaKeyAction(keyboard, report));
+                return std::make_unique<SendMediaKeyAction>(keyboard, report);
             }
             break;
         }
         case Action::Type::SerialOutput:
         {
             const char* value = actionJson["value"] | "";
-            return std::unique_ptr<Action>(new SerialOutputAction(value));
+            return std::make_unique<SerialOutputAction>(value);
         }
         case Action::Type::Delayed:
         {
@@ -273,9 +274,23 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
             std::unique_ptr<Action> inner = createActionFromJson(nestedJson, keyboard);
             if (inner)
             {
-                return std::unique_ptr<Action>(new DelayedAction(std::move(inner), delayMs));
+                return std::make_unique<DelayedAction>(std::move(inner), delayMs);
             }
             break;
+        }
+        case Action::Type::PinHigh:
+        case Action::Type::PinLow:
+        case Action::Type::PinToggle:
+        case Action::Type::PinHighWhilePressed:
+        case Action::Type::PinLowWhilePressed:
+        {
+            int pin = actionJson["pin"] | -1;
+            if (pin < 0)
+            {
+                logger_->log("PinAction: missing or invalid 'pin' field");
+                return nullptr;
+            }
+            return std::make_unique<PinAction>(type, static_cast<uint8_t>(pin));
         }
         default:
             break;

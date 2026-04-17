@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# Format all C++ files with clang-format
+# Usage: ./format-code.sh
+
 set -euo pipefail
 
 # Find all C++ files (excluding .pio and build directories)

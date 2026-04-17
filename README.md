@@ -7,17 +7,24 @@
 
 A programmable, multi-profile foot controller for DAWs, score readers, and studio automation.
 
+![AwesomeStudioPedal](docs/media/prototype.jpg)
+*The assembled AwesomeStudioPedal ready for use.*
+
 AwesomeStudioPedal is an ESP32-based device that connects to any host over Bluetooth and appears as
 a keyboard. Press a button and it sends a keypress, media command, or typed string — no driver, no
 app, no cable required. Seven profiles are stored on the device; a SELECT button cycles through them
 with an LED indicator array. A time-delayed action lets solo performers trigger a command (such as a
 camera shutter) and step into position before it fires.
 
+![Pedal in action](docs/media/prototype_pedal_pressed.jpg)
+*Pressing a button during a live session.*
+
 | I am a... | Start here |
 |-----------|------------|
 | Musician — I have the pedal in front of me | [User Guide](docs/musicians/USER_GUIDE.md) |
-| Builder — I want to build one | [Build Guide](docs/builders/BUILD_GUIDE.md) |
-| Developer — I want to contribute | [Architecture](docs/developers/ARCHITECTURE.md) |
+| Musician (no hardware) — I want to try it | [Simulator](https://tgd1975.github.io/AwesomeStudioPedal/simulator/) |
+| Builder — I want to build one | [Build Guide](docs/builders/BUILD_GUIDE.md) · [Building from Source](docs/building.md) · [3D-printable enclosure](https://www.printables.com/model/1683455-awesomestudiopedal) · [Simulator](https://tgd1975.github.io/AwesomeStudioPedal/simulator/) · [Config Builder](https://tgd1975.github.io/AwesomeStudioPedal/tools/config-builder/) |
+| Developer — I want to contribute | [Architecture](docs/developers/ARCHITECTURE.md) · [Development Setup & Required Tools](docs/developers/DEVELOPMENT_SETUP.md) · [Dev Container](.devcontainer/devcontainer.json) |
 
 ESP32 (NodeMCU-32S) is the only deployed and tested hardware target. nRF52840 is implemented but
 untested — use at your own risk.
@@ -28,24 +35,58 @@ MIT License — see LICENSE file for details.
 
 ## Future Ideas
 
-The following ideas are potential future enhancements for AwesomeStudioPedal. These are not committed features but represent directions the project could explore:
+<!-- FUTURE IDEAS GENERATED -->
 
-- **Mobile App Configuration**: Develop Android and/or iOS apps to configure profiles and settings via Bluetooth.
-- **CLI Tools**: Create command-line tools for advanced configuration and automation.
-- **Additional Hardware Support**: Extend compatibility to platforms like Arduino Nano.
-- **nRF Hardware Testing**: Thoroughly test and validate the nRF52840 implementation.
-- **Large Button Pedal Prototype**: Design and build a prototype with larger, more accessible buttons.
-- **Macros**: Implement support for macros, allowing sequences of actions to be triggered with a single button press.
-- **Display Integration**:
-  - **Version A**: Add a small display to show the currently selected profile.
-  - **Version B**: Incorporate a larger display to show more detailed configuration information.
-- **Hybrid Tool with DSP**: Explore a version with more powerful hardware (DSP) and two audio jacks to add guitar pedal functionalities like distortion, creating a hybrid tool.
-- **Long Press Event**: Implement support for long press events to trigger different actions based on button hold duration.
-- **Double Press Event**: Add support for double press events to enable quick successive button presses for additional functionality.
+The following ideas are potential future enhancements for AwesomeStudioPedal.
+These are not committed features but represent directions the project could explore.
+Ideas are tracked in [`docs/developers/tasks/future/`](docs/developers/tasks/future/).
 
-These ideas are open for community contributions and discussions. If you're interested in working on any of these, please open an issue or start a discussion!
+- **[IDEA-001](docs/developers/tasks/future/idea-001-mobile-app-configuration.md): Mobile App Configuration** — Android/iOS app to configure profiles and settings via Bluetooth
+- **[IDEA-002](docs/developers/tasks/future/idea-002-cli-tools.md): CLI Tools** — Command-line tools for advanced configuration and automation
+- **[IDEA-003](docs/developers/tasks/future/idea-003-additional-hardware-support.md): Additional Hardware Support** — Extend compatibility to platforms like Arduino Nano
+- **[IDEA-004](docs/developers/tasks/future/idea-004-nrf-hardware-testing.md): nRF Hardware Testing** — Thoroughly test and validate the nRF52840 implementation
+- **[IDEA-005](docs/developers/tasks/future/idea-005-large-button-pedal-prototype.md): Large Button Pedal Prototype** — Design and build a prototype with larger, more accessible buttons
+- **[IDEA-006](docs/developers/tasks/future/idea-006-macros.md): Macros** — Support for macros — sequences of actions triggered with a single button press
+- **[IDEA-007](docs/developers/tasks/future/idea-007-display-integration.md): Display Integration** — Add a display to show profile info — small (profile name) or larger (full config)
+- **[IDEA-008](docs/developers/tasks/future/idea-008-hybrid-tool-with-dsp.md): Hybrid Tool with DSP** — More powerful hardware with DSP and dual audio jacks for guitar pedal effects
+- **[IDEA-009](docs/developers/tasks/future/idea-009-long-press-event.md): Long Press Event** — Trigger different actions based on button hold duration
+- **[IDEA-010](docs/developers/tasks/future/idea-010-double-press-event.md): Double Press Event** — Additional functionality triggered by quick successive button presses
+- **[IDEA-011](docs/developers/tasks/future/idea-011-pcb-board-design.md): PCB Board Design** — Custom PCB to replace the breadboard/prototype setup for reliability and manufacturability
+- **[IDEA-012](docs/developers/tasks/future/idea-012-two-button-soft-foot-switches.md): Two-Button Version with Soft Foot Switches** — Compact two-button variant using soft foot switches
+- **[IDEA-013](docs/developers/tasks/future/idea-013-bus-system.md): Bus System** — Daisy-chain bus for connecting multiple pedals instead of direct controller wiring
+- **[IDEA-014](docs/developers/tasks/future/idea-014-automated-hardware-testing-rig.md): Automated Hardware Testing Rig** — A second device with servo motors that presses buttons and a camera that observes LEDs/display — enables fully automated on-device testing without a human in the loop
+
+These ideas are open for community contributions and discussions.
+If you're interested in working on any of these, please open an issue or start a discussion!
+<!-- END FUTURE IDEAS GENERATED -->
 
 ## Firmware
 
-No pre-built firmware release is available yet. Build from source using the
-[Build Guide](docs/builders/BUILD_GUIDE.md).
+Pre-built firmware binaries are published with each
+[GitHub Release](../../releases). Download the file for your hardware:
+
+| Platform | File |
+|----------|------|
+| ESP32 (NodeMCU-32S) | `awesome-pedal-esp32-vX.Y.Z.bin` |
+| nRF52840 (Adafruit Feather) | `awesome-pedal-nrf52840-vX.Y.Z.bin` |
+
+### Current stable release
+
+> **No public release yet.** The first tagged release will appear here once the
+> release workflow runs. Until then, build from source using the
+> [Build Guide](docs/builders/BUILD_GUIDE.md).
+
+<!-- After the first release, replace the block above with:
+
+**Current stable: vX.Y.Z**
+
+- ESP32: [awesome-pedal-esp32-vX.Y.Z.bin](../../releases/download/vX.Y.Z/awesome-pedal-esp32-vX.Y.Z.bin)
+- nRF52840: [awesome-pedal-nrf52840-vX.Y.Z.bin](../../releases/download/vX.Y.Z/awesome-pedal-nrf52840-vX.Y.Z.bin)
+
+**Previous releases** (current + 2 kept, older removed by cleanup script):
+
+- vA.B.C: [ESP32](../../releases/download/vA.B.C/awesome-pedal-esp32-vA.B.C.bin) |
+  [nRF52840](../../releases/download/vA.B.C/awesome-pedal-nrf52840-vA.B.C.bin)
+-->
+
+For upload instructions see [Build Guide — Upload](docs/builders/BUILD_GUIDE.md).

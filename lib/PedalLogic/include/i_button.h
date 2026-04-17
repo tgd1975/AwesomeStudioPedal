@@ -35,4 +35,12 @@ public:
      * processed immediately after the interrupt handler is installed.
      */
     virtual void reset() = 0;
+
+    /**
+     * @brief Checks for a button release event and clears the flag
+     *
+     * Returns true exactly once per release edge (HIGH after press), then resets.
+     * Uses the ISR's awaitingRelease flag — safe to call from the main loop.
+     */
+    virtual bool releaseEvent() { return false; }
 };

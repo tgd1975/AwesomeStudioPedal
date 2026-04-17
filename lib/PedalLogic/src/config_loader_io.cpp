@@ -48,7 +48,7 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
         }
     }
 
-    std::string content;
+    std::string content{};
     serializeJson(doc, content);
 
     if (! fileSystem_->writeFile(configPath.c_str(), content))

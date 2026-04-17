@@ -46,4 +46,7 @@ public:
 
     /** @brief Clears any pending press event */
     void reset() override;
+
+    /** @brief Release event detection — stub, not yet implemented for nRF52840 */
+    bool releaseEvent() override { return false; }
 };

@@ -58,6 +58,6 @@ private:
                                  ArduinoJson::JsonObject buttons,
                                  IBleKeyboard* keyboard);
     void logLoadedConfig(const ProfileManager& profileManager) const;
-    bool profileExistsByName(const ProfileManager& profileManager, const char* name) const;
+    static bool profileExistsByName(const ProfileManager& profileManager, const char* name);
     static uint8_t findEmptyProfileSlot(const ProfileManager& profileManager);
 };

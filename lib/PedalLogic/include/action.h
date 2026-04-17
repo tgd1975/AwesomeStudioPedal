@@ -19,7 +19,12 @@ public:
         SendKey,
         SendMediaKey,
         SerialOutput,
-        Delayed
+        Delayed,
+        PinHigh,
+        PinLow,
+        PinToggle,
+        PinHighWhilePressed,
+        PinLowWhilePressed
     };
 
     void setName(const std::string& n) { name = n; }
@@ -28,6 +33,11 @@ public:
 
     virtual Type getType() const { return Type::Unknown; }
     virtual void execute() = 0;
+
+    /**
+     * @brief Called on button release. No-op by default; pin "while pressed" actions override.
+     */
+    virtual void executeRelease() {}
     virtual uint32_t getDelay() const { return 0; }
     virtual bool isSendAction() const { return false; }
 

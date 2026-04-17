@@ -240,7 +240,7 @@ static const char* EXPECTED_NAMES[7] = {
     "03 VLC Mobile Controller",
     "04 OBS Stream Deck",
     "05 DAW Looper (Ableton)",
-    "06 Social & Comms",
+    "06 Social and Comms",
     "07 System Debug",
 };
 

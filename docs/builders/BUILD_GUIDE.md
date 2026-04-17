@@ -53,15 +53,38 @@ graph LR
 | Button: C | GPIO 27 | Input (pull-up) |
 | Button: D | GPIO 14 | Input (pull-up) |
 
-Note: a full Fritzing schematic will be added when available.
+### Fritzing diagrams
+
+Breadboard wiring:
+
+![Breadboard view](../media/AwesomeStudioPedal_esp32_wiring_breadboard.png)
+
+Circuit schematic:
+
+![Circuit schematic](../media/AwesomeStudioPedal_esp32_wiring_circuit.png)
+
+PCB layout:
+
+![PCB view](../media/AwesomeStudioPedal_esp32_wiring_pcb.png)
+
+Fritzing source file (for editing):
+[AwesomeStudioPedal_esp32_wiring.fzz](../media/AwesomeStudioPedal_esp32_wiring.fzz)
 
 ## Enclosure options
 
-**3D-printed:** a printable enclosure is available on Thingiverse — link coming.
+**3D-printed:** a printable enclosure is available on Printables:
+[AwesomeStudioPedal enclosure](https://www.printables.com/model/1683455-awesomestudiopedal)
+
+The model page includes a description, required hardware list, and recommended print settings.
 
 **Soft-touch footswitch alternative:** if you do not have a 3D printer, or need a more durable build
 for live use, any standard SPST momentary footswitch works. This option is more robust for repeated
 stomping.
+
+## Configuration Builder
+
+Use the web-based [Config Builder](https://tgd1975.github.io/AwesomeStudioPedal/tools/config-builder/)
+to generate a `profiles.json` without writing JSON by hand.
 
 ## Next step
 
@@ -102,3 +125,24 @@ nrfjprog --program awesome-pedal-nrf52840-vX.Y.Z.bin --verify --reset
 - [nRF Command Line Tools](https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools)
 - J-Link software (for programming)
 - USB drivers for your nRF52840 board
+
+## Prototype pictures
+
+Overview of the assembled pedal:
+
+![Prototype overview](../media/prototype.jpg)
+
+Wiring detail:
+
+![Wiring detail](../media/prototype_wiring.jpg)
+
+ESP32 — front, side, and top views:
+
+![ESP32 front](../media/prototype_esp32_front.jpg)
+![ESP32 side](../media/prototype_esp32_side.jpg)
+![ESP32 top](../media/prototype_esp32_top.jpg)
+
+Enclosure — open and in use:
+
+![Pedal open](../media/prototype_pedal_open.jpg)
+![Pedal pressed](../media/prototype_pedal_pressed.jpg)

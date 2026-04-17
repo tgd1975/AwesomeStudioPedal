@@ -6,6 +6,9 @@ AwesomeStudioPedal appears as a Bluetooth keyboard to your device. Press a butto
 a key is sent, a media command is triggered, or a text snippet is typed. No cables. No driver. No app.
 Everything you need is built into the pedal.
 
+![AwesomeStudioPedal overview](../media/prototype_pedal_open.jpg)
+*The pedal with its enclosure open, showing the buttons and LED array.*
+
 ## Why no driver
 
 Because it identifies itself as a standard Bluetooth keyboard, it works out of the box on iPad,
@@ -20,18 +23,18 @@ Connect a USB power supply or battery. After a moment:
 
 ## Connecting via Bluetooth
 
-The pedal advertises itself as **Strix-Pedal** and appears as a keyboard in your device's Bluetooth
+The pedal advertises itself as **AwesomeStudioPedal** and appears as a keyboard in your device's Bluetooth
 settings.
 
 ### First pairing
 
 | Platform | Where to pair |
 |----------|--------------|
-| iOS / iPadOS | Settings → Bluetooth → Strix-Pedal |
-| Android | Settings → Connected devices → Pair new device → Strix-Pedal |
-| macOS | System Settings → Bluetooth → Strix-Pedal |
-| Windows | Settings → Bluetooth & devices → Add device → Bluetooth → Strix-Pedal |
-| Linux | Bluetooth manager or `bluetoothctl` — look for: Strix-Pedal |
+| iOS / iPadOS | Settings → Bluetooth → AwesomeStudioPedal |
+| Android | Settings → Connected devices → Pair new device → AwesomeStudioPedal |
+| macOS | System Settings → Bluetooth → AwesomeStudioPedal |
+| Windows | Settings → Bluetooth & devices → Add device → Bluetooth → AwesomeStudioPedal |
+| Linux | Bluetooth manager or `bluetoothctl` — look for: AwesomeStudioPedal |
 
 ### Reconnection
 
@@ -65,6 +68,9 @@ regardless of connection state.
 
 - Four action buttons: **A**, **B**, **C**, **D**
 - One **SELECT** button: cycles through profiles
+
+![Pressing the pedal](../media/prototype_pedal_pressed.jpg)
+*Pressing an action button during a session.*
 
 ## Profiles and the LED array
 
