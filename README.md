@@ -54,7 +54,8 @@ Ideas are tracked in [`docs/developers/tasks/future/`](docs/developers/tasks/fut
 - **[IDEA-011](docs/developers/tasks/future/idea-011-pcb-board-design.md): PCB Board Design** — Custom PCB to replace the breadboard/prototype setup for reliability and manufacturability
 - **[IDEA-012](docs/developers/tasks/future/idea-012-two-button-soft-foot-switches.md): Two-Button Version with Soft Foot Switches** — Compact two-button variant using soft foot switches
 - **[IDEA-013](docs/developers/tasks/future/idea-013-bus-system.md): Bus System** — Daisy-chain bus for connecting multiple pedals instead of direct controller wiring
-- **[IDEA-014](docs/developers/tasks/future/idea-014-automated-hardware-testing-rig.md): Automated Hardware Testing Rig** — A second device with servo motors that presses buttons and a camera that observes LEDs/display — enables fully automated on-device testing without a human in the loop
+- **[IDEA-014](docs/developers/tasks/future/idea-014-automated-hardware-testing-rig.md): Automated Hardware Testing Rig** — A relay-based test interface with optocoupler output detection that enables fully automated on-device testing without human intervention
+- **[IDEA-015](docs/developers/tasks/future/idea-015-marketing-material.md): Marketing Material** — Create compelling marketing material to attract musicians and builders
 
 These ideas are open for community contributions and discussions.
 If you're interested in working on any of these, please open an issue or start a discussion!
