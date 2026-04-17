@@ -2,4 +2,4 @@
 
 // Firmware version — update this alongside platformio.ini when cutting a release.
 // Use the /release skill which bumps both files atomically.
-#define FIRMWARE_VERSION "v0.2.0"
+#define FIRMWARE_VERSION "v0.3.0"
