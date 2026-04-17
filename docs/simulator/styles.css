@@ -1,0 +1,404 @@
+/* ── Reset & variables ─────────────────────────────────────────────────── */
+:root {
+  --bg: #1a1a2e;
+  --surface: #16213e;
+  --panel: #0f3460;
+  --border: #1a4a7a;
+  --accent: #4ade80;
+  --accent-dim: #166534;
+  --amber: #fbbf24;
+  --amber-dim: #78350f;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --btn-bg: #1e3a5f;
+  --btn-hover: #264d7e;
+  --btn-active: #0d2137;
+  --btn-border: #2563eb;
+  --held-bg: #1e4d3a;
+  --held-border: #4ade80;
+  --delay-bg: #4c1d1d;
+  --delay-border: #f87171;
+  --log-bg: #0d1b2a;
+  --danger: #ef4444;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header-title h1 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.header-title .subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.load-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s;
+  user-select: none;
+}
+
+.load-btn:hover { background: var(--btn-hover); }
+.load-btn input[type="file"] { display: none; }
+
+#config-name {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+header a {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+header a:hover { text-decoration: underline; }
+
+/* ── Main layout ───────────────────────────────────────────────────────── */
+main {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Pedal panel ───────────────────────────────────────────────────────── */
+.pedal-panel {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+/* Status LEDs (PWR + BLE) */
+.status-leds {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.led-labels {
+  display: flex;
+  gap: 10px;
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+/* LED base */
+.led {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1a2a1a;
+  border: 1px solid #2a3a2a;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+/* Lit states */
+.led.lit {
+  background: var(--accent);
+  box-shadow: 0 0 6px 2px var(--accent), 0 0 12px 4px var(--accent-dim);
+}
+
+#pwr-led.lit {
+  background: var(--accent);
+}
+
+#ble-led.lit {
+  background: #60a5fa;
+  box-shadow: 0 0 6px 2px #60a5fa, 0 0 12px 4px #1e3a5f;
+}
+
+.profile-leds .led.lit {
+  background: var(--amber);
+  box-shadow: 0 0 6px 2px var(--amber), 0 0 12px 4px var(--amber-dim);
+}
+
+/* ── Pedal button grid ─────────────────────────────────────────────────── */
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.pedal-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 20px 10px;
+  background: var(--btn-bg);
+  border: 2px solid var(--slot-color, var(--btn-border));
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--text);
+  font-family: inherit;
+  transition: background 0.1s, transform 0.05s, box-shadow 0.1s;
+  min-height: 90px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pedal-btn:hover {
+  background: var(--btn-hover);
+}
+
+.pedal-btn:active,
+.pedal-btn.held {
+  background: var(--held-bg);
+  border-color: var(--held-border);
+  box-shadow: 0 0 8px 2px var(--accent-dim);
+  transform: scale(0.97);
+}
+
+.pedal-btn.delay-active {
+  background: var(--delay-bg);
+  border-color: var(--delay-border);
+  box-shadow: 0 0 8px 2px #7f1d1d;
+}
+
+.btn-slot {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--slot-color, var(--text));
+}
+
+.btn-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Profile section ───────────────────────────────────────────────────── */
+.profile-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-leds {
+  display: flex;
+  gap: 10px;
+}
+
+#select-btn {
+  padding: 10px 28px;
+  background: var(--btn-bg);
+  border: 2px solid #475569;
+  border-radius: 8px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+#select-btn:hover { background: var(--btn-hover); }
+#select-btn:active { transform: scale(0.97); }
+
+#profile-name {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  font-style: italic;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Output panel ──────────────────────────────────────────────────────── */
+.output-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.output-block {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.output-block h3 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.output-log {
+  flex: 1;
+  background: var(--log-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-y: auto;
+  color: var(--accent);
+  min-height: 80px;
+}
+
+.log-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.output-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.output-actions button {
+  padding: 8px 16px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.output-actions button:hover { background: var(--btn-hover); }
+
+/* ── Toolbar buttons ───────────────────────────────────────────────────── */
+.toolbar button {
+  padding: 6px 12px;
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text);
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.toolbar button:hover { background: var(--btn-hover); }
+
+/* Hardware layout toolbar row */
+.toolbar-hw {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.hw-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hw-label input[type="number"] {
+  width: 56px;
+  padding: 4px 6px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 12px;
+  font-family: inherit;
+}
+
+/* IO summary bar */
+.io-summary {
+  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--log-bg);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  padding: 6px 12px;
+}
+
+.output-block .io-summary + .output-log {
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  main {
+    grid-template-columns: 1fr;
+    overflow: auto;
+  }
+
+  .pedal-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .output-panel {
+    min-height: 400px;
+  }
+
+  header a { margin-left: 0; }
+}

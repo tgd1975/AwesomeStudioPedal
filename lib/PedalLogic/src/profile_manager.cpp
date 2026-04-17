@@ -48,12 +48,17 @@ uint8_t ProfileManager::switchProfile()
         }
     }
     currentProfile = next;
+    updateLEDs();
+
+    return currentProfile;
+}
+
+void ProfileManager::triggerBlink()
+{
     postSwitchBlink = true;
     blinkStarted = false;
     blinkPhase = 0;
     blinkStartTime = 0;
-
-    return currentProfile;
 }
 
 /**
@@ -156,8 +161,7 @@ void ProfileManager::resetToFirstProfile()
             break;
         }
     }
-    postSwitchBlink = false;
-    updateLEDs();
+    triggerBlink();
 }
 
 const std::string& ProfileManager::getProfileName(uint8_t profileIndex) const
@@ -206,6 +210,16 @@ const char* ProfileManager::getActionTypeString(Action::Type actionType)
             return "SerialOutput";
         case Action::Type::Delayed:
             return "Delayed";
+        case Action::Type::PinHigh:
+            return "PinHigh";
+        case Action::Type::PinLow:
+            return "PinLow";
+        case Action::Type::PinToggle:
+            return "PinToggle";
+        case Action::Type::PinHighWhilePressed:
+            return "PinHighWhilePressed";
+        case Action::Type::PinLowWhilePressed:
+            return "PinLowWhilePressed";
         default:
             return "Unknown";
     }

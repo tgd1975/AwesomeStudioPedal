@@ -165,6 +165,11 @@ namespace
         {"SendMediaKeyAction", Action::Type::SendMediaKey},
         {"SerialOutputAction", Action::Type::SerialOutput},
         {"DelayedAction", Action::Type::Delayed},
+        {"PinHighAction", Action::Type::PinHigh},
+        {"PinLowAction", Action::Type::PinLow},
+        {"PinToggleAction", Action::Type::PinToggle},
+        {"PinHighWhilePressedAction", Action::Type::PinHighWhilePressed},
+        {"PinLowWhilePressedAction", Action::Type::PinLowWhilePressed},
     };
 
 } // namespace

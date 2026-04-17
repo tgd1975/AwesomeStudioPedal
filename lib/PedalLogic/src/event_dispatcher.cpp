@@ -26,14 +26,32 @@ void EventDispatcher::dispatch(uint8_t button)
     }
 }
 
+void EventDispatcher::registerReleaseHandler(uint8_t button, EventCallback callback)
+{
+    if (button < releaseHandlers.size())
+    {
+        releaseHandlers[button] = std::move(callback);
+    }
+}
+
+void EventDispatcher::dispatchRelease(uint8_t button)
+{
+    if (button < releaseHandlers.size() && releaseHandlers[button])
+    {
+        releaseHandlers[button]();
+    }
+}
+
 /**
- * @brief Clears all registered event handlers
- *
- * Sets all callbacks to nullptr, effectively disabling them.
+ * @brief Clears all registered event handlers (press and release)
  */
 void EventDispatcher::clearHandlers()
 {
     for (auto& handler : handlers)
+    {
+        handler = nullptr;
+    }
+    for (auto& handler : releaseHandlers)
     {
         handler = nullptr;
     }

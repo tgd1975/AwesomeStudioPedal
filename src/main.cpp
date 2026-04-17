@@ -20,6 +20,7 @@
 #include "pedal_config.h"
 #include "profile_manager.h"
 #include "send_action.h"
+#include "version.h"
 
 /**
  * @file main.cpp
@@ -214,11 +215,25 @@ void setup_event_handlers()
 {
     for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
     {
-        uint8_t idx = i; // capture by value
+        uint8_t idx = i;
         eventDispatcher.registerHandler(idx, [idx]() { executeActionWithLogging(idx); });
+
+        // Release handler: call executeRelease() on the current profile's action (no-op for
+        // all non-pin actions; drives pin back to idle for PinHighWhilePressed /
+        // PinLowWhilePressed).
+        eventDispatcher.registerReleaseHandler(
+            idx,
+            [idx]()
+            {
+                uint8_t profile = profileManager->getCurrentProfile();
+                if (auto action = profileManager->getAction(profile, idx))
+                {
+                    action->executeRelease();
+                }
+            });
     }
 
-    // SELECT button is registered at index numButtons
+    // SELECT button is registered at index numButtons (press only — no release handler)
     uint8_t selectHandlerIdx = hardwareConfig.numButtons;
     eventDispatcher.registerHandler(selectHandlerIdx,
                                     []()
@@ -236,7 +251,7 @@ void setup()
 {
     Serial.begin(115200);
     delay(2000);
-    Serial.println("started");
+    Serial.println("AwesomeStudioPedal " FIRMWARE_VERSION " started");
 
     setup_hardware();
 
@@ -297,9 +312,17 @@ void process_events()
 {
     for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
     {
-        if (actionButtonObjects[i] && actionButtonObjects[i]->event())
+        if (! actionButtonObjects[i])
+        {
+            continue;
+        }
+        if (actionButtonObjects[i]->event())
         {
             eventDispatcher.dispatch(i);
+        }
+        if (actionButtonObjects[i]->releaseEvent())
+        {
+            eventDispatcher.dispatchRelease(i);
         }
     }
 
@@ -337,6 +360,21 @@ void loop()
     process_events();
 
     uint32_t now = millis();
+
+    // Poll in-progress DelayedActions for the current profile.
+    // DelayedAction::execute() checks elapsed time internally and fires exactly once.
+    {
+        uint8_t profile = profileManager->getCurrentProfile();
+        for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
+        {
+            Action* action = profileManager->getAction(profile, i);
+            if (action && action->isInProgress())
+            {
+                action->execute();
+            }
+        }
+    }
+
     ledPower.update(now);
     ledBluetooth.update(now);
     for (auto* led : selectLeds)

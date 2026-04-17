@@ -6,20 +6,24 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   clang-tidy:
     name: clang-tidy
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/devcontainers/cpp:ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: sudo apt-get install -y cmake ninja-build clang-tidy
+      - name: Install clang-tidy
+        run: apt-get update -qq && apt-get install -y --no-install-recommends clang-tidy
 
       - name: Configure (with compile_commands.json)
         run: |
-          cmake -B build -S . \
+          cmake -B .vscode/build -S . \
                 -G Ninja \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
@@ -28,4 +32,4 @@ jobs:
       - name: Run clang-tidy
         run: |
           find lib/PedalLogic/src -name "*.cpp" | \
-            xargs clang-tidy -p build
+            xargs clang-tidy -p .vscode/build

@@ -65,8 +65,17 @@ public:
      *
      * Called after loadFromString clears and repopulates all slots so that
      * currentProfile is never left pointing at an empty slot.
+     * Also triggers the blink sequence to confirm the new config was ingested.
      */
     void resetToFirstProfile();
+
+    /**
+     * @brief Trigger the select-LED blink sequence
+     *
+     * Call this after a configuration is ingested (loaded from storage or serial).
+     * Normal profile switches via switchProfile() do NOT blink.
+     */
+    void triggerBlink();
 
     /**
      * @brief Returns true if any DelayedAction across all profiles is currently running

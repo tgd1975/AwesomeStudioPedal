@@ -19,10 +19,17 @@ inline void pinMode(uint8_t, uint8_t) {}
 
 namespace fake_gpio
 {
-    extern int pin_state; // LOW = button pressed (active-low), HIGH = released
+    extern int pin_state;     // LOW = button pressed (active-low), HIGH = released
+    extern int written_pin;   // last pin passed to digitalWrite()
+    extern int written_value; // last value passed to digitalWrite()
 }
 
 inline int digitalRead(uint8_t) { return fake_gpio::pin_state; }
+inline void digitalWrite(uint8_t pin, uint8_t val)
+{
+    fake_gpio::written_pin = static_cast<int>(pin);
+    fake_gpio::written_value = static_cast<int>(val);
+}
 
 namespace fake_time
 {

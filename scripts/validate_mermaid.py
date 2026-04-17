@@ -10,6 +10,8 @@ import subprocess
 import sys
 import os
 import glob
+import json
+import tempfile
 from pathlib import Path
 
 def find_markdown_files(directory="."):
@@ -29,19 +31,27 @@ def find_markdown_files(directory="."):
     
     return list(set(markdown_files))  # Remove duplicates
 
-def validate_mermaid_diagram(file_path):
+def validate_mermaid_diagram(file_path, puppeteer_config_path):
     """Validate a single markdown file for Mermaid diagrams."""
     try:
         # Check if file contains mermaid diagrams
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
-            
+
         if '```mermaid' not in content:
             return True, "No Mermaid diagrams found"
-        
-        # Use mmdc to validate the diagram
+
+        # Use mmdc to validate the diagram.
+        # --puppeteerConfigFile disables the Chrome sandbox, which is required
+        # in GitHub Actions (and other CI environments) where the user-namespace
+        # sandbox is unavailable.
         result = subprocess.run(
-            ['mmdc', '--input', file_path, '--output', '/tmp/validation_test.svg'],
+            [
+                'mmdc',
+                '--puppeteerConfigFile', puppeteer_config_path,
+                '--input', file_path,
+                '--output', '/tmp/validation_test.svg',
+            ],
             capture_output=True,
             text=True,
             timeout=30
@@ -67,27 +77,37 @@ def main():
     """Main validation function."""
     print("🔍 Mermaid Diagram Validation")
     print("=" * 50)
-    
+
     # Find all markdown files
     markdown_files = find_markdown_files()
     markdown_files = [f for f in markdown_files if os.path.isfile(f)]
-    
+
     if not markdown_files:
         print("❌ No markdown files found in the repository.")
         return 1
-    
+
     print(f"📚 Found {len(markdown_files)} markdown files to check")
     print()
-    
+
+    # Write a temporary Puppeteer config that disables the Chrome sandbox.
+    # This is required in GitHub Actions (and most CI) where the user-namespace
+    # sandbox is not available.
+    puppeteer_cfg = {"args": ["--no-sandbox", "--disable-setuid-sandbox"]}
+    with tempfile.NamedTemporaryFile(
+        mode='w', suffix='.json', delete=False
+    ) as tmp:
+        json.dump(puppeteer_cfg, tmp)
+        puppeteer_config_path = tmp.name
+
     # Validate each file
     invalid_files = []
     valid_count = 0
-    
+
     for file_path in markdown_files:
         relative_path = os.path.relpath(file_path)
         print(f"🔎 Checking: {relative_path}")
-        
-        is_valid, message = validate_mermaid_diagram(file_path)
+
+        is_valid, message = validate_mermaid_diagram(file_path, puppeteer_config_path)
         
         if is_valid:
             if "No Mermaid diagrams found" in message:
@@ -108,6 +128,8 @@ def main():
     print(f"  Files with valid diagrams: {valid_count}")
     print(f"  Files with invalid diagrams: {len(invalid_files)}")
     
+    os.unlink(puppeteer_config_path)
+
     if invalid_files:
         print()
         print("🔧 Files needing attention:")

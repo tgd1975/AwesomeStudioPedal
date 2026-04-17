@@ -20,4 +20,11 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+FetchContent_Declare(
+  arduinojson
+  GIT_REPOSITORY https://github.com/bblanchon/ArduinoJson.git
+  GIT_TAG        v6.21.5
+)
+FetchContent_MakeAvailable(arduinojson)
+
 add_subdirectory(test)

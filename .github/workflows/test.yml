@@ -13,10 +13,11 @@ jobs:
   cpp-format:
     name: C++ Format Check
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/devcontainers/cpp:ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Install clang-format
-        run: sudo apt-get install -y clang-format
+        run: apt-get update -qq && apt-get install -y --no-install-recommends clang-format
       - name: Check C++ code formatting
         run: |
           # Find all C++ files
@@ -59,6 +60,7 @@ jobs:
   unit-tests:
     name: Host Unit Tests
     runs-on: ubuntu-latest
+    container: mcr.microsoft.com/devcontainers/cpp:ubuntu-24.04
 
     steps:
       - name: Checkout repository
@@ -71,9 +73,6 @@ jobs:
           key: cmake-${{ runner.os }}-${{ hashFiles('CMakeLists.txt', 'test/CMakeLists.txt') }}
           restore-keys: |
             cmake-${{ runner.os }}-
-
-      - name: Install build dependencies
-        run: sudo apt-get install -y cmake ninja-build g++
 
       - name: Configure CMake
         run: |
@@ -106,15 +105,59 @@ jobs:
           path: test-results/
           retention-days: 30
 
-      - name: Generate coverage report
-        run: |
-          # Generate coverage report using gcovr
-          pip install gcovr
-          gcovr -r . --xml -o coverage.xml
+  coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/devcontainers/cpp:ubuntu-24.04
 
-      - name: Upload coverage report
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install gcovr
+        run: apt-get update -qq && apt-get install -y --no-install-recommends gcovr
+
+      - name: Configure CMake with coverage instrumentation
+        run: |
+          cmake -B .vscode/build-coverage \
+                -G Ninja \
+                -DCMAKE_BUILD_TYPE=Debug \
+                -DCMAKE_CXX_FLAGS="--coverage" \
+                -DCMAKE_EXE_LINKER_FLAGS="--coverage" \
+                -Wno-dev
+
+      - name: Build tests
+        run: cmake --build .vscode/build-coverage --target pedal_tests -j$(nproc)
+
+      - name: Run tests
+        run: .vscode/build-coverage/test/pedal_tests
+
+      - name: Generate coverage report (HTML + XML, enforce 80% threshold)
+        run: |
+          mkdir -p docs/coverage
+          gcovr \
+            --root . \
+            --filter='lib/PedalLogic/.*' \
+            --filter='lib/hardware/.*' \
+            --exclude='.*littlefs_file_system.*' \
+            --html-details docs/coverage/index.html \
+            --xml coverage.xml \
+            --print-summary \
+            --fail-under-line 80
+
+      - name: Upload coverage HTML report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: coverage-report
+          name: coverage-html
+          path: docs/coverage/
+          retention-days: 30
+
+      - name: Upload coverage XML
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-xml
           path: coverage.xml
           retention-days: 30
+

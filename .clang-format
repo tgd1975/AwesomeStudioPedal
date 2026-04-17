@@ -2,7 +2,7 @@ BasedOnStyle: LLVM
 IndentWidth: 4
 UseTab: Never
 BreakBeforeBraces: Allman
-AllowShortIfStatementsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: Never
 IndentCaseLabels: true
 ColumnLimit: 100
 AccessModifierOffset: -4
@@ -13,8 +13,10 @@ FixNamespaceComments: false
 PointerAlignment: Left
 ReferenceAlignment: Left
 
-# Sort includes
-SortIncludes: true
+# Sort includes and using declarations
+SortIncludes: CaseSensitive
+SortUsingDeclarations: Lexicographic
+BreakAfterAttributes: Never
 
 # Space around operators and after control statements
 SpaceAfterCStyleCast: true

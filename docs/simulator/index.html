@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AwesomeStudioPedal — Simulator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="header-title">
+    <h1>AwesomeStudioPedal Simulator</h1>
+    <p class="subtitle">Test button mappings without hardware</p>
+  </div>
+  <div class="toolbar">
+    <label class="load-btn" title="Load your own profiles.json">
+      Load profiles.json
+      <input type="file" id="config-file" accept=".json">
+    </label>
+    <label class="load-btn" title="Load a config.json to set hardware layout">
+      Load config.json
+      <input type="file" id="hw-config-file" accept=".json">
+    </label>
+    <button id="load-example">Load Example</button>
+    <button id="ble-toggle" title="Toggle BLE connection state">Connect BLE</button>
+    <span id="config-name">No config loaded</span>
+  </div>
+  <div class="toolbar toolbar-hw">
+    <label class="hw-label">Buttons:
+      <input type="number" id="hw-num-buttons" min="1" max="26" value="4" title="Number of active buttons (A–Z)">
+    </label>
+    <label class="hw-label">Select LEDs:
+      <input type="number" id="hw-num-select-leds" min="1" max="6" value="3" title="Number of profile-select LEDs">
+    </label>
+  </div>
+  <nav style="display:flex;gap:16px;flex-wrap:wrap;">
+    <a href="../tools/config-builder/" style="color:#2563eb;text-decoration:none;font-size:13px;">Profile Builder &rarr;</a>
+    <a href="../tools/configuration-builder/" style="color:#2563eb;text-decoration:none;font-size:13px;">Configuration Builder &rarr;</a>
+  </nav>
+</header>
+
+<main>
+  <section class="pedal-panel">
+    <div class="status-leds">
+      <div class="led lit" id="pwr-led" title="Power — always on"></div>
+      <div class="led" id="ble-led" title="Bluetooth — lit when connected"></div>
+      <span class="led-labels">
+        <span>PWR</span>
+        <span>BLE</span>
+      </span>
+    </div>
+
+    <!-- Dynamically rendered by simulator.js -->
+    <div class="button-grid" id="button-grid"></div>
+
+    <div class="profile-section">
+      <!-- Dynamically rendered by simulator.js -->
+      <div class="profile-leds" id="profile-leds"></div>
+      <button id="select-btn" title="Cycle to next profile">SELECT</button>
+      <span id="profile-name">&mdash;</span>
+    </div>
+  </section>
+
+  <section class="output-panel">
+    <div class="output-block">
+      <h3>BLE Output</h3>
+      <div id="ble-output" class="output-log" aria-live="polite" aria-label="BLE output log"></div>
+    </div>
+    <div class="output-block">
+      <h3>Serial Output</h3>
+      <div id="serial-output" class="output-log" aria-live="polite" aria-label="Serial output log"></div>
+    </div>
+    <div class="output-block">
+      <h3>IO State</h3>
+      <div id="io-summary" class="io-summary">No pins triggered yet</div>
+      <div id="io-output" class="output-log" aria-live="polite" aria-label="IO state log"></div>
+    </div>
+    <div class="output-actions">
+      <button id="clear-btn">Clear Output</button>
+      <button id="export-btn">Export profiles.json</button>
+    </div>
+  </section>
+</main>
+
+<script src="simulator.js"></script>
+</body>
+</html>

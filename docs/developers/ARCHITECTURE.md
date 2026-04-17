@@ -1,5 +1,8 @@
 # Architecture
 
+> **Auto-generated API reference** (Doxygen): [tgd1975.github.io/AwesomeStudioPedal](https://tgd1975.github.io/AwesomeStudioPedal/)
+> Regenerated on every push to `main` by the Docs CI workflow.
+
 ## High-level component diagram
 
 ```mermaid
@@ -23,19 +26,30 @@ graph TD
     AH --> LED
 ```
 
+## Hardware wiring
+
+The ESP32 pin assignments are illustrated in the Fritzing diagrams under `docs/media/`:
+
+- [Circuit schematic](../media/AwesomeStudioPedal_esp32_wiring_circuit.png) — quick reference for signal flow
+- [Breadboard layout](../media/AwesomeStudioPedal_esp32_wiring_breadboard.png) — physical wiring guide
+- [PCB view](../media/AwesomeStudioPedal_esp32_wiring_pcb.png) — PCB layout
+- [Fritzing source](../media/AwesomeStudioPedal_esp32_wiring.fzz) — editable source file
+
+The full GPIO pin table is in [BUILD_GUIDE.md](../builders/BUILD_GUIDE.md).
+
 ## Action class hierarchy
 
 ```mermaid
 classDiagram
     Action <|-- SendAction
-    Action <|-- NonSendAction
+    Action <|-- DelayedAction
+    Action <|-- SerialOutputAction
+    Action <|-- PinAction
+    Action <|-- LEDBlinkAction
     SendAction <|-- SendStringAction
     SendAction <|-- SendCharAction
     SendAction <|-- SendKeyAction
     SendAction <|-- SendMediaKeyAction
-    NonSendAction <|-- DelayedAction
-    NonSendAction <|-- SerialOutputAction
-    NonSendAction <|-- SerialAction
 ```
 
 ## Component table

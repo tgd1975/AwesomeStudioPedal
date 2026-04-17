@@ -23,7 +23,7 @@ public:
     using EventCallback = std::function<void()>;
 
     /**
-     * @brief Registers a callback function for a button
+     * @brief Registers a callback function for a button press
      *
      * @param button Button index (0-4)
      * @param callback Function to call when button is pressed
@@ -31,19 +31,33 @@ public:
     void registerHandler(uint8_t button, EventCallback callback);
 
     /**
-     * @brief Executes the callback for the specified button
+     * @brief Executes the press callback for the specified button
      *
      * @param button Button index (0-4) to dispatch
      */
     void dispatch(uint8_t button);
 
     /**
-     * @brief Clears all registered event handlers
+     * @brief Registers a callback for a button release event
      *
-     * Resets all callbacks to empty functions.
+     * @param button Button index (0-3; SELECT does not emit release events)
+     * @param callback Function to call on release
+     */
+    void registerReleaseHandler(uint8_t button, EventCallback callback);
+
+    /**
+     * @brief Executes the release callback for the specified button, if registered
+     *
+     * @param button Button index (0-3)
+     */
+    void dispatchRelease(uint8_t button);
+
+    /**
+     * @brief Clears all registered event handlers (press and release)
      */
     void clearHandlers();
 
 private:
-    std::array<EventCallback, 5> handlers{}; /**< Array of callbacks for buttons 0-4 */
+    std::array<EventCallback, 5> handlers{};        /**< Press callbacks for buttons 0-4 */
+    std::array<EventCallback, 5> releaseHandlers{}; /**< Release callbacks for buttons 0-4 */
 };
