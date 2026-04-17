@@ -98,13 +98,14 @@ Steps:
     pio run -e feather-nrf52840
     ```
 
-    Copy artifacts with versioned names:
+    Copy and compress artifacts with versioned names. The ESP32 `.elf` is ~23 MB
+    raw but compresses to ~8 MB, so zip it:
 
     ```bash
-    cp .pio/build/nodemcu-32s/firmware.bin    firmware-nodemcu-32s-vX.Y.Z.bin
-    cp .pio/build/nodemcu-32s/firmware.elf    firmware-nodemcu-32s-vX.Y.Z.elf
-    cp .pio/build/feather-nrf52840/firmware.hex firmware-feather-nrf52840-vX.Y.Z.hex
-    cp .pio/build/feather-nrf52840/firmware.zip firmware-feather-nrf52840-vX.Y.Z.zip
+    cp .pio/build/nodemcu-32s/firmware.bin      firmware-nodemcu-32s-vX.Y.Z.bin
+    zip firmware-nodemcu-32s-vX.Y.Z-debug.zip   .pio/build/nodemcu-32s/firmware.elf
+    cp .pio/build/feather-nrf52840/firmware.hex  firmware-feather-nrf52840-vX.Y.Z.hex
+    cp .pio/build/feather-nrf52840/firmware.zip  firmware-feather-nrf52840-vX.Y.Z.zip
     ```
 
 14. **Create GitHub Release** with `gh`, using the `## [vX.Y.Z]` section from CHANGELOG
@@ -113,7 +114,7 @@ Steps:
     ```bash
     gh release create vX.Y.Z \
       firmware-nodemcu-32s-vX.Y.Z.bin \
-      firmware-nodemcu-32s-vX.Y.Z.elf \
+      firmware-nodemcu-32s-vX.Y.Z-debug.zip \
       firmware-feather-nrf52840-vX.Y.Z.hex \
       firmware-feather-nrf52840-vX.Y.Z.zip \
       --title "vX.Y.Z" \
@@ -125,14 +126,14 @@ Steps:
     | File | Target |
     |------|--------|
     | `firmware-nodemcu-32s-vX.Y.Z.bin` | NodeMCU-32S (ESP32) — flash binary |
-    | `firmware-nodemcu-32s-vX.Y.Z.elf` | NodeMCU-32S (ESP32) — debug symbols |
+    | `firmware-nodemcu-32s-vX.Y.Z-debug.zip` | NodeMCU-32S (ESP32) — debug symbols (zipped ~8 MB) |
     | `firmware-feather-nrf52840-vX.Y.Z.hex` | Adafruit Feather nRF52840 — flash hex |
     | `firmware-feather-nrf52840-vX.Y.Z.zip` | Adafruit Feather nRF52840 — OTA zip |
 
 15. **Clean up** the temporary artifact copies:
 
     ```bash
-    rm firmware-nodemcu-32s-vX.Y.Z.bin firmware-nodemcu-32s-vX.Y.Z.elf \
+    rm firmware-nodemcu-32s-vX.Y.Z.bin firmware-nodemcu-32s-vX.Y.Z-debug.zip \
        firmware-feather-nrf52840-vX.Y.Z.hex firmware-feather-nrf52840-vX.Y.Z.zip
     ```
 
