@@ -46,7 +46,7 @@ Ideas are tracked in [`docs/developers/tasks/future/`](docs/developers/tasks/fut
 - **[IDEA-003](docs/developers/tasks/future/idea-003-additional-hardware-support.md): Additional Hardware Support** — Extend compatibility to platforms like Arduino Nano
 - **[IDEA-004](docs/developers/tasks/future/idea-004-nrf-hardware-testing.md): nRF Hardware Testing** — Thoroughly test and validate the nRF52840 implementation
 - **[IDEA-005](docs/developers/tasks/future/idea-005-large-button-pedal-prototype.md): Large Button Pedal Prototype** — Design and build a prototype with larger, more accessible buttons
-- **[IDEA-006](docs/developers/tasks/future/idea-006-macros.md): Macros** — Support for macros — sequences of actions triggered with a single button press
+- **[IDEA-006](docs/developers/tasks/future/idea-006-macros.md): Macros** — Support for macros — sequences or parallel groups of actions triggered with a single button press
 - **[IDEA-007](docs/developers/tasks/future/idea-007-display-integration.md): Display Integration** — Add a display to show profile info — small (profile name) or larger (full config)
 - **[IDEA-008](docs/developers/tasks/future/idea-008-hybrid-tool-with-dsp.md): Hybrid Tool with DSP** — More powerful hardware with DSP and dual audio jacks for guitar pedal effects
 - **[IDEA-009](docs/developers/tasks/future/idea-009-long-press-event.md): Long Press Event** — Trigger different actions based on button hold duration
