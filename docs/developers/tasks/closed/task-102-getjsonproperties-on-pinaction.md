@@ -1,7 +1,8 @@
 ---
 id: TASK-102
 title: Implement getJsonProperties on PinAction
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior
