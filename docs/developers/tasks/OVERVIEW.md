@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 29** | **Closed: 19** | **Total: 48**
+**Open: 28** | **Closed: 20** | **Total: 48**
 
 ## Open Tasks
 
@@ -26,7 +26,6 @@
 | [TASK-049](open/task-049-setup-video-platform-channel.md) | Setup video platform channel | Small (<2h) | Junior |
 | [TASK-103](open/task-103-on-device-gpio-testrig-esp32.md) | On-Device GPIO Testrig for PinAction (ESP32) | Medium (2-8h) | Medium |
 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium |
-| [TASK-113](open/task-113-mainloop-macro-update.md) | Wire MacroAction::update in main.cpp | Trivial (<30m) | Junior |
 | [TASK-114](open/task-114-host-tests-macroaction.md) | Host Tests for MacroAction | Medium (2-8h) | Medium |
 | [TASK-122](open/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) | Medium |
 | [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium |
@@ -89,7 +88,7 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | 1 | ~~[TASK-110](closed/task-110-macro-action-type-keylookup.md)~~ | ~~Add Macro to Action::Type and key_lookup~~ | ~~Trivial (<30m)~~ | ~~Junior~~ | ~~No~~ |
 | 2 | ~~[TASK-111](closed/task-111-macroaction-class.md)~~ | ~~MacroAction Class and Step Engine~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
 | 3 | ~~[TASK-112](closed/task-112-config-loader-macro-steps.md)~~ | ~~Config Loader: Parse Macro Steps~~ | ~~Small (<2h)~~ | ~~Junior~~ | ~~No~~ |
-| 4 | [TASK-113](open/task-113-mainloop-macro-update.md) | Wire MacroAction::update in main.cpp | Trivial (<30m) | Junior | No |
+| 4 | ~~[TASK-113](closed/task-113-mainloop-macro-update.md)~~ | ~~Wire MacroAction::update in main.cpp~~ | ~~Trivial (<30m)~~ | ~~Junior~~ | ~~No~~ |
 | 5 | [TASK-114](open/task-114-host-tests-macroaction.md) | Host Tests for MacroAction | Medium (2-8h) | Medium | No |
 
 ### MobileApp
@@ -123,6 +122,7 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | [TASK-110](closed/task-110-macro-action-type-keylookup.md) | Add Macro to Action::Type and key_lookup | Trivial (<30m) |
 | [TASK-111](closed/task-111-macroaction-class.md) | MacroAction Class and Step Engine | Medium (2-8h) |
 | [TASK-112](closed/task-112-config-loader-macro-steps.md) | Config Loader: Parse Macro Steps | Small (<2h) |
+| [TASK-113](closed/task-113-mainloop-macro-update.md) | Wire MacroAction::update in main.cpp | Trivial (<30m) |
 | [TASK-115](closed/task-115-profiles-schema-json.md) | Create profiles.schema.json and Pre-Commit Validation | Small (<2h) |
 | [TASK-116](closed/task-116-config-schema-json.md) | Create config.schema.json and data/config.json | Small (<2h) |
 | [TASK-117](closed/task-117-ble-config-gatt-spec.md) | BLE Config GATT Service Spec Document | Small (<2h) |
