@@ -92,6 +92,8 @@ If `kvm-ok` is not found: `sudo apt install cpu-checker`.
 
 ### 3. Create an AVD
 
+**Option A — Android Studio GUI:**
+
 Open Android Studio → **More Actions → Virtual Device Manager → Create device**.
 
 Recommended settings:
@@ -104,6 +106,21 @@ Recommended settings:
 | Graphics | Hardware — GLES 2.0 |
 
 Click **Finish**. The emulator image will download (~1 GB).
+
+**Option B — command line:**
+
+```bash
+# Download the system image first (required if not using Android Studio)
+sdkmanager "system-images;android-34;google_apis;x86_64"
+
+# Create the AVD
+avdmanager create avd -n Pixel_6_API_34 \
+  -k "system-images;android-34;google_apis;x86_64" \
+  --device "pixel_6"
+```
+
+> **"SDK XML version 4" warning**: harmless — appears when the cmdline-tools version
+> is older than the installed SDK. The commands still work correctly.
 
 ### 4. Launch and run the app
 
@@ -264,6 +281,7 @@ by mockito — see `test/integration/app_flow_test.dart` for reference.
 | Emulator very slow | KVM/HAXM not active | Verify acceleration: `emulator -accel-check` |
 | `flutter run` doesn't detect emulator | Emulator not fully booted | Wait for the home screen to appear, then re-run |
 | `No connected devices` | `ANDROID_HOME` not set | Add `ANDROID_HOME` and SDK tools to `PATH`, restart terminal |
+| `Package path is not valid` in `avdmanager` | System image not downloaded | Run `sdkmanager "system-images;android-34;google_apis;x86_64"` first |
 | `JAVA_HOME is not set` / `java` not found | Java not installed | `sudo apt install openjdk-17-jre-headless` (Linux); Android Studio bundles Java on Windows |
 | `cmdline-tools component is missing` | SDK installed without cmdline-tools | See "Option B" in Linux setup above; download cmdline-tools zip and place in `$ANDROID_HOME/cmdline-tools/latest/` |
 | `Android license status unknown` | Licenses not accepted | Run `flutter doctor --android-licenses` and accept all |
