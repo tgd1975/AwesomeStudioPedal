@@ -113,3 +113,19 @@ To apply this: The "Hidden Gem" of that repo isn't just that it uses BLE—it’
 
 [Guitar pedal DIY build overview](https://www.google.com/search?q=https://www.youtube.com/watch%3Fv%3DS01Zsc2YwzY)
 This video provides a practical look at the challenges and rewards of building your own music gear, which helps bridge the gap between technical construction and musical application.
+
+## Prompt Example
+
+The Maker-Musician Prompt
+
+Goal: Focus on studio workflow, reliability, and the "empowerment" of DIY.
+
+"Write a feature article for a high-end music tech blog about the AwesomeStudioPedal project. Your target audience is the 'Technikinteressierte Musiker'—producers and guitarists who aren't afraid of a soldering iron if it means a better workflow.
+
+Focus on:
+
+- The Problem: The frustration of mouse-clicking during tracking and the high cost of rigid commercial controllers.
+- The Solution: A wireless, BLE HID-based pedal that works driverless with any DAW.
+- Key Highlights: Explain how the JSON-based profile switching acts like 'Total Recall' for your feet. Highlight the LED feedback and the fact that the high-quality, non-blocking code ensures they won't miss a punch-in.
+- Tone: Inspirational, authoritative, and workflow-centric. Avoid deep jargon unless it relates to studio stability.
+"

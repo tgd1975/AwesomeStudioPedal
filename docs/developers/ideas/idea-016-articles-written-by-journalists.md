@@ -4,6 +4,14 @@ title: Articles Written by Journalists
 description: Write one article for each persona
 ---
 
+**See also:**
+
+- [idea-016-builder-artcle.md](idea-016-builder-artcle.md)
+- [idea-016-developer-article.md](idea-016-developer-article.md)
+- [idea-016-musician-article.md](idea-016-musician-article.md)
+- [idea-016-feature-list-article.md](idea-016-feature-list-article.md)
+
+
 ## Details
 
 Create a series of articles, each written from the perspective of a journalist targeting a specific persona. These articles should highlight the unique benefits and use cases of AwesomeStudioPedal for each persona.
@@ -30,6 +38,7 @@ Each article should include:
 **Objective**: Gather insights and language that resonate with each persona to create compelling and relevant articles.
 
 **Approach**:
+
 1. **Identify Key Themes**: For each persona, identify key themes and pain points.
 2. **Analyze Existing Content**: Review existing marketing material, user testimonials, and community discussions.
 3. **Extract Key Insights**: Identify common language, features, and benefits highlighted for each persona.
@@ -50,6 +59,7 @@ Each article should include:
 **Use Case**: A guitarist uses AwesomeStudioPedal to seamlessly switch between effects and manage loops during a live show.
 
 **Benefits**:
+
 - Simplified pedal management
 - Enhanced focus on performance
 - Customizable effects and presets
@@ -69,6 +79,7 @@ Each article should include:
 **Use Case**: A builder assembles a personalized pedal board with unique effects and configurations.
 
 **Benefits**:
+
 - Modular and customizable design
 - Easy assembly and configuration
 - Open-source and community-supported
@@ -88,6 +99,7 @@ Each article should include:
 **Use Case**: A developer extends the functionality of AwesomeStudioPedal by adding new features and improving existing ones.
 
 **Benefits**:
+
 - Open-source and community-driven
 - Extensible and customizable
 - Opportunities for contribution and collaboration

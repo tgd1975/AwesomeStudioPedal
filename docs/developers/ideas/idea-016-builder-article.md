@@ -202,3 +202,17 @@ Describe the "User Experience" of building the kit.
 This video provides a deep dive into the styling and organization of assembly instructions for 3D printed designs, which is essential for understanding the mechanical nuances and assembly logic of complex projects like the AwesomeStudioPedal.
 
 <http://googleusercontent.com/youtube_content/0>
+
+## Prompt
+
+Goal: Focus on system architecture, transparency, and "clean" engineering.
+
+"Write a technical project audit in the style of c’t Make (Heise) for the AwesomeStudioPedal. Your audience consists of software developers and hardware hackers who value architectural elegance.
+
+Focus on:
+
+    - System Architecture: Analyze the use of the ESP32’s dual-core capabilities for handling the BLE stack vs. the application logic.
+    - Software Quality: Discuss the LittleFS/JSON abstraction layer and how it decouples configuration from firmware. Audit the HID-over-GATT implementation.
+    - The 'Hack-Value': Explain how the modular C++ structure and unused GPIOs make this a perfect 'base-board' for other HID automation projects.
+    - Tone: Analytical, objective, and skeptical. Use precise technical terminology (MTU, interrupts, state machines, baud rates).
+"
