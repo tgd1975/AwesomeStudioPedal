@@ -12,7 +12,7 @@ Usage: python scripts/update_future_ideas.py
 import os
 import re
 
-FUTURE_DIR = "docs/developers/tasks/future"
+FUTURE_DIR = "docs/developers/ideas"
 README = "README.md"
 
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
@@ -52,7 +52,7 @@ def main():
         "",
         "The following ideas are potential future enhancements for AwesomeStudioPedal.",
         "These are not committed features but represent directions the project could explore.",
-        "Ideas are tracked in [`docs/developers/tasks/future/`](docs/developers/tasks/future/).",
+        "Ideas are tracked in [`docs/developers/ideas/`](docs/developers/ideas/).",
         "",
     ]
 
@@ -62,7 +62,7 @@ def main():
             title = idea.get("title", idea["_file"])
             description = idea.get("description", "")
             fname = idea["_file"]
-            entry = f"- **[{idea_id}](docs/developers/tasks/future/{fname}): {title}**"
+            entry = f"- **[{idea_id}](docs/developers/ideas/{fname}): {title}**"
             if description:
                 entry += f" — {description}"
             lines.append(entry)

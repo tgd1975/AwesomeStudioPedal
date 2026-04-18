@@ -12,6 +12,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/non_send_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/pin_action.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/macro_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/littlefs_file_system.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_logger.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/ble_config_reassembler.cpp
@@ -30,6 +31,7 @@ add_executable(pedal_tests
     unit/test_non_keyboard_actions.cpp
     unit/test_pin_action.cpp
     unit/test_ble_config_service.cpp
+    unit/test_macro_action.cpp
     test_config_loader/test_main.cpp
     ${PROD_SOURCES}
 )

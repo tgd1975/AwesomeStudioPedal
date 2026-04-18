@@ -73,7 +73,18 @@
       "name": "07 System Debug",
       "description": "Technical health check profile for the AwesomeStudioPedal. Sends status messages to the Serial Monitor and provides basic OS navigation (Up/Down) for emergency menu control.",
       "buttons": {
-        "A": { "type": "SerialOutputAction", "name": "Ping Pedal", "value": "AwesomeStudioPedal: Profile 7 Active - All systems nominal." },
+        "A": {
+          "type": "SerialOutputAction", "name": "Ping Pedal", "value": "AwesomeStudioPedal: Profile 7 Active - All systems nominal.",
+          "longPress": {
+            "type": "MacroAction",
+            "name": "Scene launch",
+            "steps": [
+              [{ "type": "PinHighAction", "pin": 27 }],
+              [{ "type": "SerialOutputAction", "value": "macro step 2" }],
+              [{ "type": "PinLowAction", "pin": 27 }]
+            ]
+          }
+        },
         "B": { "type": "SendStringAction", "name": "Version Info", "value": "v1.2-Extended-Func" },
         "C": { "type": "SendCharAction", "name": "Nav Up", "value": "KEY_UP_ARROW" },
         "D": { "type": "SendCharAction", "name": "Nav Down", "value": "KEY_DOWN_ARROW" }

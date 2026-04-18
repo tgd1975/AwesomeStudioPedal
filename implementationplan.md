@@ -849,7 +849,7 @@ flowchart LR
 
 ## Idea Cleanup
 
-Once an idea's implementing group is fully done, delete its file from `docs/developers/tasks/future/`. Do not archive — the implementation itself is the record.
+Once an idea's implementing group is fully done, delete its file from `docs/developers/ideas/`. Do not archive — the implementation itself is the record.
 
 | Idea file | Delete after | Depends on |
 |---|---|---|

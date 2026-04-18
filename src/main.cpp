@@ -17,6 +17,7 @@
 #include "config_loader.h"
 #include "delayed_action.h"
 #include "event_dispatcher.h"
+#include "macro_action.h"
 #include "led_controller.h"
 #include "pedal_config.h"
 #include "profile_manager.h"
@@ -414,8 +415,9 @@ void loop()
 
     uint32_t now = millis();
 
-    // Poll in-progress DelayedActions for the current profile.
+    // Poll in-progress actions for the current profile.
     // DelayedAction::execute() checks elapsed time internally and fires exactly once.
+    // MacroAction::update() advances to the next step when the current step completes.
     {
         uint8_t profile = profileManager->getCurrentProfile();
         for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
@@ -424,6 +426,10 @@ void loop()
             if (action && action->isInProgress())
             {
                 action->execute();
+                if (auto* macro = dynamic_cast<MacroAction*>(action))
+                {
+                    macro->update();
+                }
             }
         }
     }

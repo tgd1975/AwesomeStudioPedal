@@ -5,6 +5,7 @@
 #include "file_system.h"
 #include "i_logger.h"
 #include "key_lookup.h"
+#include "macro_action.h"
 #include "non_send_action.h"
 #include "pin_action.h"
 #include "send_action.h"
@@ -303,6 +304,23 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
                 return std::make_unique<DelayedAction>(std::move(inner), delayMs);
             }
             break;
+        }
+        case Action::Type::Macro:
+        {
+            auto macro = std::make_unique<MacroAction>();
+            JsonArray stepsJson = actionJson["steps"];
+            for (JsonArray stepJson : stepsJson)
+            {
+                MacroAction::Step step;
+                for (JsonObject actionObj : stepJson)
+                {
+                    auto inner = createActionFromJson(actionObj, keyboard);
+                    if (inner)
+                        step.push_back(std::move(inner));
+                }
+                macro->addStep(std::move(step));
+            }
+            return macro;
         }
         case Action::Type::PinHigh:
         case Action::Type::PinLow:
