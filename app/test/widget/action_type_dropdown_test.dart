@@ -23,9 +23,9 @@ void main() {
       await tester.tap(find.byType(DropdownButtonFormField<String>));
       await tester.pumpAndSettle();
 
-      // Verify all action type labels appear.
+      // Verify all action type labels appear (including offstage overflow items).
       for (final opt in kActionTypes) {
-        expect(find.text(opt.label), findsWidgets);
+        expect(find.text(opt.label, skipOffstage: false), findsWidgets);
       }
     });
 

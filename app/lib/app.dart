@@ -13,7 +13,7 @@ const Color _kAccent = Color(0xFF2563EB);
 const Color _kBackground = Color(0xFFF5F5F5);
 const Color _kDarkSurface = Color(0xFF1E1E1E);
 
-final _router = GoRouter(
+GoRouter _buildRouter() => GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(
@@ -67,8 +67,21 @@ final _router = GoRouter(
   ],
 );
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  late final GoRouter _router = _buildRouter();
+
+  @override
+  void dispose() {
+    _router.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

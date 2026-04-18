@@ -15,24 +15,22 @@ class _ValidationBannerState extends State<ValidationBanner> {
   bool _isValid = true;
   bool _checked = false;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _validate();
-  }
+  int _lastProfileCount = -1;
 
-  Future<void> _validate() async {
-    final state = context.read<ProfilesState>();
+  Future<void> _validate(ProfilesState state) async {
     if (state.profiles.isEmpty) {
-      setState(() {
-        _isValid = true;
-        _errors = [];
-        _checked = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isValid = true;
+          _errors = [];
+          _checked = true;
+        });
+      }
       return;
     }
     final service = context.read<SchemaService>();
-    final result = await service.validateProfiles(state.toProfilesJson());
+    final json = state.toProfilesJson();
+    final result = await service.validateProfiles(json);
     if (!mounted) return;
     setState(() {
       _isValid = result.isValid;
@@ -43,6 +41,12 @@ class _ValidationBannerState extends State<ValidationBanner> {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<ProfilesState>();
+    final count = state.profiles.length;
+    if (count != _lastProfileCount) {
+      _lastProfileCount = count;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _validate(state));
+    }
     if (!_checked) return const SizedBox.shrink();
     final color = _isValid ? Colors.green : Colors.red;
     final label = _isValid

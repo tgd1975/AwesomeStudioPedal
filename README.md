@@ -41,15 +41,11 @@ The following ideas are potential future enhancements for AwesomeStudioPedal.
 These are not committed features but represent directions the project could explore.
 Ideas are tracked in [`docs/developers/ideas/`](docs/developers/ideas/).
 
-- **[IDEA-001](docs/developers/ideas/idea-001-mobile-app-configuration.md): Mobile App Configuration** — Android/iOS app to configure profiles and settings via Bluetooth
-- **[IDEA-002](docs/developers/ideas/idea-002-cli-tools.md): CLI Tools** — Command-line tools for advanced configuration and automation
 - **[IDEA-003](docs/developers/ideas/idea-003-additional-hardware-support.md): Additional Hardware Support** — Extend compatibility to platforms like Arduino Nano
 - **[IDEA-004](docs/developers/ideas/idea-004-nrf-hardware-testing.md): nRF Hardware Testing** — Thoroughly test and validate the nRF52840 implementation
 - **[IDEA-005](docs/developers/ideas/idea-005-large-button-pedal-prototype.md): Large Button Pedal Prototype** — Design and build a prototype with larger, more accessible buttons
-- **[IDEA-006](docs/developers/ideas/idea-006-macros.md): Macros** — Support for macros — sequences or parallel groups of actions triggered with a single button press
 - **[IDEA-007](docs/developers/ideas/idea-007-display-integration.md): Display Integration** — Add a display to show profile info — small (profile name) or larger (full config)
 - **[IDEA-008](docs/developers/ideas/idea-008-hybrid-tool-with-dsp.md): Hybrid Tool with DSP** — More powerful hardware with DSP and dual audio jacks for guitar pedal effects
-- **[IDEA-009](docs/developers/ideas/idea-009-long-press-event.md): Long Press Event** — Trigger different actions based on button hold duration
 - **[IDEA-010](docs/developers/ideas/idea-010-double-press-event.md): Double Press Event** — Additional functionality triggered by quick successive button presses
 - **[IDEA-011](docs/developers/ideas/idea-011-pcb-board-design.md): PCB Board Design** — Custom PCB to replace the breadboard/prototype setup for reliability and manufacturability
 - **[IDEA-012](docs/developers/ideas/idea-012-two-button-soft-foot-switches.md): Two-Button Version with Soft Foot Switches** — Compact two-button variant using soft foot switches

@@ -190,12 +190,11 @@ if [ -f "$DEVCONTAINER" ]; then
     PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
     if [ -n "$PYTHON" ]; then
         "$PYTHON" -c "
-import json, sys
+import json, sys, re
 try:
-    # Strip single-line comments before parsing (devcontainer.json allows them)
-    import re
     text = open('$DEVCONTAINER').read()
-    text = re.sub(r'//[^\n]*', '', text)
+    # Strip // comments not preceded by : / \" (avoids stripping URLs inside strings)
+    text = re.sub(r'(?<![:\"/])//[^\n]*', '', text)
     json.loads(text)
     print('  OK: devcontainer.json is valid JSON')
 except json.JSONDecodeError as e:
