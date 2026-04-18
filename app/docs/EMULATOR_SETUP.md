@@ -47,7 +47,7 @@ flutter config --android-sdk ~/Android/Sdk
 # Download cmdline-tools manually
 cd ~/Android/Sdk
 mkdir -p cmdline-tools/latest
-# Download from https://developer.android.com/studio#command-line-tools-only
+# Download from https://developer.android.com/studio#downloads (scroll to "Command line tools only")
 # Extract the zip and move its contents into cmdline-tools/latest:
 # unzip commandlinetools-linux-*.zip
 # mv cmdline-tools/* cmdline-tools/latest/
