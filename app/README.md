@@ -4,9 +4,22 @@ Flutter application for configuring AwesomeStudioPedal profiles and hardware set
 
 ## Prerequisites
 
-- Flutter 3.32.x (stable) — installed by the dev container, or install manually from [flutter.dev](https://flutter.dev)
-- For Android builds: Android SDK (command-line tools, API 34) — installed by the dev container
+- Flutter (see `app/.flutter-version` for the pinned version) — install from [flutter.dev](https://flutter.dev/docs/get-started/install)
+- For Android builds: Android SDK with API 34 and build-tools 34.0.0
 - For iOS builds: macOS with Xcode 15+ (cannot build iOS from Linux/Windows)
+
+### Why Flutter is not in the dev container
+
+The dev container is optimised for C++/firmware/docs development. Installing Flutter
+(~700 MB) at container build time makes rebuilds slow and fails in network-restricted
+environments (GitHub Codespaces build phase, corporate proxies). Instead:
+
+- **Local Flutter development**: install Flutter from flutter.dev and add it to `PATH`.
+  The version in `app/.flutter-version` is the single source of truth — it is also read
+  by FVM (`fvm use`) if you use the Flutter Version Manager.
+- **CI**: Flutter jobs run natively on `ubuntu-latest` via `subosito/flutter-action`,
+  which caches the SDK between runs. The version is read from `app/.flutter-version`
+  automatically. See `.github/workflows/app.yml`.
 
 ## Getting started
 

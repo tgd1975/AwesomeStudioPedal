@@ -1,5 +1,11 @@
 name: Flutter App
 
+# Flutter CI runs natively on ubuntu-latest via subosito/flutter-action — NOT inside the
+# dev container. Reason: the devcontainer is a C++/firmware/docs environment; installing
+# Flutter (~700 MB) there makes rebuilds slow and fragile in network-restricted environments.
+# The Flutter version is pinned in app/.flutter-version (single source of truth for CI and
+# local installs via FVM or manual setup).
+
 on:
   push:
     paths:
@@ -18,10 +24,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Read Flutter version
+        id: flutter-version
+        run: echo "version=$(cat app/.flutter-version)" >> "$GITHUB_OUTPUT"
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.0'
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
           channel: 'stable'
           cache: true
 
