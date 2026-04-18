@@ -1,7 +1,8 @@
 ---
 id: TASK-147
 title: Android Emulator Setup Guide for App Development
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-18
 effort: Small (<2h)
 complexity: Junior
@@ -48,6 +49,7 @@ show how to swap it in during development by using a `kDebugMode` flag or a comp
 `--dart-define`.
 
 Hardware acceleration notes:
+
 - **Linux (KVM):** `sudo apt install qemu-kvm` + add user to `kvm` group; verify with
   `kvm-ok`. Most modern Linux distros on x86_64 hardware support this out of the box.
 - **Windows 11:** Hyper-V is preferred (built-in, no install needed if enabled);

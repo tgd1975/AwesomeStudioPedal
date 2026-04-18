@@ -126,6 +126,13 @@ app/
     integration/        — End-to-end app flow tests
 ```
 
+## Development
+
+| Topic | Guide |
+|-------|-------|
+| Android emulator setup (Linux & Windows) | [app/docs/EMULATOR_SETUP.md](docs/EMULATOR_SETUP.md) |
+| BLE mock for emulator / UI development | [app/docs/EMULATOR_SETUP.md — BLE mock section](docs/EMULATOR_SETUP.md#testing-without-hardware--ble-mock) |
+
 ## CI
 
 The GitHub Actions workflow (`.github/workflows/app.yml`) runs on every push or PR that touches `app/`:

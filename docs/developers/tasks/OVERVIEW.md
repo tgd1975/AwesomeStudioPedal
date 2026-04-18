@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 20** | **Closed: 37** | **Total: 57**
+**Open: 19** | **Closed: 38** | **Total: 57**
 
 ## Open Tasks
 
@@ -35,7 +35,6 @@
 | [TASK-142](open/task-142-pre-commit-hook-devcontainer-validation.md) | Pre-Commit Hook for Dev Container Validation | Small (<2h) | Junior |
 | [TASK-143](open/task-143-pre-commit-hook-secrets-detection.md) | Pre-Commit Hook for Secrets Detection | Small (<2h) | Junior |
 | [TASK-146](open/task-146-update-release-workflow.md) | Update Release Workflow and README | Small (<2h) | Junior |
-| [TASK-147](open/task-147-android-emulator-setup-guide.md) | Android Emulator Setup Guide for App Development | Small (<2h) | Junior |
 | [TASK-148](open/task-148-reorganise-developer-documentation.md) | Reorganise Developer Documentation | Medium (2-8h) | Medium |
 
 ## Task Groups
@@ -120,6 +119,7 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | [TASK-143](closed/task-143-advanced-action-widgets.md) | Profile Configurator UI — Advanced Action Widgets | Medium (2-8h) |
 | [TASK-144](closed/task-144-json-preview-validation.md) | Profile Configurator UI — JsonPreviewScreen and Validation Banner | Small (<2h) |
 | [TASK-145](closed/task-145-ble-upload-screen.md) | BLE Upload Screen with Progress | Small (<2h) |
+| [TASK-147](closed/task-147-android-emulator-setup-guide.md) | Android Emulator Setup Guide for App Development | Small (<2h) |
 
 ## Archived Releases
 
