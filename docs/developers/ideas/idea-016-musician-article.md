@@ -26,7 +26,7 @@ A guitarist uses AwesomeStudioPedal to seamlessly switch between effects and man
 
 AwesomeStudioPedal empowers musicians to deliver their best performances with ease and confidence. By simplifying pedal management and enhancing focus on performance, AwesomeStudioPedal is the ultimate solution for musicians looking to revolutionize their live performances.
 
-# Concept
+## Concept
 
 Since we are pivoting to the **Maker-Musician**, we need to stop treating the code like a textbook and start treating it like a **musical instrument**.
 
@@ -36,53 +36,53 @@ Here is your definitive handbook for writing to the musician who builds.
 
 -----
 
-# The Maker-Musician Editorial Handbook
+## The Maker-Musician Editorial Handbook
 
 **Subject:** High-End DIY Studio Gear & Smart Hardware
 
-## I. The Core Philosophy: "Stability is the Greatest Feature"
+### I. The Core Philosophy: "Stability is the Greatest Feature"
 
 The maker-musician values **utility over theory**. They are willing to pick up a soldering iron if the result is a tool that makes their studio unique or their workflow frictionless.
 
-### 1\. The "Musician-First" Audit
+#### 1\. The "Musician-First" Audit
 
 When analyzing a project like *AwesomeStudioPedal*, filter the technical data through these three musical questions:
 
-  * **The Latency Test:** Does the BLE implementation feel like a cable, or is there a "disconnect" between the foot and the DAW?
-  * **The Reliability Factor:** Is the code "rock-solid"? In 2026, we look for **Watchdog Timers** and **Error-Handling** that ensure the pedal doesn't need a reboot mid-session.
-  * **The Workflow Unlock:** What is the specific "Superpower"? (e.g., "This pedal lets you arm tracks while sitting behind the drum kit 10 feet away.")
+- **The Latency Test:** Does the BLE implementation feel like a cable, or is there a "disconnect" between the foot and the DAW?
+- **The Reliability Factor:** Is the code "rock-solid"? In 2026, we look for **Watchdog Timers** and **Error-Handling** that ensure the pedal doesn't need a reboot mid-session.
+- **The Workflow Unlock:** What is the specific "Superpower"? (e.g., "This pedal lets you arm tracks while sitting behind the drum kit 10 feet away.")
 
 -----
 
-## II. The Extensive Writing Recipe
+### II. The Extensive Writing Recipe
 
-### Step 1: The "Why Build It?" Hook (The Problem/Solution)
+#### Step 1: The "Why Build It?" Hook (The Problem/Solution)
 
 Start with a studio nightmare.
 
-  * *Example:* "We’ve all been there: you’ve got the perfect vocal take ready, but you’re 5 feet away from your computer. You don't need a mouse; you need a foot switch that understands your DAW."
+- *Example:* "We’ve all been there: you’ve got the perfect vocal take ready, but you’re 5 feet away from your computer. You don't need a mouse; you need a foot switch that understands your DAW."
 
-### Step 2: Translate the Tech Stack
+#### Step 2: Translate the Tech Stack
 
 Never list a spec without its musical benefit.
 
-  * **ESP32/BLE:** "Wireless freedom with studio-grade reliability."
-  * **JSON Config:** "Total Recall for your foot switches. Change your mappings for every song in seconds."
-  * **Class-Compliant HID:** "No drivers. It works with your iPad for live sets or your Mac for tracking."
+- **ESP32/BLE:** "Wireless freedom with studio-grade reliability."
+- **JSON Config:** "Total Recall for your foot switches. Change your mappings for every song in seconds."
+- **Class-Compliant HID:** "No drivers. It works with your iPad for live sets or your Mac for tracking."
 
-### Step 3: The Architecture Deep-Dive (The "Brain")
+#### Step 3: The Architecture Deep-Dive (The "Brain")
 
 Focus on **Software Health** as a proxy for **Professionalism**.
 
-  * Evaluate the **Logic Flow**: Is it non-blocking? (This means the "brain" is always listening for your foot, never getting stuck on background tasks).
-  * Evaluate **Extensibility**: Frame it as "Future-Proofing." (e.g., "The modular code means that when MIDI 2.0 becomes the new standard next year, this pedal is just a firmware update away from supporting it.")
+- Evaluate the **Logic Flow**: Is it non-blocking? (This means the "brain" is always listening for your foot, never getting stuck on background tasks).
+- Evaluate **Extensibility**: Frame it as "Future-Proofing." (e.g., "The modular code means that when MIDI 2.0 becomes the new standard next year, this pedal is just a firmware update away from supporting it.")
 
-### Step 4: The Mechanical Concept (The "Chassis")
+#### Step 4: The Mechanical Concept (The "Chassis")
 
 Discuss the 3D files from an **Ergonomic and Aesthetic** standpoint.
 
-  * **Stage-Readiness:** Is the enclosure designed to protect the "brains" from a heavy stomp?
-  * **Serviceability:** Can a musician fix a broken button in 5 minutes with a screwdriver, or is it a "sealed-box" nightmare?
+- **Stage-Readiness:** Is the enclosure designed to protect the "brains" from a heavy stomp?
+- **Serviceability:** Can a musician fix a broken button in 5 minutes with a screwdriver, or is it a "sealed-box" nightmare?
 
 -----
 
@@ -99,11 +99,11 @@ Discuss the 3D files from an **Ergonomic and Aesthetic** standpoint.
 
 ## IV. The "Cookbook" Structure (Summary)
 
-1.  **The Session Hook:** Lead with a creative problem.
-2.  **The "Under the Hood" (The Specs):** A scannable list of what’s inside, translated to studio benefits.
-3.  **The Code Audit:** 1-2 paragraphs on why the software architecture makes it a "Pro" tool.
-4.  **The Builder's Journey:** How long will it take to get from "Parts" to "Pedalboard"?
-5.  **The Customization Potential:** Ideas for how to "Mod" it for specific musical styles.
+1. **The Session Hook:** Lead with a creative problem.
+2. **The "Under the Hood" (The Specs):** A scannable list of what’s inside, translated to studio benefits.
+3. **The Code Audit:** 1-2 paragraphs on why the software architecture makes it a "Pro" tool.
+4. **The Builder's Journey:** How long will it take to get from "Parts" to "Pedalboard"?
+5. **The Customization Potential:** Ideas for how to "Mod" it for specific musical styles.
 
 -----
 
