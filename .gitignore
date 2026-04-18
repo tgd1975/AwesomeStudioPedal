@@ -94,3 +94,5 @@ app/android/.gradle/
 app/ios/Pods/
 app/ios/.symlinks/
 app/ios/Flutter/flutter_export_environment.sh
+app/ios/Flutter/Generated.xcconfig
+app/android/local.properties
