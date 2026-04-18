@@ -23,12 +23,10 @@
   },
 
   // postCreateCommand: runs once on first container creation.
-  // Installs tools needed for host tests, linting, and docs — everything that works
-  // without physical hardware. Fast enough to keep the container startup snappy.
-  // postCreateCommand: runs once on first container creation.
-  // PlatformIO CLI is installed here so VS Code never prompts for a restart on attach.
+  // Installs tools needed for host tests, linting, docs, and Flutter app development.
+  // Flutter 3.32.x (stable) + Android SDK command-line tools only (no Android Studio).
   // Note: the ESP32 toolchain (~300 MB) is still downloaded on demand on first `pio run`.
-  "postCreateCommand": "sudo apt-get update -q && sudo apt-get install -y -q lcov doxygen clang-format && npm install -g markdownlint-cli2 && pip install --quiet platformio uv && uv tool install mistral-vibe && cmake -B .vscode/build -G Ninja -DCMAKE_BUILD_TYPE=Debug -Wno-dev && make install-hooks && curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules > /dev/null",
+  "postCreateCommand": "sudo apt-get update -q && sudo apt-get install -y -q lcov doxygen clang-format curl unzip openjdk-17-jdk && npm install -g markdownlint-cli2 && pip install --quiet platformio uv && uv tool install mistral-vibe && cmake -B .vscode/build -G Ninja -DCMAKE_BUILD_TYPE=Debug -Wno-dev && make install-hooks && curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules > /dev/null && curl -fsSL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.32.0-stable.tar.xz -o /tmp/flutter.tar.xz && sudo tar -xf /tmp/flutter.tar.xz -C /opt && rm /tmp/flutter.tar.xz && sudo chown -R vscode:vscode /opt/flutter && echo 'export PATH=\"/opt/flutter/bin:$PATH\"' >> /home/vscode/.bashrc && /opt/flutter/bin/flutter config --no-analytics && curl -fsSL https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o /tmp/cmdtools.zip && sudo mkdir -p /opt/android-sdk/cmdline-tools && sudo unzip -q /tmp/cmdtools.zip -d /opt/android-sdk/cmdline-tools && sudo mv /opt/android-sdk/cmdline-tools/cmdline-tools /opt/android-sdk/cmdline-tools/latest && rm /tmp/cmdtools.zip && sudo chown -R vscode:vscode /opt/android-sdk && echo 'export ANDROID_SDK_ROOT=/opt/android-sdk' >> /home/vscode/.bashrc && echo 'export PATH=\"/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/platform-tools:$PATH\"' >> /home/vscode/.bashrc && yes | /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses && /opt/android-sdk/cmdline-tools/latest/bin/sdkmanager 'platform-tools' 'platforms;android-34' 'build-tools;34.0.0' && /opt/flutter/bin/flutter doctor",
 
   "customizations": {
     "vscode": {
@@ -60,7 +58,10 @@
         "mermaidchart.vscode-mermaid-chart",
         // AI assistants.
         "anthropic.claude-code",
-        "nmallet.vscode-mistral-vibe"
+        "nmallet.vscode-mistral-vibe",
+        // Flutter/Dart development.
+        "dart-code.flutter",
+        "dart-code.dart-code"
       ],
       "settings": {
         // Match the CMake build directory used by the Makefile and CI.
@@ -77,17 +78,25 @@
 
   "remoteUser": "vscode",
 
+  // Grant access to all host USB/serial devices present at container start.
+  // Safe when no device is connected (Codespaces, CI) — the container starts normally,
+  // and flash/monitor commands simply fail with "device not found" as expected.
+  // On Windows: forward the USB device first with usbipd-win (see DEVELOPMENT_SETUP.md).
+  "privileged": true,
+
   // Suppress VS Code auto-forwarding ports it detects from PlatformIO's internal
   // processes — we don't need any container ports forwarded to the host.
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },
 
-  // Pass Mistral API key from host environment into the container.
-  // Set MISTRAL_API_KEY in .devcontainer/.env (gitignored) on your host.
-  "remoteEnv": {
-    "MISTRAL_API_KEY": "${localEnv:MISTRAL_API_KEY}"
-  },
+  // Runs on the host before the container starts — creates .env from the example if absent.
+  // Prevents a Docker error when .env doesn't exist yet (e.g. fresh clone).
+  "initializeCommand": "[ -f .devcontainer/.env ] || cp .devcontainer/.env.example .devcontainer/.env",
+
+  // Pass secrets from .devcontainer/.env (gitignored) into the container at runtime.
+  // Fill in your values in .devcontainer/.env — never commit that file.
+  "runArgs": ["--env-file", "${localWorkspaceFolder}/.devcontainer/.env"],
 
   // Mount the host ~/.claude directory into the container so Claude Code
   // picks up existing credentials without storing any secrets in the repo.

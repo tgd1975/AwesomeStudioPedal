@@ -7,7 +7,7 @@ effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: No
 group: MobileApp
-order: 9
+order: 13
 prerequisites: [TASK-123]
 ---
 
@@ -18,21 +18,25 @@ Comprehensive Flutter test suite covering unit, widget, and integration layers. 
 ## Acceptance Criteria
 
 ### Unit tests (`app/test/unit/`)
+
 - [ ] `ActionConfig.fromJson` / `toJson` round-trips for every action type (SendKey, SendMediaKey, SendString, PinHigh, PinLow, PinToggle, PinHighWhilePressed, PinLowWhilePressed, Delayed, Macro)
 - [ ] `SchemaService.validateProfiles` accepts `data/profiles.json`; rejects profile with missing `type` field
 - [ ] `BleService.uploadProfiles` chunking: 1 500-byte payload produces 3 chunks with correct 2-byte big-endian sequence numbers
 
 ### Widget tests (`app/test/widget/`)
+
 - [ ] `ActionTypeDropdown` renders all action types; selecting "Macro" shows `MacroStepList`
 - [ ] `ActionEditorScreen` for `DelayedAction` shows nested action editor
 - [ ] Validation banner shows red error count when invalid profile is loaded
 
 ### Integration test (`app/test/integration/`)
+
 - [ ] App launches, `ScannerScreen` appears, mock `BleService` injects a fake scan result
 - [ ] Tapping "Connect" navigates to `HomeScreen`
 - [ ] Editing a profile and tapping upload calls `BleService.uploadProfiles` with valid JSON
 
 ### General
+
 - [ ] `flutter test` passes with no failures
 - [ ] `flutter analyze` passes
 

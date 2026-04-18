@@ -7,7 +7,7 @@ effort: Small (<2h)
 complexity: Junior
 human-in-loop: Support
 group: MobileApp
-order: 8
+order: 12
 prerequisites: [TASK-122]
 ---
 

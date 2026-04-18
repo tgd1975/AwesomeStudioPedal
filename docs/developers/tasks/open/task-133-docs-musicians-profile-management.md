@@ -7,7 +7,7 @@ effort: Small (<2h)
 complexity: Junior
 human-in-loop: No
 group: MobileApp
-order: 12
+order: 16
 prerequisites: [TASK-131, TASK-132]
 ---
 

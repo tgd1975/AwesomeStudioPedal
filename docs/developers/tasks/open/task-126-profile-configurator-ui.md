@@ -1,40 +1,49 @@
 ---
 id: TASK-126
-title: Profile Configurator UI (Port of Web Config-Builder)
+title: Profile Configurator UI — Core Screens and Basic Action Editor
 status: open
 opened: 2026-04-17
-effort: Large (>8h)
+effort: Medium (2-8h)
 complexity: Senior
 human-in-loop: Support
 group: MobileApp
-order: 5
+order: 6
 prerequisites: [TASK-123]
 ---
 
 ## Description
 
-Build the core profile editing UI — a Flutter port of `docs/tools/config-builder/`. This is the largest UI task in Group E. All screens must handle the new action types introduced in this sprint (LongPress, DoublePress, Macro).
+Build the core profile editing screens and a basic `ActionEditorScreen` covering simple
+action types (key, media key, string, pin, serial). Advanced nested widgets (Delayed,
+Macro, LongPress, DoublePress) are implemented separately in TASK-143. The JSON preview
+screen and validation banner are in TASK-144.
 
 ## Acceptance Criteria
 
 ### Screens
+
 - [ ] `HomeScreen` — three cards: "Connect to pedal", "Edit profiles", "Upload"; navigation hub
-- [ ] `ProfileListScreen` — list profiles with name/description; add/remove/reorder; validation banner (green "Valid" / red error count)
-- [ ] `ProfileEditorScreen` — button slots (A–D, expandable per hardware config); tap slot to open `ActionEditorScreen`
-- [ ] `ActionEditorScreen` — full action configurator for one slot
-- [ ] `JsonPreviewScreen` — live JSON preview, syntax-highlighted, with Copy and Share buttons
+- [ ] `ProfileListScreen` — list profiles with name/description; add/remove/reorder
+- [ ] `ProfileEditorScreen` — button slots (A–D, expandable per hardware config); tap slot to
+  open `ActionEditorScreen`
+- [ ] `ActionEditorScreen` — action configurator for one slot covering simple types
 
-### Widgets in `ActionEditorScreen`
-- [ ] `ActionTypeDropdown` — all action types from `key_lookup.cpp` `ACTION_TYPE_TABLE`, plus LongPress/DoublePress/Macro groupings
-- [ ] `KeyValueField` — text input with autocomplete from `KEY_NAMES` / `MEDIA_KEY_VALUES` (ported from `builder.js`)
-- [ ] `PinField` — numeric input, range 0–39, with GPIO diagram tooltip
-- [ ] `DelayedActionWidget` — `delayMs` field + nested `ActionEditorScreen` as expandable card
-- [ ] `MacroStepList` — reorderable list of steps; each step is a reorderable list of `ActionEditorScreen` cards
-- [ ] `LongPressSlot` / `DoublePressSlot` — optional collapsible cards with nested `ActionEditorScreen`
+### Widgets in `ActionEditorScreen` (basic)
 
-### Validation
-- [ ] Persistent validation banner at bottom of `ProfileListScreen`
-- [ ] Tapping an error navigates to the offending field
+- [ ] `ActionTypeDropdown` — all action types from `key_lookup.cpp` `ACTION_TYPE_TABLE`
+  (SendKey, SendMediaKey, SendString, PinHigh, PinLow, PinToggle, PinHighWhilePressed,
+  PinLowWhilePressed, SerialOutput); Delayed/Macro/LongPress/DoublePress shown but disabled
+  with "coming soon" tooltip until TASK-143
+- [ ] `KeyValueField` — text input with autocomplete from `KEY_NAMES` / `MEDIA_KEY_VALUES`
+  (ported from `builder.js`)
+- [ ] `PinField` — numeric input, range 0–39
+- [ ] `NameField` — optional display name for the action
+
+### Style
+
+- [ ] Dark/light `MaterialApp` theme with accent `#2563eb`, background `#f5f5f5` (matches web
+  config-builder)
+- [ ] `flutter analyze` passes
 
 ## Files to Touch
 
@@ -42,13 +51,15 @@ Build the core profile editing UI — a Flutter port of `docs/tools/config-build
 - `app/lib/screens/profile_list_screen.dart` (new)
 - `app/lib/screens/profile_editor_screen.dart` (new)
 - `app/lib/screens/action_editor_screen.dart` (new)
-- `app/lib/screens/json_preview_screen.dart` (new)
-- `app/lib/widgets/` (new directory with widget files)
+- `app/lib/widgets/action_type_dropdown.dart` (new)
+- `app/lib/widgets/key_value_field.dart` (new)
+- `app/lib/widgets/pin_field.dart` (new)
+- `app/lib/constants/action_types.dart` (new — port of `builder.js` ACTION_TYPES array)
 
 ## Test Plan
 
-**Widget tests**: covered by TASK-130.
-Manual: open app → create a profile → add a macro action with two steps → preview JSON → verify output matches expected structure.
+Widget tests covered by TASK-130. Manual: open app → create profile → assign SendKey action
+to a button slot → navigate back → profile appears in list.
 
 ## Prerequisites
 
@@ -56,4 +67,7 @@ Manual: open app → create a profile → add a macro action with two steps → 
 
 ## Notes
 
-Reference `docs/tools/config-builder/builder.js` for the action type list, key name autocomplete values, and existing UI logic. Match the web builder's colour scheme exactly (`#2563eb` accent). The web builder's `ACTION_TYPES` array should be ported to a Dart constant in `app/lib/constants/action_types.dart`.
+Reference `docs/tools/config-builder/builder.js` for the `ACTION_TYPES` array, `KEY_NAMES`,
+`MEDIA_KEY_VALUES`, and colour scheme. Port `ACTION_TYPES` to
+`app/lib/constants/action_types.dart`. GPIO diagram tooltip on `PinField` is deferred to
+TASK-143.

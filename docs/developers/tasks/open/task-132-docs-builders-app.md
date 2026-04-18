@@ -7,8 +7,8 @@ effort: Small (<2h)
 complexity: Junior
 human-in-loop: No
 group: MobileApp
-order: 11
-prerequisites: [TASK-127]
+order: 15
+prerequisites: [TASK-145]
 ---
 
 ## Description
@@ -38,4 +38,4 @@ Review only.
 
 ## Prerequisites
 
-- **TASK-127** — upload flow must be final before the upload section can be written accurately
+- **TASK-145** — upload screen must be final before the upload section can be written accurately

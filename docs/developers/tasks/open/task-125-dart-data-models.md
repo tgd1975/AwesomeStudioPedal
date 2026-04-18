@@ -7,7 +7,7 @@ effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: No
 group: MobileApp
-order: 4
+order: 5
 prerequisites: [TASK-123]
 ---
 

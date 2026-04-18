@@ -7,8 +7,8 @@ effort: Small (<2h)
 complexity: Junior
 human-in-loop: No
 group: MobileApp
-order: 10
-prerequisites: [TASK-126]
+order: 14
+prerequisites: [TASK-144]
 ---
 
 ## Description
@@ -37,4 +37,4 @@ Review only — a second pair of eyes should follow the doc on a fresh machine a
 
 ## Prerequisites
 
-- **TASK-126** — profile configurator must be final before documenting the upload flow that follows it
+- **TASK-144** — all configurator screens (including JSON preview) must be final before documenting the flow
