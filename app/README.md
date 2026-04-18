@@ -14,12 +14,46 @@ The dev container is optimised for C++/firmware/docs development. Installing Flu
 (~700 MB) at container build time makes rebuilds slow and fails in network-restricted
 environments (GitHub Codespaces build phase, corporate proxies). Instead:
 
-- **Local Flutter development**: install Flutter from flutter.dev and add it to `PATH`.
-  The version in `app/.flutter-version` is the single source of truth — it is also read
-  by FVM (`fvm use`) if you use the Flutter Version Manager.
+- **Local Flutter development**: install Flutter on your host machine (see below) and add
+  it to `PATH`. The version in `app/.flutter-version` is the single source of truth — it
+  is also read by FVM (`fvm use`) if you use the Flutter Version Manager.
 - **CI**: Flutter jobs run natively on `ubuntu-latest` via `subosito/flutter-action`,
   which caches the SDK between runs. The version is read from `app/.flutter-version`
   automatically. See `.github/workflows/app.yml`.
+
+### Installing Flutter on your host machine
+
+The required version is in `app/.flutter-version`. Install that exact version.
+
+**Linux (Ubuntu/Debian)**
+
+```bash
+# Download and extract Flutter to ~/flutter (or any path you prefer)
+FLUTTER_VERSION=$(cat app/.flutter-version)
+curl -fsSL "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz" \
+  -o /tmp/flutter.tar.xz
+tar -xf /tmp/flutter.tar.xz -C ~/
+rm /tmp/flutter.tar.xz
+
+# Add to PATH (add this line to ~/.bashrc or ~/.zshrc)
+export PATH="$HOME/flutter/bin:$PATH"
+
+# Verify
+flutter --version
+flutter doctor
+```
+
+**Windows 11**
+
+1. Download the Flutter zip from [flutter.dev/releases](https://docs.flutter.dev/release/archive) — pick the version matching `app/.flutter-version`, Windows stable.
+2. Extract to `C:\flutter` (avoid paths with spaces or special characters).
+3. Add `C:\flutter\bin` to your user `PATH` via **Settings → System → About → Advanced system settings → Environment Variables**.
+4. Open a new terminal and run `flutter doctor` to verify.
+
+> **Windows + dev container**: Flutter runs on your Windows host, outside the container.
+> Open a separate PowerShell/Git Bash terminal (not the VS Code integrated terminal attached
+> to the container) and run `flutter` commands from there, pointing at the `app/` folder
+> on your local clone.
 
 ## Getting started
 
