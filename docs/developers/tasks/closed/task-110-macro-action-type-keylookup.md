@@ -1,7 +1,8 @@
 ---
 id: TASK-110
 title: Add Macro to Action::Type and key_lookup
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-17
 effort: Trivial (<30m)
 complexity: Junior
