@@ -28,18 +28,16 @@ The required version is in `app/.flutter-version`. Install that exact version.
 **Linux (Ubuntu/Debian)**
 
 ```bash
-# Download and extract Flutter to ~/flutter (or any path you prefer)
-FLUTTER_VERSION=$(cat app/.flutter-version)
-curl -fsSL "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz" \
-  -o /tmp/flutter.tar.xz
-tar -xf /tmp/flutter.tar.xz -C ~/
-rm /tmp/flutter.tar.xz
+# Download the version matching app/.flutter-version from the Flutter releases archive:
+# https://docs.flutter.dev/release/archive?tab=linux
+# Extract to ~/flutter (or any path without spaces)
+tar -xf flutter_linux_*-stable.tar.xz -C ~/
 
 # Add to PATH (add this line to ~/.bashrc or ~/.zshrc)
 export PATH="$HOME/flutter/bin:$PATH"
 
 # Verify
-flutter --version
+flutter --version   # should match app/.flutter-version
 flutter doctor
 ```
 
@@ -93,6 +91,7 @@ flutter build ios --no-codesign
 ## iOS BLE notes
 
 On iOS, the pedal advertises two Bluetooth services simultaneously:
+
 - **HID keyboard profile** — paired via iOS Settings → Bluetooth. The system handles this transparently; the app does not interact with it.
 - **Custom GATT config service** (`516515c0-...`) — this is what the app connects to for profile and hardware config uploads. CoreBluetooth accesses it independently of the HID pairing.
 
@@ -119,6 +118,7 @@ app/
 ## CI
 
 The GitHub Actions workflow (`.github/workflows/app.yml`) runs on every push or PR that touches `app/`:
+
 1. `flutter pub get`
 2. `flutter analyze`
 3. `flutter test`
