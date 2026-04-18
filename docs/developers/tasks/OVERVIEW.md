@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 21** | **Closed: 46** | **Total: 67**
+**Open: 27** | **Closed: 46** | **Total: 73**
 
 ## Open Tasks
 
@@ -38,6 +38,12 @@
 | [TASK-156](open/task-156-feature-test-app-upload-preview.md) | Feature Test — App upload screen & JSON preview | Small (2-4h) | Low |
 | [TASK-157](open/task-157-feature-test-e2e-integration-edge.md) | Feature Test — E2E musician workflows, integration & edge cases | Medium (4-8h) | Medium |
 | [TASK-158](open/task-158-feature-test-ios-build-deploy.md) | Feature Test — Build, deploy and test the iOS app on iPhone | Medium (4-8h) | Medium |
+| [TASK-159](open/task-159-makefile-refactor.md) | Refactor Makefile — add app targets and improve help presentation | Small (2-4h) | Low |
+| [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium |
+| [TASK-161](open/task-161-publish-ios-app-store.md) | Publish app to Apple App Store | Large (8-24h) | High |
+| [TASK-162](open/task-162-ui-ux-design.md) | Create UI/UX design for simulator, configurators, and mobile app | Large (8-24h) | High |
+| [TASK-163](open/task-163-implement-design-web-tools.md) | Implement design — web simulator and configurators | Large (8-24h) | Medium |
+| [TASK-164](open/task-164-implement-design-flutter-app.md) | Implement design — Flutter mobile app | Large (8-24h) | Medium |
 
 ## Task Groups
 
@@ -64,6 +70,27 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | 6 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium | Support |
 | 7 | ~~[TASK-138](closed/task-138-simulator-longpress-doublepress.md)~~ | ~~Simulator — Long-Press and Double-Press Support~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
 | 8 | ~~[TASK-139](closed/task-139-config-builder-longpress-doublepress.md)~~ | ~~Profile Configurator — Long-Press and Double-Press Fields~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
+
+### design
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| ? | [TASK-162](open/task-162-ui-ux-design.md) | Create UI/UX design for simulator, configurators, and mobile app | Large (8-24h) | High | Main ★ |
+| ? | [TASK-163](open/task-163-implement-design-web-tools.md) | Implement design — web simulator and configurators | Large (8-24h) | Medium | None |
+| ? | [TASK-164](open/task-164-implement-design-flutter-app.md) | Implement design — Flutter mobile app | Large (8-24h) | Medium | Main ★ |
+
+### distribution
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| ? | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | Main ★ |
+| ? | [TASK-161](open/task-161-publish-ios-app-store.md) | Publish app to Apple App Store | Large (8-24h) | High | Main ★ |
+
+### dx
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| ? | [TASK-159](open/task-159-makefile-refactor.md) | Refactor Makefile — add app targets and improve help presentation | Small (2-4h) | Low | None |
 
 ### feature_test
 
