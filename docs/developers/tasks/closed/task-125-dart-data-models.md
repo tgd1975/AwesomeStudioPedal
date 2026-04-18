@@ -1,7 +1,8 @@
 ---
 id: TASK-125
 title: Dart Data Models and Schema Validation Service
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium

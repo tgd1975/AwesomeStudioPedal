@@ -1,7 +1,8 @@
 ---
 id: TASK-144
 title: Profile Configurator UI — JsonPreviewScreen and Validation Banner
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-18
 effort: Small (<2h)
 complexity: Junior

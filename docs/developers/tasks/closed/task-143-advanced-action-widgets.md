@@ -1,7 +1,8 @@
 ---
 id: TASK-143
 title: Profile Configurator UI — Advanced Action Widgets
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-18
 effort: Medium (2-8h)
 complexity: Senior

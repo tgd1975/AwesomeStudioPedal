@@ -1,7 +1,8 @@
 ---
 id: TASK-145
 title: BLE Upload Screen with Progress
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-18
 effort: Small (<2h)
 complexity: Junior

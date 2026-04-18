@@ -1,0 +1,31 @@
+name: awesome_studio_pedal
+description: Configure AwesomeStudioPedal profiles and hardware settings over BLE.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_blue_plus: ^1.35.0
+  file_picker: ^6.2.1
+  share_plus: ^7.2.2
+  provider: ^6.1.2
+  go_router: ^13.2.4
+  json_schema: ^5.2.0
+  path_provider: ^2.1.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mockito: ^5.4.4
+  build_runner: ^2.4.13
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - ../data/profiles.schema.json
+    - ../data/config.schema.json

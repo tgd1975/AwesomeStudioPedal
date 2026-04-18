@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'screens/home_screen.dart';
+import 'screens/scanner_screen.dart';
+import 'screens/profile_list_screen.dart';
+import 'screens/profile_editor_screen.dart';
+import 'screens/action_editor_screen.dart';
+import 'screens/upload_screen.dart';
+import 'screens/json_preview_screen.dart';
+import 'models/action_config.dart';
+
+const Color _kAccent = Color(0xFF2563EB);
+const Color _kBackground = Color(0xFFF5F5F5);
+const Color _kDarkBackground = Color(0xFF121212);
+const Color _kDarkSurface = Color(0xFF1E1E1E);
+
+final _router = GoRouter(
+  initialLocation: '/',
+  routes: [
+    GoRoute(
+      path: '/',
+      name: 'home',
+      builder: (_, __) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: '/scan',
+      name: 'scan',
+      builder: (_, __) => const ScannerScreen(),
+    ),
+    GoRoute(
+      path: '/profiles',
+      name: 'profiles',
+      builder: (_, __) => const ProfileListScreen(),
+    ),
+    GoRoute(
+      path: '/profile/:id',
+      name: 'profile',
+      builder: (context, state) {
+        final id = int.parse(state.pathParameters['id']!);
+        return ProfileEditorScreen(profileIndex: id);
+      },
+    ),
+    GoRoute(
+      path: '/action/:buttonId',
+      name: 'action',
+      builder: (context, state) {
+        final buttonId = state.pathParameters['buttonId']!;
+        final extra = state.extra as Map<String, dynamic>?;
+        final action = extra?['action'] as ActionConfig?;
+        final onSave = extra?['onSave'] as void Function(ActionConfig)?;
+        return ActionEditorScreen(
+          buttonId: buttonId,
+          initial: action,
+          onSave: onSave ?? (_) {},
+        );
+      },
+    ),
+    GoRoute(
+      path: '/upload',
+      name: 'upload',
+      builder: (_, __) => const UploadScreen(),
+    ),
+    GoRoute(
+      path: '/json-preview',
+      name: 'json-preview',
+      builder: (_, __) => const JsonPreviewScreen(),
+    ),
+  ],
+);
+
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      title: 'AwesomeStudioPedal',
+      routerConfig: _router,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: _kAccent,
+          brightness: Brightness.light,
+          background: _kBackground,
+        ),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: _kAccent,
+          brightness: Brightness.dark,
+          background: _kDarkBackground,
+          surface: _kDarkSurface,
+        ),
+      ),
+      themeMode: ThemeMode.system,
+    );
+  }
+}

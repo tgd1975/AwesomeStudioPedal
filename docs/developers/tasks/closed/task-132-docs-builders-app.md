@@ -1,7 +1,8 @@
 ---
 id: TASK-132
 title: Builders Docs — Mobile App Walkthrough
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior

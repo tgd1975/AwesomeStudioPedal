@@ -1,7 +1,8 @@
 ---
 id: TASK-142
 title: BLE Service Layer — Chunked Upload Protocol
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-18
 effort: Small (<2h)
 complexity: Medium
