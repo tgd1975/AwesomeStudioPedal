@@ -79,3 +79,8 @@ docs/coverage/
 
 # Dev container local secrets (API keys — never commit)
 .devcontainer/.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
