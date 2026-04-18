@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 11** | **Closed: 46** | **Total: 57**
+**Open: 20** | **Closed: 46** | **Total: 66**
 
 ## Open Tasks
 
@@ -28,6 +28,15 @@
 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium |
 | [TASK-140](open/task-140-mobile-responsive-tools.md) | Mobile-Responsive Layout for Simulator and Configurator Tools | Large (8-24h) | Medium |
 | [TASK-148](open/task-148-reorganise-developer-documentation.md) | Reorganise Developer Documentation | Medium (2-8h) | Medium |
+| [TASK-149](open/task-149-feature-test-cli-validate.md) | Feature Test — CLI validate command | Small (1-2h) | Low |
+| [TASK-150](open/task-150-feature-test-cli-scan.md) | Feature Test — CLI scan command | Small (1-2h) | Low |
+| [TASK-151](open/task-151-feature-test-cli-upload.md) | Feature Test — CLI upload command | Small (2-4h) | Low |
+| [TASK-152](open/task-152-feature-test-cli-upload-config.md) | Feature Test — CLI upload-config command | Small (1-2h) | Low |
+| [TASK-153](open/task-153-feature-test-app-home-ble.md) | Feature Test — App home screen & BLE connection | Small (2-4h) | Low |
+| [TASK-154](open/task-154-feature-test-app-profiles.md) | Feature Test — App profile list & profile editor | Small (2-4h) | Low |
+| [TASK-155](open/task-155-feature-test-app-action-editor.md) | Feature Test — App action editor (all action types) | Small (2-4h) | Low |
+| [TASK-156](open/task-156-feature-test-app-upload-preview.md) | Feature Test — App upload screen & JSON preview | Small (2-4h) | Low |
+| [TASK-157](open/task-157-feature-test-e2e-integration-edge.md) | Feature Test — E2E musician workflows, integration & edge cases | Medium (4-8h) | Medium |
 
 ## Task Groups
 
@@ -54,6 +63,20 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | 6 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium | Support |
 | 7 | ~~[TASK-138](closed/task-138-simulator-longpress-doublepress.md)~~ | ~~Simulator — Long-Press and Double-Press Support~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
 | 8 | ~~[TASK-139](closed/task-139-config-builder-longpress-doublepress.md)~~ | ~~Profile Configurator — Long-Press and Double-Press Fields~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
+
+### feature_test
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| ? | [TASK-149](open/task-149-feature-test-cli-validate.md) | Feature Test — CLI validate command | Small (1-2h) | Low | Main ★ |
+| ? | [TASK-150](open/task-150-feature-test-cli-scan.md) | Feature Test — CLI scan command | Small (1-2h) | Low | Main ★ |
+| ? | [TASK-151](open/task-151-feature-test-cli-upload.md) | Feature Test — CLI upload command | Small (2-4h) | Low | Main ★ |
+| ? | [TASK-152](open/task-152-feature-test-cli-upload-config.md) | Feature Test — CLI upload-config command | Small (1-2h) | Low | Main ★ |
+| ? | [TASK-153](open/task-153-feature-test-app-home-ble.md) | Feature Test — App home screen & BLE connection | Small (2-4h) | Low | Main ★ |
+| ? | [TASK-154](open/task-154-feature-test-app-profiles.md) | Feature Test — App profile list & profile editor | Small (2-4h) | Low | Main ★ |
+| ? | [TASK-155](open/task-155-feature-test-app-action-editor.md) | Feature Test — App action editor (all action types) | Small (2-4h) | Low | Main ★ |
+| ? | [TASK-156](open/task-156-feature-test-app-upload-preview.md) | Feature Test — App upload screen & JSON preview | Small (2-4h) | Low | Main ★ |
+| ? | [TASK-157](open/task-157-feature-test-e2e-integration-edge.md) | Feature Test — E2E musician workflows, integration & edge cases | Medium (4-8h) | Medium | Main ★ |
 
 ## Closed Tasks
 
