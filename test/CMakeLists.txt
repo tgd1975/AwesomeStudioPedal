@@ -14,6 +14,7 @@ set(PROD_SOURCES
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/pin_action.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/littlefs_file_system.cpp
     ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/serial_logger.cpp
+    ${CMAKE_SOURCE_DIR}/lib/PedalLogic/src/ble_config_reassembler.cpp
     ${CMAKE_SOURCE_DIR}/lib/hardware/esp32/src/button.cpp
     ${CMAKE_SOURCE_DIR}/test/fakes/arduino_shim.cpp
     ${CMAKE_SOURCE_DIR}/test/fakes/hardware_config_fake.cpp
@@ -28,6 +29,7 @@ add_executable(pedal_tests
     unit/test_action_parsing.cpp
     unit/test_non_keyboard_actions.cpp
     unit/test_pin_action.cpp
+    unit/test_ble_config_service.cpp
     test_config_loader/test_main.cpp
     ${PROD_SOURCES}
 )

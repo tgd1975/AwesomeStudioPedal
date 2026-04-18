@@ -7,7 +7,7 @@
  * Tests that exercise specific pin values should not rely on these numbers;
  * this fake exists only to satisfy the linker.
  */
-const HardwareConfig hardwareConfig = {
+HardwareConfig hardwareConfig = {
     7,                    // numProfiles
     3,                    // numSelectLeds
     4,                    // numButtons

@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "config.schema.json",
+  "title": "AwesomeStudioPedal Hardware Config",
+  "type": "object",
+  "required": ["numProfiles", "numSelectLeds", "numButtons", "ledBluetooth", "ledPower", "ledSelect", "buttonSelect", "buttonPins"],
+  "additionalProperties": false,
+  "properties": {
+    "_doc": { "type": "string" },
+    "numProfiles": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "numSelectLeds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6
+    },
+    "numButtons": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 26
+    },
+    "ledBluetooth": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 39
+    },
+    "ledPower": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 39
+    },
+    "ledSelect": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 0, "maximum": 39 }
+    },
+    "buttonSelect": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 39
+    },
+    "buttonPins": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 0, "maximum": 39 }
+    }
+  }
+}

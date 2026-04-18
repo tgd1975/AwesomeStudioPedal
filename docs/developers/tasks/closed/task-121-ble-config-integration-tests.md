@@ -1,7 +1,7 @@
 ---
 id: TASK-121
 title: BLE Config Integration Tests (Host + On-Device)
-status: open
+status: closed
 opened: 2026-04-17
 effort: Large (>8h)
 complexity: Senior

@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 38** | **Closed: 9** | **Total: 47**
+**Open: 37** | **Closed: 11** | **Total: 48**
 
 ## Open Tasks
 
@@ -36,8 +36,6 @@
 | [TASK-117](open/task-117-ble-config-gatt-spec.md) | BLE Config GATT Service Spec Document | Small (<2h) | Junior |
 | [TASK-118](open/task-118-esp32-ble-config-service.md) | ESP32 BLE Config Service Implementation | Large (>8h) | Senior |
 | [TASK-119](open/task-119-python-cli-tool.md) | Python CLI Tool for Profile Upload | Medium (2-8h) | Medium |
-| [TASK-120](open/task-120-cli-ble-host-tests.md) | Host and Unit Tests for CLI and BLE Reassembly | Medium (2-8h) | Medium |
-| [TASK-121](open/task-121-ble-config-integration-tests.md) | BLE Config Integration Tests (Host + On-Device) | Large (>8h) | Senior |
 | [TASK-122](open/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) | Medium |
 | [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium |
 | [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer (Scan, Connect, Chunked Upload) | Medium (2-8h) | Medium |
@@ -55,6 +53,7 @@
 | [TASK-136](open/task-136-cleanup-idea-002.md) | Delete idea-002 After CLI Ships | Trivial (<30m) | Junior |
 | [TASK-137](open/task-137-cleanup-idea-001.md) | Delete idea-001 After App Ships | Trivial (<30m) | Junior |
 | [TASK-140](open/task-140-mobile-responsive-tools.md) | Mobile-Responsive Layout for Simulator and Configurator Tools | Large (8-24h) | Medium |
+| [TASK-141](open/task-141-auto-install-python-packages.md) | Auto-Install Python Packages in Dev Container | Small (<2h) | Junior |
 
 ## Task Groups
 
@@ -70,8 +69,8 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | 3 | [TASK-117](open/task-117-ble-config-gatt-spec.md) | BLE Config GATT Service Spec Document | Small (<2h) | Junior | No |
 | 4 | [TASK-118](open/task-118-esp32-ble-config-service.md) | ESP32 BLE Config Service Implementation | Large (>8h) | Senior | Support |
 | 5 | [TASK-119](open/task-119-python-cli-tool.md) | Python CLI Tool for Profile Upload | Medium (2-8h) | Medium | No |
-| 6 | [TASK-120](open/task-120-cli-ble-host-tests.md) | Host and Unit Tests for CLI and BLE Reassembly | Medium (2-8h) | Medium | No |
-| 7 | [TASK-121](open/task-121-ble-config-integration-tests.md) | BLE Config Integration Tests (Host + On-Device) | Large (>8h) | Senior | Support |
+| 6 | ~~[TASK-120](closed/task-120-cli-ble-host-tests.md)~~ | ~~Host and Unit Tests for CLI and BLE Reassembly~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
+| 7 | ~~[TASK-121](closed/task-121-ble-config-integration-tests.md)~~ | ~~BLE Config Integration Tests (Host + On-Device)~~ | ~~Large (>8h)~~ | ~~Senior~~ | ~~Support~~ |
 
 ### Cleanup
 
@@ -141,6 +140,8 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | [TASK-106](closed/task-106-config-schema-multievent.md) | Config Schema Extension for Multi-Event Bindings | Small (<2h) |
 | [TASK-107](closed/task-107-mainloop-multievent-wiring.md) | Wire Multi-Event Dispatch in main.cpp | Small (<2h) |
 | [TASK-108](closed/task-108-host-tests-longpress-doublepress.md) | Host Tests for Long Press and Double Press | Medium (2-8h) |
+| [TASK-120](closed/task-120-cli-ble-host-tests.md) | Host and Unit Tests for CLI and BLE Reassembly | Medium (2-8h) |
+| [TASK-121](closed/task-121-ble-config-integration-tests.md) | BLE Config Integration Tests (Host + On-Device) | Large (>8h) |
 | [TASK-138](closed/task-138-simulator-longpress-doublepress.md) | Simulator — Long-Press and Double-Press Support | Medium (2-8h) |
 | [TASK-139](closed/task-139-config-builder-longpress-doublepress.md) | Profile Configurator — Long-Press and Double-Press Fields | Medium (2-8h) |
 

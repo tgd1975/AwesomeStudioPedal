@@ -9,3 +9,11 @@
  * @return false if even the default JSON failed to parse (should never happen)
  */
 bool configureProfiles(ProfileManager& profileManager, IBleKeyboard* keyboard);
+
+/**
+ * @brief Loads hardware config from /config.json (LittleFS) if present.
+ *
+ * Overrides fields in the global hardwareConfig. Falls back silently to
+ * compiled-in defaults if the file is absent or unparseable.
+ */
+void loadHardwareConfig();

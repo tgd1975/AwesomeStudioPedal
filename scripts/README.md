@@ -6,6 +6,8 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 
 | Script | Purpose | Usage |
 |--------|---------|-------|
+| [`pedal_config.py`](pedal_config.py) | BLE config tool: scan, upload profiles/hardware config, validate JSON | `python3 pedal_config.py <scan\|upload\|upload-config\|validate>` |
+| [`requirements.txt`](requirements.txt) | Python dependencies for pedal_config.py | `pip install -r requirements.txt` |
 | [`check_code_smells.py`](check_code_smells.py) | Code smell detector for AwesomeStudioPedal C++ sources. | `python3 check_code_smells.py` |
 | [`cleanup-releases.sh`](cleanup-releases.sh) | cleanup-releases.sh — keep only the current + 2 previous GitHub releases. | `./cleanup-releases.sh` |
 | [`format-code.sh`](format-code.sh) | Format all C++ files with clang-format | `./format-code.sh` |
@@ -19,6 +21,31 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 | [`validate_mermaid.py`](validate_mermaid.py) | Mermaid Diagram Validation Script | `python3 validate_mermaid.py` |
 
 ## Script Details
+
+### pedal_config.py
+
+**Purpose**: Cross-platform BLE config tool for the AwesomeStudioPedal.
+
+**Install dependencies**: `pip install -r scripts/requirements.txt`
+
+**Usage**:
+
+```bash
+# List nearby BLE devices (marks pedal if found)
+python3 scripts/pedal_config.py scan
+
+# Upload a profiles.json to the pedal over BLE
+python3 scripts/pedal_config.py upload data/profiles.json
+
+# Upload a hardware config.json to the pedal
+python3 scripts/pedal_config.py upload-config data/config.json
+
+# Validate profiles.json offline (no BLE needed)
+python3 scripts/pedal_config.py validate data/profiles.json
+
+# Validate config.json against hardware schema
+python3 scripts/pedal_config.py validate data/config.json --hw
+```
 
 ### check_code_smells.py
 

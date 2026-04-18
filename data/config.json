@@ -1,0 +1,11 @@
+{
+  "_doc": "Hardware pin configuration for ESP32 (NodeMCU-32S). Values mirror builder_config.h defaults.",
+  "numProfiles":    7,
+  "numSelectLeds":  3,
+  "numButtons":     4,
+  "ledBluetooth":   26,
+  "ledPower":       25,
+  "ledSelect":      [5, 18, 19],
+  "buttonSelect":   21,
+  "buttonPins":     [13, 12, 27, 14]
+}

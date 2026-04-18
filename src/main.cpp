@@ -7,6 +7,7 @@
 // #include "freertos/task.h"
 // #include "FunctionalInterrupt.h"
 
+#include "ble_config_service.h"
 #include "ble_keyboard_adapter.h"
 #include "platform.h"
 
@@ -31,6 +32,7 @@
  */
 
 BleKeyboardAdapter* bleKeyboardAdapter = createBleKeyboardAdapter();
+BleConfigService bleConfigService;
 
 #ifdef ESP32
 static constexpr const char* NVS_NAMESPACE = "pedal";
@@ -284,12 +286,14 @@ void setup()
     delay(2000);
     Serial.println("AwesomeStudioPedal " FIRMWARE_VERSION " started");
 
+    loadHardwareConfig();
     setup_hardware();
 
     profileManager = new ProfileManager(selectLeds);
     setup_event_handlers();
 
     bleKeyboardAdapter->begin();
+    bleConfigService.begin(profileManager, bleKeyboardAdapter, selectLeds);
 
     if (! configureProfiles(*profileManager, bleKeyboardAdapter))
     {
@@ -406,6 +410,7 @@ void loop()
         }
     }
     process_events();
+    bleConfigService.loop();
 
     uint32_t now = millis();
 

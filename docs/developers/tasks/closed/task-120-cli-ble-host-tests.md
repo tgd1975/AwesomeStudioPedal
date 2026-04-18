@@ -1,7 +1,7 @@
 ---
 id: TASK-120
 title: Host and Unit Tests for CLI and BLE Reassembly
-status: open
+status: closed
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium

@@ -68,6 +68,77 @@ else
     echo -e "${YELLOW}markdownlint-cli2 not found, skipping markdown check.${NC}"
 fi
 
+echo -e "${YELLOW}Validating JSON schemas...${NC}"
+
+PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
+if [ -n "$PYTHON" ]; then
+    "$PYTHON" - <<'PYEOF'
+import sys, json, pathlib, importlib.util
+
+repo = pathlib.Path(__file__).resolve().parent.parent
+
+def load(p):
+    with open(p) as f:
+        return json.load(f)
+
+pairs = [
+    ("data/profiles.json", "data/profiles.schema.json"),
+]
+config_json = repo / "data/config.json"
+config_schema = repo / "data/config.schema.json"
+if config_json.exists() and config_schema.exists():
+    pairs.append(("data/config.json", "data/config.schema.json"))
+    # Cross-field check: numProfiles <= 2^numSelectLeds - 1
+    cfg = load(config_json)
+    max_profiles = (1 << cfg["numSelectLeds"]) - 1
+    if cfg["numProfiles"] > max_profiles:
+        print(f"ERROR: config.json numProfiles ({cfg['numProfiles']}) exceeds "
+              f"2^numSelectLeds-1 ({max_profiles}) for numSelectLeds={cfg['numSelectLeds']}")
+        sys.exit(1)
+    if cfg["numButtons"] != len(cfg["buttonPins"]):
+        print(f"ERROR: config.json numButtons ({cfg['numButtons']}) != len(buttonPins) ({len(cfg['buttonPins'])})")
+        sys.exit(1)
+    if cfg["numSelectLeds"] != len(cfg["ledSelect"]):
+        print(f"ERROR: config.json numSelectLeds ({cfg['numSelectLeds']}) != len(ledSelect) ({len(cfg['ledSelect'])})")
+        sys.exit(1)
+
+try:
+    import jsonschema
+except ImportError:
+    print("jsonschema not installed — skipping JSON schema validation (pip install jsonschema)")
+    sys.exit(0)
+
+errors = 0
+for data_rel, schema_rel in pairs:
+    data_path = repo / data_rel
+    schema_path = repo / schema_rel
+    if not data_path.exists():
+        continue
+    try:
+        validator = jsonschema.Draft7Validator(load(schema_path))
+        errs = list(validator.iter_errors(load(data_path)))
+        if errs:
+            for e in errs:
+                print(f"  {data_rel}: {e.message} (at {list(e.path)})")
+            errors += 1
+        else:
+            print(f"  OK: {data_rel}")
+    except Exception as exc:
+        print(f"  ERROR validating {data_rel}: {exc}")
+        errors += 1
+
+sys.exit(1 if errors else 0)
+PYEOF
+    SCHEMA_STATUS=$?
+    if [ $SCHEMA_STATUS -ne 0 ]; then
+        echo -e "${RED}JSON schema validation failed. Commit aborted.${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}JSON schema validation OK.${NC}"
+else
+    echo -e "${YELLOW}python3 not found, skipping JSON schema validation.${NC}"
+fi
+
 echo -e "${YELLOW}Running unit tests before commit...${NC}"
 
 if [ ! -f "${BUILD_DIR}/CMakeCache.txt" ]; then

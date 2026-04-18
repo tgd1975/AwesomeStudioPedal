@@ -1,7 +1,7 @@
 # Makefile for AwesomeStudioPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profiles test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean
+.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profiles test-esp32-ble-config test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
@@ -120,6 +120,14 @@ test-esp32-profiles: uploadfs-esp32
 # Run on-device GPIO testrig for PinAction (Unity via PlatformIO) — requires ESP32 connected
 test-esp32-pin-io: uploadfs-esp32
 	pio test -e nodemcu-32s-pin-io-test -v
+
+# Run BLE Config end-to-end integration tests — requires ESP32 + BLE-capable host
+# Flashes the test harness firmware, then runs runner.py as BLE client.
+# Usage: make test-esp32-ble-config [PORT=/dev/ttyUSB0]
+PORT ?= /dev/ttyUSB0
+test-esp32-ble-config: uploadfs-esp32
+	pio run -e nodemcu-32s-ble-config-test --target upload
+	python3 test/test_ble_config_esp32/runner.py --port $(PORT)
 
 # Run on-device button tests (Unity via PlatformIO) — requires nRF52840 connected
 test-nrf52840-button: uploadfs-nrf52840

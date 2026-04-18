@@ -35,4 +35,4 @@ struct HardwareConfig
  *
  * Defined in the platform-specific config.cpp inside each hardware package.
  */
-extern const HardwareConfig hardwareConfig;
+extern HardwareConfig hardwareConfig;
