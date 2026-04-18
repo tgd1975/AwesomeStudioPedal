@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../constants/action_types.dart';
 import '../models/action_config.dart';
 import '../widgets/action_type_dropdown.dart';
 import '../widgets/key_value_field.dart';
 import '../widgets/pin_field.dart';
-import '../constants/action_types.dart';
 
 class ActionEditorScreen extends StatefulWidget {
   const ActionEditorScreen({

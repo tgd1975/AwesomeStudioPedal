@@ -16,7 +16,6 @@ class _UploadScreenState extends State<UploadScreen> {
   bool _uploading = false;
   bool _uploadingConfig = false;
   double _progress = 0;
-  String? _statusMessage;
   List<String> _validationErrors = [];
   bool _valid = false;
 
@@ -45,7 +44,6 @@ class _UploadScreenState extends State<UploadScreen> {
     setState(() {
       _uploading = true;
       _progress = 0;
-      _statusMessage = null;
     });
 
     // Simulate chunk progress for UX — actual chunking is inside BleService.
@@ -57,6 +55,7 @@ class _UploadScreenState extends State<UploadScreen> {
     }
 
     final result = await ble.uploadProfiles(json);
+    if (!mounted) return;
     if (!mounted) return;
     setState(() {
       _uploading = false;
@@ -84,10 +83,7 @@ class _UploadScreenState extends State<UploadScreen> {
     }
     final json = state.toConfigJsonString();
 
-    setState(() {
-      _uploadingConfig = true;
-      _statusMessage = null;
-    });
+    setState(() => _uploadingConfig = true);
 
     final result = await ble.uploadConfig(json);
     if (!mounted) return;
@@ -148,7 +144,7 @@ class _UploadScreenState extends State<UploadScreen> {
           const SizedBox(height: 8),
           if (_validationErrors.isNotEmpty) ...[
             Card(
-              color: Colors.red.withOpacity(0.1),
+              color: Colors.red.withValues(alpha: 0.1),
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(

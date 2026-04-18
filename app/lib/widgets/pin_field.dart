@@ -21,10 +21,10 @@ class PinField extends StatelessWidget {
             ),
           ),
         ),
-        Tooltip(
+        const Tooltip(
           message: _kGpioTooltip,
           triggerMode: TooltipTriggerMode.tap,
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.only(left: 8, top: 8),
             child: Icon(Icons.help_outline, size: 20),
           ),

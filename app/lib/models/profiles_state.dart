@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'profile.dart';
 import 'hardware_config.dart';
+import 'profile.dart';
 
 class ProfilesState extends ChangeNotifier {
   List<Profile> _profiles = [];

@@ -1,7 +1,7 @@
+import 'package:awesome_studio_pedal/constants/action_types.dart';
+import 'package:awesome_studio_pedal/widgets/action_type_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:awesome_studio_pedal/widgets/action_type_dropdown.dart';
-import 'package:awesome_studio_pedal/constants/action_types.dart';
 
 void main() {
   group('ActionTypeDropdown', () {

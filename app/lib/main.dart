@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'app.dart';
 import 'models/profiles_state.dart';
 import 'services/ble_service.dart';
-import 'services/schema_service.dart';
 import 'services/file_service.dart';
+import 'services/schema_service.dart';
 
 void main() {
   runApp(

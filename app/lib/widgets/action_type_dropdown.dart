@@ -14,7 +14,7 @@ class ActionTypeDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      value: value,
+      initialValue: value,
       decoration: const InputDecoration(labelText: 'Action Type'),
       items: kActionTypes
           .map((opt) => DropdownMenuItem<String>(

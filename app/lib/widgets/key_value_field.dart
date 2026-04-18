@@ -15,7 +15,7 @@ class KeyValueField extends StatelessWidget {
   Widget build(BuildContext context) {
     if (type == 'SendMediaKeyAction') {
       return DropdownButtonFormField<String>(
-        value: kMediaKeyValues.contains(controller.text)
+        initialValue: kMediaKeyValues.contains(controller.text)
             ? controller.text
             : kMediaKeyValues.first,
         decoration: const InputDecoration(labelText: 'Media Key'),

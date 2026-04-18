@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../models/profiles_state.dart';
 import '../models/profile.dart';
+import '../models/profiles_state.dart';
 import '../services/file_service.dart';
 import '../services/schema_service.dart';
 import '../widgets/validation_banner.dart';
@@ -130,7 +130,7 @@ class ProfileListScreen extends StatelessWidget {
     final result = await fileService.importProfiles(schema);
     if (!context.mounted) return;
     if (!result.success) {
-      showDialog<void>(
+      await showDialog<void>(
         context: context,
         builder: (_) => AlertDialog(
           title: const Text('Import Failed'),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/action_config.dart';
-import '../models/macro_step.dart';
 import '../screens/action_editor_screen.dart';
 
 class DelayedActionWidget extends StatefulWidget {

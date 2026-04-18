@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'screens/home_screen.dart';
-import 'screens/scanner_screen.dart';
-import 'screens/profile_list_screen.dart';
-import 'screens/profile_editor_screen.dart';
-import 'screens/action_editor_screen.dart';
-import 'screens/upload_screen.dart';
-import 'screens/json_preview_screen.dart';
 import 'models/action_config.dart';
+import 'screens/action_editor_screen.dart';
+import 'screens/home_screen.dart';
+import 'screens/json_preview_screen.dart';
+import 'screens/profile_editor_screen.dart';
+import 'screens/profile_list_screen.dart';
+import 'screens/scanner_screen.dart';
+import 'screens/upload_screen.dart';
 
 const Color _kAccent = Color(0xFF2563EB);
 const Color _kBackground = Color(0xFFF5F5F5);
-const Color _kDarkBackground = Color(0xFF121212);
 const Color _kDarkSurface = Color(0xFF1E1E1E);
 
 final _router = GoRouter(
@@ -81,7 +80,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: _kAccent,
           brightness: Brightness.light,
-          background: _kBackground,
+          surface: _kBackground,
         ),
       ),
       darkTheme: ThemeData(
@@ -89,7 +88,6 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: _kAccent,
           brightness: Brightness.dark,
-          background: _kDarkBackground,
           surface: _kDarkSurface,
         ),
       ),

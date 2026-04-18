@@ -1,14 +1,13 @@
+import 'package:awesome_studio_pedal/app.dart';
+import 'package:awesome_studio_pedal/models/profiles_state.dart';
+import 'package:awesome_studio_pedal/services/ble_service.dart';
+import 'package:awesome_studio_pedal/services/file_service.dart';
+import 'package:awesome_studio_pedal/services/schema_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:awesome_studio_pedal/app.dart';
-import 'package:awesome_studio_pedal/models/profiles_state.dart';
-import 'package:awesome_studio_pedal/services/ble_service.dart';
-import 'package:awesome_studio_pedal/services/schema_service.dart';
-import 'package:awesome_studio_pedal/services/file_service.dart';
 
 @GenerateNiceMocks([MockSpec<BleService>()])
 import 'app_flow_test.mocks.dart';

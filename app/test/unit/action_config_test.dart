@@ -1,6 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:awesome_studio_pedal/models/action_config.dart';
 import 'package:awesome_studio_pedal/models/macro_step.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ActionConfig round-trip', () {

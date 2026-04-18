@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -22,12 +21,10 @@ class BleService extends ChangeNotifier {
   bool get isConnected => _connected;
   String? get lastError => _error;
 
-  // Streams status notify values as UTF-8 strings.
-  Stream<String> get statusStream => FlutterBluePlus.isAvailable.asStream().asyncExpand((_) {
-        // Exposed after connect() stores _statusChar.
-        if (_statusChar == null) return const Stream.empty();
-        return _statusChar!.onValueReceived.map((v) => utf8.decode(v));
-      });
+  Stream<String> get statusStream {
+    if (_statusChar == null) return const Stream.empty();
+    return _statusChar!.onValueReceived.map((v) => utf8.decode(v));
+  }
 
   Future<List<ScanResult>> scan({Duration timeout = const Duration(seconds: 10)}) async {
     _clearError();
@@ -149,7 +146,7 @@ class BleService extends ChangeNotifier {
         ..buffer.asByteData().setUint16(0, 0xFFFF, Endian.big);
       await characteristic.write([...eof], withoutResponse: true);
     } on FlutterBluePlusException catch (e) {
-      sub.cancel();
+      await sub.cancel();
       return UploadResult.failure(e.description ?? e.toString());
     }
 

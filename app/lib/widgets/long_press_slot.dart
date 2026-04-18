@@ -18,13 +18,11 @@ class LongPressSlot extends StatefulWidget {
 
 class _LongPressSlotState extends State<LongPressSlot> {
   bool _enabled = false;
-  bool _expanded = false;
 
   @override
   void initState() {
     super.initState();
     _enabled = widget.initial != null;
-    _expanded = _enabled;
   }
 
   @override
@@ -36,10 +34,7 @@ class _LongPressSlotState extends State<LongPressSlot> {
             title: const Text('Long press action'),
             value: _enabled,
             onChanged: (v) {
-              setState(() {
-                _enabled = v;
-                _expanded = v;
-              });
+              setState(() => _enabled = v);
               if (!v) widget.onChanged(null);
             },
           ),

@@ -56,7 +56,7 @@ class _ValidationBannerState extends State<ValidationBanner> {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        color: color.withOpacity(0.15),
+        color: color.withValues(alpha: 0.15),
         child: Row(
           children: [
             Icon(

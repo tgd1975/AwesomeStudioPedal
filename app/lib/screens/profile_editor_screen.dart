@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../models/profiles_state.dart';
 import '../models/action_config.dart';
+import '../models/profiles_state.dart';
 
 class ProfileEditorScreen extends StatelessWidget {
   const ProfileEditorScreen({super.key, required this.profileIndex});
