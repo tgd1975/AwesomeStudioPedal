@@ -3,45 +3,7 @@
 
 .PHONY: all build upload clean monitor test-host test-flutter test-esp32-button test-esp32-serial test-esp32-profiles test-esp32-ble-config test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean flutter-get flutter-analyze flutter-test flutter-build
 
-# Flutter is intentionally not installed in the dev container.
-# If 'flutter: command not found', either:
-#   a) You are on the host machine and Flutter is not installed yet — see app/README.md.
-#   b) You are inside the dev container — run these targets from a host terminal instead.
-FLUTTER ?= flutter
-
-flutter-get:
-	@command -v $(FLUTTER) >/dev/null 2>&1 || { echo "ERROR: flutter not found on PATH."; echo "  If you are inside the dev container: run this from a host terminal (Flutter is not installed in the container by design)."; echo "  If you are on the host machine: install Flutter — see app/README.md for instructions."; exit 1; }
-	cd app && $(FLUTTER) pub get
-
-flutter-analyze: flutter-get
-	cd app && $(FLUTTER) analyze
-
-flutter-test: flutter-get
-	cd app && $(FLUTTER) test
-
-flutter-build: flutter-get
-	cd app && $(FLUTTER) build apk --release
-
-# Alias used by the test suite and pre-commit hook narrative
-test-flutter: flutter-test
-
-# Target-specific variables
-ESP32_ENV ?= nodemcu-32s
-NRF52840_ENV ?= feather-nrf52840
-
-# Use separate build dirs for host and dev container to avoid CMake cache
-# conflicts caused by differing absolute paths (/home/... vs /workspaces/...).
-ifeq ($(shell test -f /.dockerenv && echo yes),yes)
-  HOST_BUILD_DIR = .vscode/build
-else
-  HOST_BUILD_DIR = .vscode/build-host
-endif
-
-COVERAGE_BUILD_DIR = .vscode/build-coverage
-COVERAGE_INFO      = $(COVERAGE_BUILD_DIR)/coverage.info
-COVERAGE_REPORT    = docs/coverage
-
-# Default target - show help
+# Default target should be first
 all:
 	@echo "Awesome Guitar Pedal - Makefile Usage"
 	@echo ""
@@ -85,6 +47,44 @@ all:
 	@echo "  make test-flutter    - Alias for flutter-test (mirrors CI job name)"
 	@echo ""
 	@echo "See README.md for more details"
+
+# Flutter is intentionally not installed in the dev container.
+# If 'flutter: command not found', either:
+#   a) You are on the host machine and Flutter is not installed yet — see app/README.md.
+#   b) You are inside the dev container — run these targets from a host terminal instead.
+FLUTTER ?= flutter
+
+flutter-get:
+	@command -v $(FLUTTER) >/dev/null 2>&1 || { echo "ERROR: flutter not found on PATH."; echo "  If you are inside the dev container: run this from a host terminal (Flutter is not installed in the container by design)."; echo "  If you are on the host machine: install Flutter — see app/README.md for instructions."; exit 1; }
+	cd app && $(FLUTTER) pub get
+
+flutter-analyze: flutter-get
+	cd app && $(FLUTTER) analyze
+
+flutter-test: flutter-get
+	cd app && $(FLUTTER) test
+
+flutter-build: flutter-get
+	cd app && $(FLUTTER) build apk --release
+
+# Alias used by the test suite and pre-commit hook narrative
+test-flutter: flutter-test
+
+# Target-specific variables
+ESP32_ENV ?= nodemcu-32s
+NRF52840_ENV ?= feather-nrf52840
+
+# Use separate build dirs for host and dev container to avoid CMake cache
+# conflicts caused by differing absolute paths (/home/... vs /workspaces/...).
+ifeq ($(shell test -f /.dockerenv && echo yes),yes)
+  HOST_BUILD_DIR = .vscode/build
+else
+  HOST_BUILD_DIR = .vscode/build-host
+endif
+
+COVERAGE_BUILD_DIR = .vscode/build-coverage
+COVERAGE_INFO      = $(COVERAGE_BUILD_DIR)/coverage.info
+COVERAGE_REPORT    = docs/coverage
 
 # Build the project using PlatformIO
 build: build-esp32 build-nrf52840
