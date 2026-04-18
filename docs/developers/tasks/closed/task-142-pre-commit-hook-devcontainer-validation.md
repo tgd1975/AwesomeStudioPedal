@@ -1,6 +1,8 @@
 ---
 id: TASK-142
 title: Pre-Commit Hook for Dev Container Validation
+status: closed
+closed: 2026-04-19
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: No

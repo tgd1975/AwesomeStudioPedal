@@ -74,21 +74,10 @@ Pre-built firmware binaries are published with each
 
 ### Current stable release
 
+<!-- RELEASE_SECTION_START -->
 > **No public release yet.** The first tagged release will appear here once the
 > release workflow runs. Until then, build from source using the
 > [Build Guide](docs/builders/BUILD_GUIDE.md).
-
-<!-- After the first release, replace the block above with:
-
-**Current stable: vX.Y.Z**
-
-- ESP32: [awesome-pedal-esp32-vX.Y.Z.bin](../../releases/download/vX.Y.Z/awesome-pedal-esp32-vX.Y.Z.bin)
-- nRF52840: [awesome-pedal-nrf52840-vX.Y.Z.bin](../../releases/download/vX.Y.Z/awesome-pedal-nrf52840-vX.Y.Z.bin)
-
-**Previous releases** (current + 2 kept, older removed by cleanup script):
-
-- vA.B.C: [ESP32](../../releases/download/vA.B.C/awesome-pedal-esp32-vA.B.C.bin) |
-  [nRF52840](../../releases/download/vA.B.C/awesome-pedal-nrf52840-vA.B.C.bin)
--->
+<!-- RELEASE_SECTION_END -->
 
 For upload instructions see [Build Guide — Upload](docs/builders/BUILD_GUIDE.md).

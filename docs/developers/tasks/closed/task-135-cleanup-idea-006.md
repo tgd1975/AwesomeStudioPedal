@@ -1,7 +1,8 @@
 ---
 id: TASK-135
 title: Delete idea-006 After Group C
-status: open
+status: closed
+closed: 2026-04-19
 opened: 2026-04-17
 effort: Trivial (<30m)
 complexity: Junior

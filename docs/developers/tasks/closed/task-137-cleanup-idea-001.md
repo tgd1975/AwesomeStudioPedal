@@ -1,7 +1,8 @@
 ---
 id: TASK-137
 title: Delete idea-001 After App Ships
-status: open
+status: closed
+closed: 2026-04-19
 opened: 2026-04-17
 effort: Trivial (<30m)
 complexity: Junior

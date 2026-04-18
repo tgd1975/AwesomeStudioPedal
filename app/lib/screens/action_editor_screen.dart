@@ -66,7 +66,7 @@ class _ActionEditorScreenState extends State<ActionEditorScreen> {
       name: _nameCtrl.text.isEmpty ? null : _nameCtrl.text,
     );
     widget.onSave(config);
-    context.pop();
+    if (context.canPop()) context.pop();
   }
 
   Widget _buildFields() {

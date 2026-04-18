@@ -17,8 +17,8 @@ class SchemaService {
   Future<void> _loadSchemas() async {
     if (_profilesSchema != null) return;
     final profilesRaw =
-        await rootBundle.loadString('../data/profiles.schema.json');
-    final configRaw = await rootBundle.loadString('../data/config.schema.json');
+        await rootBundle.loadString('assets/profiles.schema.json');
+    final configRaw = await rootBundle.loadString('assets/config.schema.json');
     _profilesSchema = JsonSchema.create(jsonDecode(profilesRaw));
     _configSchema = JsonSchema.create(jsonDecode(configRaw));
   }

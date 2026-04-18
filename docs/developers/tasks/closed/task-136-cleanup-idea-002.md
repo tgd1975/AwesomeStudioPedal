@@ -1,7 +1,8 @@
 ---
 id: TASK-136
 title: Delete idea-002 After CLI Ships
-status: open
+status: closed
+closed: 2026-04-19
 opened: 2026-04-17
 effort: Trivial (<30m)
 complexity: Junior

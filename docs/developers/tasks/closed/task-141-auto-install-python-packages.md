@@ -1,6 +1,8 @@
 ---
 id: TASK-141
 title: Auto-Install Python Packages in Dev Container
+status: closed
+closed: 2026-04-19
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: No

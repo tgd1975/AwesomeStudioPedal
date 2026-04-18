@@ -184,6 +184,55 @@ else
     echo -e "${YELLOW}flutter not found on PATH — skipping Flutter tests (run from host machine or CI will catch failures).${NC}"
 fi
 
+echo -e "${YELLOW}Checking devcontainer.json is well-formed...${NC}"
+DEVCONTAINER="${REPO_ROOT}/.devcontainer/devcontainer.json"
+if [ -f "$DEVCONTAINER" ]; then
+    PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
+    if [ -n "$PYTHON" ]; then
+        "$PYTHON" -c "
+import json, sys
+try:
+    # Strip single-line comments before parsing (devcontainer.json allows them)
+    import re
+    text = open('$DEVCONTAINER').read()
+    text = re.sub(r'//[^\n]*', '', text)
+    json.loads(text)
+    print('  OK: devcontainer.json is valid JSON')
+except json.JSONDecodeError as e:
+    print(f'  ERROR: devcontainer.json is malformed: {e}')
+    sys.exit(1)
+"
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}devcontainer.json validation failed. Commit aborted.${NC}"
+            exit 1
+        fi
+    fi
+fi
+echo -e "${GREEN}devcontainer.json OK.${NC}"
+
+echo -e "${YELLOW}Checking for secrets and sensitive files...${NC}"
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+
+# Fail if .devcontainer/.env is staged
+if echo "$STAGED_FILES" | grep -qE '^\.devcontainer/\.env$'; then
+    echo -e "${RED}ERROR: .devcontainer/.env is staged for commit. This file contains secrets and must not be committed.${NC}"
+    echo "       Remove it: git restore --staged .devcontainer/.env"
+    exit 1
+fi
+
+# Scan staged file contents for common secret patterns
+SECRET_PATTERNS='(AKIA[0-9A-Z]{16}|ghp_[0-9a-zA-Z]{36}|sk-[a-zA-Z0-9]{32,}|-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----|password\s*=\s*["\x27][^"\x27]{4,}|api[_-]?key\s*=\s*["\x27][^"\x27]{8,})'
+if [ -n "$STAGED_FILES" ]; then
+    MATCHES=$(git diff --cached --unified=0 | grep '^+' | grep -vE '^\+\+\+' | grep -iE "$SECRET_PATTERNS" || true)
+    if [ -n "$MATCHES" ]; then
+        echo -e "${RED}ERROR: Possible secrets detected in staged changes:${NC}"
+        echo "$MATCHES"
+        echo "       If this is a false positive, remove the matching line or contact the team."
+        exit 1
+    fi
+fi
+echo -e "${GREEN}No secrets detected.${NC}"
+
 echo -e "${YELLOW}Updating README future ideas...${NC}"
 python "${REPO_ROOT}/scripts/update_future_ideas.py"
 git add "${REPO_ROOT}/README.md"

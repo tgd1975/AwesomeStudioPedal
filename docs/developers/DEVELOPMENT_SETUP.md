@@ -205,6 +205,67 @@ GoogleTest is fetched automatically by CMake (v1.15.2 via `FetchContent`) — no
 
 ---
 
+## Flutter app development
+
+The companion app lives in `app/`. It requires Flutter (installed at `/opt/flutter` on the
+reference Ubuntu machine) and the Android SDK (`/opt/Android/Sdk`).
+
+### Running the app
+
+**On a physical Android device (recommended):**
+
+1. Enable Developer Options: Settings → About Phone → tap **Build number** 7 times.
+2. Enable USB Debugging: Settings → System → Developer Options → USB Debugging.
+3. Connect via USB and confirm the prompt on the device.
+4. Verify Flutter sees it, then run the app:
+
+```bash
+flutter devices
+flutter run
+```
+
+Flutter auto-selects the only connected mobile device. Hot reload (`r`) and hot
+restart (`R`) work exactly as with an emulator. This approach uses zero extra RAM
+on the development machine and is the preferred workflow.
+
+**In the Android emulator:**
+
+```bash
+flutter emulators --launch Lean_API33   # start the lean AVD
+flutter run
+```
+
+The `Lean_API33` AVD uses the `android-33;default` image (no Google Play Services),
+1 GB RAM, 720×1280 display, and 2 vCPUs — tuned to be light on host resources.
+
+**In Chromium (UI-only, no BLE):**
+
+```bash
+flutter run -d chrome
+```
+
+Chromium is detected automatically via `CHROME_EXECUTABLE` in `.bashrc`. This mode
+is only useful for iterating on pure UI screens — the following packages do **not**
+work on web:
+
+| Package | Limitation |
+|---|---|
+| `flutter_blue_plus` | No Web Bluetooth support — all BLE calls fail |
+| `file_picker` | No native file system access on web |
+| `share_plus` | Not supported on web |
+| `path_provider` | Not supported on web |
+
+For any screen that touches BLE or the file system, test on a physical device or emulator.
+
+### Asset path note
+
+Schema files (`profiles.schema.json`, `config.schema.json`) are bundled inside the app
+under `app/assets/` and referenced as `assets/*.schema.json` in `pubspec.yaml`. The
+source of truth remains `data/` at the repo root — copy updated schemas into `app/assets/`
+before building if you change them.
+
+---
+
 ## Build command reference
 
 | Command | What it does | Hardware needed |

@@ -1,7 +1,8 @@
 ---
 id: TASK-146
 title: Update Release Workflow and README
-status: open
+status: closed
+closed: 2026-04-19
 opened: 2024-10-08
 effort: Small (<2h)
 complexity: Junior

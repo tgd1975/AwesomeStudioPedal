@@ -67,30 +67,54 @@ Steps:
    git add CHANGELOG.md
    ```
 
-9. **Commit the bump, archive, and changelog**:
+9. **Update README firmware section**: replace the block between
+   `<!-- RELEASE_SECTION_START -->` and `<!-- RELEASE_SECTION_END -->` in `README.md`
+   with the real download links. Read the existing block first to detect whether
+   previous releases are already listed, then write the updated block:
+
+   ```
+   <!-- RELEASE_SECTION_START -->
+   **Current stable: vX.Y.Z**
+
+   - ESP32: [awesome-pedal-esp32-vX.Y.Z.bin](../../releases/download/vX.Y.Z/awesome-pedal-esp32-vX.Y.Z.bin)
+   - nRF52840: [awesome-pedal-nrf52840-vX.Y.Z.bin](../../releases/download/vX.Y.Z/awesome-pedal-nrf52840-vX.Y.Z.bin)
+
+   **Previous releases** (current + 2 kept):
+
+   <keep up to 2 previous release entries here, remove older ones>
+   <!-- RELEASE_SECTION_END -->
+   ```
+
+   Stage the file:
+
+   ```bash
+   git add README.md
+   ```
+
+10. **Commit the bump, archive, changelog, and README**:
 
    ```bash
    git add include/version.h
    git commit --no-verify -m "chore: bump version to vX.Y.Z, archive closed tasks, update CHANGELOG"
    ```
 
-10. **Create annotated tag**:
+11. **Create annotated tag**:
 
     ```bash
     git tag -a vX.Y.Z -m "Release vX.Y.Z"
     ```
 
-11. **Show a final summary** of what will be pushed (commit + tag), then ask the user to
+12. **Show a final summary** of what will be pushed (commit + tag), then ask the user to
     confirm before pushing.
 
-12. **Push commit and tag**:
+13. **Push commit and tag**:
 
     ```bash
     git push origin main
     git push origin vX.Y.Z
     ```
 
-13. **Build firmware for all targets**:
+15. **Build firmware for all targets**:
 
     ```bash
     pio run -e nodemcu-32s
@@ -129,7 +153,7 @@ Steps:
     | `firmware-feather-nrf52840-vX.Y.Z.hex` | Adafruit Feather nRF52840 — flash hex |
     | `firmware-feather-nrf52840-vX.Y.Z.zip` | Adafruit Feather nRF52840 — OTA zip |
 
-15. **Clean up** the temporary artifact copies:
+16. **Clean up** the temporary artifact copies:
 
     ```bash
     rm firmware-nodemcu-32s-vX.Y.Z.bin firmware-nodemcu-32s-vX.Y.Z-debug.zip \

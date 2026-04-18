@@ -36,7 +36,7 @@
   // is pinned in app/.flutter-version (also read by FVM and flutter-action).
   //
   // Note: the ESP32 toolchain (~300 MB) is still downloaded on demand on first `pio run`.
-  "postCreateCommand": "sudo apt-get update -q && sudo apt-get install -y -q lcov doxygen clang-format curl unzip && npm install -g markdownlint-cli2 && pip install --quiet platformio uv && uv tool install mistral-vibe && cmake -B .vscode/build -G Ninja -DCMAKE_BUILD_TYPE=Debug -Wno-dev && make install-hooks && curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules > /dev/null",
+  "postCreateCommand": "sudo apt-get update -q && sudo apt-get install -y -q lcov doxygen clang-format curl unzip && npm install -g markdownlint-cli2 && pip install --quiet platformio uv && pip install --quiet -r requirements.txt && uv tool install mistral-vibe && cmake -B .vscode/build -G Ninja -DCMAKE_BUILD_TYPE=Debug -Wno-dev && make install-hooks && curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules > /dev/null",
 
   "customizations": {
     "vscode": {

@@ -11,7 +11,6 @@ description: Write one article for each persona
 - [idea-016-musician-article.md](idea-016-musician-article.md)
 - [idea-016-feature-list-article.md](idea-016-feature-list-article.md)
 
-
 ## Details
 
 Create a series of articles, each written from the perspective of a journalist targeting a specific persona. These articles should highlight the unique benefits and use cases of AwesomeStudioPedal for each persona.

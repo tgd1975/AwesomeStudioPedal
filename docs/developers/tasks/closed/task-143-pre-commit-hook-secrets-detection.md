@@ -1,6 +1,8 @@
 ---
 id: TASK-143
 title: Pre-Commit Hook for Secrets Detection
+status: closed
+closed: 2026-04-19
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: No

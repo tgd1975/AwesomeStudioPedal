@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 19** | **Closed: 38** | **Total: 57**
+**Open: 11** | **Closed: 46** | **Total: 57**
 
 ## Open Tasks
 
@@ -26,30 +26,13 @@
 | [TASK-049](open/task-049-setup-video-platform-channel.md) | Setup video platform channel | Small (<2h) | Junior |
 | [TASK-103](open/task-103-on-device-gpio-testrig-esp32.md) | On-Device GPIO Testrig for PinAction (ESP32) | Medium (2-8h) | Medium |
 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium |
-| [TASK-134](open/task-134-cleanup-idea-009-010.md) | Delete idea-009 and idea-010 After Group B | Trivial (<30m) | Junior |
-| [TASK-135](open/task-135-cleanup-idea-006.md) | Delete idea-006 After Group C | Trivial (<30m) | Junior |
-| [TASK-136](open/task-136-cleanup-idea-002.md) | Delete idea-002 After CLI Ships | Trivial (<30m) | Junior |
-| [TASK-137](open/task-137-cleanup-idea-001.md) | Delete idea-001 After App Ships | Trivial (<30m) | Junior |
 | [TASK-140](open/task-140-mobile-responsive-tools.md) | Mobile-Responsive Layout for Simulator and Configurator Tools | Large (8-24h) | Medium |
-| [TASK-141](open/task-141-auto-install-python-packages.md) | Auto-Install Python Packages in Dev Container | Small (<2h) | Junior |
-| [TASK-142](open/task-142-pre-commit-hook-devcontainer-validation.md) | Pre-Commit Hook for Dev Container Validation | Small (<2h) | Junior |
-| [TASK-143](open/task-143-pre-commit-hook-secrets-detection.md) | Pre-Commit Hook for Secrets Detection | Small (<2h) | Junior |
-| [TASK-146](open/task-146-update-release-workflow.md) | Update Release Workflow and README | Small (<2h) | Junior |
 | [TASK-148](open/task-148-reorganise-developer-documentation.md) | Reorganise Developer Documentation | Medium (2-8h) | Medium |
 
 ## Task Groups
 
 Groups with at least one open task are shown below. Each group lists all its tasks — open and closed. Closed tasks are ~~struck through~~.
 _If no sub-sections appear here, there are currently no open tasks assigned to a group._
-
-### Cleanup
-
-| Order | ID | Title | Effort | Complexity | Human-in-loop |
-|-------|----|-------|--------|------------|---------------|
-| 1 | [TASK-134](open/task-134-cleanup-idea-009-010.md) | Delete idea-009 and idea-010 After Group B | Trivial (<30m) | Junior | No |
-| 2 | [TASK-135](open/task-135-cleanup-idea-006.md) | Delete idea-006 After Group C | Trivial (<30m) | Junior | No |
-| 3 | [TASK-136](open/task-136-cleanup-idea-002.md) | Delete idea-002 After CLI Ships | Trivial (<30m) | Junior | No |
-| 4 | [TASK-137](open/task-137-cleanup-idea-001.md) | Delete idea-001 After App Ships | Trivial (<30m) | Junior | No |
 
 ### IOTestrig
 
@@ -71,12 +54,6 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | 6 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium | Support |
 | 7 | ~~[TASK-138](closed/task-138-simulator-longpress-doublepress.md)~~ | ~~Simulator — Long-Press and Double-Press Support~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
 | 8 | ~~[TASK-139](closed/task-139-config-builder-longpress-doublepress.md)~~ | ~~Profile Configurator — Long-Press and Double-Press Fields~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
-
-### Release
-
-| Order | ID | Title | Effort | Complexity | Human-in-loop |
-|-------|----|-------|--------|------------|---------------|
-| 1 | [TASK-146](open/task-146-update-release-workflow.md) | Update Release Workflow and README | Small (<2h) | Junior | No |
 
 ## Closed Tasks
 
@@ -113,12 +90,20 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | [TASK-131](closed/task-131-docs-builders-cli.md) | Builders Docs — CLI Tool Usage | Small (<2h) |
 | [TASK-132](closed/task-132-docs-builders-app.md) | Builders Docs — Mobile App Walkthrough | Small (<2h) |
 | [TASK-133](closed/task-133-docs-musicians-profile-management.md) | Musicians Docs — Profile Management Overview | Small (<2h) |
+| [TASK-134](closed/task-134-cleanup-idea-009-010.md) | Delete idea-009 and idea-010 After Group B | Trivial (<30m) |
+| [TASK-135](closed/task-135-cleanup-idea-006.md) | Delete idea-006 After Group C | Trivial (<30m) |
+| [TASK-136](closed/task-136-cleanup-idea-002.md) | Delete idea-002 After CLI Ships | Trivial (<30m) |
+| [TASK-137](closed/task-137-cleanup-idea-001.md) | Delete idea-001 After App Ships | Trivial (<30m) |
 | [TASK-138](closed/task-138-simulator-longpress-doublepress.md) | Simulator — Long-Press and Double-Press Support | Medium (2-8h) |
 | [TASK-139](closed/task-139-config-builder-longpress-doublepress.md) | Profile Configurator — Long-Press and Double-Press Fields | Medium (2-8h) |
+| [TASK-141](closed/task-141-auto-install-python-packages.md) | Auto-Install Python Packages in Dev Container | Small (<2h) |
 | [TASK-142](closed/task-142-ble-chunked-upload.md) | BLE Service Layer — Chunked Upload Protocol | Small (<2h) |
+| [TASK-142](closed/task-142-pre-commit-hook-devcontainer-validation.md) | Pre-Commit Hook for Dev Container Validation | Small (<2h) |
 | [TASK-143](closed/task-143-advanced-action-widgets.md) | Profile Configurator UI — Advanced Action Widgets | Medium (2-8h) |
+| [TASK-143](closed/task-143-pre-commit-hook-secrets-detection.md) | Pre-Commit Hook for Secrets Detection | Small (<2h) |
 | [TASK-144](closed/task-144-json-preview-validation.md) | Profile Configurator UI — JsonPreviewScreen and Validation Banner | Small (<2h) |
 | [TASK-145](closed/task-145-ble-upload-screen.md) | BLE Upload Screen with Progress | Small (<2h) |
+| [TASK-146](closed/task-146-update-release-workflow.md) | Update Release Workflow and README | Small (<2h) |
 | [TASK-147](closed/task-147-android-emulator-setup-guide.md) | Android Emulator Setup Guide for App Development | Small (<2h) |
 
 ## Archived Releases
