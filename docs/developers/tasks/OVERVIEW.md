@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 19** | **Closed: 37** | **Total: 56**
+**Open: 20** | **Closed: 37** | **Total: 57**
 
 ## Open Tasks
 
@@ -36,6 +36,7 @@
 | [TASK-143](open/task-143-pre-commit-hook-secrets-detection.md) | Pre-Commit Hook for Secrets Detection | Small (<2h) | Junior |
 | [TASK-146](open/task-146-update-release-workflow.md) | Update Release Workflow and README | Small (<2h) | Junior |
 | [TASK-147](open/task-147-android-emulator-setup-guide.md) | Android Emulator Setup Guide for App Development | Small (<2h) | Junior |
+| [TASK-148](open/task-148-reorganise-developer-documentation.md) | Reorganise Developer Documentation | Medium (2-8h) | Medium |
 
 ## Task Groups
 
