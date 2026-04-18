@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 27** | **Closed: 21** | **Total: 48**
+**Open: 32** | **Closed: 22** | **Total: 54**
 
 ## Open Tasks
 
@@ -26,12 +26,11 @@
 | [TASK-049](open/task-049-setup-video-platform-channel.md) | Setup video platform channel | Small (<2h) | Junior |
 | [TASK-103](open/task-103-on-device-gpio-testrig-esp32.md) | On-Device GPIO Testrig for PinAction (ESP32) | Medium (2-8h) | Medium |
 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium |
-| [TASK-122](open/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) | Medium |
 | [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium |
-| [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer (Scan, Connect, Chunked Upload) | Medium (2-8h) | Medium |
+| [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer — Scan, Connect, Disconnect | Medium (2-8h) | Medium |
 | [TASK-125](open/task-125-dart-data-models.md) | Dart Data Models and Schema Validation Service | Medium (2-8h) | Medium |
-| [TASK-126](open/task-126-profile-configurator-ui.md) | Profile Configurator UI (Port of Web Config-Builder) | Large (>8h) | Senior |
-| [TASK-127](open/task-127-ble-scan-upload-flow.md) | BLE Scan Screen and Upload Flow with Progress | Medium (2-8h) | Medium |
+| [TASK-126](open/task-126-profile-configurator-ui.md) | Profile Configurator UI — Core Screens and Basic Action Editor | Medium (2-8h) | Senior |
+| [TASK-127](open/task-127-ble-scan-upload-flow.md) | BLE Scanner Screen | Small (<2h) | Junior |
 | [TASK-128](open/task-128-file-import-export.md) | File Import / Export and Auto-Save | Small (<2h) | Junior |
 | [TASK-129](open/task-129-ios-ble-permissions.md) | iOS BLE Permissions and Build Verification | Small (<2h) | Junior |
 | [TASK-130](open/task-130-app-tests.md) | App Unit, Widget, and Integration Tests | Medium (2-8h) | Medium |
@@ -44,6 +43,12 @@
 | [TASK-137](open/task-137-cleanup-idea-001.md) | Delete idea-001 After App Ships | Trivial (<30m) | Junior |
 | [TASK-140](open/task-140-mobile-responsive-tools.md) | Mobile-Responsive Layout for Simulator and Configurator Tools | Large (8-24h) | Medium |
 | [TASK-141](open/task-141-auto-install-python-packages.md) | Auto-Install Python Packages in Dev Container | Small (<2h) | Junior |
+| [TASK-142](open/task-142-ble-chunked-upload.md) | BLE Service Layer — Chunked Upload Protocol | Small (<2h) | Medium |
+| [TASK-142](open/task-142-pre-commit-hook-devcontainer-validation.md) | Pre-Commit Hook for Dev Container Validation | Small (<2h) | Junior |
+| [TASK-143](open/task-143-advanced-action-widgets.md) | Profile Configurator UI — Advanced Action Widgets | Medium (2-8h) | Senior |
+| [TASK-143](open/task-143-pre-commit-hook-secrets-detection.md) | Pre-Commit Hook for Secrets Detection | Small (<2h) | Junior |
+| [TASK-144](open/task-144-json-preview-validation.md) | Profile Configurator UI — JsonPreviewScreen and Validation Banner | Small (<2h) | Junior |
+| [TASK-145](open/task-145-ble-upload-screen.md) | BLE Upload Screen with Progress | Small (<2h) | Junior |
 
 ## Task Groups
 
@@ -84,18 +89,22 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 
 | Order | ID | Title | Effort | Complexity | Human-in-loop |
 |-------|----|-------|--------|------------|---------------|
-| 1 | [TASK-122](open/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) | Medium | Support |
+| 1 | ~~[TASK-122](closed/task-122-repo-restructure-app-dir.md)~~ | ~~Repo Restructure — Add app/ Dir, Update CI and Devcontainer~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~Support~~ |
 | 2 | [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium | No |
-| 3 | [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer (Scan, Connect, Chunked Upload) | Medium (2-8h) | Medium | No |
-| 4 | [TASK-125](open/task-125-dart-data-models.md) | Dart Data Models and Schema Validation Service | Medium (2-8h) | Medium | No |
-| 5 | [TASK-126](open/task-126-profile-configurator-ui.md) | Profile Configurator UI (Port of Web Config-Builder) | Large (>8h) | Senior | Support |
-| 6 | [TASK-127](open/task-127-ble-scan-upload-flow.md) | BLE Scan Screen and Upload Flow with Progress | Medium (2-8h) | Medium | No |
-| 7 | [TASK-128](open/task-128-file-import-export.md) | File Import / Export and Auto-Save | Small (<2h) | Junior | No |
-| 8 | [TASK-129](open/task-129-ios-ble-permissions.md) | iOS BLE Permissions and Build Verification | Small (<2h) | Junior | Support |
-| 9 | [TASK-130](open/task-130-app-tests.md) | App Unit, Widget, and Integration Tests | Medium (2-8h) | Medium | No |
-| 10 | [TASK-131](open/task-131-docs-builders-cli.md) | Builders Docs — CLI Tool Usage | Small (<2h) | Junior | No |
-| 11 | [TASK-132](open/task-132-docs-builders-app.md) | Builders Docs — Mobile App Walkthrough | Small (<2h) | Junior | No |
-| 12 | [TASK-133](open/task-133-docs-musicians-profile-management.md) | Musicians Docs — Profile Management Overview | Small (<2h) | Junior | No |
+| 3 | [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer — Scan, Connect, Disconnect | Medium (2-8h) | Medium | No |
+| 4 | [TASK-142](open/task-142-ble-chunked-upload.md) | BLE Service Layer — Chunked Upload Protocol | Small (<2h) | Medium | No |
+| 5 | [TASK-125](open/task-125-dart-data-models.md) | Dart Data Models and Schema Validation Service | Medium (2-8h) | Medium | No |
+| 6 | [TASK-126](open/task-126-profile-configurator-ui.md) | Profile Configurator UI — Core Screens and Basic Action Editor | Medium (2-8h) | Senior | Support |
+| 7 | [TASK-143](open/task-143-advanced-action-widgets.md) | Profile Configurator UI — Advanced Action Widgets | Medium (2-8h) | Senior | No |
+| 8 | [TASK-144](open/task-144-json-preview-validation.md) | Profile Configurator UI — JsonPreviewScreen and Validation Banner | Small (<2h) | Junior | No |
+| 9 | [TASK-127](open/task-127-ble-scan-upload-flow.md) | BLE Scanner Screen | Small (<2h) | Junior | No |
+| 10 | [TASK-145](open/task-145-ble-upload-screen.md) | BLE Upload Screen with Progress | Small (<2h) | Junior | No |
+| 11 | [TASK-128](open/task-128-file-import-export.md) | File Import / Export and Auto-Save | Small (<2h) | Junior | No |
+| 12 | [TASK-129](open/task-129-ios-ble-permissions.md) | iOS BLE Permissions and Build Verification | Small (<2h) | Junior | Support |
+| 13 | [TASK-130](open/task-130-app-tests.md) | App Unit, Widget, and Integration Tests | Medium (2-8h) | Medium | No |
+| 14 | [TASK-131](open/task-131-docs-builders-cli.md) | Builders Docs — CLI Tool Usage | Small (<2h) | Junior | No |
+| 15 | [TASK-132](open/task-132-docs-builders-app.md) | Builders Docs — Mobile App Walkthrough | Small (<2h) | Junior | No |
+| 16 | [TASK-133](open/task-133-docs-musicians-profile-management.md) | Musicians Docs — Profile Management Overview | Small (<2h) | Junior | No |
 
 ## Closed Tasks
 
@@ -120,6 +129,7 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | [TASK-119](closed/task-119-python-cli-tool.md) | Python CLI Tool for Profile Upload | Medium (2-8h) |
 | [TASK-120](closed/task-120-cli-ble-host-tests.md) | Host and Unit Tests for CLI and BLE Reassembly | Medium (2-8h) |
 | [TASK-121](closed/task-121-ble-config-integration-tests.md) | BLE Config Integration Tests (Host + On-Device) | Large (>8h) |
+| [TASK-122](closed/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) |
 | [TASK-138](closed/task-138-simulator-longpress-doublepress.md) | Simulator — Long-Press and Double-Press Support | Medium (2-8h) |
 | [TASK-139](closed/task-139-config-builder-longpress-doublepress.md) | Profile Configurator — Long-Press and Double-Press Fields | Medium (2-8h) |
 

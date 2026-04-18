@@ -1,7 +1,8 @@
 ---
 id: TASK-122
 title: Repo Restructure — Add app/ Dir, Update CI and Devcontainer
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium
