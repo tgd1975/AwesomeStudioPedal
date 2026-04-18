@@ -1,7 +1,26 @@
 # Makefile for AwesomeStudioPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profiles test-esp32-ble-config test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean
+.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profiles test-esp32-ble-config test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean flutter-get flutter-analyze flutter-test flutter-build
+
+# Flutter is intentionally not installed in the dev container.
+# If 'flutter: command not found', either:
+#   a) You are on the host machine and Flutter is not installed yet — see app/README.md.
+#   b) You are inside the dev container — run these targets from a host terminal instead.
+FLUTTER ?= flutter
+
+flutter-get:
+	@command -v $(FLUTTER) >/dev/null 2>&1 || { echo "ERROR: flutter not found on PATH."; echo "  If you are inside the dev container: run this from a host terminal (Flutter is not installed in the container by design)."; echo "  If you are on the host machine: install Flutter — see app/README.md for instructions."; exit 1; }
+	cd app && $(FLUTTER) pub get
+
+flutter-analyze: flutter-get
+	cd app && $(FLUTTER) analyze
+
+flutter-test: flutter-get
+	cd app && $(FLUTTER) test
+
+flutter-build: flutter-get
+	cd app && $(FLUTTER) build apk --release
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
@@ -54,6 +73,12 @@ all:
 	@echo "  make test-nrf52840-button   - Upload filesystem + run on-device button tests (Unity, requires nRF52840)"
 	@echo "  make test-nrf52840-serial   - Upload filesystem + run on-device serial output tests (Unity, requires nRF52840)"
 	@echo "  make test-nrf52840-profiles - Upload filesystem + run on-device profile manager tests (Unity, requires nRF52840)"
+	@echo ""
+	@echo "Flutter App Commands (requires flutter on PATH — see app/README.md):"
+	@echo "  make flutter-get     - Install Flutter dependencies (pub get)"
+	@echo "  make flutter-analyze - Run flutter analyze"
+	@echo "  make flutter-test    - Run flutter test"
+	@echo "  make flutter-build   - Build release APK"
 	@echo ""
 	@echo "See README.md for more details"
 

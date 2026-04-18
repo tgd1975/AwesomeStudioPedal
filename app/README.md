@@ -55,6 +55,17 @@ flutter doctor
 
 ## Getting started
 
+From the repo root (Flutter must be on PATH):
+
+```bash
+make flutter-get      # flutter pub get
+make flutter-analyze  # flutter analyze
+make flutter-test     # flutter test
+make flutter-build    # build release APK
+```
+
+Or directly from the `app/` directory:
+
 ```bash
 cd app
 flutter pub get
