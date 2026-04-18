@@ -1,7 +1,7 @@
 ---
 id: TASK-116
 title: Create config.schema.json and data/config.json
-status: open
+status: closed
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior

@@ -1,7 +1,7 @@
 ---
 id: TASK-119
 title: Python CLI Tool for Profile Upload
-status: open
+status: closed
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium

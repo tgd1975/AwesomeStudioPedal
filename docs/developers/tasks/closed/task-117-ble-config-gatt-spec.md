@@ -1,7 +1,7 @@
 ---
 id: TASK-117
 title: BLE Config GATT Service Spec Document
-status: open
+status: closed
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior

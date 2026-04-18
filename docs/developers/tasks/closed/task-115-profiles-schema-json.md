@@ -1,7 +1,7 @@
 ---
 id: TASK-115
 title: Create profiles.schema.json and Pre-Commit Validation
-status: open
+status: closed
 opened: 2026-04-17
 effort: Small (<2h)
 complexity: Junior

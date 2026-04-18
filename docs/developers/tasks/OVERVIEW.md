@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 37** | **Closed: 11** | **Total: 48**
+**Open: 32** | **Closed: 16** | **Total: 48**
 
 ## Open Tasks
 
@@ -31,11 +31,6 @@
 | [TASK-112](open/task-112-config-loader-macro-steps.md) | Config Loader: Parse Macro Steps | Small (<2h) | Junior |
 | [TASK-113](open/task-113-mainloop-macro-update.md) | Wire MacroAction::update in main.cpp | Trivial (<30m) | Junior |
 | [TASK-114](open/task-114-host-tests-macroaction.md) | Host Tests for MacroAction | Medium (2-8h) | Medium |
-| [TASK-115](open/task-115-profiles-schema-json.md) | Create profiles.schema.json and Pre-Commit Validation | Small (<2h) | Junior |
-| [TASK-116](open/task-116-config-schema-json.md) | Create config.schema.json and data/config.json | Small (<2h) | Junior |
-| [TASK-117](open/task-117-ble-config-gatt-spec.md) | BLE Config GATT Service Spec Document | Small (<2h) | Junior |
-| [TASK-118](open/task-118-esp32-ble-config-service.md) | ESP32 BLE Config Service Implementation | Large (>8h) | Senior |
-| [TASK-119](open/task-119-python-cli-tool.md) | Python CLI Tool for Profile Upload | Medium (2-8h) | Medium |
 | [TASK-122](open/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) | Medium |
 | [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium |
 | [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer (Scan, Connect, Chunked Upload) | Medium (2-8h) | Medium |
@@ -59,18 +54,6 @@
 
 Groups with at least one open task are shown below. Each group lists all its tasks — open and closed. Closed tasks are ~~struck through~~.
 _If no sub-sections appear here, there are currently no open tasks assigned to a group._
-
-### BLEConfig
-
-| Order | ID | Title | Effort | Complexity | Human-in-loop |
-|-------|----|-------|--------|------------|---------------|
-| 1 | [TASK-115](open/task-115-profiles-schema-json.md) | Create profiles.schema.json and Pre-Commit Validation | Small (<2h) | Junior | No |
-| 2 | [TASK-116](open/task-116-config-schema-json.md) | Create config.schema.json and data/config.json | Small (<2h) | Junior | No |
-| 3 | [TASK-117](open/task-117-ble-config-gatt-spec.md) | BLE Config GATT Service Spec Document | Small (<2h) | Junior | No |
-| 4 | [TASK-118](open/task-118-esp32-ble-config-service.md) | ESP32 BLE Config Service Implementation | Large (>8h) | Senior | Support |
-| 5 | [TASK-119](open/task-119-python-cli-tool.md) | Python CLI Tool for Profile Upload | Medium (2-8h) | Medium | No |
-| 6 | ~~[TASK-120](closed/task-120-cli-ble-host-tests.md)~~ | ~~Host and Unit Tests for CLI and BLE Reassembly~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
-| 7 | ~~[TASK-121](closed/task-121-ble-config-integration-tests.md)~~ | ~~BLE Config Integration Tests (Host + On-Device)~~ | ~~Large (>8h)~~ | ~~Senior~~ | ~~Support~~ |
 
 ### Cleanup
 
@@ -140,6 +123,11 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | [TASK-106](closed/task-106-config-schema-multievent.md) | Config Schema Extension for Multi-Event Bindings | Small (<2h) |
 | [TASK-107](closed/task-107-mainloop-multievent-wiring.md) | Wire Multi-Event Dispatch in main.cpp | Small (<2h) |
 | [TASK-108](closed/task-108-host-tests-longpress-doublepress.md) | Host Tests for Long Press and Double Press | Medium (2-8h) |
+| [TASK-115](closed/task-115-profiles-schema-json.md) | Create profiles.schema.json and Pre-Commit Validation | Small (<2h) |
+| [TASK-116](closed/task-116-config-schema-json.md) | Create config.schema.json and data/config.json | Small (<2h) |
+| [TASK-117](closed/task-117-ble-config-gatt-spec.md) | BLE Config GATT Service Spec Document | Small (<2h) |
+| [TASK-118](closed/task-118-esp32-ble-config-service.md) | ESP32 BLE Config Service Implementation | Large (>8h) |
+| [TASK-119](closed/task-119-python-cli-tool.md) | Python CLI Tool for Profile Upload | Medium (2-8h) |
 | [TASK-120](closed/task-120-cli-ble-host-tests.md) | Host and Unit Tests for CLI and BLE Reassembly | Medium (2-8h) |
 | [TASK-121](closed/task-121-ble-config-integration-tests.md) | BLE Config Integration Tests (Host + On-Device) | Large (>8h) |
 | [TASK-138](closed/task-138-simulator-longpress-doublepress.md) | Simulator — Long-Press and Double-Press Support | Medium (2-8h) |

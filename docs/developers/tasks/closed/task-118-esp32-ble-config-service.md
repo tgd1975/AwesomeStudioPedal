@@ -1,7 +1,7 @@
 ---
 id: TASK-118
 title: ESP32 BLE Config Service Implementation
-status: open
+status: closed
 opened: 2026-04-17
 effort: Large (>8h)
 complexity: Senior
