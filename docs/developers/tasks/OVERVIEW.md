@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 18** | **Closed: 37** | **Total: 55**
+**Open: 19** | **Closed: 37** | **Total: 56**
 
 ## Open Tasks
 
@@ -35,6 +35,7 @@
 | [TASK-142](open/task-142-pre-commit-hook-devcontainer-validation.md) | Pre-Commit Hook for Dev Container Validation | Small (<2h) | Junior |
 | [TASK-143](open/task-143-pre-commit-hook-secrets-detection.md) | Pre-Commit Hook for Secrets Detection | Small (<2h) | Junior |
 | [TASK-146](open/task-146-update-release-workflow.md) | Update Release Workflow and README | Small (<2h) | Junior |
+| [TASK-147](open/task-147-android-emulator-setup-guide.md) | Android Emulator Setup Guide for App Development | Small (<2h) | Junior |
 
 ## Task Groups
 
