@@ -33,6 +33,8 @@ void PinAction::execute()
     }
 }
 
+void PinAction::getJsonProperties(JsonObject& json) const { json["pin"] = pin_; }
+
 void PinAction::executeRelease()
 {
     switch (mode_)

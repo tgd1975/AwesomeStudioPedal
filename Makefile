@@ -117,6 +117,10 @@ test-esp32-serial: uploadfs-esp32
 test-esp32-profiles: uploadfs-esp32
 	pio test -e nodemcu-32s-profilemanager-test -v
 
+# Run on-device GPIO testrig for PinAction (Unity via PlatformIO) — requires ESP32 connected
+test-esp32-pin-io: uploadfs-esp32
+	pio test -e nodemcu-32s-pin-io-test -v
+
 # Run on-device button tests (Unity via PlatformIO) — requires nRF52840 connected
 test-nrf52840-button: uploadfs-nrf52840
 	pio test -e feather-nrf52840-test -v

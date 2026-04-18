@@ -4,6 +4,7 @@
 #include "delayed_action.h"
 #include "mock_ble_keyboard.h"
 #include "mock_led_controller.h"
+#include "pin_action.h"
 #include "profile_manager.h"
 #include "send_action.h"
 #include "serial_action.h"
@@ -590,4 +591,80 @@ TEST_F(ActionParsingTest, LargeJson_AllProfilesLoaded)
     EXPECT_TRUE(result);
     for (uint8_t i = 0; i < hardwareConfig.numProfiles; i++)
         EXPECT_NE(pm->getProfile(i), nullptr) << "profile slot " << (int) i << " is null";
+}
+
+// ---------------------------------------------------------------------------
+// PinAction parsing — all five types
+// ---------------------------------------------------------------------------
+
+TEST_F(ActionParsingTest, PinHighAction_ParsesCorrectType)
+{
+    const char* json =
+        R"({"profiles":[{"name":"T","buttons":{"A":{"type":"PinHighAction","pin":4}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    Action* a = pm->getAction(0, Btn::A);
+    ASSERT_NE(a, nullptr);
+    EXPECT_EQ(a->getType(), Action::Type::PinHigh);
+}
+
+TEST_F(ActionParsingTest, PinLowAction_ParsesCorrectType)
+{
+    const char* json =
+        R"({"profiles":[{"name":"T","buttons":{"A":{"type":"PinLowAction","pin":5}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    Action* a = pm->getAction(0, Btn::A);
+    ASSERT_NE(a, nullptr);
+    EXPECT_EQ(a->getType(), Action::Type::PinLow);
+}
+
+TEST_F(ActionParsingTest, PinToggleAction_ParsesCorrectType)
+{
+    const char* json =
+        R"({"profiles":[{"name":"T","buttons":{"A":{"type":"PinToggleAction","pin":6}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    Action* a = pm->getAction(0, Btn::A);
+    ASSERT_NE(a, nullptr);
+    EXPECT_EQ(a->getType(), Action::Type::PinToggle);
+}
+
+TEST_F(ActionParsingTest, PinHighWhilePressedAction_ParsesCorrectType)
+{
+    const char* json =
+        R"({"profiles":[{"name":"T","buttons":{"A":{"type":"PinHighWhilePressedAction","pin":7}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    Action* a = pm->getAction(0, Btn::A);
+    ASSERT_NE(a, nullptr);
+    EXPECT_EQ(a->getType(), Action::Type::PinHighWhilePressed);
+}
+
+TEST_F(ActionParsingTest, PinLowWhilePressedAction_ParsesCorrectType)
+{
+    const char* json =
+        R"({"profiles":[{"name":"T","buttons":{"A":{"type":"PinLowWhilePressedAction","pin":8}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    Action* a = pm->getAction(0, Btn::A);
+    ASSERT_NE(a, nullptr);
+    EXPECT_EQ(a->getType(), Action::Type::PinLowWhilePressed);
+}
+
+TEST_F(ActionParsingTest, PinAction_MissingPinFieldReturnsNullptr)
+{
+    const char* json = R"({"profiles":[{"name":"T","buttons":{"A":{"type":"PinHighAction"}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    EXPECT_EQ(pm->getAction(0, Btn::A), nullptr);
+}
+
+TEST_F(ActionParsingTest, PinAction_NegativePinFieldReturnsNullptr)
+{
+    const char* json =
+        R"({"profiles":[{"name":"T","buttons":{"A":{"type":"PinHighAction","pin":-1}}}]})";
+    pm = std::make_unique<ProfileManager>(std::vector<ILEDController*>{&led1, &led2, &led3});
+    loader.loadFromString(*pm, &kb, json);
+    EXPECT_EQ(pm->getAction(0, Btn::A), nullptr);
 }
