@@ -27,17 +27,43 @@ Run `flutter doctor` after installing to verify Android tooling is detected:
 
 ## Linux setup
 
-### 1. Install Android Studio
+### 1. Install Android Studio (or use an existing SDK)
+
+**Option A — Android Studio (recommended):**
 
 Download the `.tar.gz` from [developer.android.com/studio](https://developer.android.com/studio),
 extract it, and launch `android-studio/bin/studio.sh`. Follow the setup wizard — it will
-install the Android SDK automatically.
+install the Android SDK and all required components automatically.
+
+**Option B — SDK already installed manually:**
+
+If you already have the Android SDK (e.g. at `~/Android/Sdk`), you only need to add the
+`cmdline-tools` component, which Flutter requires but standalone SDK downloads omit:
+
+```bash
+# Tell Flutter where your SDK lives
+flutter config --android-sdk ~/Android/Sdk
+
+# Download cmdline-tools manually
+cd ~/Android/Sdk
+mkdir -p cmdline-tools/latest
+# Download from https://developer.android.com/studio#command-line-tools-only
+# Extract the zip and move its contents into cmdline-tools/latest:
+# unzip commandlinetools-linux-*.zip
+# mv cmdline-tools/* cmdline-tools/latest/
+
+# Accept SDK licenses
+flutter doctor --android-licenses
+
+# Verify
+flutter doctor
+```
 
 Add the SDK tools to your `PATH` (add to `~/.bashrc` or `~/.zshrc`):
 
 ```bash
-export ANDROID_HOME="$HOME/Android/Sdk"
-export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools"
+export ANDROID_HOME="$HOME/Android/Sdk"   # default Android Studio path on Linux
+export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin"
 ```
 
 ### 2. Enable hardware acceleration (KVM)
@@ -235,5 +261,7 @@ by mockito — see `test/integration/app_flow_test.dart` for reference.
 | Emulator very slow | KVM/HAXM not active | Verify acceleration: `emulator -accel-check` |
 | `flutter run` doesn't detect emulator | Emulator not fully booted | Wait for the home screen to appear, then re-run |
 | `No connected devices` | `ANDROID_HOME` not set | Add `ANDROID_HOME` and SDK tools to `PATH`, restart terminal |
-| `flutter doctor` shows Android SDK missing | SDK path wrong | Run `flutter config --android-sdk /path/to/sdk` |
-| API 34 image not listed | Not downloaded | Android Studio → SDK Manager → SDK Platforms → Android 14 → Apply |
+| `cmdline-tools component is missing` | SDK installed without cmdline-tools | See "Option B" in Linux setup above; download cmdline-tools zip and place in `$ANDROID_HOME/cmdline-tools/latest/` |
+| `Android license status unknown` | Licenses not accepted | Run `flutter doctor --android-licenses` and accept all |
+| `flutter doctor` shows Android SDK missing | SDK path wrong | Run `flutter config --android-sdk ~/Android/Sdk` |
+| API 34 image not listed | Not downloaded | Android Studio → SDK Manager → SDK Platforms → Android 14 → Apply; or `sdkmanager "platforms;android-34"` |
