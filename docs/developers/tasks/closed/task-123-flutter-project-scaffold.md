@@ -1,7 +1,8 @@
 ---
 id: TASK-123
 title: Flutter Project Scaffold and Navigation
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium

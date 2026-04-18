@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 32** | **Closed: 22** | **Total: 54**
+**Open: 32** | **Closed: 23** | **Total: 55**
 
 ## Open Tasks
 
@@ -26,7 +26,6 @@
 | [TASK-049](open/task-049-setup-video-platform-channel.md) | Setup video platform channel | Small (<2h) | Junior |
 | [TASK-103](open/task-103-on-device-gpio-testrig-esp32.md) | On-Device GPIO Testrig for PinAction (ESP32) | Medium (2-8h) | Medium |
 | [TASK-109](open/task-109-ondevice-multipress-test.md) | On-Device Multi-Press Integration Test (ESP32) | Medium (2-8h) | Medium |
-| [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium |
 | [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer — Scan, Connect, Disconnect | Medium (2-8h) | Medium |
 | [TASK-125](open/task-125-dart-data-models.md) | Dart Data Models and Schema Validation Service | Medium (2-8h) | Medium |
 | [TASK-126](open/task-126-profile-configurator-ui.md) | Profile Configurator UI — Core Screens and Basic Action Editor | Medium (2-8h) | Senior |
@@ -49,6 +48,7 @@
 | [TASK-143](open/task-143-pre-commit-hook-secrets-detection.md) | Pre-Commit Hook for Secrets Detection | Small (<2h) | Junior |
 | [TASK-144](open/task-144-json-preview-validation.md) | Profile Configurator UI — JsonPreviewScreen and Validation Banner | Small (<2h) | Junior |
 | [TASK-145](open/task-145-ble-upload-screen.md) | BLE Upload Screen with Progress | Small (<2h) | Junior |
+| [TASK-146](open/task-146-update-release-workflow.md) | Update Release Workflow and README | Small (<2h) | Junior |
 
 ## Task Groups
 
@@ -90,7 +90,7 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | Order | ID | Title | Effort | Complexity | Human-in-loop |
 |-------|----|-------|--------|------------|---------------|
 | 1 | ~~[TASK-122](closed/task-122-repo-restructure-app-dir.md)~~ | ~~Repo Restructure — Add app/ Dir, Update CI and Devcontainer~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~Support~~ |
-| 2 | [TASK-123](open/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) | Medium | No |
+| 2 | ~~[TASK-123](closed/task-123-flutter-project-scaffold.md)~~ | ~~Flutter Project Scaffold and Navigation~~ | ~~Medium (2-8h)~~ | ~~Medium~~ | ~~No~~ |
 | 3 | [TASK-124](open/task-124-flutter-ble-service.md) | BLE Service Layer — Scan, Connect, Disconnect | Medium (2-8h) | Medium | No |
 | 4 | [TASK-142](open/task-142-ble-chunked-upload.md) | BLE Service Layer — Chunked Upload Protocol | Small (<2h) | Medium | No |
 | 5 | [TASK-125](open/task-125-dart-data-models.md) | Dart Data Models and Schema Validation Service | Medium (2-8h) | Medium | No |
@@ -105,6 +105,12 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | 14 | [TASK-131](open/task-131-docs-builders-cli.md) | Builders Docs — CLI Tool Usage | Small (<2h) | Junior | No |
 | 15 | [TASK-132](open/task-132-docs-builders-app.md) | Builders Docs — Mobile App Walkthrough | Small (<2h) | Junior | No |
 | 16 | [TASK-133](open/task-133-docs-musicians-profile-management.md) | Musicians Docs — Profile Management Overview | Small (<2h) | Junior | No |
+
+### Release
+
+| Order | ID | Title | Effort | Complexity | Human-in-loop |
+|-------|----|-------|--------|------------|---------------|
+| 1 | [TASK-146](open/task-146-update-release-workflow.md) | Update Release Workflow and README | Small (<2h) | Junior | No |
 
 ## Closed Tasks
 
@@ -130,6 +136,7 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | [TASK-120](closed/task-120-cli-ble-host-tests.md) | Host and Unit Tests for CLI and BLE Reassembly | Medium (2-8h) |
 | [TASK-121](closed/task-121-ble-config-integration-tests.md) | BLE Config Integration Tests (Host + On-Device) | Large (>8h) |
 | [TASK-122](closed/task-122-repo-restructure-app-dir.md) | Repo Restructure — Add app/ Dir, Update CI and Devcontainer | Medium (2-8h) |
+| [TASK-123](closed/task-123-flutter-project-scaffold.md) | Flutter Project Scaffold and Navigation | Medium (2-8h) |
 | [TASK-138](closed/task-138-simulator-longpress-doublepress.md) | Simulator — Long-Press and Double-Press Support | Medium (2-8h) |
 | [TASK-139](closed/task-139-config-builder-longpress-doublepress.md) | Profile Configurator — Long-Press and Double-Press Fields | Medium (2-8h) |
 
