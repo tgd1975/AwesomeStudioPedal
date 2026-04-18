@@ -9,7 +9,7 @@
 
 <!-- GENERATED -->
 
-**Open: 20** | **Closed: 46** | **Total: 66**
+**Open: 21** | **Closed: 46** | **Total: 67**
 
 ## Open Tasks
 
@@ -37,6 +37,7 @@
 | [TASK-155](open/task-155-feature-test-app-action-editor.md) | Feature Test — App action editor (all action types) | Small (2-4h) | Low |
 | [TASK-156](open/task-156-feature-test-app-upload-preview.md) | Feature Test — App upload screen & JSON preview | Small (2-4h) | Low |
 | [TASK-157](open/task-157-feature-test-e2e-integration-edge.md) | Feature Test — E2E musician workflows, integration & edge cases | Medium (4-8h) | Medium |
+| [TASK-158](open/task-158-feature-test-ios-build-deploy.md) | Feature Test — Build, deploy and test the iOS app on iPhone | Medium (4-8h) | Medium |
 
 ## Task Groups
 
@@ -77,6 +78,7 @@ _If no sub-sections appear here, there are currently no open tasks assigned to a
 | ? | [TASK-155](open/task-155-feature-test-app-action-editor.md) | Feature Test — App action editor (all action types) | Small (2-4h) | Low | Main ★ |
 | ? | [TASK-156](open/task-156-feature-test-app-upload-preview.md) | Feature Test — App upload screen & JSON preview | Small (2-4h) | Low | Main ★ |
 | ? | [TASK-157](open/task-157-feature-test-e2e-integration-edge.md) | Feature Test — E2E musician workflows, integration & edge cases | Medium (4-8h) | Medium | Main ★ |
+| ? | [TASK-158](open/task-158-feature-test-ios-build-deploy.md) | Feature Test — Build, deploy and test the iOS app on iPhone | Medium (4-8h) | Medium | Main ★ |
 
 ## Closed Tasks
 
