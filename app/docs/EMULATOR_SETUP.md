@@ -12,6 +12,9 @@ and testing the AwesomeStudioPedal Flutter app — without a physical Android de
 ## Prerequisites
 
 - Flutter installed and on your `PATH` (version from `app/.flutter-version`)
+- **Java 17 JRE** — required by Android SDK tools (`sdkmanager`, `avdmanager`):
+  - Linux: `sudo apt install openjdk-17-jre-headless`
+  - Windows: bundled with Android Studio; no separate install needed
 - **Android Studio** installed — it provides the AVD Manager and the required Android SDK
   components. Download from [developer.android.com/studio](https://developer.android.com/studio).
 
@@ -261,6 +264,7 @@ by mockito — see `test/integration/app_flow_test.dart` for reference.
 | Emulator very slow | KVM/HAXM not active | Verify acceleration: `emulator -accel-check` |
 | `flutter run` doesn't detect emulator | Emulator not fully booted | Wait for the home screen to appear, then re-run |
 | `No connected devices` | `ANDROID_HOME` not set | Add `ANDROID_HOME` and SDK tools to `PATH`, restart terminal |
+| `JAVA_HOME is not set` / `java` not found | Java not installed | `sudo apt install openjdk-17-jre-headless` (Linux); Android Studio bundles Java on Windows |
 | `cmdline-tools component is missing` | SDK installed without cmdline-tools | See "Option B" in Linux setup above; download cmdline-tools zip and place in `$ANDROID_HOME/cmdline-tools/latest/` |
 | `Android license status unknown` | Licenses not accepted | Run `flutter doctor --android-licenses` and accept all |
 | `flutter doctor` shows Android SDK missing | SDK path wrong | Run `flutter config --android-sdk ~/Android/Sdk` |
