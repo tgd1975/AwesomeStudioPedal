@@ -167,6 +167,23 @@ fi
 
 echo -e "${GREEN}All tests passed.${NC}"
 
+FLUTTER=$(command -v flutter 2>/dev/null || true)
+if [ -n "$FLUTTER" ]; then
+    DART_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^app/' || true)
+    if [ -n "$DART_FILES" ]; then
+        echo -e "${YELLOW}Running Flutter tests...${NC}"
+        cd "${REPO_ROOT}/app" && "$FLUTTER" test
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}Flutter tests failed. Commit aborted.${NC}"
+            exit 1
+        fi
+        echo -e "${GREEN}Flutter tests passed.${NC}"
+        cd "${REPO_ROOT}"
+    fi
+else
+    echo -e "${YELLOW}flutter not found on PATH — skipping Flutter tests (run from host machine or CI will catch failures).${NC}"
+fi
+
 echo -e "${YELLOW}Updating README future ideas...${NC}"
 python "${REPO_ROOT}/scripts/update_future_ideas.py"
 git add "${REPO_ROOT}/README.md"

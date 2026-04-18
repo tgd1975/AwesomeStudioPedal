@@ -1,7 +1,7 @@
 # Makefile for AwesomeStudioPedal ESP32 project
 # Uses PlatformIO as the build system
 
-.PHONY: all build upload clean monitor test-host test-esp32-button test-esp32-serial test-esp32-profiles test-esp32-ble-config test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean flutter-get flutter-analyze flutter-test flutter-build
+.PHONY: all build upload clean monitor test-host test-flutter test-esp32-button test-esp32-serial test-esp32-profiles test-esp32-ble-config test-nrf52840-button test-nrf52840-serial test-nrf52840-profiles build-nrf52840 build-esp32 upload-esp32 uploadfs-esp32 monitor-esp32 upload-nrf52840 uploadfs-nrf52840 monitor-nrf52840 docs docs-coverage coverage coverage-clean flutter-get flutter-analyze flutter-test flutter-build
 
 # Flutter is intentionally not installed in the dev container.
 # If 'flutter: command not found', either:
@@ -21,6 +21,9 @@ flutter-test: flutter-get
 
 flutter-build: flutter-get
 	cd app && $(FLUTTER) build apk --release
+
+# Alias used by the test suite and pre-commit hook narrative
+test-flutter: flutter-test
 
 # Target-specific variables
 ESP32_ENV ?= nodemcu-32s
@@ -77,8 +80,9 @@ all:
 	@echo "Flutter App Commands (requires flutter on PATH — see app/README.md):"
 	@echo "  make flutter-get     - Install Flutter dependencies (pub get)"
 	@echo "  make flutter-analyze - Run flutter analyze"
-	@echo "  make flutter-test    - Run flutter test"
+	@echo "  make flutter-test    - Run flutter test (alias: make test-flutter)"
 	@echo "  make flutter-build   - Build release APK"
+	@echo "  make test-flutter    - Alias for flutter-test (mirrors CI job name)"
 	@echo ""
 	@echo "See README.md for more details"
 
