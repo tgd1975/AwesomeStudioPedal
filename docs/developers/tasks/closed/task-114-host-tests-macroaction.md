@@ -1,7 +1,8 @@
 ---
 id: TASK-114
 title: Host Tests for MacroAction
-status: open
+status: closed
+closed: 2026-04-18
 opened: 2026-04-17
 effort: Medium (2-8h)
 complexity: Medium
