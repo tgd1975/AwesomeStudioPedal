@@ -72,15 +72,22 @@ Pre-built firmware binaries are published with each
 
 | Platform | File |
 |----------|------|
-| ESP32 (NodeMCU-32S) | `awesome-pedal-esp32-vX.Y.Z.bin` |
-| nRF52840 (Adafruit Feather) | `awesome-pedal-nrf52840-vX.Y.Z.bin` |
+| ESP32 (NodeMCU-32S) | `firmware-nodemcu-32s-vX.Y.Z.bin` |
+| nRF52840 (Adafruit Feather) | `firmware-feather-nrf52840-vX.Y.Z.hex` (flash) · `firmware-feather-nrf52840-vX.Y.Z.zip` (OTA) |
 
 ### Current stable release
 
 <!-- RELEASE_SECTION_START -->
-> **No public release yet.** The first tagged release will appear here once the
-> release workflow runs. Until then, build from source using the
-> [Build Guide](docs/builders/BUILD_GUIDE.md).
+**Current stable: v0.4.0**
+
+- ESP32 (NodeMCU-32S): [firmware-nodemcu-32s-v0.4.0.bin](../../releases/download/v0.4.0/firmware-nodemcu-32s-v0.4.0.bin)
+- nRF52840 (Adafruit Feather): [firmware-feather-nrf52840-v0.4.0.hex](../../releases/download/v0.4.0/firmware-feather-nrf52840-v0.4.0.hex) · [firmware-feather-nrf52840-v0.4.0.zip](../../releases/download/v0.4.0/firmware-feather-nrf52840-v0.4.0.zip) (OTA)
+- Debug symbols (ESP32): [firmware-nodemcu-32s-v0.4.0-debug.zip](../../releases/download/v0.4.0/firmware-nodemcu-32s-v0.4.0-debug.zip)
+
+**Previous releases:**
+
+- v0.3.0 — [release notes & downloads](../../releases/tag/v0.3.0)
+- v0.2.0 — [release notes & downloads](../../releases/tag/v0.2.0)
 <!-- RELEASE_SECTION_END -->
 
 For upload instructions see [Build Guide — Upload](docs/builders/BUILD_GUIDE.md).
