@@ -43,10 +43,10 @@ Steps:
    done
    ```
 
-7. **Regenerate task overview** (generates OVERVIEW.md and `archive/vX.Y.Z/OVERVIEW.md`):
+7. **Regenerate task overview** (regenerates OVERVIEW.md, EPICS.md, KANBAN.md, and `archive/vX.Y.Z/OVERVIEW.md`):
 
    ```bash
-   python scripts/update_task_overview.py
+   python scripts/housekeep.py --apply
    git add docs/developers/tasks/
    ```
 

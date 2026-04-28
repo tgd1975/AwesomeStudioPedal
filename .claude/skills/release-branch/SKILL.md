@@ -140,11 +140,19 @@ Invoke as `/release-branch vX.Y.Z`. If no version is given, read the current ver
     done
     ```
 
-4. **Regenerate task overview**:
+4. **Regenerate task overview** (regenerates OVERVIEW.md, EPICS.md, and KANBAN.md):
 
     ```bash
-    python scripts/update_task_overview.py
+    python scripts/housekeep.py --apply
     git add docs/developers/tasks/
+    ```
+
+    Then snapshot the three overviews into `archive/vX.Y.Z/` so the v0.4.0+
+    release-snapshot artifacts are produced:
+
+    ```bash
+    python scripts/release_snapshot.py vX.Y.Z
+    git add docs/developers/tasks/archive/vX.Y.Z/
     ```
 
 5. **Commit the bump and archive**:
