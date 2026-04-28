@@ -9,13 +9,18 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 | [`check_code_smells.py`](check_code_smells.py) | Code smell detector for AwesomeStudioPedal C++ sources. | `python3 check_code_smells.py` |
 | [`cleanup-releases.sh`](cleanup-releases.sh) | cleanup-releases.sh — keep only the current + 2 previous GitHub releases. | `./cleanup-releases.sh` |
 | [`format-code.sh`](format-code.sh) | Format all C++ files with clang-format | `./format-code.sh` |
+| [`generate-schematic.py`](generate-schematic.py) | Circuit schematic generator for AwesomeStudioPedal. | `python3 generate-schematic.py` |
+| [`housekeep.py`](housekeep.py) | Central housekeeping for the task system. | `python3 housekeep.py` |
 | [`migrate_tasks.py`](migrate_tasks.py) | Migrate tasks from REPOSITORY_IMPROVEMENT_CONCEPT.md into | `python3 migrate_tasks.py` |
+| [`organize_closed_tasks.py`](organize_closed_tasks.py) | Archive all closed tasks into a versioned release folder under tasks/archive/. | `python3 organize_closed_tasks.py` |
+| [`pedal_config.py`](pedal_config.py) | pedal_config.py — CLI tool for scanning, uploading, and validating pedal configs over BLE. | `python3 pedal_config.py` |
 | [`pre-commit`](pre-commit) | Comprehensive pre-commit hook for code quality checks | `python3 pre-commit` |
 | [`serial_monitor.py`](serial_monitor.py) | Simple serial monitor for ESP32/Arduino devices | `python3 serial_monitor.py` |
 | [`sync_skills_config.py`](sync_skills_config.py) | Sync enabled_skills in .vibe/config.toml with .claude/skills/ directory. | `python3 sync_skills_config.py` |
-| [`update_future_ideas.py`](update_future_ideas.py) | Regenerate the Future Ideas section in README.md from idea files | `python3 update_future_ideas.py` |
+| [`task_system_config.py`](task_system_config.py) | Shared config loader for the task system. | `python3 task_system_config.py` |
+| [`update_idea_overview.py`](update_idea_overview.py) | Regenerate docs/developers/ideas/OVERVIEW.md from idea files in | `python3 update_idea_overview.py` |
 | [`update_scripts_readme.py`](update_scripts_readme.py) | Automatically update scripts/README.md based on current scripts in the folder. | `python3 update_scripts_readme.py` |
-| [`update_task_overview.py`](update_task_overview.py) | Regenerate docs/developers/tasks/OVERVIEW.md from the task files | `python3 update_task_overview.py` |
+| [`update_task_overview.py`](update_task_overview.py) | DEPRECATED — prefer `scripts/housekeep.py` for the full flow (file | `python3 update_task_overview.py` |
 | [`validate_mermaid.py`](validate_mermaid.py) | Mermaid Diagram Validation Script | `python3 validate_mermaid.py` |
 
 ## Script Details
@@ -38,11 +43,35 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 
 **Usage**: `./format-code.sh`
 
+### generate-schematic.py
+
+**Purpose**: Circuit schematic generator for AwesomeStudioPedal.
+
+**Usage**: `python3 generate-schematic.py`
+
+### housekeep.py
+
+**Purpose**: Central housekeeping for the task system.
+
+**Usage**: `python3 housekeep.py`
+
 ### migrate_tasks.py
 
 **Purpose**: Migrate tasks from REPOSITORY_IMPROVEMENT_CONCEPT.md into
 
 **Usage**: `python3 migrate_tasks.py`
+
+### organize_closed_tasks.py
+
+**Purpose**: Archive all closed tasks into a versioned release folder under tasks/archive/.
+
+**Usage**: `python3 organize_closed_tasks.py`
+
+### pedal_config.py
+
+**Purpose**: pedal_config.py — CLI tool for scanning, uploading, and validating pedal configs over BLE.
+
+**Usage**: `python3 pedal_config.py`
 
 ### pre-commit
 
@@ -62,11 +91,17 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 
 **Usage**: `python3 sync_skills_config.py`
 
-### update_future_ideas.py
+### task_system_config.py
 
-**Purpose**: Regenerate the Future Ideas section in README.md from idea files
+**Purpose**: Shared config loader for the task system.
 
-**Usage**: `python3 update_future_ideas.py`
+**Usage**: `python3 task_system_config.py`
+
+### update_idea_overview.py
+
+**Purpose**: Regenerate docs/developers/ideas/OVERVIEW.md from idea files in
+
+**Usage**: `python3 update_idea_overview.py`
 
 ### update_scripts_readme.py
 
@@ -76,7 +111,7 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 
 ### update_task_overview.py
 
-**Purpose**: Regenerate docs/developers/tasks/OVERVIEW.md from the task files
+**Purpose**: DEPRECATED — prefer `scripts/housekeep.py` for the full flow (file
 
 **Usage**: `python3 update_task_overview.py`
 

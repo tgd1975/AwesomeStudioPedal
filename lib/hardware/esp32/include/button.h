@@ -24,8 +24,13 @@ public:
     volatile uint8_t pressCount = 0;       /**< Incremented by ISR, decremented by event() */
     volatile bool awaitingRelease = false; /**< True after press, until pin goes HIGH */
     volatile bool released = false; /**< Set by ISR on release edge; cleared by releaseEvent() */
-    unsigned long lastDebounceTime = 0; /**< Timestamp of last accepted press */
-    unsigned long debounceDelay = 100;  /**< Debounce window in milliseconds */
+    volatile bool doublePressFlag_ = false; /**< Set by ISR on confirmed double press */
+    unsigned long lastDebounceTime = 0;     /**< Timestamp of last accepted press */
+    unsigned long debounceDelay = 100;      /**< Debounce window in milliseconds */
+    unsigned long pressStartTime_ = 0;      /**< millis() at last falling edge */
+    unsigned long lastPressTime_ =
+        0; /**< millis() at previous falling edge (double-press detection) */
+    unsigned long doublePressWindow_ = 300; /**< Max ms between two presses to count as double */
 
     /**
      * @brief Constructs a Button for the given GPIO pin
@@ -49,7 +54,13 @@ public:
 
     /**
      * @brief Checks for a press event and clears the flag
-     * @return true if pressed since last call, false otherwise
+     *
+     * Reporting is deferred by up to doublePressWindow_ so a second press
+     * can pre-empt the single press as a double-press. After the window
+     * elapses with no second press, the single press is reported.
+     *
+     * @return true if a press was accepted and the double-press window has
+     *         elapsed since that press, false otherwise
      */
     bool event() override;
 
@@ -64,4 +75,16 @@ public:
      * @brief Returns true once per release edge, then resets the flag
      */
     bool releaseEvent() override;
+
+    /**
+     * @brief Configures the double-press detection window
+     * @param ms Maximum milliseconds between two presses to count as a double press
+     */
+    void setDoublePressWindow(unsigned long ms);
+
+    /** @brief Returns ms held since last press, 0 if not held */
+    unsigned long holdDurationMs() const override;
+
+    /** @brief Returns true once per confirmed double press, clears flag */
+    bool doublePressEvent() override;
 };

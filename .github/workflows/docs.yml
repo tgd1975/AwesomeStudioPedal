@@ -22,6 +22,32 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  schematic-check:
+    name: Schemdraw staleness guard
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Schemdraw
+        run: pip install -r requirements-schematic.txt
+
+      - name: Regenerate circuit schematic SVGs
+        run: |
+          python scripts/generate-schematic.py --target esp32
+          python scripts/generate-schematic.py --target nrf52840
+
+      - name: Fail if any SVG is stale
+        run: |
+          if ! git diff --exit-code docs/builders/wiring/esp32/main-circuit.svg docs/builders/wiring/nrf52840/main-circuit.svg; then
+            echo ""
+            echo "Circuit schematic SVG is stale. Regenerate locally and commit:"
+            echo "  python scripts/generate-schematic.py --target esp32"
+            echo "  python scripts/generate-schematic.py --target nrf52840"
+            exit 1
+          fi
+
   build-docs:
     name: Build API Documentation
     runs-on: ubuntu-latest

@@ -1,3 +1,4 @@
+#include "ble_config_reassembler.h" // JSON_DOC_CAPACITY
 #include "button_constants.h"
 #include "config.h"
 #include "config_loader.h"
@@ -18,7 +19,7 @@ using namespace ArduinoJson;
  */
 bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::string& configPath)
 {
-    DynamicJsonDocument doc(8192);
+    DynamicJsonDocument doc(JSON_DOC_CAPACITY);
     JsonArray profiles = doc.createNestedArray("profiles");
 
     for (uint8_t profileIndex = 0; profileIndex < hardwareConfig.numProfiles; profileIndex++)
@@ -139,6 +140,30 @@ void ConfigLoader::actionToJson(const Action* action, JsonObject& out)
             break;
         case Action::Type::Delayed:
             out["type"] = "DelayedAction";
+            action->getJsonProperties(out);
+            break;
+        case Action::Type::PinHigh:
+            out["type"] = "PinHighAction";
+            action->getJsonProperties(out);
+            break;
+        case Action::Type::PinLow:
+            out["type"] = "PinLowAction";
+            action->getJsonProperties(out);
+            break;
+        case Action::Type::PinToggle:
+            out["type"] = "PinToggleAction";
+            action->getJsonProperties(out);
+            break;
+        case Action::Type::PinHighWhilePressed:
+            out["type"] = "PinHighWhilePressedAction";
+            action->getJsonProperties(out);
+            break;
+        case Action::Type::PinLowWhilePressed:
+            out["type"] = "PinLowWhilePressedAction";
+            action->getJsonProperties(out);
+            break;
+        case Action::Type::Macro:
+            out["type"] = "MacroAction";
             action->getJsonProperties(out);
             break;
         default:

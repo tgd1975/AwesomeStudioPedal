@@ -1,0 +1,42 @@
+{
+  "_meta": {
+    "id":     "zoom-mute-toggle",
+    "author": "tgd1975",
+    "tags":   ["zoom", "video-call", "mute", "productivity"],
+    "tested": "macOS 14, Zoom 6.x / Windows 11, Zoom 6.x"
+  },
+  "profiles": [
+    {
+      "name":        "01 Zoom Controls",
+      "description": "Foot-controlled Zoom meeting controls. Button A toggles your microphone (Cmd+Shift+A on macOS, Alt+A on Windows). Button B toggles your camera (Cmd+Shift+V on macOS, Alt+V on Windows). This profile targets macOS — see the 'Windows' profile for the Windows variant. Zoom must be the focused window.",
+      "buttons": {
+        "A": {
+          "type":  "SendStringAction",
+          "name":  "Mute/Unmute — Cmd+Shift+A",
+          "value": "cmd+shift+a"
+        },
+        "B": {
+          "type":  "SendStringAction",
+          "name":  "Video On/Off — Cmd+Shift+V",
+          "value": "cmd+shift+v"
+        }
+      }
+    },
+    {
+      "name":        "02 Zoom Controls (Windows)",
+      "description": "Same as profile 01 but for Windows. Alt+A mutes/unmutes, Alt+V toggles video.",
+      "buttons": {
+        "A": {
+          "type":  "SendStringAction",
+          "name":  "Mute/Unmute — Alt+A",
+          "value": "alt+a"
+        },
+        "B": {
+          "type":  "SendStringAction",
+          "name":  "Video On/Off — Alt+V",
+          "value": "alt+v"
+        }
+      }
+    }
+  ]
+}

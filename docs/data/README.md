@@ -9,6 +9,22 @@ This directory contains files that are deployed to the device's LittleFS filesys
 | Source File | Device Path | Purpose | Configuration Guide |
 |-------------|-------------|---------|---------------------|
 | `data/profiles.json` | `/profiles.json` | Button profile configuration | [HARDWARE_CONFIG.md](../builders/HARDWARE_CONFIG.md) |
+| `data/config.json` | `/config.json` | Hardware pin configuration (optional override) | [HARDWARE_CONFIG.md](../builders/HARDWARE_CONFIG.md) |
+
+## Schema Validation
+
+JSON files in this directory are validated against their schemas on every commit:
+
+| JSON File | Schema |
+|-----------|--------|
+| `data/profiles.json` | `data/profiles.schema.json` |
+| `data/config.json` | `data/config.schema.json` |
+
+Validate manually with:
+
+```bash
+python3 -c "import jsonschema, json; jsonschema.validate(json.load(open('data/profiles.json')), json.load(open('data/profiles.schema.json')))"
+```
 
 ## Usage
 

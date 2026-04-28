@@ -1,0 +1,88 @@
+/**
+ * ASP Design Tokens — CSS Custom Properties
+ *
+ * Single source of truth for the AwesomeStudioPedal visual system.
+ * Direction: WEIRD / Metropolitan (the only locked direction).
+ *
+ * Dark-mode only. Warm amber accent. No gradients, no emoji.
+ * Metropolis display type. JetBrains Mono for labels/code.
+ *
+ * Usage:
+ *   @import "tokens.css";
+ *   .button { background: var(--asp-accent); color: var(--asp-accent-ink); }
+ */
+
+:root {
+  /* ---- Palette ---------------------------------------------------------- */
+  --asp-bg:             #0F0F12;
+  --asp-surface:        #17171E;
+  --asp-surface-raised: #1E1E28;
+
+  --asp-border:         rgba(255, 255, 255, 0.10);
+  --asp-border-strong:  rgba(255, 255, 255, 0.18);
+
+  --asp-text:           #E8E8F0;
+  --asp-text-muted:     rgba(232, 232, 240, 0.55);
+  --asp-text-dim:       rgba(232, 232, 240, 0.35);
+
+  /* ---- Accent (warm amber) --------------------------------------------- */
+  --asp-accent:         #F0B030;  /* Warm Amber — primary */
+  --asp-accent-ink:     #1A1208;  /* text colour on accent fills */
+
+  --asp-accent-bright:  #E8A020;  /* alt: Bright Amber */
+  --asp-accent-deep:    #FF8A1F;  /* alt: Deep Orange  */
+  --asp-accent-pale:    #FFB020;  /* alt: Pale Amber   */
+
+  /* ---- Semantic -------------------------------------------------------- */
+  --asp-success:        #34C87A;
+  --asp-error:          #E84040;
+  --asp-warning:        #F0B030;
+
+  /* LED colours — hardware indicator language */
+  --asp-led-power:      #44FF44;
+  --asp-led-bluetooth:  #4488FF;
+  --asp-led-profile:    #FFB020;
+
+  /* ---- Radius ---------------------------------------------------------- */
+  --asp-radius-sm:      2px;
+  --asp-radius-md:      3px;
+  --asp-radius-card:    4px;
+  --asp-radius-dialog:  6px;
+  --asp-radius-pill:    999px;
+
+  /* ---- Typography ------------------------------------------------------ */
+  --asp-font-display:   "Metropolis", "Josefin Sans", system-ui, sans-serif;
+  --asp-font-body:      "Metropolis", "Josefin Sans", system-ui, sans-serif;
+  --asp-font-mono:      "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --asp-display-weight:  300;
+  --asp-display-tracking: 0.01em;
+
+  --asp-wordmark-weight:   400;
+  --asp-wordmark-tracking: 0.02em;
+
+  --asp-monogram-weight:   700;
+  --asp-monogram-tracking: -0.04em;
+
+  /* Labels — mono, small caps, wide tracking */
+  --asp-label-tracking:    0.12em;
+  --asp-label-tracking-sm: 0.15em;
+
+  /* ---- Spacing (8-pt base) --------------------------------------------- */
+  --asp-s-1: 4px;
+  --asp-s-2: 8px;
+  --asp-s-3: 12px;
+  --asp-s-4: 16px;
+  --asp-s-5: 20px;
+  --asp-s-6: 24px;
+  --asp-s-8: 32px;
+  --asp-s-10: 40px;
+  --asp-s-12: 48px;
+}
+
+/* ---- Base resets for apps that use the tokens --------------------------- */
+html, body {
+  background: var(--asp-bg);
+  color: var(--asp-text);
+  font-family: var(--asp-font-body);
+}

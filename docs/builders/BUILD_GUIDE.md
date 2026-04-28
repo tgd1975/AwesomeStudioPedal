@@ -10,6 +10,10 @@ nRF52840 (Adafruit Feather nRF52840) is implemented but not tested — no build 
 - ESP32 NodeMCU-32S development board
 - 1–26 momentary tactile buttons (action buttons A–Z); default build uses 4 (A, B, C, D)
 - 1 momentary tactile button (SELECT / profile cycle)
+- 1 × 10 kΩ pull-up resistor per button pin (5 for the default build: SELECT + A/B/C/D).
+  The firmware also enables the MCU's internal pull-up, but an external 10 kΩ to 3V3
+  gives a much stronger pull and materially reduces EMI pickup on long cable runs
+  between the enclosure and the PCB.
 - 1–6 LEDs + current-limiting resistors (profile-select indicator array); default build uses 3
 - 1 LED + resistor (Bluetooth status)
 - 1 LED + resistor (power indicator)
@@ -28,7 +32,7 @@ graph LR
     ESP["ESP32 NodeMCU-32S"]
 
     ESP -->|GPIO 26| BLE_LED["LED: Bluetooth status"]
-    ESP -->|GPIO 25| PWR_LED["LED: Power indicator"]
+    ESP -->|GPIO 2 onboard| STATUS_LED["LED: Status (firmware-controlled)"]
     ESP -->|GPIO 5| SEL1["LED: Profile select 1"]
     ESP -->|GPIO 18| SEL2["LED: Profile select 2"]
     ESP -->|GPIO 19| SEL3["LED: Profile select 3"]
@@ -43,7 +47,7 @@ graph LR
 | Signal | GPIO | Type |
 |--------|------|------|
 | LED: Bluetooth status | GPIO 26 | Output |
-| LED: Power indicator | GPIO 25 | Output |
+| LED: Status (boot mismatch / delayed-action / load-error) | GPIO 2 (onboard) | Output |
 | LED: Profile select 1 | GPIO 5 | Output |
 | LED: Profile select 2 | GPIO 18 | Output |
 | LED: Profile select 3 | GPIO 19 | Output |
@@ -53,22 +57,13 @@ graph LR
 | Button: C | GPIO 27 | Input (pull-up) |
 | Button: D | GPIO 14 | Input (pull-up) |
 
-### Fritzing diagrams
+### Circuit schematic
 
-Breadboard wiring:
+![ESP32 circuit schematic](wiring/esp32/main-circuit.svg)
 
-![Breadboard view](../media/AwesomeStudioPedal_esp32_wiring_breadboard.png)
+*Reference schematic for the default config. Your build may differ.*
 
-Circuit schematic:
-
-![Circuit schematic](../media/AwesomeStudioPedal_esp32_wiring_circuit.png)
-
-PCB layout:
-
-![PCB view](../media/AwesomeStudioPedal_esp32_wiring_pcb.png)
-
-Fritzing source file (for editing):
-[AwesomeStudioPedal_esp32_wiring.fzz](../media/AwesomeStudioPedal_esp32_wiring.fzz)
+Regenerate the diagram with `python scripts/generate-schematic.py --target esp32`.
 
 ## Enclosure options
 
@@ -125,6 +120,19 @@ nrfjprog --program awesome-pedal-nrf52840-vX.Y.Z.bin --verify --reset
 - [nRF Command Line Tools](https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools)
 - J-Link software (for programming)
 - USB drivers for your nRF52840 board
+
+## nRF52840 circuit schematic
+
+The nRF52840 target is implemented but not yet tested with a full build guide.
+The reference circuit schematic for the default `builder_config.h` is available for builders
+who want to get started.
+
+![nRF52840 circuit schematic](wiring/nrf52840/main-circuit.svg)
+
+*Reference schematic for the default config. Your build may differ.*
+
+Default GPIO assignments: BT LED=D5, PWR LED=D6, SEL LEDs=D9/D10/D11, SELECT=D12, BTN A-D=A0/A1/A2/A3.
+Regenerate the diagram with `python scripts/generate-schematic.py --target nrf52840`.
 
 ## Prototype pictures
 

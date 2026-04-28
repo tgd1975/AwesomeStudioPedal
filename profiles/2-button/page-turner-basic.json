@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "id":     "page-turner-basic",
+    "author": "tgd1975",
+    "tags":   ["sheet-music", "musicians", "page-turner"],
+    "tested": "iPad OS 17, forScore 14 / macOS 14, MobileSheets"
+  },
+  "profiles": [
+    {
+      "name":        "01 Page Turner",
+      "description": "Foot-controlled page turner for digital sheet music apps (forScore, MobileSheets, Adobe Acrobat). Button A goes back one page, Button B advances. Both apps respond to Page Up / Page Down by default — no keyboard shortcut configuration needed.",
+      "buttons": {
+        "A": {
+          "type":  "SendCharAction",
+          "name":  "Prev Page — KEY_PAGE_UP",
+          "value": "KEY_PAGE_UP"
+        },
+        "B": {
+          "type":  "SendCharAction",
+          "name":  "Next Page — KEY_PAGE_DOWN",
+          "value": "KEY_PAGE_DOWN"
+        }
+      }
+    }
+  ]
+}

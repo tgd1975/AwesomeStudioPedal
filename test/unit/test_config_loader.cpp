@@ -168,6 +168,103 @@ TEST_F(ConfigLoaderUnitTest, SendKeyActionUnknownValueReturnsNullptr)
     EXPECT_EQ(profileManager.getAction(0, Btn::A), nullptr);
 }
 
+// ---------------------------------------------------------------------------
+// SendKey "Key (raw HID)" hex/decimal value parsing (TASK-257)
+// ---------------------------------------------------------------------------
+
+class CapturingLogger : public ILogger
+{
+public:
+    std::vector<std::string> messages;
+    void log(const char* msg) override { messages.emplace_back(msg ? msg : ""); }
+    void log(const char* prefix, const char* msg) override
+    {
+        messages.emplace_back(std::string(prefix ? prefix : "") + (msg ? msg : ""));
+    }
+};
+
+class SendKeyValueParsingTest : public ::testing::Test
+{
+protected:
+    MockLEDController led1, led2, led3;
+    ProfileManager profileManager{std::vector<ILEDController*>{&led1, &led2, &led3}};
+    MockKeyboard keyboard;
+    FakeFileSystem fs;
+    CapturingLogger logger;
+    ConfigLoader configLoader{&fs, &logger};
+
+    uint8_t parseSendKey(const std::string& valueLiteral)
+    {
+        std::string json =
+            R"json({"profiles":[{"name":"T","buttons":{"A":{"type":"SendKeyAction","value":)json" +
+            valueLiteral + R"json(}}}]})json";
+        EXPECT_TRUE(configLoader.loadFromString(profileManager, &keyboard, json));
+        Action* action = profileManager.getAction(0, Btn::A);
+        if (action == nullptr)
+            return 0;
+        return static_cast<SendKeyAction*>(action)->getKey();
+    }
+};
+
+TEST_F(SendKeyValueParsingTest, NamedKeyStillResolves)
+{
+    EXPECT_EQ(parseSendKey(R"("KEY_RETURN")"), KEY_RETURN);
+}
+
+TEST_F(SendKeyValueParsingTest, LowercaseHexResolvesToSameCodeAsName)
+{
+    // KEY_RETURN = 0xB0
+    EXPECT_EQ(parseSendKey(R"("0xB0")"), KEY_RETURN);
+}
+
+TEST_F(SendKeyValueParsingTest, UppercaseHexPrefixWorks)
+{
+    EXPECT_EQ(parseSendKey(R"("0XB0")"), KEY_RETURN);
+}
+
+TEST_F(SendKeyValueParsingTest, DecimalValueResolvesToSameCodeAsName)
+{
+    // 0xB0 == 176
+    EXPECT_EQ(parseSendKey(R"("176")"), KEY_RETURN);
+}
+
+TEST_F(SendKeyValueParsingTest, OutOfRangeValueDropsActionAndLogs)
+{
+    EXPECT_EQ(parseSendKey(R"("0x100")"), 0); // 256 — out of range
+    EXPECT_EQ(profileManager.getAction(0, Btn::A), nullptr);
+    EXPECT_FALSE(logger.messages.empty());
+}
+
+TEST_F(SendKeyValueParsingTest, NonNumericNonNamedValueDropsActionAndLogs)
+{
+    EXPECT_EQ(parseSendKey(R"("notakey")"), 0);
+    EXPECT_EQ(profileManager.getAction(0, Btn::A), nullptr);
+    EXPECT_FALSE(logger.messages.empty());
+}
+
+TEST_F(SendKeyValueParsingTest, EmptyValueDropsActionAndLogs)
+{
+    EXPECT_EQ(parseSendKey(R"("")"), 0);
+    EXPECT_EQ(profileManager.getAction(0, Btn::A), nullptr);
+    EXPECT_FALSE(logger.messages.empty());
+}
+
+TEST_F(SendKeyValueParsingTest, TrailingGarbageRejected)
+{
+    // strtoul would parse "0x28abc" up to "abc" — make sure we reject it.
+    EXPECT_EQ(parseSendKey(R"("0x28abc")"), 0);
+    EXPECT_EQ(profileManager.getAction(0, Btn::A), nullptr);
+    EXPECT_FALSE(logger.messages.empty());
+}
+
+TEST_F(SendKeyValueParsingTest, ZeroValueDropsAction)
+{
+    // 0 is the sentinel "not found" — don't accept it as a key code.
+    EXPECT_EQ(parseSendKey(R"("0x00")"), 0);
+    EXPECT_EQ(profileManager.getAction(0, Btn::A), nullptr);
+    EXPECT_FALSE(logger.messages.empty());
+}
+
 TEST_F(ConfigLoaderUnitTest, PinHighActionParsing)
 {
     std::string json = R"json({

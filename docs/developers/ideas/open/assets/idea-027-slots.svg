@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  DRAFT — first sketch for TASK-243.
+  Slot vocabulary spatial map for idea-027 §4.1.
+  Black-on-white, no external fonts, no scripts.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800"
+     font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#000">
+
+  <!-- ===== background + faint grid ===== -->
+  <rect x="0" y="0" width="1000" height="800" fill="#fff"/>
+  <defs>
+    <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#eee" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect x="0" y="0" width="1000" height="800" fill="url(#grid)"/>
+
+  <!-- ===== title ===== -->
+  <text x="500" y="32" text-anchor="middle" font-size="18" font-weight="bold">
+    idea-027 §4.1 — slot vocabulary (spatial map)
+  </text>
+
+  <!-- ===== regions ===== -->
+  <!-- top-row -->
+  <rect x="200" y="180" width="600" height="80" fill="#fafafa" stroke="#000" stroke-width="1"/>
+  <text x="210" y="174" font-style="italic" font-weight="bold">top-row</text>
+  <text x="210" y="190" font-size="11" fill="#555">cols left → right</text>
+
+  <!-- bottom-row -->
+  <rect x="200" y="540" width="600" height="80" fill="#fafafa" stroke="#000" stroke-width="1"/>
+  <text x="210" y="635" font-style="italic" font-weight="bold">bottom-row</text>
+  <text x="210" y="649" font-size="11" fill="#555">cols left → right</text>
+
+  <!-- left-column -->
+  <rect x="100" y="280" width="80" height="240" fill="#fafafa" stroke="#000" stroke-width="1"/>
+  <text x="140" y="270" text-anchor="middle" font-style="italic" font-weight="bold">left-column</text>
+  <text x="140" y="535" text-anchor="middle" font-size="11" fill="#555">rows top → bottom</text>
+
+  <!-- right-column -->
+  <rect x="820" y="280" width="80" height="240" fill="#fafafa" stroke="#000" stroke-width="1"/>
+  <text x="860" y="270" text-anchor="middle" font-style="italic" font-weight="bold">right-column</text>
+  <text x="860" y="535" text-anchor="middle" font-size="11" fill="#555">rows top → bottom</text>
+
+  <!-- mcu-center -->
+  <rect x="410" y="320" width="180" height="160" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="500" y="395" text-anchor="middle" font-size="22" font-weight="bold">U1</text>
+  <text x="500" y="415" text-anchor="middle" font-size="12" fill="#555">mcu-center</text>
+
+  <!-- MCU pin tick marks + labels -->
+  <!-- 3V3 pin (top, left of center) -->
+  <line x1="450" y1="320" x2="450" y2="312" stroke="#000" stroke-width="1.5"/>
+  <text x="450" y="308" text-anchor="middle" font-size="10">3V3</text>
+  <!-- V33 pin (top, right of center) -->
+  <line x1="550" y1="320" x2="550" y2="312" stroke="#000" stroke-width="1.5"/>
+  <text x="550" y="308" text-anchor="middle" font-size="10">V33</text>
+  <!-- GND pin (bottom) -->
+  <line x1="500" y1="480" x2="500" y2="488" stroke="#000" stroke-width="1.5"/>
+  <text x="500" y="500" text-anchor="middle" font-size="10">GND</text>
+
+  <!-- ===== path-of-U1.3V3 (chain extending up from 3V3 pin) ===== -->
+  <!-- wire -->
+  <line x1="450" y1="312" x2="450" y2="285" stroke="#000" stroke-width="1.2"/>
+  <!-- C1 capacitor symbol at step 0 -->
+  <line x1="438" y1="285" x2="462" y2="285" stroke="#000" stroke-width="1.5"/>
+  <line x1="438" y1="280" x2="462" y2="280" stroke="#000" stroke-width="1.5"/>
+  <text x="468" y="284" font-size="11">C1 · step 0</text>
+  <!-- annotation -->
+  <text x="370" y="270" text-anchor="end" font-size="11" font-style="italic">path-of-U1.3V3</text>
+  <line x1="375" y1="266" x2="438" y2="280" stroke="#888" stroke-width="0.7" stroke-dasharray="2 2"/>
+
+  <!-- ===== bus-V33 (backbone in top-row, two taps) ===== -->
+  <!-- wire from V33 pin up into top-row -->
+  <line x1="550" y1="312" x2="550" y2="220" stroke="#000" stroke-width="1.2"/>
+  <!-- backbone -->
+  <line x1="550" y1="220" x2="780" y2="220" stroke="#000" stroke-width="2.5"/>
+  <text x="785" y="224" font-size="11" font-style="italic">bus-V33</text>
+
+  <!-- tap C2 at position 0.30 -->
+  <line x1="619" y1="220" x2="619" y2="200" stroke="#000" stroke-width="1.2"/>
+  <circle cx="619" cy="220" r="3" fill="#000"/>
+  <line x1="611" y1="200" x2="627" y2="200" stroke="#000" stroke-width="1.5"/>
+  <line x1="611" y1="195" x2="627" y2="195" stroke="#000" stroke-width="1.5"/>
+  <text x="619" y="190" text-anchor="middle" font-size="10">C2 @ 0.30</text>
+
+  <!-- tap C3 at position 0.70 -->
+  <line x1="711" y1="220" x2="711" y2="200" stroke="#000" stroke-width="1.2"/>
+  <circle cx="711" cy="220" r="3" fill="#000"/>
+  <line x1="703" y1="200" x2="719" y2="200" stroke="#000" stroke-width="1.5"/>
+  <line x1="703" y1="195" x2="719" y2="195" stroke="#000" stroke-width="1.5"/>
+  <text x="711" y="190" text-anchor="middle" font-size="10">C3 @ 0.70</text>
+
+  <!-- ===== top-row · OLED at col 0 ===== -->
+  <rect x="220" y="205" width="60" height="30" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="250" y="225" text-anchor="middle" font-size="11">OLED</text>
+  <text x="250" y="248" text-anchor="middle" font-size="10" fill="#555">col 0</text>
+
+  <!-- ===== bottom-row · audio jack at col 0 ===== -->
+  <circle cx="240" cy="580" r="14" fill="#fff" stroke="#000" stroke-width="1"/>
+  <circle cx="240" cy="580" r="5" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="280" y="578" font-size="11">audio jack</text>
+  <text x="280" y="592" font-size="10" fill="#555">col 0</text>
+
+  <!-- ===== left-column · BME280 at row 0 ===== -->
+  <rect x="115" y="295" width="50" height="30" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="140" y="314" text-anchor="middle" font-size="10">BME280</text>
+  <text x="140" y="338" text-anchor="middle" font-size="10" fill="#555">row 0</text>
+
+  <!-- ===== right-column · LED1+R1 (row 0) and LED2+R2 (row 1) ===== -->
+  <!-- LED1 row 0 -->
+  <polygon points="852,295 852,325 875,310" fill="#fff" stroke="#000" stroke-width="1"/>
+  <line x1="875" y1="295" x2="875" y2="325" stroke="#000" stroke-width="1.5"/>
+  <text x="887" y="313" font-size="11">LED1</text>
+  <text x="860" y="282" text-anchor="middle" font-size="10" fill="#555">row 0</text>
+
+  <!-- R1 attached-to LED1 (one cell toward MCU) -->
+  <rect x="795" y="302" width="40" height="16" fill="#fff" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="815" y="314" text-anchor="middle" font-size="10">R1</text>
+  <line x1="835" y1="310" x2="852" y2="310" stroke="#000" stroke-width="1"/>
+
+  <!-- LED2 row 1 -->
+  <polygon points="852,355 852,385 875,370" fill="#fff" stroke="#000" stroke-width="1"/>
+  <line x1="875" y1="355" x2="875" y2="385" stroke="#000" stroke-width="1.5"/>
+  <text x="887" y="373" font-size="11">LED2</text>
+  <text x="860" y="402" text-anchor="middle" font-size="10" fill="#555">row 1</text>
+
+  <!-- R2 attached-to LED2 -->
+  <rect x="795" y="362" width="40" height="16" fill="#fff" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="815" y="374" text-anchor="middle" font-size="10">R2</text>
+  <line x1="835" y1="370" x2="852" y2="370" stroke="#000" stroke-width="1"/>
+
+  <!-- attached-to annotation -->
+  <text x="780" y="280" text-anchor="end" font-size="11" font-style="italic">attached-to: LED1</text>
+  <text x="780" y="294" text-anchor="end" font-size="11" font-style="italic">attach-step: 1</text>
+  <line x1="785" y1="290" x2="800" y2="305" stroke="#888" stroke-width="0.7" stroke-dasharray="2 2"/>
+
+  <!-- ===== pin-symbol-GND at the GND pin anchor ===== -->
+  <line x1="500" y1="500" x2="500" y2="515" stroke="#000" stroke-width="1.2"/>
+  <line x1="486" y1="515" x2="514" y2="515" stroke="#000" stroke-width="2"/>
+  <line x1="491" y1="521" x2="509" y2="521" stroke="#000" stroke-width="1.5"/>
+  <line x1="495" y1="527" x2="505" y2="527" stroke="#000" stroke-width="1"/>
+  <text x="540" y="520" font-size="11" font-style="italic">pin-symbol-GND</text>
+  <text x="540" y="534" font-size="10" fill="#555">sits at the pin anchor itself</text>
+
+  <!-- ===== free slot · bottom-right corner outside all regions ===== -->
+  <rect x="870" y="660" width="100" height="60" fill="#fff" stroke="#000"
+        stroke-width="1" stroke-dasharray="5 3"/>
+  <text x="920" y="678" text-anchor="middle" font-size="11" font-style="italic">free</text>
+  <rect x="895" y="685" width="50" height="22" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="920" y="700" text-anchor="middle" font-size="11">X1</text>
+  <text x="920" y="734" text-anchor="middle" font-size="10">{ gx: -3, gy: 4 }</text>
+  <text x="860" y="678" text-anchor="end" font-size="10" fill="#888">discouraged · §10</text>
+
+  <!-- ===== legend (top-left) ===== -->
+  <rect x="40" y="60" width="220" height="100" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="50" y="78" font-size="11" font-weight="bold">legend</text>
+  <!-- attached-to swatch -->
+  <rect x="50" y="86" width="22" height="12" fill="#fff" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="80" y="96" font-size="11">attached-to component</text>
+  <!-- ground swatch -->
+  <line x1="55" y1="110" x2="69" y2="110" stroke="#000" stroke-width="2"/>
+  <line x1="58" y1="114" x2="66" y2="114" stroke="#000" stroke-width="1.5"/>
+  <line x1="60" y1="118" x2="64" y2="118" stroke="#000" stroke-width="1"/>
+  <text x="80" y="116" font-size="11">pin-symbol (ground / VCC)</text>
+  <!-- free swatch -->
+  <rect x="50" y="128" width="22" height="12" fill="#fff" stroke="#000" stroke-width="1" stroke-dasharray="5 3"/>
+  <text x="80" y="138" font-size="11">free slot · raw {gx, gy}</text>
+  <!-- bus -->
+  <line x1="50" y1="150" x2="72" y2="150" stroke="#000" stroke-width="2.5"/>
+  <text x="80" y="154" font-size="11">bus backbone (• = tap)</text>
+
+  <!-- ===== grid origin annotation ===== -->
+  <text x="500" y="780" text-anchor="middle" font-size="10" fill="#666">
+    grid origin at mcu-center · 1 cell ≈ 40 px
+  </text>
+
+</svg>

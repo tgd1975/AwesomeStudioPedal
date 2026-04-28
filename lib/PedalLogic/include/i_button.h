@@ -43,4 +43,21 @@ public:
      * Uses the ISR's awaitingRelease flag — safe to call from the main loop.
      */
     virtual bool releaseEvent() { return false; }
+
+    /**
+     * @brief Returns how long the button has been held since the last press
+     *
+     * @return Milliseconds since the last falling edge while held, 0 if not held
+     */
+    virtual unsigned long holdDurationMs() const = 0;
+
+    /**
+     * @brief Returns true once per confirmed double press and clears the flag
+     *
+     * A double press is two presses within the configured window (default 300 ms).
+     * When this returns true, the corresponding single-press event() must NOT also fire.
+     *
+     * @return true if a double press was confirmed since the last call
+     */
+    virtual bool doublePressEvent() = 0;
 };

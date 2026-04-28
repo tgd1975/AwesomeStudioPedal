@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "id":     "daw-transport-minimal",
+    "author": "tgd1975",
+    "tags":   ["daw", "recording", "ableton", "logic", "transport"],
+    "tested": "macOS 14, Ableton Live 11 / Logic Pro 10.8"
+  },
+  "profiles": [
+    {
+      "name":        "01 Transport",
+      "description": "Two-button DAW transport: Record and Play/Stop. In Ableton Live and Logic Pro the Space bar is Play/Stop and F9 triggers Record by default. Check your DAW preferences under Settings > Keyboard Shortcuts if the defaults differ.",
+      "buttons": {
+        "A": {
+          "type":  "SendCharAction",
+          "name":  "Record — F9",
+          "value": "F9"
+        },
+        "B": {
+          "type":  "SendCharAction",
+          "name":  "Play/Stop — SPACE",
+          "value": " "
+        }
+      }
+    }
+  ]
+}

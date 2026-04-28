@@ -5,7 +5,10 @@
       "name": "01 Score Navigator",
       "description": "Designed for musicians reading digital sheet music on a tablet or notebook (e.g., forScore, MobileSheets, or Adobe Acrobat). Uses standard navigation keys to turn pages and jump to sections.",
       "buttons": {
-        "A": { "type": "SendCharAction", "name": "Prev Page", "value": "KEY_PAGE_UP" },
+        "A": {
+          "type": "SendCharAction", "name": "Prev Page", "value": "KEY_PAGE_UP",
+          "longPress": { "type": "SendCharAction", "name": "First Page", "value": "KEY_HOME" }
+        },
         "B": { "type": "SendCharAction", "name": "Next Page", "value": "KEY_PAGE_DOWN" },
         "C": { "type": "SendCharAction", "name": "First Page", "value": "KEY_HOME" },
         "D": { "type": "SendCharAction", "name": "Last Page", "value": "KEY_END" }
@@ -70,7 +73,18 @@
       "name": "07 System Debug",
       "description": "Technical health check profile for the AwesomeStudioPedal. Sends status messages to the Serial Monitor and provides basic OS navigation (Up/Down) for emergency menu control.",
       "buttons": {
-        "A": { "type": "SerialOutputAction", "name": "Ping Pedal", "value": "AwesomeStudioPedal: Profile 7 Active - All systems nominal." },
+        "A": {
+          "type": "SerialOutputAction", "name": "Ping Pedal", "value": "AwesomeStudioPedal: Profile 7 Active - All systems nominal.",
+          "longPress": {
+            "type": "MacroAction",
+            "name": "Scene launch",
+            "steps": [
+              [{ "type": "PinHighAction", "pin": 27 }],
+              [{ "type": "SerialOutputAction", "value": "macro step 2" }],
+              [{ "type": "PinLowAction", "pin": 27 }]
+            ]
+          }
+        },
         "B": { "type": "SendStringAction", "name": "Version Info", "value": "v1.2-Extended-Func" },
         "C": { "type": "SendCharAction", "name": "Nav Up", "value": "KEY_UP_ARROW" },
         "D": { "type": "SendCharAction", "name": "Nav Down", "value": "KEY_DOWN_ARROW" }

@@ -4,269 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AwesomeStudioPedal — Configuration Builder</title>
-  <style>
-    :root {
-      --bg: #f5f5f5;
-      --surface: #ffffff;
-      --border: #ddd;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --danger: #dc2626;
-      --text: #1a1a1a;
-      --text-muted: #666;
-      --ok: #166534;
-      --ok-bg: #dcfce7;
-      --err: #991b1b;
-      --err-bg: #fee2e2;
-      --warn: #78350f;
-      --warn-bg: #fef9c3;
-      --preview-bg: #1e1e2e;
-      --preview-text: #cdd6f4;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 14px;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    header h1 { font-size: 18px; font-weight: 600; }
-    header .subtitle { color: var(--text-muted); font-size: 13px; }
-
-    header nav {
-      margin-left: auto;
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    header nav a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    header nav a:hover { text-decoration: underline; }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      height: calc(100vh - 57px);
-    }
-
-    .form-panel {
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      overflow-y: auto;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .preview-panel {
-      display: flex;
-      flex-direction: column;
-      background: var(--preview-bg);
-      overflow: hidden;
-    }
-
-    .preview-toolbar {
-      display: flex;
-      gap: 8px;
-      padding: 10px 12px;
-      background: #181825;
-      border-bottom: 1px solid #313244;
-      flex-wrap: wrap;
-    }
-
-    #json-preview {
-      flex: 1;
-      overflow: auto;
-      padding: 16px;
-      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--preview-text);
-      white-space: pre;
-    }
-
-    /* Section headers */
-    .section-header {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 4px 0 2px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 4px;
-    }
-
-    /* Field rows */
-    .field-row {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-bottom: 8px;
-    }
-
-    label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    input[type="number"] {
-      padding: 7px 10px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 13px;
-      color: var(--text);
-      background: var(--surface);
-      width: 100%;
-      font-family: inherit;
-    }
-
-    input[type="number"]:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
-      border-color: var(--accent);
-    }
-
-    /* Pins table */
-    .pins-table {
-      display: flex;
-      flex-direction: column;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 4px 0;
-    }
-
-    .pin-row {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .pin-row:last-child { border-bottom: none; }
-
-    .pin-label {
-      display: flex;
-      align-items: center;
-      padding: 8px 10px;
-      font-weight: 600;
-      font-size: 13px;
-      color: var(--text-muted);
-      background: var(--bg);
-      border-right: 1px solid var(--border);
-    }
-
-    .pin-input-cell {
-      padding: 6px 8px;
-    }
-
-    .pin-input-cell input {
-      padding: 5px 8px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 13px;
-      width: 100%;
-      color: var(--text);
-      background: var(--surface);
-      font-family: inherit;
-    }
-
-    .pin-input-cell input:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
-      border-color: var(--accent);
-    }
-
-    /* Warning banner */
-    #profiles-warning {
-      display: none;
-      background: var(--warn-bg);
-      color: var(--warn);
-      border: 1px solid #fde68a;
-      border-radius: 6px;
-      padding: 8px 12px;
-      font-size: 13px;
-    }
-
-    /* Buttons */
-    button {
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 13px;
-      padding: 8px 16px;
-      border-radius: 6px;
-      border: 1px solid transparent;
-      transition: background 0.1s;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
-    .btn-primary:hover { background: var(--accent-hover); }
-
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover { background: var(--bg); }
-
-    .preview-toolbar button {
-      font-size: 12px;
-      padding: 6px 12px;
-      background: #313244;
-      color: #cdd6f4;
-      border-color: #45475a;
-    }
-
-    .preview-toolbar button:hover { background: #45475a; }
-
-    @media (max-width: 800px) {
-      .layout {
-        grid-template-columns: 1fr;
-        height: auto;
-      }
-      .preview-panel { min-height: 400px; }
-      header nav { margin-left: 0; }
-    }
-  </style>
+  <link rel="stylesheet" href="configuration-builder.css">
 </head>
 <body>
 
-<header>
+<header class="asp-header">
   <div>
     <h1>AwesomeStudioPedal — Configuration Builder</h1>
-    <p class="subtitle">Build a <code>config.json</code> for your hardware wiring</p>
+    <p class="subtitle">Build a config.json for your hardware wiring</p>
   </div>
-  <nav>
+  <nav style="margin-left:auto;display:flex;gap:16px;flex-wrap:wrap;">
     <a href="../../simulator/">Simulator &rarr;</a>
     <a href="../config-builder/">Profile Builder &rarr;</a>
   </nav>
@@ -276,8 +23,16 @@
 
   <!-- Form panel -->
   <section class="form-panel">
-    <div id="example-notice" style="background:#fef9c3;color:#78350f;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;font-size:13px;margin-bottom:4px;">
+    <div id="example-notice" class="section-notice">
       Example loaded (default ESP32 wiring) &mdash; load your own file to replace
+    </div>
+
+    <div class="board-selector-row">
+      <label for="board-select">Board</label>
+      <select id="board-select">
+        <option value="esp32">ESP32 (NodeMCU-32S)</option>
+        <option value="nrf52840">nRF52840 (Adafruit Feather)</option>
+      </select>
     </div>
 
     <p class="section-header">Profile counts</p>
@@ -304,11 +59,11 @@
     <div class="pins-table">
       <div class="pin-row">
         <span class="pin-label">Power LED</span>
-        <div class="pin-input-cell"><input type="number" id="pin-led-power" min="0" max="39" value="25"></div>
+        <div class="pin-input-cell"><input type="number" id="pin-led-power" min="0" max="39" value="25" class="pin-static"></div>
       </div>
       <div class="pin-row">
         <span class="pin-label">Bluetooth LED</span>
-        <div class="pin-input-cell"><input type="number" id="pin-led-bluetooth" min="0" max="39" value="26"></div>
+        <div class="pin-input-cell"><input type="number" id="pin-led-bluetooth" min="0" max="39" value="26" class="pin-static"></div>
       </div>
     </div>
 
@@ -320,11 +75,14 @@
     <div class="pins-table">
       <div class="pin-row">
         <span class="pin-label">SELECT button</span>
-        <div class="pin-input-cell"><input type="number" id="pin-button-select" min="0" max="39" value="21"></div>
+        <div class="pin-input-cell"><input type="number" id="pin-button-select" min="0" max="39" value="21" class="pin-static"></div>
       </div>
     </div>
 
     <div id="button-pins" class="pins-table"></div>
+
+    <p class="section-header">Pinout reference</p>
+    <div id="pinout"></div>
 
   </section>
 
@@ -344,22 +102,86 @@
 <script>
 'use strict';
 
-// Default ESP32 wiring — matches lib/hardware/esp32/include/builder_config.h
-const EXAMPLE_CONFIG = {
-  numProfiles: 7,
-  numSelectLeds: 3,
-  numButtons: 4,
-  ledPower: 25,
-  ledBluetooth: 26,
-  ledSelect: [5, 18, 19, 0, 0, 0],
-  buttonSelect: 21,
-  buttonPins: [13, 12, 27, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+// ---------------------------------------------------------------------------
+// Board definitions — mirrors lib/hardware/*/include/builder_config.h
+// ---------------------------------------------------------------------------
+
+const BOARD_DEFAULTS = {
+  esp32: {
+    hardware:     'esp32',
+    numProfiles:  7,
+    numSelectLeds: 3,
+    numButtons:   4,
+    ledPower:     25,
+    ledBluetooth: 26,
+    ledSelect:    [5, 18, 19, 0, 0, 0],
+    buttonSelect: 21,
+    buttonPins:   [13, 12, 27, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  },
+  nrf52840: {
+    hardware:     'nrf52840',
+    numProfiles:  7,
+    numSelectLeds: 3,
+    numButtons:   4,
+    ledPower:     6,
+    ledBluetooth: 5,
+    ledSelect:    [9, 10, 11, 0, 0, 0],
+    buttonSelect: 12,
+    buttonPins:   [14, 15, 16, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  },
+};
+
+// Valid GPIO ranges per board. Pins outside this range get a warning.
+const BOARD_PIN_MAX = { esp32: 39, nrf52840: 31 };
+
+// Pinout data: pins shown in the diagram, in left/right column order
+const BOARD_PINOUT = {
+  esp32: {
+    label: 'ESP32 NodeMCU-32S',
+    left:  [
+      {num: 5,  name:'D5'},  {num:18, name:'D18'}, {num:19, name:'D19'},
+      {num:21, name:'D21'}, {num:22, name:'D22'}, {num:23, name:'D23'},
+      {num:25, name:'D25'}, {num:26, name:'D26'},
+    ],
+    right: [
+      {num:27, name:'D27'}, {num:14, name:'D14'}, {num:13, name:'D13'},
+      {num:12, name:'D12'}, {num:4,  name:'D4'},  {num:2,  name:'D2'},
+      {num:15, name:'D15'}, {num:32, name:'D32'},
+    ],
+  },
+  nrf52840: {
+    label: 'nRF52840 Feather',
+    left:  [
+      {num:5,  name:'D5'},  {num:6,  name:'D6'},  {num:9,  name:'D9'},
+      {num:10, name:'D10'}, {num:11, name:'D11'}, {num:12, name:'D12'},
+    ],
+    right: [
+      {num:14, name:'A0'},  {num:15, name:'A1'},  {num:16, name:'A2'},
+      {num:17, name:'A3'},  {num:18, name:'A4'},  {num:19, name:'A5'},
+    ],
+  },
 };
 
 const SLOT_NAMES = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
 function clamp(val, min, max) {
   return Math.max(min, Math.min(max, val));
+}
+
+function getBoard() {
+  return document.getElementById('board-select').value;
+}
+
+function getPinMax() {
+  return BOARD_PIN_MAX[getBoard()] ?? 39;
+}
+
+function isPinValid(pin) {
+  return pin >= 0 && pin <= getPinMax();
 }
 
 function getNumSelectLeds() {
@@ -378,6 +200,10 @@ function maxProfilesForLeds(n) {
   return (1 << n) - 1;
 }
 
+// ---------------------------------------------------------------------------
+// Warnings
+// ---------------------------------------------------------------------------
+
 function checkProfilesWarning() {
   const n = getNumSelectLeds();
   const p = getNumProfiles();
@@ -391,54 +217,94 @@ function checkProfilesWarning() {
   }
 }
 
+function warnIfInvalid(inputEl) {
+  const val = parseInt(inputEl.value);
+  const cell = inputEl.closest('.pin-input-cell');
+  if (!cell) return;
+  let warn = cell.querySelector('.pin-warn');
+  if (isNaN(val) || !isPinValid(val)) {
+    if (!warn) {
+      warn = document.createElement('div');
+      warn.className = 'pin-warn';
+      cell.appendChild(warn);
+    }
+    warn.textContent = `Pin ${val} out of range for this board (0–${getPinMax()})`;
+  } else {
+    if (warn) warn.remove();
+  }
+}
+
+function revalidateAllPins() {
+  document.querySelectorAll('.pin-input-cell input[type="number"]').forEach(warnIfInvalid);
+}
+
+// ---------------------------------------------------------------------------
+// Dynamic pin rows
+// ---------------------------------------------------------------------------
+
 function renderLedSelectPins() {
   const n = getNumSelectLeds();
+  const board = getBoard();
   const container = document.getElementById('led-select-pins');
   const existing = container.querySelectorAll('input');
   const oldVals = Array.from(existing).map(i => parseInt(i.value) || 0);
+  const pinMax = getPinMax();
 
   container.innerHTML = '';
   for (let i = 0; i < n; i++) {
     const row = document.createElement('div');
     row.className = 'pin-row';
-    const defaultVal = [5, 18, 19, 0, 0, 0][i] || 0;
+    const defaultVal = (BOARD_DEFAULTS[board].ledSelect[i] ?? 0);
     const val = (i < oldVals.length) ? oldVals[i] : defaultVal;
     row.innerHTML = `
       <span class="pin-label">Select LED ${i}</span>
       <div class="pin-input-cell">
-        <input type="number" id="pin-led-select-${i}" min="0" max="39" value="${val}">
+        <input type="number" id="pin-led-select-${i}" min="0" max="${pinMax}" value="${val}">
       </div>`;
     container.appendChild(row);
-    container.querySelector(`#pin-led-select-${i}`).addEventListener('input', updatePreview);
+    const input = container.querySelector(`#pin-led-select-${i}`);
+    input.addEventListener('input', () => { warnIfInvalid(input); updatePreview(); });
   }
 }
 
 function renderButtonPins() {
   const n = getNumButtons();
+  const board = getBoard();
   const container = document.getElementById('button-pins');
   const existing = container.querySelectorAll('input');
   const oldVals = Array.from(existing).map(i => parseInt(i.value) || 0);
+  const pinMax = getPinMax();
 
   container.innerHTML = '';
-  const defaults = [13, 12, 27, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const defaults = BOARD_DEFAULTS[board].buttonPins;
   for (let i = 0; i < n; i++) {
     const row = document.createElement('div');
     row.className = 'pin-row';
-    const val = (i < oldVals.length) ? oldVals[i] : defaults[i];
+    const val = (i < oldVals.length) ? oldVals[i] : (defaults[i] ?? 0);
     row.innerHTML = `
       <span class="pin-label">Button ${SLOT_NAMES[i]}</span>
       <div class="pin-input-cell">
-        <input type="number" id="pin-button-${i}" min="0" max="39" value="${val}">
+        <input type="number" id="pin-button-${i}" min="0" max="${pinMax}" value="${val}">
       </div>`;
     container.appendChild(row);
-    container.querySelector(`#pin-button-${i}`).addEventListener('input', updatePreview);
+    const input = container.querySelector(`#pin-button-${i}`);
+    input.addEventListener('input', () => { warnIfInvalid(input); updatePreview(); });
   }
 }
 
+function updateStaticPinConstraints() {
+  const pinMax = getPinMax();
+  document.querySelectorAll('input.pin-static').forEach(el => { el.max = pinMax; });
+}
+
+// ---------------------------------------------------------------------------
+// Config build / preview
+// ---------------------------------------------------------------------------
+
 function buildConfig() {
   const numSelectLeds = getNumSelectLeds();
-  const numButtons = getNumButtons();
-  const numProfiles = getNumProfiles();
+  const numButtons    = getNumButtons();
+  const numProfiles   = getNumProfiles();
 
   const ledSelect = [];
   for (let i = 0; i < 6; i++) {
@@ -453,28 +319,141 @@ function buildConfig() {
   }
 
   return {
+    hardware: getBoard(),
     numProfiles,
     numSelectLeds,
     numButtons,
-    ledPower: parseInt(document.getElementById('pin-led-power').value) || 0,
-    ledBluetooth: parseInt(document.getElementById('pin-led-bluetooth').value) || 0,
+    ledPower:     parseInt(document.getElementById('pin-led-power').value)      || 0,
+    ledBluetooth: parseInt(document.getElementById('pin-led-bluetooth').value)   || 0,
     ledSelect,
-    buttonSelect: parseInt(document.getElementById('pin-button-select').value) || 0,
+    buttonSelect: parseInt(document.getElementById('pin-button-select').value)  || 0,
     buttonPins,
   };
 }
 
 function updatePreview() {
   document.getElementById('json-preview').textContent = JSON.stringify(buildConfig(), null, 2);
+  renderPinout();
 }
 
+// ---------------------------------------------------------------------------
+// Pinout diagram
+// ---------------------------------------------------------------------------
+
+function getAssignedPins() {
+  const cfg = buildConfig();
+  const assigned = new Map(); // pin -> role
+  const add = (pin, role) => { if (pin > 0) assigned.set(pin, role); };
+
+  add(cfg.ledPower,     'power');
+  add(cfg.ledBluetooth, 'bt');
+  add(cfg.buttonSelect, 'btn');
+  cfg.ledSelect.forEach((p, i) => { if (i < cfg.numSelectLeds) add(p, 'sel'); });
+  cfg.buttonPins.forEach((p, i) => { if (i < cfg.numButtons) add(p, 'btn'); });
+
+  return assigned;
+}
+
+const PIN_ROLE_COLOR = {
+  power: '#F0B030',  // asp-accent / amber
+  bt:    '#4488FF',  // asp-led-bluetooth
+  sel:   '#34C87A',  // asp-success / green
+  btn:   '#A070FF',  // violet
+};
+
+function renderPinout() {
+  const board  = getBoard();
+  const layout = BOARD_PINOUT[board];
+  const assigned = getAssignedPins();
+  const pinMax   = getPinMax();
+
+  const left  = layout.left;
+  const right = layout.right;
+  const rows  = Math.max(left.length, right.length);
+
+  const ROW_H  = 28;
+  const COL_W  = 130;
+  const BOARD_W = 80;
+  const PAD    = 10;
+  const R      = 8;
+  const totalW = PAD + COL_W + BOARD_W + COL_W + PAD;
+  const totalH = PAD + rows * ROW_H + PAD;
+  const boardX = PAD + COL_W;
+  const boardY = PAD;
+
+  let svg = `<svg viewBox="0 0 ${totalW} ${totalH}" xmlns="http://www.w3.org/2000/svg" style="font-family:inherit">`;
+
+  // Board body
+  svg += `<rect x="${boardX}" y="${boardY}" width="${BOARD_W}" height="${totalH - 2*PAD}"
+    rx="6" fill="#17171E" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>`;
+  svg += `<text x="${boardX + BOARD_W/2}" y="${boardY + 14}" text-anchor="middle"
+    font-size="8" fill="rgba(232,232,240,0.35)">${layout.label}</text>`;
+
+  function pinRow(pin, label, colIndex, rowIndex) {
+    const y    = PAD + rowIndex * ROW_H + ROW_H / 2;
+    const isLeft = colIndex === 0;
+    const role = assigned.get(pin);
+    const outOfRange = pin > 0 && pin > pinMax;
+    const fill  = outOfRange ? '#E84040' : (role ? PIN_ROLE_COLOR[role] : '#1E1E28');
+    const stroke = outOfRange ? '#E84040' : (role ? fill : 'rgba(255,255,255,0.18)');
+    const textFill = '#E8E8F0';
+
+    if (isLeft) {
+      const cx = boardX - 6;
+      const tx = cx - R - 4;
+      // Line from board edge to circle
+      svg += `<line x1="${boardX}" y1="${y}" x2="${cx - R}" y2="${y}"
+        stroke="rgba(255,255,255,0.18)" stroke-width="1"/>`;
+      svg += `<circle cx="${cx}" cy="${y}" r="${R}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
+      svg += `<text x="${tx}" y="${y + 4}" text-anchor="end" font-size="9" fill="${textFill}">${label} <tspan font-size="8" fill="rgba(232,232,240,0.35)">[${pin}]</tspan></text>`;
+    } else {
+      const cx = boardX + BOARD_W + 6;
+      const tx = cx + R + 4;
+      svg += `<line x1="${boardX + BOARD_W}" y1="${y}" x2="${cx + R}" y2="${y}"
+        stroke="rgba(255,255,255,0.18)" stroke-width="1"/>`;
+      svg += `<circle cx="${cx}" cy="${y}" r="${R}" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>`;
+      svg += `<text x="${tx}" y="${y + 4}" text-anchor="start" font-size="9" fill="${textFill}"><tspan font-size="8" fill="rgba(232,232,240,0.35)">[${pin}]</tspan> ${label}</text>`;
+    }
+  }
+
+  left.forEach((p, i)  => pinRow(p.num, p.name, 0, i));
+  right.forEach((p, i) => pinRow(p.num, p.name, 1, i));
+
+  // Legend
+  const legendY = totalH - PAD + 4;
+  const roles = [['power','Power LED'],['bt','BT LED'],['sel','Select LED'],['btn','Button']];
+  let lx = PAD;
+  // Legend sits below SVG — just append a note inside the container instead
+  svg += `</svg>`;
+
+  // Append a small legend below
+  const legend = roles.map(([role, lbl]) =>
+    `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;font-size:11px;color:var(--text-muted)">
+      <svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="${PIN_ROLE_COLOR[role]}"/></svg>${lbl}
+    </span>`
+  ).join('');
+
+  document.getElementById('pinout').innerHTML =
+    svg + `<div style="padding:4px 0 2px">${legend}</div>`;
+}
+
+// ---------------------------------------------------------------------------
+// Form population
+// ---------------------------------------------------------------------------
+
 function populateForm(cfg, hideNotice) {
-  document.getElementById('num-profiles').value = cfg.numProfiles ?? 7;
+  // Set board selector first so subsequent renders use correct defaults/constraints
+  if (cfg.hardware && BOARD_DEFAULTS[cfg.hardware]) {
+    document.getElementById('board-select').value = cfg.hardware;
+  }
+  updateStaticPinConstraints();
+
+  document.getElementById('num-profiles').value    = cfg.numProfiles   ?? 7;
   document.getElementById('num-select-leds').value = cfg.numSelectLeds ?? 3;
-  document.getElementById('num-buttons').value = cfg.numButtons ?? 4;
-  document.getElementById('pin-led-power').value = cfg.ledPower ?? 25;
-  document.getElementById('pin-led-bluetooth').value = cfg.ledBluetooth ?? 26;
-  document.getElementById('pin-button-select').value = cfg.buttonSelect ?? 21;
+  document.getElementById('num-buttons').value     = cfg.numButtons    ?? 4;
+  document.getElementById('pin-led-power').value   = cfg.ledPower      ?? BOARD_DEFAULTS[getBoard()].ledPower;
+  document.getElementById('pin-led-bluetooth').value = cfg.ledBluetooth ?? BOARD_DEFAULTS[getBoard()].ledBluetooth;
+  document.getElementById('pin-button-select').value = cfg.buttonSelect ?? BOARD_DEFAULTS[getBoard()].buttonSelect;
 
   renderLedSelectPins();
   const leds = cfg.ledSelect || [];
@@ -495,6 +474,7 @@ function populateForm(cfg, hideNotice) {
     if (notice) notice.style.display = 'none';
   }
 
+  revalidateAllPins();
   checkProfilesWarning();
   updatePreview();
 }
@@ -502,9 +482,9 @@ function populateForm(cfg, hideNotice) {
 function downloadConfig() {
   const cfg = buildConfig();
   const blob = new Blob([JSON.stringify(cfg, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
   a.download = 'config.json';
   document.body.appendChild(a);
   a.click();
@@ -512,12 +492,23 @@ function downloadConfig() {
   URL.revokeObjectURL(url);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Render dynamic sections first
-  renderLedSelectPins();
-  renderButtonPins();
+// ---------------------------------------------------------------------------
+// Boot
+// ---------------------------------------------------------------------------
 
-  // Wire up count inputs
+document.addEventListener('DOMContentLoaded', () => {
+  // Board selector — refill everything when changed
+  document.getElementById('board-select').addEventListener('change', () => {
+    const board = getBoard();
+    populateForm(BOARD_DEFAULTS[board]);
+    // Keep notice visible so user knows defaults were reset
+    const notice = document.getElementById('example-notice');
+    notice.style.display = '';
+    notice.textContent =
+      `Defaults loaded for ${board === 'esp32' ? 'ESP32 (NodeMCU-32S)' : 'nRF52840 (Adafruit Feather)'} — adjust to match your wiring`;
+  });
+
+  // Count inputs
   document.getElementById('num-select-leds').addEventListener('input', () => {
     renderLedSelectPins();
     checkProfilesWarning();
@@ -536,7 +527,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Static pin inputs
   for (const id of ['pin-led-power', 'pin-led-bluetooth', 'pin-button-select']) {
-    document.getElementById(id).addEventListener('input', updatePreview);
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => { warnIfInvalid(el); updatePreview(); });
   }
 
   // Toolbar buttons
@@ -563,11 +555,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('btn-example').addEventListener('click', () => {
-    populateForm(EXAMPLE_CONFIG);
+    populateForm(BOARD_DEFAULTS[getBoard()]);
   });
 
-  // Auto-load example on startup (TASK-092)
-  populateForm(EXAMPLE_CONFIG);
+  // Auto-load ESP32 defaults on startup
+  populateForm(BOARD_DEFAULTS.esp32);
 });
 </script>
 

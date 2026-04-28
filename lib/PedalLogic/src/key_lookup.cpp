@@ -170,6 +170,7 @@ namespace
         {"PinToggleAction", Action::Type::PinToggle},
         {"PinHighWhilePressedAction", Action::Type::PinHighWhilePressed},
         {"PinLowWhilePressedAction", Action::Type::PinLowWhilePressed},
+        {"MacroAction", Action::Type::Macro},
     };
 
 } // namespace
@@ -206,6 +207,28 @@ const uint8_t* lookupMediaKey(const char* name)
         {
             return e.report;
         }
+    }
+    return nullptr;
+}
+
+const char* lookupKeyName(uint8_t code)
+{
+    for (const auto& e : KEY_TABLE)
+    {
+        if (e.code == code)
+            return e.name;
+    }
+    return nullptr;
+}
+
+const char* lookupMediaKeyName(const uint8_t* report)
+{
+    if (! report)
+        return nullptr;
+    for (const auto& e : MEDIA_KEY_TABLE)
+    {
+        if (e.report[0] == report[0] && e.report[1] == report[1])
+            return e.name;
     }
     return nullptr;
 }

@@ -35,6 +35,82 @@ Both environments start with all tools pre-installed and the CMake build directo
 (`postCreateCommand`). The first `pio run` downloads the ESP32/nRF52840 toolchains (~300 MB)
 and caches them for the life of the container.
 
+### USB / serial device access
+
+The devcontainer runs with `"privileged": true`, which grants access to all USB devices
+that are present on the host when the container starts. When no device is connected the
+container starts normally — flash and monitor commands simply report "device not found",
+which is the expected behaviour in Codespaces and CI.
+
+#### Linux host
+
+Connect the NodeMCU-32S before starting (or restarting) the container. The CP210x
+USB-to-serial chip appears as `/dev/ttyUSB0` (first device) or `/dev/ttyUSB1` if another
+serial device is already connected.
+
+```bash
+# Verify the device is visible inside the container:
+ls /dev/ttyUSB*
+```
+
+PlatformIO auto-detects the port. If it picks the wrong one, override it in
+`platformio.ini`:
+
+```ini
+upload_port = /dev/ttyUSB0
+monitor_port = /dev/ttyUSB0
+```
+
+If you get `Permission denied` even with `--privileged`, your host user may not be in the
+`dialout` group. Fix on the host (not the container):
+
+```bash
+sudo usermod -aG dialout $USER   # log out and back in to take effect
+```
+
+#### Windows host (Docker Desktop + WSL2)
+
+Docker Desktop on Windows uses a WSL2 backend. USB devices are on the Windows side and
+must be forwarded into WSL2 before the container can see them. Use
+[**usbipd-win**](https://github.com/dorssel/usbipd-win):
+
+1. Install usbipd-win (once):
+
+   ```powershell
+   winget install usbipd
+   ```
+
+2. List USB devices and find the NodeMCU-32S (CP210x Silicon Labs):
+
+   ```powershell
+   usbipd list
+   # Look for: "Silicon Labs CP210x USB to UART Bridge"
+   # Note its BUSID, e.g. 3-1
+   ```
+
+3. Attach it to WSL2 (run in an **Administrator** PowerShell):
+
+   ```powershell
+   usbipd attach --wsl --busid 3-1
+   ```
+
+4. Start (or rebuild) the dev container. The device appears as `/dev/ttyUSB0` inside the
+   container exactly as on Linux.
+
+5. To detach when done:
+
+   ```powershell
+   usbipd detach --busid 3-1
+   ```
+
+> The `usbipd attach` step must be repeated every time the device is unplugged or the
+> machine is rebooted. Consider pinning the command to a terminal profile for convenience.
+
+#### GitHub Codespaces
+
+No USB access. All hardware-dependent `make` targets will fail with a clear error. This is
+expected — use Codespaces for firmware builds, host tests, linting, and code review only.
+
 ### Host folder mounts (local dev container only)
 
 The following folders are bind-mounted from the host into the container so that AI tool
@@ -51,16 +127,37 @@ the container. Nothing is copied into the image or committed to the repo.
 > and Mistral Vibe manually after the codespace starts, or pass `ANTHROPIC_API_KEY` /
 > `MISTRAL_API_KEY` as Codespaces secrets.
 
-### Mistral API key
+### Dev container secrets (API keys)
 
-The container reads `MISTRAL_API_KEY` from the host environment via `remoteEnv`. Add it to
-your shell profile on the host (`~/.bashrc`, `~/.zshrc`, etc.):
+Secrets are passed into the container via `.devcontainer/.env` — a file that lives on your
+machine but is **never committed** (it is in `.gitignore`).
 
-```bash
-export MISTRAL_API_KEY=your-key-here
+On a fresh clone, `initializeCommand` automatically copies `.devcontainer/.env.example` to
+`.devcontainer/.env` so Docker never fails on a missing file. Open the copy and fill in your
+values:
+
+```
+# .devcontainer/.env
+MISTRAL_API_KEY=your-key-here
 ```
 
-The `vibe` CLI (installed via `uv tool install mistral-vibe`) picks this up automatically.
+The container picks up every key in that file on startup via `runArgs --env-file`. After
+editing `.env`, **rebuild the container** (`Dev Containers: Rebuild Container`) for the new
+values to take effect.
+
+To add a new secret:
+
+1. Add the key name (no value) to `.devcontainer/.env.example` with a comment — commit this.
+2. Add the key and value to your local `.devcontainer/.env` — do **not** commit this.
+3. Reference `${ENV_VAR_NAME}` wherever needed (e.g. `postCreateCommand`, extension config).
+
+| Key | Used by |
+|-----|---------|
+| `MISTRAL_API_KEY` | `mistral-vibe` VS Code extension + `vibe` CLI |
+
+> **Codespaces:** `.env` file mounts do not work in Codespaces. Pass secrets as
+> [Codespaces encrypted secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces)
+> in your GitHub account settings instead.
 
 ---
 
@@ -105,6 +202,67 @@ GoogleTest is fetched automatically by CMake (v1.15.2 via `FetchContent`) — no
 |------|----------|
 | [lcov + genhtml](https://github.com/linux-test-project/lcov) | `make coverage` — HTML coverage report. `apt install lcov`. |
 | [Doxygen](https://www.doxygen.nl/download.html) | `make docs` — API documentation. `apt install doxygen`. |
+
+---
+
+## Flutter app development
+
+The companion app lives in `app/`. It requires Flutter (installed at `/opt/flutter` on the
+reference Ubuntu machine) and the Android SDK (`/opt/Android/Sdk`).
+
+### Running the app
+
+**On a physical Android device (recommended):**
+
+1. Enable Developer Options: Settings → About Phone → tap **Build number** 7 times.
+2. Enable USB Debugging: Settings → System → Developer Options → USB Debugging.
+3. Connect via USB and confirm the prompt on the device.
+4. Verify Flutter sees it, then run the app:
+
+```bash
+flutter devices
+flutter run
+```
+
+Flutter auto-selects the only connected mobile device. Hot reload (`r`) and hot
+restart (`R`) work exactly as with an emulator. This approach uses zero extra RAM
+on the development machine and is the preferred workflow.
+
+**In the Android emulator:**
+
+```bash
+flutter emulators --launch Lean_API33   # start the lean AVD
+flutter run
+```
+
+The `Lean_API33` AVD uses the `android-33;default` image (no Google Play Services),
+1 GB RAM, 720×1280 display, and 2 vCPUs — tuned to be light on host resources.
+
+**In Chromium (UI-only, no BLE):**
+
+```bash
+flutter run -d chrome
+```
+
+Chromium is detected automatically via `CHROME_EXECUTABLE` in `.bashrc`. This mode
+is only useful for iterating on pure UI screens — the following packages do **not**
+work on web:
+
+| Package | Limitation |
+|---|---|
+| `flutter_blue_plus` | No Web Bluetooth support — all BLE calls fail |
+| `file_picker` | No native file system access on web |
+| `share_plus` | Not supported on web |
+| `path_provider` | Not supported on web |
+
+For any screen that touches BLE or the file system, test on a physical device or emulator.
+
+### Asset path note
+
+Schema files (`profiles.schema.json`, `config.schema.json`) are bundled inside the app
+under `app/assets/` and referenced as `assets/*.schema.json` in `pubspec.yaml`. The
+source of truth remains `data/` at the repo root — copy updated schemas into `app/assets/`
+before building if you change them.
 
 ---
 

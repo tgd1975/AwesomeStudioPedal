@@ -23,12 +23,20 @@
   },
 
   // postCreateCommand: runs once on first container creation.
-  // Installs tools needed for host tests, linting, and docs — everything that works
-  // without physical hardware. Fast enough to keep the container startup snappy.
-  // postCreateCommand: runs once on first container creation.
-  // PlatformIO CLI is installed here so VS Code never prompts for a restart on attach.
+  // Installs tools needed for host tests, linting, and docs.
+  //
+  // Flutter is intentionally NOT installed here.
+  // Reason: downloading Flutter (~700 MB) at container build time fails in network-restricted
+  // environments (GitHub Codespaces build phase, corporate proxies) and makes devcontainer
+  // rebuilds slow and fragile for all developers — even those not working on the mobile app.
+  //
+  // Instead, Flutter CI runs as a separate GitHub Actions job using subosito/flutter-action,
+  // which caches the SDK between runs. Local Flutter development: install Flutter from
+  // https://flutter.dev/docs/get-started/install and add it to PATH. The required version
+  // is pinned in app/.flutter-version (also read by FVM and flutter-action).
+  //
   // Note: the ESP32 toolchain (~300 MB) is still downloaded on demand on first `pio run`.
-  "postCreateCommand": "sudo apt-get update -q && sudo apt-get install -y -q lcov doxygen clang-format && npm install -g markdownlint-cli2 && pip install --quiet platformio uv && uv tool install mistral-vibe && cmake -B .vscode/build -G Ninja -DCMAKE_BUILD_TYPE=Debug -Wno-dev && make install-hooks && curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules > /dev/null",
+  "postCreateCommand": "sudo apt-get update -q && sudo apt-get install -y -q lcov doxygen clang-format curl unzip graphviz && npm install -g markdownlint-cli2 && pip install --quiet platformio uv && pip install --quiet -r requirements.txt && pip install --quiet -r requirements-schematic.txt && uv tool install mistral-vibe && cmake -B .vscode/build -G Ninja -DCMAKE_BUILD_TYPE=Debug -Wno-dev && make install-hooks && curl -fsSL https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/system/99-platformio-udev.rules | sudo tee /etc/udev/rules.d/99-platformio-udev.rules > /dev/null",
 
   "customizations": {
     "vscode": {
@@ -60,7 +68,10 @@
         "mermaidchart.vscode-mermaid-chart",
         // AI assistants.
         "anthropic.claude-code",
-        "nmallet.vscode-mistral-vibe"
+        "nmallet.vscode-mistral-vibe",
+        // Flutter/Dart development.
+        "dart-code.flutter",
+        "dart-code.dart-code"
       ],
       "settings": {
         // Match the CMake build directory used by the Makefile and CI.
@@ -77,17 +88,25 @@
 
   "remoteUser": "vscode",
 
+  // Grant access to all host USB/serial devices present at container start.
+  // Safe when no device is connected (Codespaces, CI) — the container starts normally,
+  // and flash/monitor commands simply fail with "device not found" as expected.
+  // On Windows: forward the USB device first with usbipd-win (see DEVELOPMENT_SETUP.md).
+  "privileged": true,
+
   // Suppress VS Code auto-forwarding ports it detects from PlatformIO's internal
   // processes — we don't need any container ports forwarded to the host.
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },
 
-  // Pass Mistral API key from host environment into the container.
-  // Set MISTRAL_API_KEY in .devcontainer/.env (gitignored) on your host.
-  "remoteEnv": {
-    "MISTRAL_API_KEY": "${localEnv:MISTRAL_API_KEY}"
-  },
+  // Runs on the host before the container starts — creates .env from the example if absent.
+  // Prevents a Docker error when .env doesn't exist yet (e.g. fresh clone).
+  "initializeCommand": "[ -f .devcontainer/.env ] || cp .devcontainer/.env.example .devcontainer/.env",
+
+  // Pass secrets from .devcontainer/.env (gitignored) into the container at runtime.
+  // Fill in your values in .devcontainer/.env — never commit that file.
+  "runArgs": ["--env-file", "${localWorkspaceFolder}/.devcontainer/.env"],
 
   // Mount the host ~/.claude directory into the container so Claude Code
   // picks up existing credentials without storing any secrets in the repo.

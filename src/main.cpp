@@ -8,6 +8,9 @@
 // #include "FunctionalInterrupt.h"
 
 #include "ble_keyboard_adapter.h"
+#ifdef ESP32
+#include "ble_config_service.h"
+#endif
 #include "platform.h"
 
 #include "button.h"
@@ -17,6 +20,7 @@
 #include "delayed_action.h"
 #include "event_dispatcher.h"
 #include "led_controller.h"
+#include "macro_action.h"
 #include "pedal_config.h"
 #include "profile_manager.h"
 #include "send_action.h"
@@ -31,6 +35,9 @@
  */
 
 BleKeyboardAdapter* bleKeyboardAdapter = createBleKeyboardAdapter();
+#ifdef ESP32
+BleConfigService bleConfigService;
+#endif
 
 #ifdef ESP32
 static constexpr const char* NVS_NAMESPACE = "pedal";
@@ -58,7 +65,10 @@ static void saveCurrentProfile(uint8_t) {}
 static uint8_t loadSavedProfile() { return 0; }
 #endif
 
+static constexpr uint32_t LONG_PRESS_THRESHOLD_MS = 500;
+
 bool connected = false;
+bool longPressArmed[Btn::MAX] = {};
 
 LEDController ledBluetooth(hardwareConfig.ledBluetooth);
 LEDController ledPower(hardwareConfig.ledPower);
@@ -72,6 +82,33 @@ Button* actionButtonObjects[Btn::MAX] = {};
 
 ProfileManager* profileManager = nullptr;
 EventDispatcher eventDispatcher;
+
+/**
+ * @brief Signal a hardware mismatch by blinking the power LED in a distinctive
+ *        pattern (3 rapid blinks, pause, repeat) and halting all activation.
+ *
+ * This is a safety halt: the config.json targets a different MCU board than
+ * this firmware. Applying its pin values could drive wrong GPIOs, so we must
+ * not load profiles or start BLE. The device loops here until power-cycled.
+ */
+void signalHardwareMismatch()
+{
+    Serial.println("HARDWARE MISMATCH: config.json targets a different board — halting");
+    constexpr int BLINK_ON_MS = 80;
+    constexpr int BLINK_OFF_MS = 80;
+    constexpr int PAUSE_MS = 600;
+    while (true)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            ledPower.setState(true);
+            delay(BLINK_ON_MS);
+            ledPower.setState(false);
+            delay(BLINK_OFF_MS);
+        }
+        delay(PAUSE_MS);
+    }
+}
 
 /**
  * @brief Signal a configuration load error by blinking all LEDs, then
@@ -233,6 +270,34 @@ void setup_event_handlers()
             });
     }
 
+    // Long press and double press handlers
+    for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
+    {
+        uint8_t idx = i;
+        eventDispatcher.registerLongPressHandler(
+            idx,
+            [idx]()
+            {
+                uint8_t profile = profileManager->getCurrentProfile();
+                if (auto action = profileManager->getProfile(profile)->getLongPressAction(idx))
+                {
+                    action->execute();
+                }
+            },
+            LONG_PRESS_THRESHOLD_MS);
+
+        eventDispatcher.registerDoublePressHandler(
+            idx,
+            [idx]()
+            {
+                uint8_t profile = profileManager->getCurrentProfile();
+                if (auto action = profileManager->getProfile(profile)->getDoublePressAction(idx))
+                {
+                    action->execute();
+                }
+            });
+    }
+
     // SELECT button is registered at index numButtons (press only — no release handler)
     uint8_t selectHandlerIdx = hardwareConfig.numButtons;
     eventDispatcher.registerHandler(selectHandlerIdx,
@@ -253,11 +318,19 @@ void setup()
     delay(2000);
     Serial.println("AwesomeStudioPedal " FIRMWARE_VERSION " started");
 
+    bool hwOk = loadHardwareConfig();
     setup_hardware();
+    if (! hwOk)
+    {
+        signalHardwareMismatch(); // never returns
+    }
 
     profileManager = new ProfileManager(selectLeds);
     setup_event_handlers();
 
+#ifdef ESP32
+    bleConfigService.begin(profileManager, bleKeyboardAdapter, selectLeds);
+#endif
     bleKeyboardAdapter->begin();
 
     if (! configureProfiles(*profileManager, bleKeyboardAdapter))
@@ -316,10 +389,27 @@ void process_events()
         {
             continue;
         }
-        if (actionButtonObjects[i]->event())
+
+        if (actionButtonObjects[i]->doublePressEvent())
+        {
+            eventDispatcher.dispatchDoublePress(i);
+        }
+        else if (actionButtonObjects[i]->event())
         {
             eventDispatcher.dispatch(i);
         }
+
+        if (actionButtonObjects[i]->holdDurationMs() >= LONG_PRESS_THRESHOLD_MS &&
+            ! longPressArmed[i])
+        {
+            eventDispatcher.dispatchLongPress(i);
+            longPressArmed[i] = true;
+        }
+        if (! actionButtonObjects[i]->awaitingRelease)
+        {
+            longPressArmed[i] = false;
+        }
+
         if (actionButtonObjects[i]->releaseEvent())
         {
             eventDispatcher.dispatchRelease(i);
@@ -358,11 +448,15 @@ void loop()
         }
     }
     process_events();
+#ifdef ESP32
+    bleConfigService.loop();
+#endif
 
     uint32_t now = millis();
 
-    // Poll in-progress DelayedActions for the current profile.
+    // Poll in-progress actions for the current profile.
     // DelayedAction::execute() checks elapsed time internally and fires exactly once.
+    // MacroAction::update() advances to the next step when the current step completes.
     {
         uint8_t profile = profileManager->getCurrentProfile();
         for (uint8_t i = 0; i < hardwareConfig.numButtons; i++)
@@ -371,6 +465,12 @@ void loop()
             if (action && action->isInProgress())
             {
                 action->execute();
+                if (auto* macro = (action->getType() == Action::Type::Macro)
+                                      ? static_cast<MacroAction*>(action)
+                                      : nullptr)
+                {
+                    macro->update();
+                }
             }
         }
     }

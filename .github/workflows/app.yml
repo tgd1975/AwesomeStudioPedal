@@ -1,0 +1,62 @@
+name: Flutter App
+
+# Flutter CI runs natively on ubuntu-latest via subosito/flutter-action — NOT inside the
+# dev container. Reason: the devcontainer is a C++/firmware/docs environment; installing
+# Flutter (~700 MB) there makes rebuilds slow and fragile in network-restricted environments.
+# The Flutter version is pinned in app/.flutter-version (single source of truth for CI and
+# local installs via FVM or manual setup).
+
+on:
+  push:
+    paths:
+      - 'app/**'
+      - '.github/workflows/app.yml'
+  pull_request:
+    paths:
+      - 'app/**'
+      - '.github/workflows/app.yml'
+
+jobs:
+  build-and-test:
+    name: Analyze, test, and build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read Flutter version
+        id: flutter-version
+        run: echo "version=$(cat app/.flutter-version)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        working-directory: app
+        run: flutter pub get
+
+      - name: Analyze
+        working-directory: app
+        run: flutter analyze
+
+      - name: Run tests
+        working-directory: app
+        run: flutter test
+
+      - name: Build APK (release)
+        working-directory: app
+        run: flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: app/build/app/outputs/flutter-apk/app-release.apk
+
+# iOS build is skipped in CI — it requires macOS + Xcode.
+# To build for iOS locally: flutter build ios --no-codesign
+# See app/README.md for full iOS build instructions.

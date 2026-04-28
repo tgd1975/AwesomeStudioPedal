@@ -2,6 +2,8 @@
 id: TASK-049
 title: Setup video platform channel
 status: open
+epic: video-content
+order: 7
 opened: 2026-04-10
 effort: Small (<2h)
 complexity: Junior

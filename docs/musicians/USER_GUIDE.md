@@ -91,3 +91,26 @@ Tip: a small printed card taped to your pedalboard saves you from memorising thi
 ## What each profile does
 
 See [PROFILES.md](PROFILES.md) for a full list of buttons and their actions.
+
+## Customising your pedal
+
+You can change what each button does without a cable or a computer.
+Three options are available depending on what you are comfortable with:
+
+| Method | Needs a computer? | Needs a cable? | Uploads over BLE? |
+|--------|:-----------------:|:--------------:|:-----------------:|
+| Mobile app | No | No | Yes |
+| Web builder + CLI tool | Yes | No | Yes (BLE from laptop) |
+| Edit JSON manually | Yes | No | Yes (BLE from laptop) |
+
+**Mobile app** is the simplest option — install the app, connect to the pedal over
+Bluetooth, edit the profiles directly on your phone or tablet, and tap Upload.
+No technical knowledge required. See [docs/builders/APP.md](../builders/APP.md) for details.
+
+**Web builder + CLI** is for builders who prefer a larger screen. Open the web-based
+config builder in your browser, design the profiles, save the JSON file, then use the
+CLI tool to upload it. See [docs/builders/CLI_TOOL.md](../builders/CLI_TOOL.md) for the
+upload steps.
+
+**Edit JSON manually** gives full control over every option. Open `data/profiles.json`
+in any text editor, make changes, and upload with the CLI tool.

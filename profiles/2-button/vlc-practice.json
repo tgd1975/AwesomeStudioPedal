@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "id":     "vlc-practice",
+    "author": "tgd1975",
+    "tags":   ["vlc", "media", "practice", "musicians", "speed"],
+    "tested": "macOS 14, VLC 3.0 / Android 14, VLC 3.6"
+  },
+  "profiles": [
+    {
+      "name":        "01 VLC Practice",
+      "description": "Optimised for the VLC app on smartphones and desktops. Designed for musicians practising along with a recording. Button A plays or pauses. Button B stops playback and resets to the beginning. VLC responds to the standard media keys — no configuration required.",
+      "buttons": {
+        "A": {
+          "type":  "SendMediaKeyAction",
+          "name":  "Play/Pause — MEDIA_PLAY_PAUSE",
+          "value": "MEDIA_PLAY_PAUSE"
+        },
+        "B": {
+          "type":  "SendMediaKeyAction",
+          "name":  "Stop — MEDIA_STOP",
+          "value": "MEDIA_STOP"
+        }
+      }
+    }
+  ]
+}

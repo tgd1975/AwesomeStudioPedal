@@ -1,7 +1,7 @@
 'use strict';
 
 // Inline example data — no network fetch needed, works offline and on GitHub Pages.
-const EXAMPLE_DATA = {"_doc":"Key reference: docs/builders/KEY_REFERENCE.md","profiles":[{"name":"01 Score Navigator","description":"Designed for musicians reading digital sheet music on a tablet or notebook (e.g., forScore, MobileSheets, or Adobe Acrobat). Uses standard navigation keys to turn pages and jump to sections.","buttons":{"A":{"type":"SendCharAction","name":"Prev Page","value":"KEY_PAGE_UP"},"B":{"type":"SendCharAction","name":"Next Page","value":"KEY_PAGE_DOWN"},"C":{"type":"SendCharAction","name":"First Page","value":"KEY_HOME"},"D":{"type":"SendCharAction","name":"Last Page","value":"KEY_END"}}},{"name":"02 Pixel Camera Remote","description":"Hands-free video and photo control for Google Pixel smartphones. Uses the Volume Up shortcut to trigger the shutter. Includes a 3-second delay on Button A to allow the performer to get into position.","buttons":{"A":{"type":"DelayedAction","name":"Delayed Shutter","delayMs":3000,"action":{"type":"SendMediaKeyAction","value":"KEY_VOLUME_UP"}},"B":{"type":"SendMediaKeyAction","name":"Instant Shutter","value":"KEY_VOLUME_UP"},"C":{"type":"SendCharAction","name":"Switch Mode","value":"KEY_TAB"},"D":{"type":"SendCharAction","name":"Gallery Preview","value":"KEY_ENTER"}}},{"name":"03 VLC Mobile Controller","description":"Optimized for the VLC app on smartphones. Ideal for musicians practicing along with video/audio recordings. Allows for quick pausing and speed adjustments to learn difficult passages.","buttons":{"A":{"type":"SendMediaKeyAction","name":"Play/Pause","value":"MEDIA_PLAY_PAUSE"},"B":{"type":"SendMediaKeyAction","name":"Stop","value":"MEDIA_STOP"},"C":{"type":"SendCharAction","name":"Slow Down","value":"["},"D":{"type":"SendCharAction","name":"Speed Up","value":"]"}}},{"name":"04 OBS Stream Deck","description":"A foot-operated switcher for OBS Studio on a PC/Mac. Uses high-range function keys (F13-F16) to switch scenes or mute audio without interfering with standard keyboard typing.","buttons":{"A":{"type":"SendCharAction","name":"Intro Scene","value":"KEY_F13"},"B":{"type":"SendCharAction","name":"Main Scene","value":"KEY_F14"},"C":{"type":"SendCharAction","name":"Mute Mic","value":"KEY_F15"},"D":{"type":"SendCharAction","name":"Start Stream","value":"KEY_F16"}}},{"name":"05 DAW Looper (Ableton)","description":"General purpose recording and looping profile for DAWs like Ableton Live. Focuses on the 'Solo Performer' workflow where undoing a bad take quickly is essential.","buttons":{"A":{"type":"SendCharAction","name":"Record","value":"F9"},"B":{"type":"SendCharAction","name":"Play/Stop","value":" "},"C":{"type":"SendStringAction","name":"Undo Take","value":"ctrl+z"},"D":{"type":"SendCharAction","name":"Metronome","value":"c"}}},{"name":"06 Social & Comms","description":"A productivity profile for interacting with Discord, Slack, or Zoom while playing an instrument. Includes a one-touch status update for rehearsals.","buttons":{"A":{"type":"SendStringAction","name":"Quick Msg","value":"Starting now, see you in the chat!"},"B":{"type":"SendStringAction","name":"Mute App","value":"ctrl+shift+m"},"C":{"type":"SendStringAction","name":"Deafen","value":"ctrl+shift+d"},"D":{"type":"SendCharAction","name":"Screenshot","value":"KEY_PRINTSCREEN"}}},{"name":"07 System Debug","description":"Technical health check profile for the AwesomeStudioPedal. Sends status messages to the Serial Monitor and provides basic OS navigation (Up/Down) for emergency menu control.","buttons":{"A":{"type":"SerialOutputAction","name":"Ping Pedal","value":"AwesomeStudioPedal: Profile 7 Active - All systems nominal."},"B":{"type":"SendStringAction","name":"Version Info","value":"v1.2-Extended-Func"},"C":{"type":"SendCharAction","name":"Nav Up","value":"KEY_UP_ARROW"},"D":{"type":"SendCharAction","name":"Nav Down","value":"KEY_DOWN_ARROW"}}}]};
+const EXAMPLE_DATA = {"_doc":"Key reference: docs/builders/KEY_REFERENCE.md","profiles":[{"name":"01 Score Navigator","description":"Designed for musicians reading digital sheet music on a tablet or notebook (e.g., forScore, MobileSheets, or Adobe Acrobat). Uses standard navigation keys to turn pages and jump to sections.","buttons":{"A":{"type":"SendCharAction","name":"Prev Page","value":"KEY_PAGE_UP","longPress":{"type":"SendCharAction","name":"First Page","value":"KEY_HOME"}},"B":{"type":"SendCharAction","name":"Next Page","value":"KEY_PAGE_DOWN"},"C":{"type":"SendCharAction","name":"First Page","value":"KEY_HOME"},"D":{"type":"SendCharAction","name":"Last Page","value":"KEY_END"}}},{"name":"02 Pixel Camera Remote","description":"Hands-free video and photo control for Google Pixel smartphones. Uses the Volume Up shortcut to trigger the shutter. Includes a 3-second delay on Button A to allow the performer to get into position.","buttons":{"A":{"type":"DelayedAction","name":"Delayed Shutter","delayMs":3000,"action":{"type":"SendMediaKeyAction","value":"KEY_VOLUME_UP"}},"B":{"type":"SendMediaKeyAction","name":"Instant Shutter","value":"KEY_VOLUME_UP"},"C":{"type":"SendCharAction","name":"Switch Mode","value":"KEY_TAB"},"D":{"type":"SendCharAction","name":"Gallery Preview","value":"KEY_ENTER"}}},{"name":"03 VLC Mobile Controller","description":"Optimized for the VLC app on smartphones. Ideal for musicians practicing along with video/audio recordings. Allows for quick pausing and speed adjustments to learn difficult passages.","buttons":{"A":{"type":"SendMediaKeyAction","name":"Play/Pause","value":"MEDIA_PLAY_PAUSE"},"B":{"type":"SendMediaKeyAction","name":"Stop","value":"MEDIA_STOP"},"C":{"type":"SendCharAction","name":"Slow Down","value":"["},"D":{"type":"SendCharAction","name":"Speed Up","value":"]"}}},{"name":"04 OBS Stream Deck","description":"A foot-operated switcher for OBS Studio on a PC/Mac. Uses high-range function keys (F13-F16) to switch scenes or mute audio without interfering with standard keyboard typing.","buttons":{"A":{"type":"SendCharAction","name":"Intro Scene","value":"KEY_F13"},"B":{"type":"SendCharAction","name":"Main Scene","value":"KEY_F14"},"C":{"type":"SendCharAction","name":"Mute Mic","value":"KEY_F15"},"D":{"type":"SendCharAction","name":"Start Stream","value":"KEY_F16"}}},{"name":"05 DAW Looper (Ableton)","description":"General purpose recording and looping profile for DAWs like Ableton Live. Focuses on the 'Solo Performer' workflow where undoing a bad take quickly is essential.","buttons":{"A":{"type":"SendCharAction","name":"Record","value":"F9"},"B":{"type":"SendCharAction","name":"Play/Stop","value":" "},"C":{"type":"SendStringAction","name":"Undo Take","value":"ctrl+z"},"D":{"type":"SendCharAction","name":"Metronome","value":"c"}}},{"name":"06 Social & Comms","description":"A productivity profile for interacting with Discord, Slack, or Zoom while playing an instrument. Includes a one-touch status update for rehearsals.","buttons":{"A":{"type":"SendStringAction","name":"Quick Msg","value":"Starting now, see you in the chat!"},"B":{"type":"SendStringAction","name":"Mute App","value":"ctrl+shift+m"},"C":{"type":"SendStringAction","name":"Deafen","value":"ctrl+shift+d"},"D":{"type":"SendCharAction","name":"Screenshot","value":"KEY_PRINTSCREEN"}}},{"name":"07 System Debug","description":"Technical health check profile for the AwesomeStudioPedal. Sends status messages to the Serial Monitor and provides basic OS navigation (Up/Down) for emergency menu control.","buttons":{"A":{"type":"SerialOutputAction","name":"Ping Pedal","value":"AwesomeStudioPedal: Profile 7 Active - All systems nominal."},"B":{"type":"SendStringAction","name":"Version Info","value":"v1.2-Extended-Func"},"C":{"type":"SendCharAction","name":"Nav Up","value":"KEY_UP_ARROW"},"D":{"type":"SendCharAction","name":"Nav Down","value":"KEY_DOWN_ARROW"}}}]};
 
 const PIN_TYPES = [
   'PinHighAction', 'PinLowAction', 'PinToggleAction',
@@ -16,6 +16,10 @@ const SLOT_NAMES = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 // Slots beyond D fall back to the default CSS button border color.
 const SLOT_COLORS = ['#f97316', '#dc2626', '#ec4899', '#7c3aed'];
 
+// Gesture thresholds — must match firmware constants in src/main.cpp and button.h
+const LONG_PRESS_MS = 500;
+const DOUBLE_PRESS_WINDOW_MS = 300;
+
 // ── Hardware layout state ────────────────────────────────────────────────────
 let numButtons = 4;
 let numSelectLeds = 3;
@@ -27,7 +31,17 @@ let heldButtons = new Set();
 let pendingDelays = {};
 let bleConnected = false;
 
-// ── IO pin state (for TASK-093) ──────────────────────────────────────────────
+// Per-button gesture state
+const gestureState = {};  // slot → { longPressTimer, singlePressTimer, lastTapTime }
+
+function getGestureState(slot) {
+  if (!gestureState[slot]) {
+    gestureState[slot] = { longPressTimer: null, singlePressTimer: null, lastTapTime: 0 };
+  }
+  return gestureState[slot];
+}
+
+// ── IO pin state ─────────────────────────────────────────────────────────────
 const pinState = {};  // pin number → 'HIGH' | 'LOW'
 
 // ── BLE connection state ─────────────────────────────────────────────────────
@@ -59,7 +73,7 @@ function serialLog(msg) {
   appendOutput(document.getElementById('serial-output'), msg);
 }
 
-// ── IO state log (TASK-093) ──────────────────────────────────────────────────
+// ── IO state log ─────────────────────────────────────────────────────────────
 function ioLog(action) {
   const logEl = document.getElementById('io-output');
   if (!logEl) return;
@@ -84,7 +98,6 @@ function ioLog(action) {
     pinState[action.pin] = 'LOW';
     logMsg = `[Press]  Pin ${action.pin} \u2192 LOW`;
   } else if (action.type === 'PinRelease') {
-    // Release: invert the held state
     const released = action.source === 'PinHighWhilePressedAction' ? 'LOW' : 'HIGH';
     pinState[action.pin] = released;
     logMsg = `[Rel]    Pin ${action.pin} \u2192 ${released}`;
@@ -137,17 +150,18 @@ function formatActionOutput(action) {
   }
 }
 
-function dispatchAction(action) {
+function dispatchAction(action, prefix) {
   if (!action || !action.type) return;
+  const tag = prefix ? `${prefix} ` : '';
   if (action.type === 'SerialOutputAction') {
-    serialLog(action.value);
+    serialLog(`${tag}${action.value}`);
   } else if (PIN_TYPES.includes(action.type)) {
     ioLog(action);
   } else {
     if (!bleConnected) {
-      bleLog(`\u26a0 BLE disconnected \u2014 keystroke not sent: ${formatActionOutput(action)}`);
+      bleLog(`\u26a0 BLE disconnected \u2014 keystroke not sent: ${tag}${formatActionOutput(action)}`);
     } else {
-      bleLog(formatActionOutput(action));
+      bleLog(`${tag}${formatActionOutput(action)}`);
     }
   }
 }
@@ -161,7 +175,6 @@ function renderButtonGrid() {
   const grid = document.getElementById('button-grid');
   if (!grid) return;
 
-  // Detach old event listeners by replacing each button
   grid.innerHTML = '';
 
   for (const slot of activeSlots()) {
@@ -169,21 +182,20 @@ function renderButtonGrid() {
     btn.className = 'pedal-btn';
     btn.id = `btn-${slot}`;
     btn.dataset.btn = slot;
-    btn.innerHTML = `<span class="btn-slot">${slot}</span><span class="btn-name"></span>`;
+    btn.innerHTML = `<span class="btn-slot">${slot}</span><span class="btn-name"></span><span class="btn-badges"></span>`;
 
     const slotColor = SLOT_COLORS[SLOT_NAMES.indexOf(slot)];
     if (slotColor) btn.style.setProperty('--slot-color', slotColor);
 
-    btn.addEventListener('mousedown', () => simulateButtonPress(slot));
-    btn.addEventListener('mouseup', () => simulateButtonRelease(slot));
-    btn.addEventListener('mouseleave', () => simulateButtonRelease(slot));
-    btn.addEventListener('touchstart', (e) => { e.preventDefault(); simulateButtonPress(slot); });
-    btn.addEventListener('touchend', (e) => { e.preventDefault(); simulateButtonRelease(slot); });
+    btn.addEventListener('mousedown', () => handleButtonDown(slot));
+    btn.addEventListener('mouseup', () => handleButtonUp(slot));
+    btn.addEventListener('mouseleave', () => handleButtonUp(slot));
+    btn.addEventListener('touchstart', (e) => { e.preventDefault(); handleButtonDown(slot); });
+    btn.addEventListener('touchend', (e) => { e.preventDefault(); handleButtonUp(slot); });
 
     grid.appendChild(btn);
   }
 
-  // Refresh labels for current profile
   if (config) {
     const profile = config.profiles[currentProfile];
     for (const slot of activeSlots()) refreshButtonLabel(slot, profile);
@@ -207,7 +219,6 @@ function setHardwareLayout(newNumButtons, newNumSelectLeds) {
   numButtons = Math.max(1, Math.min(26, newNumButtons));
   numSelectLeds = Math.max(1, Math.min(6, newNumSelectLeds));
 
-  // Sync toolbar spinners
   const btnInput = document.getElementById('hw-num-buttons');
   const ledInput = document.getElementById('hw-num-select-leds');
   if (btnInput) btnInput.value = numButtons;
@@ -232,17 +243,104 @@ function updateProfileLeds(index) {
   }
 }
 
-// ── Button simulation ────────────────────────────────────────────────────────
-function simulateButtonPress(id) {
+// ── Gesture handling ─────────────────────────────────────────────────────────
+function handleButtonDown(slot) {
   if (!config) return;
   const profile = config.profiles[currentProfile];
   if (!profile) return;
-  const action = profile.buttons && profile.buttons[id];
+  const action = profile.buttons && profile.buttons[slot];
   if (!action || !action.type) return;
 
-  const btnEl = document.getElementById(`btn-${id}`);
+  const gs = getGestureState(slot);
+  const now = Date.now();
 
+  // Cancel any pending single-press timer from a previous tap
+  if (gs.singlePressTimer) {
+    clearTimeout(gs.singlePressTimer);
+    gs.singlePressTimer = null;
+  }
+
+  // Double-press check: two taps within the window
+  if (action.doublePress && (now - gs.lastTapTime) < DOUBLE_PRESS_WINDOW_MS && gs.lastTapTime !== 0) {
+    gs.lastTapTime = 0;
+    dispatchAction(action.doublePress, '[DBL]');
+    return;
+  }
+
+  gs.lastTapTime = now;
+
+  // Long-press timer
+  if (action.longPress) {
+    gs.longPressTimer = setTimeout(() => {
+      gs.longPressTimer = null;
+      gs.lastTapTime = 0;
+      dispatchAction(action.longPress, '[LONG]');
+      const btnEl = document.getElementById(`btn-${slot}`);
+      if (btnEl) btnEl.classList.remove('held');
+      heldButtons.delete(slot);
+    }, LONG_PRESS_MS);
+  }
+
+  // Handle hold-while-pressed actions immediately on press
+  if (WHILE_PRESSED_TYPES.includes(action.type)) {
+    heldButtons.add(slot);
+    const btnEl = document.getElementById(`btn-${slot}`);
+    if (btnEl) btnEl.classList.add('held');
+    ioLog(action);
+    return;
+  }
+
+  // Visual press feedback
+  const btnEl = document.getElementById(`btn-${slot}`);
+  if (btnEl) btnEl.classList.add('held');
+}
+
+function handleButtonUp(slot) {
+  if (!config) return;
+  const profile = config.profiles[currentProfile];
+  if (!profile) return;
+  const action = profile.buttons && profile.buttons[slot];
+
+  const gs = getGestureState(slot);
+  const btnEl = document.getElementById(`btn-${slot}`);
+
+  // Cancel long-press timer — released before threshold
+  if (gs.longPressTimer) {
+    clearTimeout(gs.longPressTimer);
+    gs.longPressTimer = null;
+  }
+
+  if (btnEl) btnEl.classList.remove('held');
+
+  if (!action || !action.type) return;
+
+  // Release for while-pressed types
+  if (heldButtons.has(slot)) {
+    heldButtons.delete(slot);
+    if (WHILE_PRESSED_TYPES.includes(action.type)) {
+      ioLog({ type: 'PinRelease', pin: action.pin, source: action.type });
+    }
+    return;
+  }
+
+  // For buttons with doublePress configured, defer the single press by the window
+  // so a second tap within the window can intercept it as a double press.
+  if (action.doublePress) {
+    gs.singlePressTimer = setTimeout(() => {
+      gs.singlePressTimer = null;
+      gs.lastTapTime = 0;
+      firePrimaryAction(slot, action, profile);
+    }, DOUBLE_PRESS_WINDOW_MS);
+    return;
+  }
+
+  // No doublePress configured — fire immediately
+  firePrimaryAction(slot, action, profile);
+}
+
+function firePrimaryAction(slot, action, profile) {
   if (action.type === 'DelayedAction') {
+    const btnEl = document.getElementById(`btn-${slot}`);
     bleLog(formatActionOutput(action));
     if (btnEl) btnEl.classList.add('delay-active');
 
@@ -263,37 +361,15 @@ function simulateButtonPress(id) {
       clearInterval(tickInterval);
       if (btnEl) {
         btnEl.classList.remove('delay-active');
-        refreshButtonLabel(id, profile);
+        refreshButtonLabel(slot, profile);
       }
-      delete pendingDelays[id];
+      delete pendingDelays[slot];
       dispatchAction(action.action);
     }, action.delayMs);
 
-    pendingDelays[id] = { timer, tickInterval, profile: currentProfile };
-
-  } else if (WHILE_PRESSED_TYPES.includes(action.type)) {
-    heldButtons.add(id);
-    if (btnEl) btnEl.classList.add('held');
-    ioLog(action);
+    pendingDelays[slot] = { timer, tickInterval, profile: currentProfile };
   } else {
     dispatchAction(action);
-  }
-}
-
-function simulateButtonRelease(id) {
-  if (!heldButtons.has(id)) return;
-  heldButtons.delete(id);
-  const btnEl = document.getElementById(`btn-${id}`);
-  if (btnEl) btnEl.classList.remove('held');
-
-  if (!config) return;
-  const profile = config.profiles[currentProfile];
-  if (!profile) return;
-  const action = profile.buttons && profile.buttons[id];
-  if (!action) return;
-
-  if (WHILE_PRESSED_TYPES.includes(action.type)) {
-    ioLog({ type: 'PinRelease', pin: action.pin, source: action.type });
   }
 }
 
@@ -313,6 +389,13 @@ function cancelPendingDelays() {
     bleLog('DELAY CANCELLED');
   }
   pendingDelays = {};
+
+  // Cancel any pending gesture timers
+  for (const gs of Object.values(gestureState)) {
+    if (gs.longPressTimer) { clearTimeout(gs.longPressTimer); gs.longPressTimer = null; }
+    if (gs.singlePressTimer) { clearTimeout(gs.singlePressTimer); gs.singlePressTimer = null; }
+    gs.lastTapTime = 0;
+  }
 }
 
 // ── Profile switching ────────────────────────────────────────────────────────
@@ -342,6 +425,14 @@ function refreshButtonLabel(slot, profile) {
   const action = profile && profile.buttons && profile.buttons[slot];
   const nameEl = btnEl.querySelector('.btn-name');
   if (nameEl) nameEl.textContent = (action && action.name) ? action.name : '';
+
+  const badgesEl = btnEl.querySelector('.btn-badges');
+  if (badgesEl) {
+    const badges = [];
+    if (action && action.longPress) badges.push('\u23f3');   // ⏳ long press
+    if (action && action.doublePress) badges.push('2\u00d7'); // 2× double press
+    badgesEl.textContent = badges.join(' ');
+  }
 }
 
 // ── Infer hardware layout from profiles.json ─────────────────────────────────
@@ -355,7 +446,6 @@ function inferLayoutFromProfiles(profiles) {
     }
   }
   const inferredButtons = maxSlotIndex + 1;
-  // Select LEDs: minimum bits to represent all profiles (1-indexed binary)
   const inferredLeds = Math.max(1, Math.ceil(Math.log2(profiles.length + 1)));
   return { numButtons: Math.max(1, inferredButtons), numSelectLeds: inferredLeds };
 }
@@ -372,7 +462,6 @@ function loadConfig(jsonData) {
   heldButtons.clear();
   cancelPendingDelays();
 
-  // Infer layout from profiles
   const layout = inferLayoutFromProfiles(config.profiles);
   setHardwareLayout(layout.numButtons, layout.numSelectLeds);
 
@@ -407,12 +496,68 @@ function exportConfig() {
 }
 
 // ── Wire up DOM events ───────────────────────────────────────────────────────
+function _showStartScreen() {
+  const overlay = document.createElement('div');
+  overlay.id = 'start-screen';
+  overlay.style.cssText = [
+    'position:fixed;inset:0;background:rgba(245,245,245,.97);z-index:8888',
+    'display:flex;align-items:center;justify-content:center',
+  ].join(';');
+
+  overlay.innerHTML = `
+    <div style="text-align:center;max-width:460px;padding:32px;">
+      <h2 style="font-size:22px;font-weight:700;margin-bottom:8px;">
+        Choose a starting point
+      </h2>
+      <p style="color:#555;margin-bottom:28px;line-height:1.6;">
+        Load a community profile set to get started, or continue with a blank canvas.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <button id="ss-community"
+          style="padding:12px 20px;background:#2563eb;color:#fff;border:none;
+                 border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">
+          Browse community profiles
+        </button>
+        <button id="ss-blank"
+          style="padding:12px 20px;background:#fff;color:#1a1a1a;
+                 border:1px solid #d1d5db;border-radius:8px;font-size:15px;cursor:pointer;">
+          Start blank
+        </button>
+      </div>
+      <p id="ss-error" style="display:none;color:#991b1b;margin-top:16px;font-size:13px;"></p>
+    </div>
+  `;
+
+  function dismiss() {
+    if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+  }
+
+  overlay.querySelector('#ss-community').onclick = () => {
+    dismiss();
+    const gallery = new ProfilesGallery({
+      indexUrl: 'https://tgd1975.github.io/AwesomeStudioPedal/profiles/index.json',
+      baseUrl:  'https://tgd1975.github.io/AwesomeStudioPedal/profiles/',
+      onLoad:   (json) => {
+        loadConfig(json);
+        document.getElementById('config-name').textContent =
+          (json.profiles && json.profiles[0] && json.profiles[0].name) || 'community profile';
+      },
+    });
+    gallery.open();
+  };
+
+  overlay.querySelector('#ss-blank').onclick = () => {
+    dismiss();
+    document.getElementById('config-name').textContent = 'blank — load a profiles.json to begin';
+  };
+
+  document.body.appendChild(overlay);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Initial render
   renderButtonGrid();
   renderProfileLeds();
 
-  // Hardware layout spinners
   document.getElementById('hw-num-buttons').addEventListener('change', (e) => {
     const v = parseInt(e.target.value) || numButtons;
     setHardwareLayout(v, numSelectLeds);
@@ -423,13 +568,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setHardwareLayout(numButtons, v);
   });
 
-  // SELECT button
   document.getElementById('select-btn').addEventListener('click', () => {
     if (!config) return;
     selectProfile(currentProfile + 1);
   });
 
-  // Load profiles.json from file
   document.getElementById('config-file').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -447,7 +590,6 @@ document.addEventListener('DOMContentLoaded', () => {
     e.target.value = '';
   });
 
-  // Load config.json from file
   document.getElementById('hw-config-file').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -464,7 +606,6 @@ document.addEventListener('DOMContentLoaded', () => {
     e.target.value = '';
   });
 
-  // BLE connect/disconnect toggle
   document.getElementById('ble-toggle').addEventListener('click', () => {
     setBleConnected(!bleConnected);
     if (!bleConnected) {
@@ -472,13 +613,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Load example (inline — no network fetch)
   document.getElementById('load-example').addEventListener('click', () => {
     loadConfig(EXAMPLE_DATA);
     document.getElementById('config-name').textContent = 'example (default) \u2014 load your own profiles.json to replace';
   });
 
-  // Clear output
+  document.getElementById('btn-community-gallery').addEventListener('click', () => {
+    const gallery = new ProfilesGallery({
+      indexUrl: 'https://tgd1975.github.io/AwesomeStudioPedal/profiles/index.json',
+      baseUrl:  'https://tgd1975.github.io/AwesomeStudioPedal/profiles/',
+      onLoad:   (json) => {
+        loadConfig(json);
+        document.getElementById('config-name').textContent =
+          (json.profiles && json.profiles[0] && json.profiles[0].name) || 'community profile';
+      },
+    });
+    gallery.open();
+  });
+
   document.getElementById('clear-btn').addEventListener('click', () => {
     document.getElementById('ble-output').innerHTML = '';
     document.getElementById('serial-output').innerHTML = '';
@@ -488,15 +640,12 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePinSummary();
   });
 
-  // Export
   document.getElementById('export-btn').addEventListener('click', exportConfig);
 
-  // Cancel pending delays on page unload
   window.addEventListener('beforeunload', () => {
     cancelPendingDelays();
   });
 
-  // Auto-load example on page open (TASK-092)
-  loadConfig(EXAMPLE_DATA);
-  document.getElementById('config-name').textContent = 'example (default) \u2014 load your own profiles.json to replace';
+  // Show "Choose a starting point" screen on page open instead of auto-loading.
+  _showStartScreen();
 });

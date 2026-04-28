@@ -6,65 +6,96 @@
 #include "i_ble_keyboard.h"
 // clang-format on
 
+#include "config.h"
+#include <NimBLEDevice.h>
+#include <functional>
+
+using OnStartedCb = std::function<void(BLEServer*)>;
+
 /**
- * @class BleKeyboardAdapter
- * @brief Adapter that implements IBleKeyboard interface using BleKeyboard
+ * @brief BleKeyboard subclass that exposes an onStarted hook.
  *
- * Concrete implementation that wraps the BleKeyboard library to provide
- * the IBleKeyboard interface. This allows the pedal logic to work with
- * the actual BLE keyboard hardware.
+ * onStarted fires inside BleKeyboard::begin(), after hid->startServices() but
+ * before adv->start(). This is the only safe window to register additional
+ * GATT services when USE_NIMBLE is defined (ble_gatts_start() locks the table).
+ *
+ * We also relax the security posture here: the BleKeyboard library defaults to
+ * bonding + MITM + SC, but our hardware has no display or keypad
+ * (IOCap = NoInputNoOutput). MITM=true + NoInputNoOutput is an unpairable
+ * combination on strict stacks like BlueZ. Consumer no-display BT keyboards
+ * (Logitech MX Keys, Apple Magic Keyboard, etc.) ship with MITM=false; we
+ * match that posture so Linux and Windows can pair us in addition to Android
+ * and iOS. See TASK-229 and BLE_CONFIG_IMPLEMENTATION_NOTES.md.
  */
-class BleKeyboardAdapter : public IBleKeyboard
+class HookableBleKeyboard : public BleKeyboard
 {
-    BleKeyboard& kb; /**< Reference to the underlying BleKeyboard instance */
 public:
-    /**
-     * @brief Constructs a BleKeyboardAdapter
-     *
-     * @param kb Reference to the BleKeyboard instance to wrap
-     */
-    explicit BleKeyboardAdapter(BleKeyboard& kb) : kb(kb) {}
+    HookableBleKeyboard(const char* name, const char* manufacturer)
+        : BleKeyboard(name, manufacturer)
+    {
+    }
 
-    /**
-     * @brief Initializes the BLE keyboard
-     *
-     * Delegates to the underlying BleKeyboard begin() method.
-     */
-    void begin() override { kb.begin(); }
+    void setOnStartedCallback(OnStartedCb cb) { cb_ = cb; }
 
-    /**
-     * @brief Checks if BLE keyboard is connected
-     *
-     * @return true if connected, false otherwise
-     */
-    bool isConnected() override { return kb.isConnected(); }
+protected:
+    void onStarted(BLEServer* pServer) override
+    {
+        // Two mutually exclusive pairing postures, picked by hardwareConfig:
+        //
+        // pairingEnabled == false  →  Just Works (no PIN)
+        //   - MITM=false / IOCap=NoInputNoOutput
+        //   - Matches consumer no-display BT keyboards (Logitech MX Keys,
+        //     Apple Magic Keyboard, etc). MITM=true + NoInputNoOutput is an
+        //     unpairable combination on strict stacks like BlueZ; this posture
+        //     lets Linux/Windows pair us in addition to Android/iOS. See
+        //     TASK-229 and BLE_CONFIG_IMPLEMENTATION_NOTES.md.
+        //
+        // pairingEnabled == true   →  Passkey Entry (initiator types our PIN)
+        //   - MITM=true / IOCap=DisplayOnly + setSecurityPasskey(...)
+        //   - We "display" the passkey (conceptually — the value lives in
+        //     hardwareConfig.json); the connecting host enters it. MITM=true
+        //     is what tells the SMP IOCap matrix to pick Passkey Entry instead
+        //     of collapsing to Just Works. Setting only IOCap without MITM was
+        //     the original TASK-237 defect: passkey configured but never
+        //     checked, anyone in range could bond. See TASK-246.
+        if (hardwareConfig.pairingEnabled)
+        {
+            NimBLEDevice::setSecurityAuth(/*bonding=*/true, /*mitm=*/true, /*sc=*/true);
+            NimBLEDevice::setSecurityIOCap(BLE_HS_IO_DISPLAY_ONLY);
+            NimBLEDevice::setSecurityPasskey(hardwareConfig.pairingPin);
+        }
+        else
+        {
+            NimBLEDevice::setSecurityAuth(/*bonding=*/true, /*mitm=*/false, /*sc=*/true);
+            NimBLEDevice::setSecurityIOCap(BLE_HS_IO_NO_INPUT_OUTPUT);
+        }
 
-    /**
-     * @brief Sends a single key press
-     *
-     * @param key USB HID key code to send
-     */
-    void write(uint8_t key) override { kb.write(key); }
+        if (cb_)
+            cb_(pServer);
+    }
 
-    /**
-     * @brief Sends a media key report
-     *
-     * @param key Media key report to send
-     */
-    void write(const MediaKeyReport key) override { kb.write(key); }
-
-    /**
-     * @brief Sends a text string
-     *
-     * @param text String to send as keyboard input
-     */
-    void print(const char* text) override { kb.print(text); }
+private:
+    OnStartedCb cb_;
 };
 
 /**
- * @brief Creates the platform-specific BleKeyboardAdapter instance
- *
- * Owns the underlying BleKeyboard object. Caller takes ownership of the
- * returned pointer.
+ * @class BleKeyboardAdapter
+ * @brief Implements IBleKeyboard by wrapping HookableBleKeyboard.
  */
+class BleKeyboardAdapter : public IBleKeyboard
+{
+    HookableBleKeyboard& kb_;
+
+public:
+    explicit BleKeyboardAdapter(HookableBleKeyboard& kb) : kb_(kb) {}
+
+    void setOnStartedCallback(OnStartedCb cb) { kb_.setOnStartedCallback(cb); }
+
+    void begin() override { kb_.begin(); }
+    bool isConnected() override { return kb_.isConnected(); }
+    void write(uint8_t key) override { kb_.write(key); }
+    void write(const MediaKeyReport key) override { kb_.write(key); }
+    void print(const char* text) override { kb_.print(text); }
+};
+
 BleKeyboardAdapter* createBleKeyboardAdapter();

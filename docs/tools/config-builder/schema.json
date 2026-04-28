@@ -21,11 +21,22 @@
         "buttons": {
           "type": "object",
           "patternProperties": {
-            "^[A-Z]$": { "$ref": "#/definitions/action" }
+            "^[A-Z]$": { "$ref": "#/definitions/buttonAction" }
           },
           "additionalProperties": false
         }
       }
+    },
+    "buttonAction": {
+      "allOf": [
+        { "$ref": "#/definitions/action" },
+        {
+          "properties": {
+            "longPress":   { "$ref": "#/definitions/action" },
+            "doublePress": { "$ref": "#/definitions/action" }
+          }
+        }
+      ]
     },
     "action": {
       "oneOf": [

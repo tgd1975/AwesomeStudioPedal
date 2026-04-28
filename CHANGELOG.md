@@ -10,6 +10,110 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [0.4.0] — 2026-04-28
+
+### Added
+
+**Mobile App (Flutter)**
+
+- Full Flutter app: project scaffold, navigation, BLE service layer (scan, connect,
+  chunked upload), profile configurator, advanced action editor, JSON preview with
+  validation banner, file import/export, auto-save, BLE upload screen with progress
+- Hardware-aware config — per-board guards, hardware selector UI, upload-time
+  hardware validation
+- Action Editor: long-press and double-press fields, named keys, raw HID, media
+  keys, key-value editor, macro support
+- Community Profiles gallery and screen, wired into navigation
+- iOS BLE permissions and build verification
+
+**Firmware**
+
+- Long-press and double-press detection with `EventDispatcher` multi-event API
+- `MacroAction` with parallel actions per step
+- BLE config service — chunked read/write/clear with reassembly
+- Configurable BLE pairing PIN (per-hardware) with Just-Works default
+- Hardware identity BLE characteristic
+- Firmware reboot on `CONFIG_WRITE_HW`
+- nRF52840 hardware package brought to parity (Button, LEDs, BLE keyboard)
+- LED hardware diagnostic suite and onboard-LED probe
+
+**Web Tools**
+
+- Mobile-responsive layout for simulator and configurators
+- Community profiles gallery in Config Builder and Simulator
+- Long-press / double-press support in simulator and profile builder
+- ASP design system and brand identity applied across all web tools
+
+**CLI**
+
+- Schema-validated profile uploads (matches firmware acceptance)
+- Friendly disconnect handling (no raw tracebacks)
+- `upload-config` hardware-mismatch guard
+
+**Community Profiles**
+
+- New `profiles/` folder with 14 starter sets, `CONTRIBUTING.md`, and `index.json`
+- `generate-profiles-index` script and `validate-profiles` npm command
+- CI: schema validation, `minButtons` consistency, index-staleness checks
+
+**Hardware & Diagrams**
+
+- Schemdraw-based circuit schematics for ESP32 and nRF52840 (replaces WireViz/Fritzing)
+- External 10 kΩ pull-up resistors on button pins (documented and wired)
+- Architecture diagram set: pipeline/dataflow, static structure, decision flows,
+  contributor workflow, slot vocabulary spatial map
+
+**Task System (v2)**
+
+- `epic:` field replaces `group:`; `paused/` folder and `paused` first-class status;
+  `active/` folder for in-flight work
+- `housekeep.py` central engine — file moves, status derivation, OVERVIEW/EPICS/KANBAN
+  regeneration, `--init` setup, `--version`
+- `task-system.yaml` configuration
+- `EPICS.md` with Mermaid dependency graphs, per-epic stats, status icons, jump index
+- `KANBAN.md` swimlane view with `assigned` badges
+- `effort_actual` post-hoc t-shirt sizing on task close
+- Release burn-up charts in `OVERVIEW.md` (tasks / epics / hours; estimate vs actual)
+- OVERVIEW/EPICS/KANBAN snapshot per release under `archive/<version>/`
+- New skills: `ts-task-active`, `ts-task-pause`, `ts-task-reopen`, `ts-idea-new`,
+  `ts-idea-list`, `ts-idea-archive`, `ts-epic-new`, `ts-epic-list`, `simplify`
+- `awesome-task-system/` standalone distribution layout with sync-script guard
+- `TASK_SYSTEM.md` end-user guide
+
+**Developer Tooling**
+
+- Pre-commit: `flutter test`, `dart format`, devcontainer validation, secrets detection
+- Makefile: `flutter-*` targets and run-* helpers
+- `app/.flutter-version` pins Flutter outside the devcontainer
+- `verify-on-device` skill — drives the Flutter app via adb for feature tests
+- Android emulator setup guide
+- Repo restructure: `app/` directory; ideas folder split into `open/` + `archived/`
+
+**Testing**
+
+- E2E feature tests for CLI (validate, scan, upload, upload-config) and Flutter app
+  (home/BLE, profile list, action editor, upload preview, end-to-end workflows)
+- On-device multi-press integration test (ESP32)
+- BLE config integration tests (host + on-device)
+- Usability session protocol for Action Editor
+
+### Fixed
+
+- CLI scan broken on bleak ≥ 3.0 and when the BLE adapter is disabled
+- Schema defect — action `value` / `pin` fields were not required
+- Stale libdeps cache for local hardware libs in test environments
+- ESP32 / nRF52840 firmware build breakages
+- Power LED was hardwired to VCC, hiding firmware error signals (now driven by GPIO 2)
+
+### Changed
+
+- Wiring documentation pivoted from WireViz to Schemdraw (cleaner schematic output)
+- BLE pairing relaxed to Just-Works by default
+- All task frontmatter migrated `group:` → `epic:`
+- Ideas reorganised into `open/` + `archived/` subfolders
+
+---
+
 ## [0.3.0] — 2026-04-17
 
 ### Added

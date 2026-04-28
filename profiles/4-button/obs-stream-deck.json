@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "id":     "obs-stream-deck",
+    "author": "tgd1975",
+    "tags":   ["obs", "streaming", "video", "scenes"],
+    "tested": "Windows 11, OBS Studio 30.x / macOS 14, OBS Studio 30.x"
+  },
+  "profiles": [
+    {
+      "name":        "01 Scene Switcher",
+      "description": "Foot-operated scene switcher for OBS Studio. Uses high-range function keys (F13–F16) to switch scenes or toggle audio without interfering with standard typing. In OBS go to Settings > Hotkeys and bind: Intro Scene → F13, Main Scene → F14, Mute Mic → F15, Start/Stop Stream → F16.",
+      "buttons": {
+        "A": {
+          "type":  "SendCharAction",
+          "name":  "Intro Scene — F13",
+          "value": "KEY_F13"
+        },
+        "B": {
+          "type":  "SendCharAction",
+          "name":  "Main Scene — F14",
+          "value": "KEY_F14"
+        },
+        "C": {
+          "type":  "SendCharAction",
+          "name":  "Mute Mic — F15",
+          "value": "KEY_F15"
+        },
+        "D": {
+          "type":  "SendCharAction",
+          "name":  "Start Stream — F16",
+          "value": "KEY_F16"
+        }
+      }
+    }
+  ]
+}

@@ -2,6 +2,8 @@
 id: TASK-038
 title: Create Troubleshooting Demo Video
 status: open
+epic: video-content
+order: 6
 opened: 2026-04-10
 effort: Large (8-24h)
 complexity: Medium

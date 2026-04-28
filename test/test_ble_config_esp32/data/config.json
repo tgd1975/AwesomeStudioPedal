@@ -1,0 +1,13 @@
+{
+  "_doc": "Test fixture hardware config for nodemcu-32s-ble-config-test env. pairing_pin is null so the automated runner can connect without a pairing ceremony.",
+  "hardware":       "esp32",
+  "numProfiles":    7,
+  "numSelectLeds":  3,
+  "numButtons":     4,
+  "ledBluetooth":   26,
+  "ledPower":       2,
+  "ledSelect":      [5, 18, 19],
+  "buttonSelect":   21,
+  "buttonPins":     [13, 12, 27, 14],
+  "pairing_pin":    null
+}

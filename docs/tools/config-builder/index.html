@@ -4,354 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AwesomeStudioPedal — Profile Builder</title>
-  <style>
-    :root {
-      --bg: #f5f5f5;
-      --surface: #ffffff;
-      --border: #ddd;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --danger: #dc2626;
-      --danger-hover: #b91c1c;
-      --text: #1a1a1a;
-      --text-muted: #666;
-      --ok: #166534;
-      --ok-bg: #dcfce7;
-      --err: #991b1b;
-      --err-bg: #fee2e2;
-      --warn-bg: #fef9c3;
-      --warn: #78350f;
-      --nested-bg: #f0f4ff;
-      --nested-border: #93c5fd;
-      --tab-active-bg: #2563eb;
-      --tab-active-text: #fff;
-      --preview-bg: #1e1e2e;
-      --preview-text: #cdd6f4;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 14px;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    header h1 {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    header .subtitle {
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
-    header a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    header a:hover { text-decoration: underline; }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      height: calc(100vh - 57px);
-    }
-
-    .form-panel {
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      overflow-y: auto;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .preview-panel {
-      display: flex;
-      flex-direction: column;
-      background: var(--preview-bg);
-      overflow: hidden;
-    }
-
-    .preview-toolbar {
-      display: flex;
-      gap: 8px;
-      padding: 10px 12px;
-      background: #181825;
-      border-bottom: 1px solid #313244;
-      flex-wrap: wrap;
-    }
-
-    #json-preview {
-      flex: 1;
-      overflow: auto;
-      padding: 16px;
-      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--preview-text);
-      white-space: pre;
-    }
-
-    #validation-result {
-      padding: 8px 12px;
-      font-size: 13px;
-      min-height: 36px;
-      border-top: 1px solid #313244;
-      color: var(--preview-text);
-    }
-
-    .validation-ok {
-      background: var(--ok-bg) !important;
-      color: var(--ok) !important;
-      border-top-color: #bbf7d0 !important;
-    }
-
-    .validation-error {
-      background: var(--err-bg) !important;
-      color: var(--err) !important;
-      border-top-color: #fecaca !important;
-    }
-
-    .validation-error ul {
-      margin: 4px 0 0 16px;
-    }
-
-    .validation-warn {
-      background: var(--warn-bg) !important;
-      color: var(--warn) !important;
-    }
-
-    /* Tabs */
-    #profiles-tabs {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      margin-bottom: 4px;
-    }
-
-    .tab-btn {
-      padding: 6px 12px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      color: var(--text);
-      transition: background 0.1s;
-      white-space: nowrap;
-    }
-
-    .tab-btn:hover { background: #e5e7eb; }
-
-    .tab-btn.active {
-      background: var(--tab-active-bg);
-      color: var(--tab-active-text);
-      border-color: var(--tab-active-bg);
-    }
-
-    .tab-btn.add-btn {
-      color: var(--accent);
-      border-style: dashed;
-    }
-
-    /* Form fields */
-    .field-row {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-bottom: 8px;
-    }
-
-    label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    textarea,
-    select {
-      padding: 7px 10px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 13px;
-      color: var(--text);
-      background: var(--surface);
-      width: 100%;
-      font-family: inherit;
-    }
-
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    textarea:focus,
-    select:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
-      border-color: var(--accent);
-    }
-
-    textarea { resize: vertical; }
-
-    /* Buttons grid */
-    .buttons-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 4px 0;
-    }
-
-    .button-row {
-      display: grid;
-      grid-template-columns: 72px 1fr;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .button-row:last-child { border-bottom: none; }
-
-    .button-label {
-      display: flex;
-      align-items: flex-start;
-      padding: 12px 10px;
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--text-muted);
-      background: var(--bg);
-      border-right: 1px solid var(--border);
-    }
-
-    .action-container {
-      padding: 10px;
-    }
-
-    .action-type-select {
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-
-    .action-fields {
-      padding-left: 2px;
-    }
-
-    .action-fields .field-row {
-      margin-bottom: 6px;
-    }
-
-    /* Nested action (DelayedAction inner) */
-    .nested-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      margin: 6px 0 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .nested-action-container {
-      background: var(--nested-bg);
-      border: 1px solid var(--nested-border);
-      border-radius: 6px;
-      padding: 10px;
-    }
-
-    /* Action buttons */
-    button {
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 13px;
-      padding: 8px 16px;
-      border-radius: 6px;
-      border: 1px solid transparent;
-      transition: background 0.1s;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
-    .btn-primary:hover { background: var(--accent-hover); }
-
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border-color: var(--border);
-    }
-
-    .btn-secondary:hover { background: var(--bg); }
-
-    .btn-danger {
-      background: var(--surface);
-      color: var(--danger);
-      border-color: var(--danger);
-      margin-top: 12px;
-      font-size: 12px;
-      padding: 6px 12px;
-    }
-
-    .btn-danger:hover {
-      background: var(--danger);
-      color: #fff;
-    }
-
-    .preview-toolbar button {
-      font-size: 12px;
-      padding: 6px 12px;
-      background: #313244;
-      color: #cdd6f4;
-      border-color: #45475a;
-    }
-
-    .preview-toolbar button:hover {
-      background: #45475a;
-    }
-
-    /* Responsive */
-    @media (max-width: 800px) {
-      .layout {
-        grid-template-columns: 1fr;
-        height: auto;
-      }
-
-      .preview-panel {
-        min-height: 400px;
-      }
-
-      header a { margin-left: 0; }
-    }
-  </style>
+  <link rel="stylesheet" href="config-builder.css">
 </head>
 <body>
 
-<header>
+<header class="asp-header">
   <div>
     <h1>AwesomeStudioPedal — Profile Builder</h1>
-    <p class="subtitle">Build a <code>profiles.json</code> without writing JSON by hand</p>
+    <p class="subtitle">Build a profiles.json without writing JSON by hand</p>
   </div>
   <nav style="margin-left:auto;display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
     <a href="../../simulator/">Simulator &rarr;</a>
@@ -365,7 +25,7 @@
 
   <!-- Form panel -->
   <section class="form-panel">
-    <div id="example-notice" style="display:none;background:#fef9c3;color:#78350f;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;font-size:13px;margin-bottom:4px;">
+    <div id="example-notice" style="display:none;" class="">
       Example loaded &mdash; load your own file to replace
     </div>
     <div id="profiles-tabs"></div>
@@ -378,6 +38,7 @@
       <button id="btn-validate" class="btn-secondary" title="Validate against JSON schema">Validate</button>
       <button id="btn-download" class="btn-primary" title="Download as profiles.json">Download profiles.json</button>
       <button id="btn-load" class="btn-secondary" title="Load an existing profiles.json">Load existing file</button>
+      <button id="btn-community" class="btn-secondary" title="Browse community profile sets">Browse community profiles</button>
       <input type="file" id="file-input" accept=".json" style="display:none">
     </div>
     <pre id="json-preview"></pre>
@@ -460,6 +121,7 @@
 </datalist>
 
 <script src="vendor/ajv.min.js"></script>
+<script src="../profiles-gallery.js"></script>
 <script src="builder.js"></script>
 
 </body>

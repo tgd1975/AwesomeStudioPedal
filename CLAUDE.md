@@ -75,6 +75,46 @@ This does **not** mean reducing oversight — steering questions and approval ch
 are still important. The goal is to avoid unnecessary round-trips where the human sits
 idle while you ask things you could have asked together.
 
+## Auto-activate tasks when work begins
+
+As soon as you actually start working on a task — i.e. you are about to make edits,
+run experiments, or otherwise change repo state in service of `TASK-NNN` — invoke
+`/ts-task-active TASK-NNN` **before the first such action**. This overrules the
+older "user commits when they start real work" wording in the `ts-task-active`
+skill: **you trigger the activation, not the user.**
+
+**Rules:**
+
+- Trigger point: the first repo-state-changing action you take for the task
+  (edit, write, run-with-side-effects, scaffold). Pure reading / planning does
+  not count.
+- If the task is already in `active/`, do nothing — `/ts-task-active` will
+  detect that and report "already active".
+- If the task is in `paused/`, the same skill resumes it — still the right call.
+- Do **not** auto-activate when the user is only asking a question about the
+  task ("what's TASK-47 about?", "summarise it"). Activation tracks *work*,
+  not *attention*.
+- Do not commit the activation — `/ts-task-active` deliberately leaves the
+  status change unstaged so it rides along with the first real commit for the
+  task.
+- When the task ID is ambiguous (no `TASK-NNN` mentioned), ask once which
+  task this work belongs to before proceeding.
+
+## Parallel sessions — commit only your own work
+
+Multiple Claude Code sessions often run against this repo in parallel. When you commit,
+stage and commit **only the files you changed in the current conversation**. Foreign
+staged files almost certainly belong to another in-flight task — sweeping them into
+your commit mixes unrelated work and can clobber the other session's progress.
+
+**Rules:**
+
+- Always `git add <specific files>` — never `git add -A` or `git add .`.
+- If `git status` shows staged files you did not touch, leave them staged and commit
+  only your own. Do not mention or "clean up" the foreign files.
+- **Exception:** if the user explicitly says "commit all staged files", "commit
+  everything", or similar, then include them.
+
 ## Pre-commit hook failures on unrelated changes
 
 When a commit fails because the pre-commit hook (e.g. unit tests, clang-format) runs against
@@ -102,3 +142,15 @@ and get explicit user approval before using `--no-verify`.
 ## Skill registration
 
 When adding a new skill (creating `.claude/skills/<name>/SKILL.md`), always also add `<name>` to `enabled_skills` in [.vibe/config.toml](.vibe/config.toml). Failing to do so means the skill exists on disk but is not registered and may not be loaded.
+
+## Task-system source-of-truth
+
+`awesome-task-system/` is the **canonical source** for the task-system scripts, skills, config, and tests. The live copies under `scripts/`, `.claude/skills/`, and `docs/developers/task-system.yaml` are generated artifacts.
+
+**Workflow when changing any task-system file:**
+
+1. Edit the package copy under `awesome-task-system/` — never edit the live copy.
+2. Run `python scripts/sync_task_system.py --apply` to copy package → live.
+3. Stage and commit both sides together.
+
+The pre-commit hook calls `sync_task_system.py --check` and rejects any commit where the two sides diverge. The full mirror set lives in the `MIRRORS` list at the top of [scripts/sync_task_system.py](scripts/sync_task_system.py); add new mirrored files there when introduced. See [awesome-task-system/LAYOUT.md](awesome-task-system/LAYOUT.md) for the full workflow.

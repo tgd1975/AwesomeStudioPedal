@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "profiles.schema.json",
+  "title": "AwesomeStudioPedal Profiles",
+  "type": "object",
+  "required": ["profiles"],
+  "additionalProperties": false,
+  "properties": {
+    "_doc": { "type": "string" },
+    "_meta": {
+      "type": "object",
+      "required": ["id", "author", "tags"],
+      "additionalProperties": true,
+      "properties": {
+        "id":          { "type": "string" },
+        "author":      { "type": "string" },
+        "tags":        { "type": "array", "items": { "type": "string" } },
+        "tested":      { "type": "string" },
+        "minFirmware": { "type": "string" }
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": ["name", "buttons"],
+        "additionalProperties": false,
+        "properties": {
+          "name":        { "type": "string" },
+          "description": { "type": "string" },
+          "buttons": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/$defs/actionObject" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "actionObject": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "name": { "type": "string" }
+      },
+      "oneOf": [
+        {
+          "properties": { "type": { "const": "SendCharAction" } },
+          "required": ["type", "value"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "SendStringAction" } },
+          "required": ["type", "value"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "SendKeyAction" } },
+          "required": ["type", "value"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "SendMediaKeyAction" } },
+          "required": ["type", "value"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "SerialOutputAction" } },
+          "required": ["type", "value"],
+          "additionalProperties": true
+        },
+        {
+          "properties": {
+            "type":    { "const": "DelayedAction" },
+            "delayMs": { "type": "integer", "minimum": 0 },
+            "action":  { "$ref": "#/$defs/actionObject" }
+          },
+          "required": ["type", "delayMs", "action"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "PinHighAction" } },
+          "required": ["type", "pin"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "PinLowAction" } },
+          "required": ["type", "pin"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "PinToggleAction" } },
+          "required": ["type", "pin"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "PinHighWhilePressedAction" } },
+          "required": ["type", "pin"],
+          "additionalProperties": true
+        },
+        {
+          "properties": { "type": { "const": "PinLowWhilePressedAction" } },
+          "required": ["type", "pin"],
+          "additionalProperties": true
+        },
+        {
+          "properties": {
+            "type":  { "const": "MacroAction" },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": { "$ref": "#/$defs/actionObject" }
+              }
+            }
+          },
+          "required": ["type", "steps"],
+          "additionalProperties": true
+        }
+      ]
+    }
+  }
+}

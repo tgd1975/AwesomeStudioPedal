@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "id":     "discord-comms",
+    "author": "tgd1975",
+    "tags":   ["discord", "slack", "zoom", "comms", "productivity"],
+    "tested": "Windows 11, Discord 1.0.9158 / macOS 14, Discord"
+  },
+  "profiles": [
+    {
+      "name":        "01 Social & Comms",
+      "description": "Productivity profile for interacting with Discord, Slack, or Zoom while playing an instrument. Button A types a quick ready-message. Buttons B and C send the Discord/Slack default mute (Ctrl+Shift+M) and deafen (Ctrl+Shift+D) shortcuts — configure these in your app's Keybinds settings. Button D takes a screenshot.",
+      "buttons": {
+        "A": {
+          "type":  "SendStringAction",
+          "name":  "Quick Msg — types text",
+          "value": "Starting now, see you in the chat!"
+        },
+        "B": {
+          "type":  "SendStringAction",
+          "name":  "Mute App — Ctrl+Shift+M",
+          "value": "ctrl+shift+m"
+        },
+        "C": {
+          "type":  "SendStringAction",
+          "name":  "Deafen — Ctrl+Shift+D",
+          "value": "ctrl+shift+d"
+        },
+        "D": {
+          "type":  "SendCharAction",
+          "name":  "Screenshot — PRINT SCREEN",
+          "value": "KEY_PRINTSCREEN"
+        }
+      }
+    }
+  ]
+}

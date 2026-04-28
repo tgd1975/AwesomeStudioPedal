@@ -101,3 +101,22 @@ Use it to verify the pedal is running and responding correctly.
 | B | Version Info | Types the firmware version string |
 | C | Nav Up | Arrow Up |
 | D | Nav Down | Arrow Down |
+
+---
+
+## Using the app to edit profiles
+
+You can customise any of the profiles above — or create entirely new ones — using the
+mobile app.
+
+1. Install the app on your phone (see [App Guide](../builders/APP.md) for the download link).
+2. Open the app and tap **Connect to pedal**. The app scans for nearby pedals and connects
+   over Bluetooth — no pairing in your phone's Bluetooth settings needed for this step.
+3. Tap **Edit profiles** → select the profile you want to change.
+4. Tap a button slot (A, B, C, or D) and choose a new action.
+5. Tap **Save**, then go back to the **Upload** screen and tap **Upload Profiles**.
+
+The pedal confirms a successful upload with three short LED blinks.
+
+For a full walkthrough with screenshots, see [docs/builders/APP.md](../builders/APP.md).
+For the CLI upload tool (computer + Python), see [docs/builders/CLI_TOOL.md](../builders/CLI_TOOL.md).

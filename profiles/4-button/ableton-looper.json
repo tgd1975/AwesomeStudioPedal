@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "id":     "ableton-looper",
+    "author": "tgd1975",
+    "tags":   ["ableton", "daw", "looping", "recording", "live-performance"],
+    "tested": "macOS 14, Ableton Live 11.3"
+  },
+  "profiles": [
+    {
+      "name":        "01 DAW Looper",
+      "description": "General-purpose recording and looping profile for Ableton Live. Focuses on the solo-performer workflow where undoing a bad take quickly is essential. Default Ableton shortcuts: F9 = Record, Space = Play/Stop, C = Toggle Metronome. Ctrl+Z (Cmd+Z on macOS) is the global undo shortcut. Check Live > Preferences > Record/Warp/Launch to verify.",
+      "buttons": {
+        "A": {
+          "type":  "SendCharAction",
+          "name":  "Record — F9",
+          "value": "F9"
+        },
+        "B": {
+          "type":  "SendCharAction",
+          "name":  "Play/Stop — SPACE",
+          "value": " "
+        },
+        "C": {
+          "type":  "SendStringAction",
+          "name":  "Undo Take — Ctrl+Z",
+          "value": "ctrl+z"
+        },
+        "D": {
+          "type":  "SendCharAction",
+          "name":  "Metronome — C",
+          "value": "c"
+        }
+      }
+    }
+  ]
+}

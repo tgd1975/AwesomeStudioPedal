@@ -98,6 +98,8 @@ const char* DelayedAction::getTypeName(Action::Type type)
             return "PinHighWhilePressedAction";
         case Action::Type::PinLowWhilePressed:
             return "PinLowWhilePressedAction";
+        case Action::Type::Macro:
+            return "MacroAction";
         default:
             return "UnknownAction";
     }

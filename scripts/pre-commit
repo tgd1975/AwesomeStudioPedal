@@ -68,6 +68,92 @@ else
     echo -e "${YELLOW}markdownlint-cli2 not found, skipping markdown check.${NC}"
 fi
 
+echo -e "${YELLOW}Validating JSON schemas...${NC}"
+
+PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
+if [ -n "$PYTHON" ]; then
+    "$PYTHON" - <<'PYEOF'
+import sys, json, pathlib, importlib.util
+
+repo = pathlib.Path(__file__).resolve().parent.parent
+
+def load(p):
+    with open(p) as f:
+        return json.load(f)
+
+pairs = [
+    ("data/profiles.json", "data/profiles.schema.json"),
+]
+config_json = repo / "data/config.json"
+config_schema = repo / "data/config.schema.json"
+if config_json.exists() and config_schema.exists():
+    pairs.append(("data/config.json", "data/config.schema.json"))
+    # Cross-field check: numProfiles <= 2^numSelectLeds - 1
+    cfg = load(config_json)
+    max_profiles = (1 << cfg["numSelectLeds"]) - 1
+    if cfg["numProfiles"] > max_profiles:
+        print(f"ERROR: config.json numProfiles ({cfg['numProfiles']}) exceeds "
+              f"2^numSelectLeds-1 ({max_profiles}) for numSelectLeds={cfg['numSelectLeds']}")
+        sys.exit(1)
+    if cfg["numButtons"] != len(cfg["buttonPins"]):
+        print(f"ERROR: config.json numButtons ({cfg['numButtons']}) != len(buttonPins) ({len(cfg['buttonPins'])})")
+        sys.exit(1)
+    if cfg["numSelectLeds"] != len(cfg["ledSelect"]):
+        print(f"ERROR: config.json numSelectLeds ({cfg['numSelectLeds']}) != len(ledSelect) ({len(cfg['ledSelect'])})")
+        sys.exit(1)
+
+try:
+    import jsonschema
+except ImportError:
+    print("jsonschema not installed — skipping JSON schema validation (pip install jsonschema)")
+    sys.exit(0)
+
+errors = 0
+for data_rel, schema_rel in pairs:
+    data_path = repo / data_rel
+    schema_path = repo / schema_rel
+    if not data_path.exists():
+        continue
+    try:
+        validator = jsonschema.Draft7Validator(load(schema_path))
+        errs = list(validator.iter_errors(load(data_path)))
+        if errs:
+            for e in errs:
+                print(f"  {data_rel}: {e.message} (at {list(e.path)})")
+            errors += 1
+        else:
+            print(f"  OK: {data_rel}")
+    except Exception as exc:
+        print(f"  ERROR validating {data_rel}: {exc}")
+        errors += 1
+
+sys.exit(1 if errors else 0)
+PYEOF
+    SCHEMA_STATUS=$?
+    if [ $SCHEMA_STATUS -ne 0 ]; then
+        echo -e "${RED}JSON schema validation failed. Commit aborted.${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}JSON schema validation OK.${NC}"
+else
+    echo -e "${YELLOW}python3 not found, skipping JSON schema validation.${NC}"
+fi
+
+echo -e "${YELLOW}Checking task-system source-of-truth divergence...${NC}"
+
+PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
+if [ -n "$PYTHON" ] && [ -f "${REPO_ROOT}/scripts/sync_task_system.py" ]; then
+    "$PYTHON" "${REPO_ROOT}/scripts/sync_task_system.py" --check
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Task-system files diverged between awesome-task-system/ and live copies.${NC}"
+        echo -e "${RED}Edit the package copy, then run: python scripts/sync_task_system.py --apply${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}Task-system in sync.${NC}"
+else
+    echo -e "${YELLOW}sync_task_system.py not found, skipping divergence check.${NC}"
+fi
+
 echo -e "${YELLOW}Running unit tests before commit...${NC}"
 
 if [ ! -f "${BUILD_DIR}/CMakeCache.txt" ]; then
@@ -96,8 +182,110 @@ fi
 
 echo -e "${GREEN}All tests passed.${NC}"
 
-echo -e "${YELLOW}Updating README future ideas...${NC}"
-python "${REPO_ROOT}/scripts/update_future_ideas.py"
-git add "${REPO_ROOT}/README.md"
+FLUTTER=$(command -v flutter 2>/dev/null || true)
+if [ -n "$FLUTTER" ]; then
+    DART_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^app/' || true)
+    if [ -n "$DART_FILES" ]; then
+        echo -e "${YELLOW}Checking Dart formatting...${NC}"
+        cd "${REPO_ROOT}/app" && dart format --output=none --set-exit-if-changed .
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}Dart formatting check failed. Run 'make flutter-format' to fix. Commit aborted.${NC}"
+            cd "${REPO_ROOT}"
+            exit 1
+        fi
+        echo -e "${GREEN}Dart formatting OK.${NC}"
+
+        echo -e "${YELLOW}Running flutter analyze...${NC}"
+        "$FLUTTER" analyze
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}flutter analyze failed. Commit aborted.${NC}"
+            cd "${REPO_ROOT}"
+            exit 1
+        fi
+        echo -e "${GREEN}flutter analyze OK.${NC}"
+
+        echo -e "${YELLOW}Running Flutter tests...${NC}"
+        "$FLUTTER" test
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}Flutter tests failed. Commit aborted.${NC}"
+            cd "${REPO_ROOT}"
+            exit 1
+        fi
+        echo -e "${GREEN}Flutter tests passed.${NC}"
+        cd "${REPO_ROOT}"
+    fi
+else
+    echo -e "${YELLOW}flutter not found on PATH — skipping Flutter checks (run from host machine or CI will catch failures).${NC}"
+fi
+
+echo -e "${YELLOW}Checking devcontainer.json is well-formed...${NC}"
+DEVCONTAINER="${REPO_ROOT}/.devcontainer/devcontainer.json"
+if [ -f "$DEVCONTAINER" ]; then
+    PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
+    if [ -n "$PYTHON" ]; then
+        "$PYTHON" -c "
+import json, sys, re
+try:
+    text = open('$DEVCONTAINER').read()
+    # Strip // comments not preceded by : / \" (avoids stripping URLs inside strings)
+    text = re.sub(r'(?<![:\"/])//[^\n]*', '', text)
+    json.loads(text)
+    print('  OK: devcontainer.json is valid JSON')
+except json.JSONDecodeError as e:
+    print(f'  ERROR: devcontainer.json is malformed: {e}')
+    sys.exit(1)
+"
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}devcontainer.json validation failed. Commit aborted.${NC}"
+            exit 1
+        fi
+    fi
+fi
+echo -e "${GREEN}devcontainer.json OK.${NC}"
+
+echo -e "${YELLOW}Checking for secrets and sensitive files...${NC}"
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+
+# Fail if .devcontainer/.env is staged
+if echo "$STAGED_FILES" | grep -qE '^\.devcontainer/\.env$'; then
+    echo -e "${RED}ERROR: .devcontainer/.env is staged for commit. This file contains secrets and must not be committed.${NC}"
+    echo "       Remove it: git restore --staged .devcontainer/.env"
+    exit 1
+fi
+
+# Scan staged file contents for common secret patterns
+SECRET_PATTERNS='(AKIA[0-9A-Z]{16}|ghp_[0-9a-zA-Z]{36}|sk-[a-zA-Z0-9]{32,}|-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----|password\s*=\s*["\x27][^"\x27]{4,}|api[_-]?key\s*=\s*["\x27][^"\x27]{8,})'
+if [ -n "$STAGED_FILES" ]; then
+    MATCHES=$(git diff --cached --unified=0 | grep '^+' | grep -vE '^\+\+\+' | grep -iE "$SECRET_PATTERNS" || true)
+    if [ -n "$MATCHES" ]; then
+        echo -e "${RED}ERROR: Possible secrets detected in staged changes:${NC}"
+        echo "$MATCHES"
+        echo "       If this is a false positive, remove the matching line or contact the team."
+        exit 1
+    fi
+fi
+echo -e "${GREEN}No secrets detected.${NC}"
+
+echo -e "${YELLOW}Regenerating circuit schematic SVGs for staged source changes...${NC}"
+
+SCHEMATIC_TRIGGERS=$(git diff --cached --name-only --diff-filter=ACM | grep -E \
+    '^(scripts/generate-schematic\.py|data/config\.json|lib/hardware/(esp32|nrf52840)/include/builder_config\.h)$' || true)
+
+if [ -n "$SCHEMATIC_TRIGGERS" ]; then
+    PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
+    if "$PYTHON" -c "import schemdraw" 2>/dev/null; then
+        echo "Trigger files staged: regenerating both circuit SVGs."
+        "$PYTHON" "${REPO_ROOT}/scripts/generate-schematic.py" --target esp32
+        "$PYTHON" "${REPO_ROOT}/scripts/generate-schematic.py" --target nrf52840
+        git add \
+            "${REPO_ROOT}/docs/builders/wiring/esp32/main-circuit.svg" \
+            "${REPO_ROOT}/docs/builders/wiring/nrf52840/main-circuit.svg"
+        echo -e "${GREEN}Circuit SVGs regenerated and staged.${NC}"
+    else
+        echo -e "${YELLOW}schemdraw not importable — skipping SVG regeneration (run: pip install -r requirements-schematic.txt).${NC}"
+    fi
+else
+    echo -e "${GREEN}No schematic source changes — skipping SVG regeneration.${NC}"
+fi
 
 exit 0

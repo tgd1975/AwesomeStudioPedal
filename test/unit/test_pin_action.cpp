@@ -1,5 +1,6 @@
 #include "arduino_shim.h"
 #include "pin_action.h"
+#include <ArduinoJson.h>
 #include <gtest/gtest.h>
 
 namespace fake_gpio
@@ -134,4 +135,56 @@ TEST_F(PinActionTest, PinLowWhilePressed_ExecuteReleaseSetsHigh)
     action.executeRelease();
     EXPECT_EQ(fake_gpio::written_pin, 14);
     EXPECT_EQ(fake_gpio::written_value, HIGH);
+}
+
+// ---------------------------------------------------------------------------
+// Name round-trip
+// ---------------------------------------------------------------------------
+
+TEST_F(PinActionTest, NameRoundTrip_SurvivesConstruction)
+{
+    PinAction action(Action::Type::PinHigh, 7);
+    action.setName("my-pin-action");
+    EXPECT_EQ(action.getName(), "my-pin-action");
+}
+
+TEST_F(PinActionTest, NameRoundTrip_DefaultIsEmpty)
+{
+    PinAction action(Action::Type::PinHigh, 7);
+    EXPECT_FALSE(action.hasName());
+}
+
+// ---------------------------------------------------------------------------
+// Per-instance PinToggle independence
+// ---------------------------------------------------------------------------
+
+TEST_F(PinActionTest, PinToggle_TwoInstancesToggleIndependently)
+{
+    PinAction a(Action::Type::PinToggle, 10);
+    PinAction b(Action::Type::PinToggle, 11);
+
+    a.execute(); // a → HIGH
+    EXPECT_EQ(fake_gpio::written_value, HIGH);
+
+    b.execute(); // b → HIGH (independent state)
+    EXPECT_EQ(fake_gpio::written_value, HIGH);
+
+    a.execute(); // a → LOW
+    EXPECT_EQ(fake_gpio::written_value, LOW);
+
+    b.execute(); // b → LOW (own counter, not affected by a)
+    EXPECT_EQ(fake_gpio::written_value, LOW);
+}
+
+// ---------------------------------------------------------------------------
+// getJsonProperties
+// ---------------------------------------------------------------------------
+
+TEST_F(PinActionTest, GetJsonProperties_EmitsPin)
+{
+    PinAction action(Action::Type::PinHigh, 22);
+    DynamicJsonDocument doc(64);
+    JsonObject obj = doc.to<JsonObject>();
+    action.getJsonProperties(obj);
+    EXPECT_EQ(obj["pin"].as<int>(), 22);
 }

@@ -3,6 +3,33 @@
 Read the developer docs before submitting a pull request — they cover architecture, testing, and
 coding standards.
 
+## How this project is developed
+
+AwesomeStudioPedal is a one-person project. The owner acts as product architect — defining use
+cases, architecture, and requirements — and wrote the original prototype. Ongoing development
+is heavily AI-assisted: Claude Code and similar tools write most of the code, while the owner
+reviews, directs, and accepts or rejects the result. This is not hidden.
+
+The quality floor is maintained by the pre-commit hooks, CI pipeline, clang-format, clang-tidy,
+and test coverage requirements — not by who or what produced the code.
+
+### What this means for your contribution
+
+Contributions from humans, AI tools, or human-AI pairs are equally welcome, subject to one
+standard: **the PR must have a clear, stated purpose that the maintainer can evaluate**.
+
+A PR without a clear explanation of what it accomplishes and why will not be accepted —
+regardless of code quality. *"I used an AI tool to generate this"* is not a reason to reject.
+*"I cannot tell what this is trying to do"* is.
+
+The simplest path to a merged PR:
+
+1. Open an issue first — describe what you want to accomplish and why.
+2. Reference that issue in the PR.
+3. Pass CI.
+
+If the maintainer cannot understand the purpose of a PR, it will not be merged.
+
 ## Branch Strategy
 
 - `main` is the protected stable branch — no direct pushes

@@ -1,0 +1,278 @@
+{
+  "version": 1,
+  "generated": "1970-01-01T00:00:00.000Z",
+  "profiles": [
+    {
+      "id": "play-pause-media",
+      "file": "1-button/play-pause-media.json",
+      "minButtons": 1,
+      "name": "01 Play Pause",
+      "description": "Single-button media control. Press to play or pause any media player that responds to the standard media play/pause key (Spotify, Apple Music, VLC, YouTube in a browser, etc.). No configuration required — the key is a universal media shortcut on all platforms.",
+      "author": "tgd1975",
+      "tags": [
+        "media",
+        "music",
+        "practice",
+        "one-button"
+      ],
+      "tested": "macOS 14, Spotify / Apple Music",
+      "profileCount": 1,
+      "profiles": [
+        "01 Play Pause"
+      ]
+    },
+    {
+      "id": "shutter-delayed",
+      "file": "1-button/shutter-delayed.json",
+      "minButtons": 1,
+      "name": "01 Delayed Shutter",
+      "description": "Hands-free camera trigger with a 3-second countdown. Press the button, step into frame, and the shutter fires. Uses the Volume Up shortcut — works with Google Camera, Open Camera, and most Android camera apps. No app settings needed.",
+      "author": "tgd1975",
+      "tags": [
+        "camera",
+        "photo",
+        "selfie",
+        "hands-free"
+      ],
+      "tested": "Android 14, Google Pixel 8 — Google Camera",
+      "profileCount": 1,
+      "profiles": [
+        "01 Delayed Shutter"
+      ]
+    },
+    {
+      "id": "daw-transport-minimal",
+      "file": "2-button/daw-transport-minimal.json",
+      "minButtons": 2,
+      "name": "01 Transport",
+      "description": "Two-button DAW transport: Record and Play/Stop. In Ableton Live and Logic Pro the Space bar is Play/Stop and F9 triggers Record by default. Check your DAW preferences under Settings > Keyboard Shortcuts if the defaults differ.",
+      "author": "tgd1975",
+      "tags": [
+        "daw",
+        "recording",
+        "ableton",
+        "logic",
+        "transport"
+      ],
+      "tested": "macOS 14, Ableton Live 11 / Logic Pro 10.8",
+      "profileCount": 1,
+      "profiles": [
+        "01 Transport"
+      ]
+    },
+    {
+      "id": "logic-pro-tracking",
+      "file": "2-button/logic-pro-tracking.json",
+      "minButtons": 2,
+      "name": "01 Tracking",
+      "description": "Solo-performer recording workflow for Logic Pro on macOS. Button A arms record (R key, default Logic shortcut). Button B starts/stops playback (Space bar). After a bad take, long-press Button A to undo (Cmd+Z). Check Logic Pro > Preferences > Key Commands to verify defaults.",
+      "author": "tgd1975",
+      "tags": [
+        "logic-pro",
+        "daw",
+        "recording",
+        "macOS"
+      ],
+      "tested": "macOS 14, Logic Pro 10.8",
+      "profileCount": 1,
+      "profiles": [
+        "01 Tracking"
+      ]
+    },
+    {
+      "id": "page-turner-basic",
+      "file": "2-button/page-turner-basic.json",
+      "minButtons": 2,
+      "name": "01 Page Turner",
+      "description": "Foot-controlled page turner for digital sheet music apps (forScore, MobileSheets, Adobe Acrobat). Button A goes back one page, Button B advances. Both apps respond to Page Up / Page Down by default — no keyboard shortcut configuration needed.",
+      "author": "tgd1975",
+      "tags": [
+        "sheet-music",
+        "musicians",
+        "page-turner"
+      ],
+      "tested": "iPad OS 17, forScore 14 / macOS 14, MobileSheets",
+      "profileCount": 1,
+      "profiles": [
+        "01 Page Turner"
+      ]
+    },
+    {
+      "id": "pixel-camera-remote",
+      "file": "2-button/pixel-camera-remote.json",
+      "minButtons": 2,
+      "name": "01 Camera Remote",
+      "description": "Hands-free video and photo control for Google Pixel smartphones. Volume Up triggers the shutter in Google Camera. Button A fires instantly; Button B fires after a 3-second delay so you can step into frame. No app configuration needed.",
+      "author": "tgd1975",
+      "tags": [
+        "camera",
+        "photo",
+        "video",
+        "google-pixel",
+        "android"
+      ],
+      "tested": "Android 14, Google Pixel 8 — Google Camera 9.x",
+      "profileCount": 1,
+      "profiles": [
+        "01 Camera Remote"
+      ]
+    },
+    {
+      "id": "vlc-practice",
+      "file": "2-button/vlc-practice.json",
+      "minButtons": 2,
+      "name": "01 VLC Practice",
+      "description": "Optimised for the VLC app on smartphones and desktops. Designed for musicians practising along with a recording. Button A plays or pauses. Button B stops playback and resets to the beginning. VLC responds to the standard media keys — no configuration required.",
+      "author": "tgd1975",
+      "tags": [
+        "vlc",
+        "media",
+        "practice",
+        "musicians",
+        "speed"
+      ],
+      "tested": "macOS 14, VLC 3.0 / Android 14, VLC 3.6",
+      "profileCount": 1,
+      "profiles": [
+        "01 VLC Practice"
+      ]
+    },
+    {
+      "id": "zoom-mute-toggle",
+      "file": "2-button/zoom-mute-toggle.json",
+      "minButtons": 2,
+      "name": "01 Zoom Controls",
+      "description": "Foot-controlled Zoom meeting controls. Button A toggles your microphone (Cmd+Shift+A on macOS, Alt+A on Windows). Button B toggles your camera (Cmd+Shift+V on macOS, Alt+V on Windows). This profile targets macOS — see the 'Windows' profile for the Windows variant. Zoom must be the focused window.",
+      "author": "tgd1975",
+      "tags": [
+        "zoom",
+        "video-call",
+        "mute",
+        "productivity"
+      ],
+      "tested": "macOS 14, Zoom 6.x / Windows 11, Zoom 6.x",
+      "profileCount": 2,
+      "profiles": [
+        "01 Zoom Controls",
+        "02 Zoom Controls (Windows)"
+      ]
+    },
+    {
+      "id": "podcast-control",
+      "file": "3-button/podcast-control.json",
+      "minButtons": 3,
+      "name": "01 Recording",
+      "description": "Three-button podcast recording control for Audacity or REAPER. Button A starts/stops recording (Shift+R in Audacity — enable via Preferences > Recording > Append Record). Button B pauses/resumes (P key in Audacity). Button C mutes/unmutes your system microphone via a global shortcut — assign Ctrl+Shift+M to 'Mute Microphone' in your OS or audio app settings.",
+      "author": "tgd1975",
+      "tags": [
+        "podcast",
+        "recording",
+        "audacity",
+        "reaper",
+        "obs"
+      ],
+      "tested": "macOS 14, Audacity 3.5 / Windows 11, Audacity 3.5",
+      "profileCount": 1,
+      "profiles": [
+        "01 Recording"
+      ]
+    },
+    {
+      "id": "ableton-looper",
+      "file": "4-button/ableton-looper.json",
+      "minButtons": 4,
+      "name": "01 DAW Looper",
+      "description": "General-purpose recording and looping profile for Ableton Live. Focuses on the solo-performer workflow where undoing a bad take quickly is essential. Default Ableton shortcuts: F9 = Record, Space = Play/Stop, C = Toggle Metronome. Ctrl+Z (Cmd+Z on macOS) is the global undo shortcut. Check Live > Preferences > Record/Warp/Launch to verify.",
+      "author": "tgd1975",
+      "tags": [
+        "ableton",
+        "daw",
+        "looping",
+        "recording",
+        "live-performance"
+      ],
+      "tested": "macOS 14, Ableton Live 11.3",
+      "profileCount": 1,
+      "profiles": [
+        "01 DAW Looper"
+      ]
+    },
+    {
+      "id": "discord-comms",
+      "file": "4-button/discord-comms.json",
+      "minButtons": 4,
+      "name": "01 Social & Comms",
+      "description": "Productivity profile for interacting with Discord, Slack, or Zoom while playing an instrument. Button A types a quick ready-message. Buttons B and C send the Discord/Slack default mute (Ctrl+Shift+M) and deafen (Ctrl+Shift+D) shortcuts — configure these in your app's Keybinds settings. Button D takes a screenshot.",
+      "author": "tgd1975",
+      "tags": [
+        "discord",
+        "slack",
+        "zoom",
+        "comms",
+        "productivity"
+      ],
+      "tested": "Windows 11, Discord 1.0.9158 / macOS 14, Discord",
+      "profileCount": 1,
+      "profiles": [
+        "01 Social & Comms"
+      ]
+    },
+    {
+      "id": "lightroom-culling",
+      "file": "4-button/lightroom-culling.json",
+      "minButtons": 4,
+      "name": "01 Culling",
+      "description": "Speed up photo culling in Adobe Lightroom Classic. Button A flags the current photo as a Pick (P key — default Lightroom shortcut). Button B rejects it (X key). Button C moves to the next photo (Right Arrow). Button D moves to the previous photo (Left Arrow). No configuration needed — all are built-in Lightroom shortcuts.",
+      "author": "tgd1975",
+      "tags": [
+        "lightroom",
+        "photography",
+        "culling",
+        "editing"
+      ],
+      "tested": "macOS 14, Lightroom Classic 13.x / Windows 11, Lightroom Classic 13.x",
+      "profileCount": 1,
+      "profiles": [
+        "01 Culling"
+      ]
+    },
+    {
+      "id": "obs-stream-deck",
+      "file": "4-button/obs-stream-deck.json",
+      "minButtons": 4,
+      "name": "01 Scene Switcher",
+      "description": "Foot-operated scene switcher for OBS Studio. Uses high-range function keys (F13–F16) to switch scenes or toggle audio without interfering with standard typing. In OBS go to Settings > Hotkeys and bind: Intro Scene → F13, Main Scene → F14, Mute Mic → F15, Start/Stop Stream → F16.",
+      "author": "tgd1975",
+      "tags": [
+        "obs",
+        "streaming",
+        "video",
+        "scenes"
+      ],
+      "tested": "Windows 11, OBS Studio 30.x / macOS 14, OBS Studio 30.x",
+      "profileCount": 1,
+      "profiles": [
+        "01 Scene Switcher"
+      ]
+    },
+    {
+      "id": "score-navigator",
+      "file": "4-button/score-navigator.json",
+      "minButtons": 4,
+      "name": "01 Score Navigator",
+      "description": "Designed for musicians reading digital sheet music on a tablet or notebook (e.g., forScore, MobileSheets, or Adobe Acrobat). Uses standard navigation keys to turn pages and jump to sections. No app configuration needed — these are universal navigation keys.",
+      "author": "tgd1975",
+      "tags": [
+        "sheet-music",
+        "musicians",
+        "page-turner",
+        "forScore"
+      ],
+      "tested": "iPad OS 17, forScore 14 / macOS 14, Adobe Acrobat",
+      "profileCount": 1,
+      "profiles": [
+        "01 Score Navigator"
+      ]
+    }
+  ]
+}

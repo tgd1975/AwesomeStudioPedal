@@ -1,0 +1,13 @@
+{
+  "name": "awesome-studio-pedal",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate-profiles-index": "node scripts/generate-profiles-index.js",
+    "validate-profiles": "node scripts/validate-profiles.js",
+    "check-minbuttons": "node scripts/check-minbuttons.js"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1"
+  }
+}

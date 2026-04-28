@@ -1,0 +1,32 @@
+name: Flutter Quality
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "app/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "app/**"
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  flutter-quality:
+    name: Flutter Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Install dependencies
+        run: cd app && flutter pub get
+      - name: Check Dart formatting
+        run: cd app && dart format --output=none --set-exit-if-changed .
+      - name: flutter analyze
+        run: cd app && flutter analyze
+      - name: Flutter tests
+        run: cd app && flutter test
