@@ -1,10 +1,6 @@
 #include "delayed_action.h"
 
-#ifndef HOST_TEST_BUILD
 #include <Arduino.h>
-#else
-#include "../test/fakes/arduino_shim.h"
-#endif
 
 /**
  * @brief Constructs a DelayedAction that wraps an action with a time delay

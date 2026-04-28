@@ -64,6 +64,29 @@ class _ActionEditorScreenState extends State<ActionEditorScreen> {
       _type == 'SendMediaKeyAction' ||
       _type == 'SerialOutputAction';
 
+  /// Categorises an action type by the value space its KeyValueField
+  /// expects. Switching between types in different categories clears
+  /// `_valueCtrl` so a stale value (e.g. `KEY_PAGE_UP` left over from
+  /// "Key (named)" when the user picks "Media Key") cannot survive the
+  /// dropdown change. See TASK-280 / idea-044.
+  static String _valueSpaceOf(String type) {
+    if (type == kKeyNamedSentinel || type == 'SendCharAction') return 'named';
+    if (type == 'SendMediaKeyAction') return 'mediaKey';
+    if (type == 'SendKeyAction') return 'rawHid';
+    if (type == 'SendStringAction') return 'string';
+    if (type == 'SerialOutputAction') return 'serial';
+    return 'none';
+  }
+
+  void _onTypeChanged(String next) {
+    setState(() {
+      if (_valueSpaceOf(next) != _valueSpaceOf(_type)) {
+        _valueCtrl.clear();
+      }
+      _type = next;
+    });
+  }
+
   /// Reason the current form state cannot be saved, or null if it can.
   /// Mirrors the same value-resolvability check the Profile List banner
   /// uses, so the user is blocked from saving a button that would silently
@@ -109,7 +132,7 @@ class _ActionEditorScreenState extends State<ActionEditorScreen> {
       children: [
         ActionTypeDropdown(
           value: _type,
-          onChanged: (v) => setState(() => _type = v),
+          onChanged: _onTypeChanged,
         ),
         const SizedBox(height: 16),
         if (_needsValue) KeyValueField(type: _type, controller: _valueCtrl),

@@ -5,7 +5,7 @@ description: Guard against committing directly to main — verifies the current 
 
 # check-branch
 
-Used internally by other skills (e.g. `task-done`) and invokable as `/check-branch` before any commit.
+Used internally by other skills (e.g. `ts-task-done`) and invokable as `/check-branch` before any commit.
 
 Steps:
 

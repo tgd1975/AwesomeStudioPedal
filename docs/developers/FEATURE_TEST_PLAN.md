@@ -439,4 +439,4 @@ Type: Functional / Usability / Crash
 Screenshot / log:
 ```
 
-File as a task in `docs/developers/tasks/open/` using `/task-new`.
+File as a task in `docs/developers/tasks/open/` using `/ts-task-new`.

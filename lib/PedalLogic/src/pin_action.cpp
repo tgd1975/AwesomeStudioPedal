@@ -1,10 +1,6 @@
 #include "pin_action.h"
 
-#ifndef HOST_TEST_BUILD
 #include <Arduino.h>
-#else
-#include "../test/fakes/arduino_shim.h"
-#endif
 
 PinAction::PinAction(Action::Type mode, uint8_t pin) : mode_(mode), pin_(pin) {}
 

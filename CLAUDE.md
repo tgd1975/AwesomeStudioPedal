@@ -139,6 +139,36 @@ the hook (`--no-verify`) may be acceptable — but it is always a case-by-case d
 **Never bypass silently.** Always name the failing check, explain why it appears unrelated,
 and get explicit user approval before using `--no-verify`.
 
+Use `/commit` to apply this protocol consistently — it stages only the user-named files, attempts the commit, and on hook failure runs the three checks above before asking about `--no-verify`.
+
+## Project env vars — use `$ASP_*`, never retype device serials
+
+Device handles (Pixel serial, ESP32/nRF USB port, pedal MAC) live in `.envrc` and are exposed as `$ASP_PIXEL_DEVICE`, `$ASP_ESP32_PORT`, `$ASP_NRF52840_PORT`, `$ASP_PEDAL_MAC` (plus `$ANDROID_SERIAL` mirrored from `$ASP_PIXEL_DEVICE`). Reference these in commands and skills — **never retype the literal hex inline**. Setup steps and the canonical variable list are in [DEVELOPMENT_SETUP.md](docs/developers/DEVELOPMENT_SETUP.md#project-env-vars-direnv); the template is [.envrc.example](.envrc.example).
+
+## BLE pairing recovery — use /ble-reset
+
+When BLE pairing with the pedal flakes (you ran `bluetoothctl disconnect <MAC>` once and it's still misbehaving), use `/ble-reset` instead of retrying `bluetoothctl` commands by hand. It runs the canonical disconnect → remove → scan → pair → connect → verify sequence with bounded timeouts and exits non-zero naming the failed step on first failure. Reads the pedal MAC from `$ASP_PEDAL_MAC`.
+
+## Driving the Android app — use /ui-dump and /verify-on-device
+
+Any time you would type `adb shell uiautomator dump` (or any of the surrounding `adb pull /sdcard/ui.xml`, `python3 ui_find.py`, `adb shell input tap` chain) to interact with the Pixel app, invoke `/ui-dump` instead. It owns the dump-pull-find-tap loop, resolves the device serial from `ANDROID_SERIAL` (no hard-coded hex), and is the entry point for both exploratory drives ("tap through it once") and one-shot checks. For full feature-test or defect verification with named scenarios, use `/verify-on-device <TASK-ID> <SCENARIO-ID>` — that has the scenario catalog and pass/fail handling. Both skills delegate raw `adb` to themselves; do not hand-roll `adb shell uiautomator dump …` outside them.
+
+## Documentation persona placement — use /doc-check
+
+After creating or moving any `.md` file under `docs/` (excluding `docs/developers/tasks/` and `docs/developers/ideas/`, which are internal scaffolding), invoke `/doc-check` to validate persona placement (builder / musician / developer). On a Mismatch verdict the skill proposes a `git mv` and waits for confirmation — it never moves silently.
+
+## Task-system regen — use /housekeep
+
+After any task-system file change (status edits, idea moves, epic edits, ad-hoc OVERVIEW regen), invoke `/housekeep` rather than running `python scripts/housekeep.py --apply` directly. The skill stages the regenerated index files (OVERVIEW.md / EPICS.md / KANBAN.md / ideas OVERVIEW) so they ride along with the change that triggered them. The `/ts-task-active` / `/ts-task-done` / `/ts-task-pause` / `/ts-task-reopen` skills already invoke housekeep internally — `/housekeep` is for manual edits outside that path.
+
+## Git reconnaissance — use /status
+
+Use `/status` for routine git reconnaissance (branch, last 3 commits, staged short, working short) instead of separate `git status` / `git log` / `git rev-parse` calls. One bundled invocation collapses several permission prompts into one.
+
+## Searching the codebase
+
+For any code search likely to take **more than 3 grep / find queries** — e.g. "find every place that calls X across naming conventions", "trace how state flows through the app" — delegate to the `Explore` subagent (`Agent(subagent_type="Explore", …)`) instead of hand-rolling the searches. One Explore call covers many lookups, returns a synthesised result, and avoids per-call permission prompts and context-window bloat. Targeted single lookups (one file, one symbol) stay as direct `grep` / `find` — Explore is for multi-step exploration.
+
 ## Skill registration
 
 When adding a new skill (creating `.claude/skills/<name>/SKILL.md`), always also add `<name>` to `enabled_skills` in [.vibe/config.toml](.vibe/config.toml). Failing to do so means the skill exists on disk but is not registered and may not be loaded.

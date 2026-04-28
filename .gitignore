@@ -81,6 +81,9 @@ docs/coverage/
 # Dev container local secrets (API keys — never commit)
 .devcontainer/.env
 
+# direnv local env (per-developer device serials, ports, MACs — see .envrc.example)
+.envrc
+
 # Node.js
 node_modules/
 

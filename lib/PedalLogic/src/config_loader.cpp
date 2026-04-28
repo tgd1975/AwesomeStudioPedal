@@ -11,16 +11,11 @@
 #include "pin_action.h"
 #include "send_action.h"
 #include "serial_action.h"
+#include <Arduino.h>
 #include <ArduinoJson.h>
 #include <cstdlib>
 #include <cstring>
 #include <memory>
-
-#ifndef HOST_TEST_BUILD
-#include <Arduino.h>
-#else
-#include "../test/fakes/arduino_shim.h"
-#endif
 
 using namespace ArduinoJson;
 

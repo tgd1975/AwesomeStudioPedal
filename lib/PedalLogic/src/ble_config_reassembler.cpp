@@ -1,13 +1,8 @@
 #include "ble_config_reassembler.h"
 #include "config_loader.h"
 
-#include <ArduinoJson.h>
-
-#ifndef HOST_TEST_BUILD
 #include <Arduino.h>
-#else
-#include "arduino_shim.h"
-#endif
+#include <ArduinoJson.h>
 
 static constexpr uint16_t END_SEQ = 0xFFFF;
 
@@ -52,12 +47,10 @@ BleConfigReassembler::BleConfigReassembler(ProfileManager* pm,
       statusCb_(std::move(statusCb)), delay_(std::move(delayFn)), millis_(std::move(millisFn)),
       reboot_(std::move(rebootFn))
 {
-#ifndef HOST_TEST_BUILD
     if (! delay_)
         delay_ = [](uint32_t ms) { delay(ms); };
     if (! millis_)
         millis_ = []() -> uint32_t { return static_cast<uint32_t>(millis()); };
-#endif
 }
 
 void BleConfigReassembler::onChunk(const uint8_t* data, size_t len, bool isHw)

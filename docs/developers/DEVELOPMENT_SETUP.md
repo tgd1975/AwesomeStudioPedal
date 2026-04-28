@@ -202,6 +202,32 @@ GoogleTest is fetched automatically by CMake (v1.15.2 via `FetchContent`) — no
 |------|----------|
 | [lcov + genhtml](https://github.com/linux-test-project/lcov) | `make coverage` — HTML coverage report. `apt install lcov`. |
 | [Doxygen](https://www.doxygen.nl/download.html) | `make docs` — API documentation. `apt install doxygen`. |
+| [direnv](https://direnv.net/) | Per-developer device handles (Pixel serial, ESP32 port, pedal MAC) — see "Project env vars" below. `apt install direnv`. |
+
+---
+
+## Project env vars (direnv)
+
+Per-developer device handles — Pixel serial, ESP32/nRF USB port, BLE pedal MAC — live in a
+local `.envrc` so skills and scripts never hard-code them inline. The repo ships
+[`.envrc.example`](../../.envrc.example) as the template.
+
+```bash
+sudo apt install direnv                # one-time
+eval "$(direnv hook bash)"             # add to ~/.bashrc
+cp .envrc.example .envrc               # in repo root
+$EDITOR .envrc                         # fill in your device values
+direnv allow                           # one-time, per repo
+```
+
+Whenever your shell is inside the repo, `$ASP_PIXEL_DEVICE`, `$ASP_ESP32_PORT`,
+`$ASP_NRF52840_PORT`, and `$ASP_PEDAL_MAC` (plus `$ANDROID_SERIAL` mirrored from
+`$ASP_PIXEL_DEVICE`) are exported. `.envrc` is gitignored — each developer keeps their own.
+
+If you skip direnv: source `.envrc` manually before running anything that needs the values
+(`source .envrc`), or set the variables some other way. The skills (`/ui-dump`,
+`/verify-on-device`, `/ble-reset`) all auto-detect a single connected device when the env
+var is unset, so the strict requirement is only when you have multiple devices plugged in.
 
 ---
 
