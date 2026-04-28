@@ -16,6 +16,44 @@ the build fails with a descriptive message telling you exactly what to fix.
 
 For the default wiring table, see [BUILD_GUIDE.md](BUILD_GUIDE.md).
 
+### `ledPower` — firmware-controlled status indicator
+
+Despite the name, `ledPower` is the pin the firmware drives for visible
+status signals: the boot-time hardware-mismatch halt, the DelayedAction
+countdown, and the config-load-error fallback. It is **not** the pin that
+indicates "the board is powered" — that role is covered by the dev board's
+hardwired red power LED (always on whenever USB or Vin is supplied).
+
+The default config maps `ledPower` to **GPIO 2** because every common
+NodeMCU-style ESP32 dev board (DOIT DevKit V1, Joy-IT SBC-NodeMCU-ESP32,
+HiLetgo, etc.) carries an onboard blue LED on that pin, wired LED-to-ground.
+That arrangement gives builders a firmware-controlled visual channel
+without any external wiring. The strapping-pin caveats in the next section
+apply.
+
+If a future build attaches an external panel "status" LED, point `ledPower`
+at the corresponding GPIO (any non-strapping pin from the safe list below).
+
+### Pin selection notes — ESP32 strapping pins
+
+GPIOs **0, 2, 5, 12, and 15** are *strapping pins* on the ESP32: their voltage at the moment
+of reset selects boot mode, flash voltage, and JTAG behavior. After reset they work like any
+other GPIO, but anything wired to them must not pull them HIGH at reset, or flashing and
+normal boot will break.
+
+Rules of thumb when assigning pins:
+
+- **GPIO 0** — do not reuse; it is the BOOT button.
+- **GPIO 2** — most NodeMCU-style dev boards (including Joy-IT SBC-NodeMCU-ESP32) carry an
+  onboard blue user LED here, wired LED-to-ground. That arrangement is safe and the pin is
+  usable as a firmware-controlled status LED. **Never add an external pull-up** to GPIO 2 —
+  it would force the pin HIGH at reset and put the chip into the rarely used SDIO download
+  mode every time you tried to flash.
+- **GPIO 12, 15** — avoid unless you have measured the flash-voltage and bootloader-logging
+  consequences for your specific board.
+
+For new pin assignments, prefer non-strapping pins: 4, 13, 14, 16–19, 21–23, 25–27, 32, 33.
+
 ## Profile configuration
 
 Button mappings are stored in `data/profiles.json`. The file is deployed to the device's
@@ -125,3 +163,41 @@ configuration loads. Factory defaults are hardcoded in `lib/PedalLogic/src/pedal
 |--------|-------|--------|
 | ESP32 | NodeMCU-32S | Deployed and tested |
 | nRF52840 | Adafruit Feather nRF52840 | Implemented, not tested — use at own risk |
+
+## BLE pairing (optional)
+
+By default the pedal advertises **no passkey** (BLE "Just Works" pairing,
+matching consumer BT keyboards like the Apple Magic Keyboard or Logitech
+MX Keys). Any BLE host in range can bond and write configuration.
+
+This is the right default for a desk pedal: there is no display on the
+hardware to show a passkey, and forcing passkey-entry without a display
+locks Android/iOS hosts out of the bonding flow (the OS dialog has
+nowhere to read the PIN from).
+
+To opt **into** passkey-entry pairing, add a `pairing_pin` field to
+`data/config.json` and re-flash the data partition:
+
+```json
+{
+  …
+  "buttonPins": [13, 12, 27, 14],
+  "pairing_pin": 12345
+}
+```
+
+- Value: integer in `0`–`999999` (a 6-digit BLE passkey, zero-padded
+  as needed — `12345` is presented to the host as `012345`).
+- Absent or `null` → Just Works (the new default).
+- The host reads the PIN from this file during setup; the hardware
+  itself never displays it.
+
+Re-flash the data partition after editing:
+
+```bash
+pio run -e nodemcu-32s --target uploadfs
+```
+
+Implementation details (security posture, IO-cap matrix, why MITM is
+disabled by default) are in
+[../developers/BLE_CONFIG_IMPLEMENTATION_NOTES.md](../developers/BLE_CONFIG_IMPLEMENTATION_NOTES.md).

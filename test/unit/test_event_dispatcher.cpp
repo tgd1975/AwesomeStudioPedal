@@ -95,3 +95,90 @@ TEST(EventDispatcher, ClearHandlersClearsReleaseToo)
     dispatcher.dispatchRelease(0);
     EXPECT_EQ(callCount, 0);
 }
+
+// ---------------------------------------------------------------------------
+// Long press
+// ---------------------------------------------------------------------------
+
+TEST(EventDispatcher, RegisterAndDispatchLongPress)
+{
+    EventDispatcher dispatcher;
+    int callCount = 0;
+    dispatcher.registerLongPressHandler(0, [&]() { callCount++; });
+    dispatcher.dispatchLongPress(0);
+    EXPECT_EQ(callCount, 1);
+}
+
+TEST(EventDispatcher, LongPressDoesNotFirePressHandler)
+{
+    EventDispatcher dispatcher;
+    int pressCount = 0, longCount = 0;
+    dispatcher.registerHandler(0, [&]() { pressCount++; });
+    dispatcher.registerLongPressHandler(0, [&]() { longCount++; });
+    dispatcher.dispatchLongPress(0);
+    EXPECT_EQ(pressCount, 0);
+    EXPECT_EQ(longCount, 1);
+}
+
+TEST(EventDispatcher, LongPressUnregisteredButtonIsSafe)
+{
+    EventDispatcher dispatcher;
+    EXPECT_NO_THROW(dispatcher.dispatchLongPress(2));
+}
+
+TEST(EventDispatcher, LongPressThresholdStoredAndRetrieved)
+{
+    EventDispatcher dispatcher;
+    dispatcher.registerLongPressHandler(1, []() {}, 750);
+    EXPECT_EQ(dispatcher.getLongPressThreshold(1), 750U);
+}
+
+TEST(EventDispatcher, LongPressDefaultThreshold500)
+{
+    EventDispatcher dispatcher;
+    dispatcher.registerLongPressHandler(0, []() {});
+    EXPECT_EQ(dispatcher.getLongPressThreshold(0), 500U);
+}
+
+// ---------------------------------------------------------------------------
+// Double press
+// ---------------------------------------------------------------------------
+
+TEST(EventDispatcher, RegisterAndDispatchDoublePress)
+{
+    EventDispatcher dispatcher;
+    int callCount = 0;
+    dispatcher.registerDoublePressHandler(0, [&]() { callCount++; });
+    dispatcher.dispatchDoublePress(0);
+    EXPECT_EQ(callCount, 1);
+}
+
+TEST(EventDispatcher, DoublePressDoesNotFirePressHandler)
+{
+    EventDispatcher dispatcher;
+    int pressCount = 0, doubleCount = 0;
+    dispatcher.registerHandler(0, [&]() { pressCount++; });
+    dispatcher.registerDoublePressHandler(0, [&]() { doubleCount++; });
+    dispatcher.dispatchDoublePress(0);
+    EXPECT_EQ(pressCount, 0);
+    EXPECT_EQ(doubleCount, 1);
+}
+
+TEST(EventDispatcher, DoublePressUnregisteredButtonIsSafe)
+{
+    EventDispatcher dispatcher;
+    EXPECT_NO_THROW(dispatcher.dispatchDoublePress(3));
+}
+
+TEST(EventDispatcher, ClearHandlersClearsLongAndDoublePress)
+{
+    EventDispatcher dispatcher;
+    int lp = 0, dp = 0;
+    dispatcher.registerLongPressHandler(0, [&]() { lp++; });
+    dispatcher.registerDoublePressHandler(0, [&]() { dp++; });
+    dispatcher.clearHandlers();
+    dispatcher.dispatchLongPress(0);
+    dispatcher.dispatchDoublePress(0);
+    EXPECT_EQ(lp, 0);
+    EXPECT_EQ(dp, 0);
+}

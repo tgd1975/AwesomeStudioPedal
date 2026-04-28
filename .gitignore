@@ -76,6 +76,27 @@ docs/coverage/
 
 # Local Claude settings (user-specific permissions)
 .claude/settings.local.json
+.claude/*.lock
 
 # Dev container local secrets (API keys — never commit)
 .devcontainer/.env
+
+# Node.js
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Flutter / Dart app build artifacts
+app/build/
+app/.dart_tool/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/android/.gradle/
+app/ios/Pods/
+app/ios/.symlinks/
+app/ios/Flutter/flutter_export_environment.sh
+app/ios/Flutter/Generated.xcconfig
+app/android/local.properties

@@ -49,4 +49,10 @@ public:
 
     /** @brief Release event detection — stub, not yet implemented for nRF52840 */
     bool releaseEvent() override { return false; }
+
+    /** @brief Hold duration — stub, long/double press not yet implemented for nRF52840 */
+    unsigned long holdDurationMs() const override { return 0; }
+
+    /** @brief Double press event — stub, not yet implemented for nRF52840 */
+    bool doublePressEvent() override { return false; }
 };

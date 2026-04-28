@@ -1,0 +1,55 @@
+name: Profiles CI
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "profiles/**"
+      - "data/profiles.schema.json"
+      - "scripts/validate-profiles.js"
+      - "scripts/generate-profiles-index.js"
+      - "package.json"
+  pull_request:
+    branches: [main]
+    paths:
+      - "profiles/**"
+      - "data/profiles.schema.json"
+      - "scripts/validate-profiles.js"
+      - "scripts/generate-profiles-index.js"
+      - "package.json"
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  validate-profiles:
+    name: Validate profile files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Schema validation
+        run: npm run validate-profiles
+
+      - name: minButtons consistency check
+        run: node scripts/check-minbuttons.js
+
+      - name: Index staleness check
+        run: |
+          # Regenerate with a fixed timestamp so the diff ignores the `generated` field
+          SOURCE_DATE_EPOCH=0 npm run generate-profiles-index
+          git diff --exit-code profiles/index.json || {
+            echo ""
+            echo "ERROR: profiles/index.json is stale."
+            echo "Run 'npm run generate-profiles-index' and commit the result."
+            exit 1
+          }

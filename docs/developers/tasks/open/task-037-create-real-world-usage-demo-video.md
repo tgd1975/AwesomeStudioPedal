@@ -2,6 +2,8 @@
 id: TASK-037
 title: Create Real-World Usage Demo Video
 status: open
+epic: video-content
+order: 5
 opened: 2026-04-10
 effort: Extra Large (24-40h)
 complexity: Senior

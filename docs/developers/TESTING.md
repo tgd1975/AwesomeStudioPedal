@@ -67,6 +67,51 @@ Location: `test/mocks/`
 | `MockLEDController` | `ILEDController` | LED set/toggle |
 | `MockBleKeyboard` | `IBleKeyboard` | Key press/release, connection state |
 
+## BLE integration tests and pairing_pin
+
+Two complementary on-device tests cover the BLE surface:
+
+- **`make test-esp32-ble-config`** — uploads/downloads profiles via the BLE Config service.
+  Connects from `bleak`, no pairing involved (test fixture has `pairing_pin: null`).
+- **`make test-esp32-ble-pairing`** — Linux-only smoke test for the pairing-PIN flow.
+  Drives `bluetoothctl` via `pexpect` to pair with the right passkey, reconnect (bond reuse),
+  and reject the wrong passkey. Replaces the old "open the Flutter app and type the PIN"
+  manual procedure. Cross-platform coverage (Windows / macOS) is tracked separately.
+
+### test-esp32-ble-config
+
+The Makefile target uploads `test/test_ble_config_esp32/data/` (which has
+`"pairing_pin": null`) by setting `PLATFORMIO_DATA_DIR` for the `uploadfs` step:
+
+```make
+PLATFORMIO_DATA_DIR=test/test_ble_config_esp32/data \
+    pio run -e nodemcu-32s-ble-config-test --target uploadfs
+```
+
+`test_main.cpp` checks `hardwareConfig.pairingEnabled` at boot and halts with
+`[BLE_TEST] ERROR: pairing_pin must be null for integration tests` if the wrong config
+was flashed. The runner treats this as a hard failure with a clear message.
+
+If you add a new BLE integration test that connects without pairing, ensure it uses the
+test fixture config or explicitly sets `pairing_pin: null` in its data directory.
+
+> **Hitting `Message recipient disconnected from message bus` or
+> `BleakGATTProtocolError: UNLIKELY_ERROR` on Ubuntu with BlueZ 5.83?** That's a
+> known upstream regression, not your build — see
+> [KNOWN_ISSUES.md](KNOWN_ISSUES.md#ble-config-integration-test-disconnects-on-linux-with-bluez-583).
+
+### test-esp32-ble-pairing
+
+Pre-flight: requires `bluetoothctl` (BlueZ) and the `pexpect` Python package. The runner
+will reflash production firmware + production filesystem (with `pairing_pin: 12345`),
+erase the pedal's NVS bond store and any host bond, then exercise three scenarios:
+
+1. Pair with the correct passkey (`012345`) → expect `Pairing successful`, `Paired+Bonded`.
+2. Disconnect + reconnect → expect *no* second passkey prompt (bond reused).
+3. Pair with a wrong passkey → expect `Failed to pair`, no bond created.
+
+The runner cleans up its own bonds at the end so the host is left in a known state.
+
 ## Known startup noise
 
 When running on-device tests you will see:

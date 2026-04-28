@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "id":     "logic-pro-tracking",
+    "author": "tgd1975",
+    "tags":   ["logic-pro", "daw", "recording", "macOS"],
+    "tested": "macOS 14, Logic Pro 10.8"
+  },
+  "profiles": [
+    {
+      "name":        "01 Tracking",
+      "description": "Solo-performer recording workflow for Logic Pro on macOS. Button A arms record (R key, default Logic shortcut). Button B starts/stops playback (Space bar). After a bad take, long-press Button A to undo (Cmd+Z). Check Logic Pro > Preferences > Key Commands to verify defaults.",
+      "buttons": {
+        "A": {
+          "type":  "SendCharAction",
+          "name":  "Arm Record — R",
+          "value": "r",
+          "longPress": {
+            "type":  "SendStringAction",
+            "name":  "Undo Take — Cmd+Z",
+            "value": "cmd+z"
+          }
+        },
+        "B": {
+          "type":  "SendCharAction",
+          "name":  "Play/Stop — SPACE",
+          "value": " "
+        }
+      }
+    }
+  ]
+}

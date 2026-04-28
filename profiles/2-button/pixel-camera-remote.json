@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "id":     "pixel-camera-remote",
+    "author": "tgd1975",
+    "tags":   ["camera", "photo", "video", "google-pixel", "android"],
+    "tested": "Android 14, Google Pixel 8 — Google Camera 9.x"
+  },
+  "profiles": [
+    {
+      "name":        "01 Camera Remote",
+      "description": "Hands-free video and photo control for Google Pixel smartphones. Volume Up triggers the shutter in Google Camera. Button A fires instantly; Button B fires after a 3-second delay so you can step into frame. No app configuration needed.",
+      "buttons": {
+        "A": {
+          "type":  "SendMediaKeyAction",
+          "name":  "Instant Shutter — VOL UP",
+          "value": "KEY_VOLUME_UP"
+        },
+        "B": {
+          "type":    "DelayedAction",
+          "name":    "Delayed Shutter (3 s) — VOL UP",
+          "delayMs": 3000,
+          "action": {
+            "type":  "SendMediaKeyAction",
+            "value": "KEY_VOLUME_UP"
+          }
+        }
+      }
+    }
+  ]
+}

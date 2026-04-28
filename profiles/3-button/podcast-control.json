@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "id":     "podcast-control",
+    "author": "tgd1975",
+    "tags":   ["podcast", "recording", "audacity", "reaper", "obs"],
+    "tested": "macOS 14, Audacity 3.5 / Windows 11, Audacity 3.5"
+  },
+  "profiles": [
+    {
+      "name":        "01 Recording",
+      "description": "Three-button podcast recording control for Audacity or REAPER. Button A starts/stops recording (Shift+R in Audacity — enable via Preferences > Recording > Append Record). Button B pauses/resumes (P key in Audacity). Button C mutes/unmutes your system microphone via a global shortcut — assign Ctrl+Shift+M to 'Mute Microphone' in your OS or audio app settings.",
+      "buttons": {
+        "A": {
+          "type":  "SendStringAction",
+          "name":  "Record/Stop — Shift+R",
+          "value": "shift+r"
+        },
+        "B": {
+          "type":  "SendCharAction",
+          "name":  "Pause/Resume — P",
+          "value": "p"
+        },
+        "C": {
+          "type":  "SendStringAction",
+          "name":  "Mute Mic — Ctrl+Shift+M",
+          "value": "ctrl+shift+m"
+        }
+      }
+    }
+  ]
+}

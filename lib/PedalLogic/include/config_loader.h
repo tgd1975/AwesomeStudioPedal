@@ -43,6 +43,11 @@ public:
 
     static uint8_t getButtonIndex(const char* buttonName);
 
+    /// Serialise *action* into *out* (writes the "type" field plus the
+    /// action-specific properties). Public so MacroAction's own serialiser
+    /// can recurse into nested step actions.
+    static void actionToJson(const Action* action, ArduinoJson::JsonObject& out);
+
 private:
     static const char* DEFAULT_CONFIG;
 
@@ -53,7 +58,6 @@ private:
                                                  IBleKeyboard* keyboard);
     std::unique_ptr<Action> createSendCharActionFromJson(const ArduinoJson::JsonObject& actionJson,
                                                          IBleKeyboard* keyboard);
-    static void actionToJson(const Action* action, ArduinoJson::JsonObject& out);
     void populateProfileFromJson(Profile& profile,
                                  ArduinoJson::JsonObject buttons,
                                  IBleKeyboard* keyboard);

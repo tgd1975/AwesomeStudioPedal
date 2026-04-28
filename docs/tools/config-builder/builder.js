@@ -75,7 +75,7 @@ let activeIndex = 0;
 let validateFn = null;
 
 function emptyAction() {
-  return { type: '', name: '', value: '', delayMs: 1000, pin: 0, action: null };
+  return { type: '', name: '', value: '', delayMs: 1000, pin: 0, action: null, longPress: null, doublePress: null };
 }
 
 function emptyProfile() {
@@ -146,6 +146,37 @@ function renderTabs() {
   }
 }
 
+function makeSubActionDetails(label, getAct, onUpdate) {
+  const details = document.createElement('details');
+  details.className = 'sub-action-details';
+
+  const current = getAct();
+  if (current && current.type) details.open = true;
+
+  const summary = document.createElement('summary');
+  summary.className = 'sub-action-summary';
+  summary.textContent = label;
+  details.appendChild(summary);
+
+  const inner = document.createElement('div');
+  inner.className = 'sub-action-inner';
+
+  renderActionFields(
+    inner,
+    () => getAct() || emptyAction(),
+    (v) => {
+      // Treat setting type to '' as clearing the sub-action
+      onUpdate(v.type ? v : null);
+      // Collapse if cleared
+      if (!v.type) details.open = false;
+    },
+    true  // nested = true; prevents DelayedAction from appearing
+  );
+
+  details.appendChild(inner);
+  return details;
+}
+
 function renderProfileForm() {
   const p = profiles[activeIndex];
   const form = document.getElementById('active-profile-form');
@@ -184,6 +215,20 @@ function renderProfileForm() {
       () => p.buttons[slot],
       (v) => { p.buttons[slot] = v; updatePreview(); }
     );
+
+    // Long Press sub-action
+    actionDiv.appendChild(makeSubActionDetails(
+      '\u23f3 Long Press',
+      () => p.buttons[slot].longPress,
+      (v) => { p.buttons[slot] = { ...p.buttons[slot], longPress: v }; updatePreview(); }
+    ));
+
+    // Double Press sub-action
+    actionDiv.appendChild(makeSubActionDetails(
+      '2\u00d7 Double Press',
+      () => p.buttons[slot].doublePress,
+      (v) => { p.buttons[slot] = { ...p.buttons[slot], doublePress: v }; updatePreview(); }
+    ));
 
     row.appendChild(lbl);
     row.appendChild(actionDiv);
@@ -344,6 +389,8 @@ function actionToJson(a) {
   } else {
     r.value = a.value || '';
   }
+  if (a.longPress && a.longPress.type) r.longPress = actionToJson(a.longPress);
+  if (a.doublePress && a.doublePress.type) r.doublePress = actionToJson(a.doublePress);
   return r;
 }
 
@@ -419,6 +466,8 @@ function actionFromJson(a) {
   } else {
     r.value = a.value || '';
   }
+  r.longPress = a.longPress ? actionFromJson(a.longPress) : null;
+  r.doublePress = a.doublePress ? actionFromJson(a.doublePress) : null;
   return r;
 }
 
@@ -472,6 +521,16 @@ document.addEventListener('DOMContentLoaded', () => {
       loadFromFile(e.target.files[0]);
       e.target.value = '';
     }
+  };
+
+  document.getElementById('btn-community').onclick = () => {
+    const gallery = new ProfilesGallery({
+      indexUrl:    'https://tgd1975.github.io/AwesomeStudioPedal/profiles/index.json',
+      baseUrl:     'https://tgd1975.github.io/AwesomeStudioPedal/profiles/',
+      onLoad:      (json) => populateForm(json),
+      buttonCount: BUTTON_SLOTS.length || null,
+    });
+    gallery.open();
   };
 
   init();

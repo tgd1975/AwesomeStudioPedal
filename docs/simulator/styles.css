@@ -1,42 +1,98 @@
-/* ── Reset & variables ─────────────────────────────────────────────────── */
-:root {
-  --bg: #1a1a2e;
-  --surface: #16213e;
-  --panel: #0f3460;
-  --border: #1a4a7a;
-  --accent: #4ade80;
-  --accent-dim: #166534;
-  --amber: #fbbf24;
-  --amber-dim: #78350f;
-  --text: #e2e8f0;
-  --text-muted: #94a3b8;
-  --btn-bg: #1e3a5f;
-  --btn-hover: #264d7e;
-  --btn-active: #0d2137;
-  --btn-border: #2563eb;
-  --held-bg: #1e4d3a;
-  --held-border: #4ade80;
-  --delay-bg: #4c1d1d;
-  --delay-border: #f87171;
-  --log-bg: #0d1b2a;
-  --danger: #ef4444;
+/* ── ASP Simulator styles ────────────────────────────────────────────────
+ * Imports asp.css for tokens and shared components.
+ * Font paths in asp.css are relative to docs/tools/ so we override here.
+ */
+
+/* Font declarations with correct relative path from docs/simulator/ */
+@font-face {
+  font-family: "Metropolis";
+  src: url("../fonts/metropolis/Metropolis-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
 }
+@font-face {
+  font-family: "Metropolis";
+  src: url("../fonts/metropolis/Metropolis-Medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Metropolis";
+  src: url("../fonts/metropolis/Metropolis-SemiBold.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Metropolis";
+  src: url("../fonts/metropolis/Metropolis-Bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
+
+:root {
+  --asp-bg:             #0F0F12;
+  --asp-surface:        #17171E;
+  --asp-surface-raised: #1E1E28;
+
+  --asp-border:         rgba(255, 255, 255, 0.10);
+  --asp-border-strong:  rgba(255, 255, 255, 0.18);
+
+  --asp-text:           #E8E8F0;
+  --asp-text-muted:     rgba(232, 232, 240, 0.55);
+  --asp-text-dim:       rgba(232, 232, 240, 0.35);
+
+  --asp-accent:         #F0B030;
+  --asp-accent-ink:     #1A1208;
+  --asp-accent-bright:  #E8A020;
+
+  --asp-success:        #34C87A;
+  --asp-error:          #E84040;
+  --asp-warning:        #F0B030;
+
+  --asp-led-power:      #44FF44;
+  --asp-led-bluetooth:  #4488FF;
+  --asp-led-profile:    #FFB020;
+
+  --asp-radius-sm:      2px;
+  --asp-radius-md:      3px;
+  --asp-radius-card:    4px;
+
+  --asp-font-display: "Metropolis", "Josefin Sans", system-ui, sans-serif;
+  --asp-font-body:    "Metropolis", "Josefin Sans", system-ui, sans-serif;
+  --asp-font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Simulator-local aliases */
+  --held-glow:    rgba(240, 176, 48, 0.25);
+  --delay-color:  var(--asp-error);
+  --delay-glow:   rgba(232, 64, 64, 0.25);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family: var(--asp-font-body);
+  background: var(--asp-bg);
+  color: var(--asp-text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* ── Header ────────────────────────────────────────────────────────────── */
+/* ── Header ─────────────────────────────────────────────────────────────── */
+
 header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  background: var(--asp-surface);
+  border-bottom: 1px solid var(--asp-border);
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -46,13 +102,15 @@ header {
 
 .header-title h1 {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
 .header-title .subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  color: var(--asp-text-muted);
+  letter-spacing: 0.08em;
   margin-top: 2px;
 }
 
@@ -65,37 +123,45 @@ header {
 
 .load-btn {
   display: inline-block;
-  padding: 6px 12px;
-  background: var(--btn-bg);
-  border: 1px solid var(--btn-border);
-  border-radius: 6px;
-  font-size: 13px;
-  color: var(--text);
+  padding: 9px 14px;
+  background: var(--asp-surface-raised);
+  border: 1px solid var(--asp-border-strong);
+  border-radius: var(--asp-radius-sm);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--asp-text);
   cursor: pointer;
   transition: background 0.15s;
   user-select: none;
 }
 
-.load-btn:hover { background: var(--btn-hover); }
+.load-btn:hover { background: var(--asp-surface); }
 .load-btn input[type="file"] { display: none; }
 
 #config-name {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-style: italic;
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  color: var(--asp-text-muted);
+  letter-spacing: 0.06em;
 }
 
 header a {
   margin-left: auto;
-  font-size: 13px;
-  color: var(--accent);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  color: var(--asp-accent);
   text-decoration: none;
+  letter-spacing: 0.06em;
   white-space: nowrap;
 }
 
 header a:hover { text-decoration: underline; }
 
-/* ── Main layout ───────────────────────────────────────────────────────── */
+/* ── Main layout ─────────────────────────────────────────────────────────── */
+
 main {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -103,10 +169,11 @@ main {
   overflow: hidden;
 }
 
-/* ── Pedal panel ───────────────────────────────────────────────────────── */
+/* ── Pedal panel ─────────────────────────────────────────────────────────── */
+
 .pedal-panel {
-  background: var(--surface);
-  border-right: 1px solid var(--border);
+  background: var(--asp-surface);
+  border-right: 1px solid var(--asp-border);
   padding: 24px 20px;
   display: flex;
   flex-direction: column;
@@ -115,7 +182,7 @@ main {
   overflow-y: auto;
 }
 
-/* Status LEDs (PWR + BLE) */
+/* Status LEDs */
 .status-leds {
   display: flex;
   align-items: center;
@@ -125,42 +192,43 @@ main {
 .led-labels {
   display: flex;
   gap: 10px;
+  font-family: var(--asp-font-mono);
   font-size: 10px;
-  color: var(--text-muted);
+  color: var(--asp-text-muted);
   letter-spacing: 0.08em;
 }
 
-/* LED base */
 .led {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #1a2a1a;
-  border: 1px solid #2a3a2a;
+  background: #1A1A1A;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: box-shadow 0.2s, background 0.2s;
 }
 
-/* Lit states */
 .led.lit {
-  background: var(--accent);
-  box-shadow: 0 0 6px 2px var(--accent), 0 0 12px 4px var(--accent-dim);
+  background: var(--asp-led-profile);
+  box-shadow: 0 0 6px 2px var(--asp-led-profile), 0 0 12px 4px rgba(255, 176, 32, 0.3);
 }
 
 #pwr-led.lit {
-  background: var(--accent);
+  background: var(--asp-led-power);
+  box-shadow: 0 0 6px 2px var(--asp-led-power), 0 0 12px 4px rgba(68, 255, 68, 0.3);
 }
 
 #ble-led.lit {
-  background: #60a5fa;
-  box-shadow: 0 0 6px 2px #60a5fa, 0 0 12px 4px #1e3a5f;
+  background: var(--asp-led-bluetooth);
+  box-shadow: 0 0 6px 2px var(--asp-led-bluetooth), 0 0 12px 4px rgba(68, 136, 255, 0.3);
 }
 
 .profile-leds .led.lit {
-  background: var(--amber);
-  box-shadow: 0 0 6px 2px var(--amber), 0 0 12px 4px var(--amber-dim);
+  background: var(--asp-led-profile);
+  box-shadow: 0 0 6px 2px var(--asp-led-profile), 0 0 12px 4px rgba(255, 176, 32, 0.3);
 }
 
-/* ── Pedal button grid ─────────────────────────────────────────────────── */
+/* ── Pedal button grid ───────────────────────────────────────────────────── */
+
 .button-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -175,55 +243,73 @@ main {
   justify-content: center;
   gap: 4px;
   padding: 20px 10px;
-  background: var(--btn-bg);
-  border: 2px solid var(--slot-color, var(--btn-border));
-  border-radius: 12px;
+  background: var(--asp-surface-raised);
+  border: 2px solid var(--slot-color, var(--asp-border-strong));
+  border-radius: var(--asp-radius-md);
   cursor: pointer;
-  color: var(--text);
-  font-family: inherit;
+  color: var(--asp-text);
+  font-family: var(--asp-font-body);
   transition: background 0.1s, transform 0.05s, box-shadow 0.1s;
-  min-height: 90px;
+  min-height: 104px;
   user-select: none;
   -webkit-user-select: none;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .pedal-btn:hover {
-  background: var(--btn-hover);
+  background: color-mix(in srgb, var(--asp-surface-raised) 80%, var(--asp-text) 20%);
 }
 
 .pedal-btn:active,
 .pedal-btn.held {
-  background: var(--held-bg);
-  border-color: var(--held-border);
-  box-shadow: 0 0 8px 2px var(--accent-dim);
+  background: rgba(240, 176, 48, 0.10);
+  border-color: var(--asp-accent);
+  box-shadow: 0 0 24px rgba(240, 176, 48, 0.5),
+              inset 0 -4px 0 rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transform: scale(0.97);
 }
 
 .pedal-btn.delay-active {
-  background: var(--delay-bg);
-  border-color: var(--delay-border);
-  box-shadow: 0 0 8px 2px #7f1d1d;
+  background: rgba(232, 64, 64, 0.10);
+  border-color: var(--asp-error);
+  box-shadow: 0 0 24px rgba(232, 64, 64, 0.4),
+              inset 0 -4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .btn-slot {
-  font-size: 22px;
-  font-weight: 800;
+  font-family: var(--asp-font-body);
+  font-size: 36px;
+  font-weight: 700;
   line-height: 1;
-  color: var(--slot-color, var(--text));
+  color: var(--slot-color, var(--asp-text));
 }
 
 .btn-name {
-  font-size: 11px;
-  color: var(--text-muted);
+  font-family: var(--asp-font-mono);
+  font-size: 9px;
+  color: var(--asp-text-muted);
   text-align: center;
   line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-top: 4px;
 }
 
-/* ── Profile section ───────────────────────────────────────────────────── */
+.btn-badges {
+  font-family: var(--asp-font-mono);
+  font-size: 10px;
+  color: var(--asp-accent);
+  letter-spacing: 0.05em;
+  min-height: 14px;
+}
+
+/* ── Profile section ─────────────────────────────────────────────────────── */
+
 .profile-section {
   width: 100%;
   display: flex;
@@ -239,33 +325,36 @@ main {
 
 #select-btn {
   padding: 10px 28px;
-  background: var(--btn-bg);
-  border: 2px solid #475569;
-  border-radius: 8px;
-  color: var(--text);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  background: var(--asp-surface-raised);
+  border: 2px solid var(--asp-border-strong);
+  border-radius: var(--asp-radius-sm);
+  color: var(--asp-text);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   cursor: pointer;
   transition: background 0.1s;
 }
 
-#select-btn:hover { background: var(--btn-hover); }
+#select-btn:hover { background: var(--asp-surface); }
 #select-btn:active { transform: scale(0.97); }
 
 #profile-name {
-  font-size: 13px;
-  color: var(--text-muted);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  color: var(--asp-text-muted);
   text-align: center;
-  font-style: italic;
+  letter-spacing: 0.06em;
   max-width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-/* ── Output panel ──────────────────────────────────────────────────────── */
+/* ── Output panel ────────────────────────────────────────────────────────── */
+
 .output-panel {
   display: flex;
   flex-direction: column;
@@ -282,25 +371,26 @@ main {
 }
 
 .output-block h3 {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
+  font-family: var(--asp-font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--asp-text-muted);
   text-transform: uppercase;
   margin-bottom: 6px;
 }
 
 .output-log {
   flex: 1;
-  background: var(--log-bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  background: var(--asp-surface);
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-card);
   padding: 10px 12px;
-  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-family: var(--asp-font-mono);
   font-size: 12px;
   line-height: 1.6;
   overflow-y: auto;
-  color: var(--accent);
+  color: var(--asp-accent);
   min-height: 80px;
 }
 
@@ -316,38 +406,47 @@ main {
 }
 
 .output-actions button {
-  padding: 8px 16px;
-  background: var(--btn-bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-family: inherit;
-  font-size: 13px;
+  padding: 9px 14px;
+  background: var(--asp-surface-raised);
+  border: 1px solid var(--asp-border-strong);
+  border-radius: var(--asp-radius-sm);
+  color: var(--asp-text);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   cursor: pointer;
   transition: background 0.1s;
 }
 
-.output-actions button:hover { background: var(--btn-hover); }
+.output-actions button:hover { background: var(--asp-surface); }
 
-/* ── Toolbar buttons ───────────────────────────────────────────────────── */
+/* ── Toolbar buttons ─────────────────────────────────────────────────────── */
+
 .toolbar button {
-  padding: 6px 12px;
-  background: var(--btn-bg);
-  border: 1px solid var(--btn-border);
-  border-radius: 6px;
-  font-size: 13px;
-  color: var(--text);
-  font-family: inherit;
+  padding: 9px 14px;
+  background: var(--asp-surface-raised);
+  border: 1px solid var(--asp-border-strong);
+  border-radius: var(--asp-radius-sm);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--asp-text);
   cursor: pointer;
   transition: background 0.15s;
 }
 
-.toolbar button:hover { background: var(--btn-hover); }
+.toolbar button:hover { background: var(--asp-surface); }
 
 /* Hardware layout toolbar row */
 .toolbar-hw {
-  font-size: 12px;
-  color: var(--text-muted);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  color: var(--asp-text-muted);
+  letter-spacing: 0.06em;
 }
 
 .hw-label {
@@ -359,32 +458,34 @@ main {
 .hw-label input[type="number"] {
   width: 56px;
   padding: 4px 6px;
-  background: var(--btn-bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: var(--text);
+  background: var(--asp-surface-raised);
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-sm);
+  color: var(--asp-text);
+  font-family: var(--asp-font-mono);
   font-size: 12px;
-  font-family: inherit;
 }
 
 /* IO summary bar */
 .io-summary {
-  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-family: var(--asp-font-mono);
   font-size: 11px;
-  color: var(--text-muted);
-  background: var(--log-bg);
-  border: 1px solid var(--border);
+  color: var(--asp-text-muted);
+  background: var(--asp-surface);
+  border: 1px solid var(--asp-border);
   border-bottom: none;
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--asp-radius-card) var(--asp-radius-card) 0 0;
   padding: 6px 12px;
+  letter-spacing: 0.06em;
 }
 
 .output-block .io-summary + .output-log {
   border-top: none;
-  border-radius: 0 0 8px 8px;
+  border-radius: 0 0 var(--asp-radius-card) var(--asp-radius-card);
 }
 
-/* ── Responsive ────────────────────────────────────────────────────────── */
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
 @media (max-width: 600px) {
   main {
     grid-template-columns: 1fr;
@@ -393,12 +494,10 @@ main {
 
   .pedal-panel {
     border-right: none;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--asp-border);
   }
 
-  .output-panel {
-    min-height: 400px;
-  }
+  .output-panel { min-height: 400px; }
 
   header a { margin-left: 0; }
 }

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Move all .md files from docs/developers/tasks/closed/ into a version subdirectory.
+Archive all closed tasks into a versioned release folder under tasks/archive/.
 
 Usage:
   python scripts/organize_closed_tasks.py v0.3.0
   python scripts/organize_closed_tasks.py v0.3.0 --dry-run
 
 The script:
-1. Creates docs/developers/tasks/closed/<version>/
-2. Moves every .md file from the root closed/ directory into that subdirectory.
+1. Creates docs/developers/tasks/archive/<version>/
+2. Moves every .md file from the closed/ directory into that archive folder.
 3. Updates the OVERVIEW.md via update_task_overview.py.
 """
 import argparse
@@ -19,6 +19,7 @@ import subprocess
 import sys
 
 CLOSED_DIR = "docs/developers/tasks/closed"
+ARCHIVE_DIR = "docs/developers/tasks/archive"
 
 
 def validate_version(version: str) -> bool:
@@ -26,7 +27,7 @@ def validate_version(version: str) -> bool:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Organize closed tasks by release version")
+    parser = argparse.ArgumentParser(description="Archive closed tasks by release version")
     parser.add_argument("version", help="Release version tag, e.g. v0.3.0")
     parser.add_argument("--dry-run", action="store_true", help="Show what would happen without making changes")
     args = parser.parse_args()
@@ -35,7 +36,7 @@ def main():
         print(f"Error: version must be in the form vX.Y.Z, got: {args.version}", file=sys.stderr)
         sys.exit(1)
 
-    target_dir = os.path.join(CLOSED_DIR, args.version)
+    target_dir = os.path.join(ARCHIVE_DIR, args.version)
 
     md_files = [
         f for f in sorted(os.listdir(CLOSED_DIR))
@@ -43,11 +44,11 @@ def main():
     ]
 
     if not md_files:
-        print("No .md files found in the root closed/ directory — nothing to move.")
+        print("No .md files found in the closed/ directory — nothing to archive.")
         return
 
     print(f"Target directory: {target_dir}")
-    print(f"Files to move ({len(md_files)}):")
+    print(f"Files to archive ({len(md_files)}):")
     for f in md_files:
         print(f"  {f}")
 
@@ -61,7 +62,7 @@ def main():
         src = os.path.join(CLOSED_DIR, fname)
         dst = os.path.join(target_dir, fname)
         shutil.move(src, dst)
-        print(f"Moved: {fname}")
+        print(f"Archived: {fname}")
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     overview_script = os.path.join(script_dir, "update_task_overview.py")

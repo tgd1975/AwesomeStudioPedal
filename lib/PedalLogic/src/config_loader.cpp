@@ -1,15 +1,18 @@
 #include "config_loader.h"
+#include "ble_config_reassembler.h" // JSON_DOC_CAPACITY
 #include "button_constants.h"
 #include "config.h"
 #include "delayed_action.h"
 #include "file_system.h"
 #include "i_logger.h"
 #include "key_lookup.h"
+#include "macro_action.h"
 #include "non_send_action.h"
 #include "pin_action.h"
 #include "send_action.h"
 #include "serial_action.h"
 #include <ArduinoJson.h>
+#include <cstdlib>
 #include <cstring>
 #include <memory>
 
@@ -24,6 +27,34 @@ using namespace ArduinoJson;
 // Forward declarations for platform-specific factories
 IFileSystem* createFileSystem();
 ILogger* createLogger(); // NOLINT(readability-redundant-declaration)
+
+namespace
+{
+    // Parse a SendKey "value" string into a HID keycode in [1, 255].
+    // Order of attempts: (1) named-key lookup ("KEY_RETURN"), (2) numeric parse
+    // ("0x28", "0X28", "40"). Returns 0 if all attempts fail or the result is
+    // out of HID range.
+    uint8_t parseSendKeyValue(const char* value)
+    {
+        if (value == nullptr || value[0] == '\0')
+        {
+            return 0;
+        }
+        uint8_t named = lookupKey(value);
+        if (named != 0)
+        {
+            return named;
+        }
+        char* end = nullptr;
+        // base = 0 lets strtoul auto-detect "0x"/"0X" hex and decimal
+        unsigned long parsed = std::strtoul(value, &end, 0);
+        if (end == value || *end != '\0' || parsed == 0 || parsed > 0xFF)
+        {
+            return 0;
+        }
+        return static_cast<uint8_t>(parsed);
+    }
+} // namespace
 
 /**
  * @brief Default configuration JSON string
@@ -110,7 +141,7 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
                                   IBleKeyboard* keyboard,
                                   const std::string& jsonConfig)
 {
-    DynamicJsonDocument doc(8192);
+    DynamicJsonDocument doc(JSON_DOC_CAPACITY);
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error)
@@ -194,6 +225,32 @@ void ConfigLoader::populateProfileFromJson(Profile& profile,
             }
             profile.addAction(b, std::move(action));
         }
+
+        if (actionJson.containsKey("longPress"))
+        {
+            JsonObject lpJson = actionJson["longPress"];
+            auto lpAction = createActionFromJson(lpJson, keyboard);
+            if (lpAction)
+            {
+                const char* lpName = lpJson["name"] | "";
+                if (lpName[0] != '\0')
+                    lpAction->setName(lpName);
+                profile.addLongPressAction(b, std::move(lpAction));
+            }
+        }
+
+        if (actionJson.containsKey("doublePress"))
+        {
+            JsonObject dpJson = actionJson["doublePress"];
+            auto dpAction = createActionFromJson(dpJson, keyboard);
+            if (dpAction)
+            {
+                const char* dpName = dpJson["name"] | "";
+                if (dpName[0] != '\0')
+                    dpAction->setName(dpName);
+                profile.addDoublePressAction(b, std::move(dpAction));
+            }
+        }
     }
 }
 
@@ -246,11 +303,13 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
             return createSendCharActionFromJson(actionJson, keyboard);
         case Action::Type::SendKey:
         {
-            uint8_t code = lookupKey(actionJson["value"] | "");
+            const char* value = actionJson["value"] | "";
+            uint8_t code = parseSendKeyValue(value);
             if (code != 0)
             {
                 return std::make_unique<SendKeyAction>(keyboard, code);
             }
+            logger_->log("SendKey: unknown or out-of-range value: ", value);
             break;
         }
         case Action::Type::SendMediaKey:
@@ -277,6 +336,23 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
                 return std::make_unique<DelayedAction>(std::move(inner), delayMs);
             }
             break;
+        }
+        case Action::Type::Macro:
+        {
+            auto macro = std::make_unique<MacroAction>();
+            JsonArray stepsJson = actionJson["steps"];
+            for (JsonArray stepJson : stepsJson)
+            {
+                MacroAction::Step step;
+                for (JsonObject actionObj : stepJson)
+                {
+                    auto inner = createActionFromJson(actionObj, keyboard);
+                    if (inner)
+                        step.push_back(std::move(inner));
+                }
+                macro->addStep(std::move(step));
+            }
+            return macro;
         }
         case Action::Type::PinHigh:
         case Action::Type::PinLow:

@@ -23,6 +23,7 @@ public:
     void execute() override;
     void executeRelease() override;
     Action::Type getType() const override { return mode_; }
+    void getJsonProperties(JsonObject& json) const override;
 
 private:
     Action::Type mode_;

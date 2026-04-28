@@ -1,0 +1,331 @@
+/**
+ * ASP — Shared stylesheet for web tools
+ *
+ * Import order in each tool:
+ *   <link rel="stylesheet" href="[relative path to]/asp.css">
+ *   <link rel="stylesheet" href="[tool-specific].css">
+ *
+ * Provides: design tokens, font loading, and shared component classes.
+ * Dark-mode only. Warm amber accent. No light theme.
+ */
+
+/* ── Fonts ──────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("../../fonts/metropolis/Metropolis-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("../../fonts/metropolis/Metropolis-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("../../fonts/metropolis/Metropolis-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src: url("../../fonts/metropolis/Metropolis-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../../fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../../fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Design Tokens ──────────────────────────────────────────────────────── */
+
+:root {
+  /* Palette */
+  --asp-bg:             #0F0F12;
+  --asp-surface:        #17171E;
+  --asp-surface-raised: #1E1E28;
+
+  --asp-border:         rgba(255, 255, 255, 0.10);
+  --asp-border-strong:  rgba(255, 255, 255, 0.18);
+
+  --asp-text:           #E8E8F0;
+  --asp-text-muted:     rgba(232, 232, 240, 0.55);
+  --asp-text-dim:       rgba(232, 232, 240, 0.35);
+
+  /* Accent — warm amber */
+  --asp-accent:         #F0B030;
+  --asp-accent-ink:     #1A1208;
+  --asp-accent-bright:  #E8A020;
+  --asp-accent-deep:    #FF8A1F;
+  --asp-accent-pale:    #FFB020;
+
+  /* Semantic */
+  --asp-success:        #34C87A;
+  --asp-error:          #E84040;
+  --asp-warning:        #F0B030;
+
+  /* LED colours */
+  --asp-led-power:      #44FF44;
+  --asp-led-bluetooth:  #4488FF;
+  --asp-led-profile:    #FFB020;
+
+  /* Radius */
+  --asp-radius-sm:      2px;
+  --asp-radius-md:      3px;
+  --asp-radius-card:    4px;
+  --asp-radius-dialog:  6px;
+  --asp-radius-pill:    999px;
+
+  /* Typography */
+  --asp-font-display: "Metropolis", "Josefin Sans", system-ui, sans-serif;
+  --asp-font-body:    "Metropolis", "Josefin Sans", system-ui, sans-serif;
+  --asp-font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Spacing (8-pt base) */
+  --asp-s-1:  4px;
+  --asp-s-2:  8px;
+  --asp-s-3:  12px;
+  --asp-s-4:  16px;
+  --asp-s-5:  20px;
+  --asp-s-6:  24px;
+  --asp-s-8:  32px;
+  --asp-s-10: 40px;
+  --asp-s-12: 48px;
+}
+
+/* ── Base reset ─────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--asp-bg);
+  color: var(--asp-text);
+  font-family: var(--asp-font-body);
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+/* ── Shared component classes ───────────────────────────────────────────── */
+
+/* Header bar */
+.asp-header {
+  background: var(--asp-surface);
+  border-bottom: 1px solid var(--asp-border);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.asp-header h1 {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--asp-text);
+}
+
+.asp-header .subtitle {
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  color: var(--asp-text-muted);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+.asp-header a {
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  color: var(--asp-accent);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+}
+
+.asp-header a:hover { text-decoration: underline; }
+
+/* Buttons */
+.asp-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  background: var(--asp-accent);
+  color: var(--asp-accent-ink);
+  border: 1px solid var(--asp-accent);
+  border-radius: var(--asp-radius-sm);
+  font-family: var(--asp-font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.asp-btn-primary:hover { background: var(--asp-accent-bright); border-color: var(--asp-accent-bright); }
+
+.asp-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  background: var(--asp-surface);
+  color: var(--asp-text);
+  border: 1px solid var(--asp-border-strong);
+  border-radius: var(--asp-radius-sm);
+  font-family: var(--asp-font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.asp-btn-secondary:hover { background: var(--asp-surface-raised); }
+
+.asp-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  background: transparent;
+  color: var(--asp-error);
+  border: 1px solid rgba(232, 64, 64, 0.4);
+  border-radius: var(--asp-radius-sm);
+  font-family: var(--asp-font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.asp-btn-danger:hover { background: rgba(232, 64, 64, 0.08); }
+
+/* Inputs & selects */
+.asp-input,
+.asp-select {
+  height: 36px;
+  padding: 9px 12px;
+  background: var(--asp-bg);
+  color: var(--asp-text);
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-sm);
+  font-family: var(--asp-font-body);
+  font-size: 13px;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+.asp-input:focus,
+.asp-select:focus {
+  outline: none;
+  border: 1.5px solid var(--asp-accent);
+}
+
+.asp-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(232,232,240,0.55)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* Card / panel */
+.asp-card {
+  background: var(--asp-surface);
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-card);
+  padding: 18px;
+}
+
+/* Status badge (pill) */
+.asp-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--asp-radius-pill);
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.asp-status-badge::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.asp-status-badge.ok {
+  background: rgba(52, 200, 122, 0.10);
+  border: 1px solid rgba(52, 200, 122, 0.30);
+  color: var(--asp-success);
+}
+
+.asp-status-badge.ok::before {
+  background: var(--asp-success);
+  box-shadow: 0 0 6px var(--asp-success);
+}
+
+.asp-status-badge.error {
+  background: rgba(232, 64, 64, 0.10);
+  border: 1px solid rgba(232, 64, 64, 0.30);
+  color: var(--asp-error);
+}
+
+.asp-status-badge.error::before {
+  background: var(--asp-error);
+  box-shadow: 0 0 6px var(--asp-error);
+}
+
+.asp-status-badge.warning {
+  background: rgba(240, 176, 48, 0.10);
+  border: 1px solid rgba(240, 176, 48, 0.30);
+  color: var(--asp-warning);
+}
+
+.asp-status-badge.warning::before {
+  background: var(--asp-warning);
+  box-shadow: 0 0 6px var(--asp-warning);
+}
+
+/* JSON preview pane */
+.asp-json-preview {
+  background: var(--asp-surface);
+  border-left: 1px solid var(--asp-border);
+  font-family: var(--asp-font-mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--asp-text);
+  overflow: auto;
+  padding: 16px;
+  white-space: pre;
+}

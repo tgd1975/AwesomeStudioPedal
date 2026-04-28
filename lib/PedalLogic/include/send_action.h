@@ -1,6 +1,7 @@
 #pragma once
 #include "action.h"
 #include "i_ble_keyboard.h"
+#include "key_lookup.h"
 #include <string>
 
 /**
@@ -69,12 +70,18 @@ public:
      */
     Action::Type getType() const override { return Action::Type::SendChar; }
 
-#ifndef HOST_TEST_BUILD
     void getJsonProperties(JsonObject& json) const override
     {
-        json["value"] = "CHAR"; // Simplified for now
+        // SendChar can hold either a HID keycode (e.g. KEY_LEFT_ARROW = 0xD8,
+        // stored as a signed char) or a printable ASCII character. The loader
+        // (createSendCharActionFromJson) tries lookupKey first and falls back
+        // to single-character ASCII; serialise the same way in reverse.
+        const char* name = lookupKeyName(static_cast<uint8_t>(key));
+        if (name != nullptr)
+            json["value"] = name;
+        else
+            json["value"] = std::string(1, key);
     }
-#endif
 
     /**
      * @brief Gets the character to be sent
@@ -113,9 +120,7 @@ public:
      */
     Action::Type getType() const override { return Action::Type::SendString; }
 
-#ifndef HOST_TEST_BUILD
     void getJsonProperties(JsonObject& json) const override { json["value"] = text.c_str(); }
-#endif
 
     /**
      * @brief Gets the text string to be sent
@@ -154,12 +159,14 @@ public:
      */
     Action::Type getType() const override { return Action::Type::SendKey; }
 
-#ifndef HOST_TEST_BUILD
     void getJsonProperties(JsonObject& json) const override
     {
-        json["value"] = "KEY"; // Simplified for now
+        const char* name = lookupKeyName(key);
+        // The loader rejects unknown SendKey values, so a stored SendKeyAction
+        // always corresponds to a known table entry; defensively emit an empty
+        // string if that invariant ever breaks instead of writing a stale "KEY".
+        json["value"] = (name != nullptr) ? name : "";
     }
-#endif
 
     /**
      * @brief Gets the USB HID key code to be sent
@@ -198,12 +205,11 @@ public:
      */
     Action::Type getType() const override { return Action::Type::SendMediaKey; }
 
-#ifndef HOST_TEST_BUILD
     void getJsonProperties(JsonObject& json) const override
     {
-        json["value"] = "MEDIA_STOP"; // Simplified for now
+        const char* name = lookupMediaKeyName(key);
+        json["value"] = (name != nullptr) ? name : "";
     }
-#endif
 
     /**
      * @brief Gets the media key report to be sent

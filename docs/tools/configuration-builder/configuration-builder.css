@@ -1,0 +1,291 @@
+/**
+ * ASP — Configuration Builder styles
+ * Imports the shared asp.css for tokens, fonts, and component classes.
+ */
+
+@import "../asp.css";
+
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  height: calc(100vh - 57px);
+}
+
+.form-panel {
+  background: var(--asp-surface);
+  border-right: 1px solid var(--asp-border);
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Preview panel ──────────────────────────────────────────────────────── */
+
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--asp-bg);
+  overflow: hidden;
+}
+
+.preview-toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--asp-surface);
+  border-bottom: 1px solid var(--asp-border);
+  flex-wrap: wrap;
+}
+
+#json-preview {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  font-family: var(--asp-font-mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--asp-text);
+  white-space: pre;
+  background: var(--asp-bg);
+}
+
+/* ── Section headers ────────────────────────────────────────────────────── */
+
+.section-header {
+  font-family: var(--asp-font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--asp-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 4px 0 2px;
+  border-bottom: 1px solid var(--asp-border);
+  margin-bottom: 4px;
+}
+
+/* ── Form fields ─────────────────────────────────────────────────────────── */
+
+.field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+label {
+  font-family: var(--asp-font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--asp-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+input[type="number"] {
+  padding: 9px 12px;
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-sm);
+  font-size: 13px;
+  font-family: var(--asp-font-body);
+  color: var(--asp-text);
+  background: var(--asp-bg);
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  border: 1.5px solid var(--asp-accent);
+}
+
+/* ── Pins table ──────────────────────────────────────────────────────────── */
+
+.pins-table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-card);
+  overflow: hidden;
+  margin: 4px 0;
+}
+
+.pin-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  border-bottom: 1px solid var(--asp-border);
+}
+
+.pin-row:last-child { border-bottom: none; }
+
+.pin-label {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--asp-text-muted);
+  background: var(--asp-surface-raised);
+  border-right: 1px solid var(--asp-border);
+}
+
+.pin-input-cell { padding: 6px 8px; }
+
+.pin-input-cell input {
+  padding: 5px 8px;
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-sm);
+  font-family: var(--asp-font-mono);
+  font-size: 13px;
+  width: 100%;
+  color: var(--asp-text);
+  background: var(--asp-bg);
+  transition: border-color 0.15s;
+}
+
+.pin-input-cell input:focus {
+  outline: none;
+  border: 1.5px solid var(--asp-accent);
+}
+
+/* ── Warning banner ──────────────────────────────────────────────────────── */
+
+#profiles-warning {
+  display: none;
+  background: rgba(240, 176, 48, 0.08);
+  color: var(--asp-warning);
+  border: 1px solid rgba(240, 176, 48, 0.25);
+  border-radius: var(--asp-radius-card);
+  padding: 8px 12px;
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+
+button {
+  cursor: pointer;
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 9px 14px;
+  border-radius: var(--asp-radius-sm);
+  border: 1px solid transparent;
+  transition: background 0.1s;
+}
+
+.btn-primary {
+  background: var(--asp-accent);
+  color: var(--asp-accent-ink);
+  border-color: var(--asp-accent);
+}
+
+.btn-primary:hover { background: var(--asp-accent-bright); }
+
+.btn-secondary {
+  background: var(--asp-surface-raised);
+  color: var(--asp-text);
+  border-color: var(--asp-border-strong);
+}
+
+.btn-secondary:hover { background: var(--asp-surface); }
+
+.preview-toolbar button {
+  font-size: 11px;
+  padding: 6px 12px;
+  background: var(--asp-surface-raised);
+  color: var(--asp-text);
+  border-color: var(--asp-border-strong);
+}
+
+.preview-toolbar button:hover { background: var(--asp-surface); }
+
+/* ── Board selector ──────────────────────────────────────────────────────── */
+
+.board-selector-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--asp-surface-raised);
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-card);
+}
+
+.board-selector-row label {
+  font-family: var(--asp-font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--asp-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.board-selector-row select {
+  flex: 1;
+  padding: 6px 32px 6px 10px;
+  border: 1px solid var(--asp-border);
+  border-radius: var(--asp-radius-sm);
+  font-family: var(--asp-font-body);
+  font-size: 13px;
+  color: var(--asp-text);
+  background: var(--asp-bg)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(232,232,240,0.55)'/%3E%3C/svg%3E")
+    no-repeat right 10px center;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.board-selector-row select:focus {
+  outline: none;
+  border: 1.5px solid var(--asp-accent);
+}
+
+/* ── Pin warning ─────────────────────────────────────────────────────────── */
+
+.pin-warn {
+  font-family: var(--asp-font-mono);
+  font-size: 10px;
+  color: var(--asp-warning);
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+/* ── Notice banner ──────────────────────────────────────────────────────── */
+
+#example-notice,
+.section-notice {
+  background: rgba(240, 176, 48, 0.08);
+  color: var(--asp-warning);
+  border: 1px solid rgba(240, 176, 48, 0.25);
+  border-radius: var(--asp-radius-card);
+  padding: 8px 12px;
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+/* ── Pinout diagram ──────────────────────────────────────────────────────── */
+
+#pinout { margin-top: 8px; }
+
+#pinout svg { width: 100%; height: auto; display: block; }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; height: auto; }
+  .preview-panel { min-height: 400px; }
+  header nav { margin-left: 0; }
+}

@@ -1,3 +1,4 @@
+#include "ble_config_reassembler.h" // JSON_DOC_CAPACITY
 #include "config.h"
 #include "config_loader.h"
 #include "profile.h"
@@ -50,7 +51,7 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
                                IBleKeyboard* keyboard,
                                const std::string& jsonConfig)
 {
-    DynamicJsonDocument doc(8192);
+    DynamicJsonDocument doc(JSON_DOC_CAPACITY);
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error)
@@ -116,7 +117,7 @@ bool ConfigLoader::replaceProfile(ProfileManager& profileManager,
         return false;
     }
 
-    DynamicJsonDocument doc(8192);
+    DynamicJsonDocument doc(JSON_DOC_CAPACITY);
     DeserializationError error = deserializeJson(doc, jsonConfig);
 
     if (error)

@@ -36,9 +36,7 @@ public:
      */
     Action::Type getType() const override { return Action::Type::SerialOutput; }
 
-#ifndef HOST_TEST_BUILD
     void getJsonProperties(JsonObject& json) const override { json["value"] = message.c_str(); }
-#endif
 
     /**
      * @brief Checks if this action is a send action

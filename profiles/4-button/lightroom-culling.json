@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "id":     "lightroom-culling",
+    "author": "tgd1975",
+    "tags":   ["lightroom", "photography", "culling", "editing"],
+    "tested": "macOS 14, Lightroom Classic 13.x / Windows 11, Lightroom Classic 13.x"
+  },
+  "profiles": [
+    {
+      "name":        "01 Culling",
+      "description": "Speed up photo culling in Adobe Lightroom Classic. Button A flags the current photo as a Pick (P key — default Lightroom shortcut). Button B rejects it (X key). Button C moves to the next photo (Right Arrow). Button D moves to the previous photo (Left Arrow). No configuration needed — all are built-in Lightroom shortcuts.",
+      "buttons": {
+        "A": {
+          "type":  "SendCharAction",
+          "name":  "Pick — P",
+          "value": "p"
+        },
+        "B": {
+          "type":  "SendCharAction",
+          "name":  "Reject — X",
+          "value": "x"
+        },
+        "C": {
+          "type":  "SendCharAction",
+          "name":  "Next Photo — RIGHT",
+          "value": "KEY_RIGHT_ARROW"
+        },
+        "D": {
+          "type":  "SendCharAction",
+          "name":  "Prev Photo — LEFT",
+          "value": "KEY_LEFT_ARROW"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "id":     "shutter-delayed",
+    "author": "tgd1975",
+    "tags":   ["camera", "photo", "selfie", "hands-free"],
+    "tested": "Android 14, Google Pixel 8 — Google Camera"
+  },
+  "profiles": [
+    {
+      "name":        "01 Delayed Shutter",
+      "description": "Hands-free camera trigger with a 3-second countdown. Press the button, step into frame, and the shutter fires. Uses the Volume Up shortcut — works with Google Camera, Open Camera, and most Android camera apps. No app settings needed.",
+      "buttons": {
+        "A": {
+          "type":    "DelayedAction",
+          "name":    "Delayed Shutter (3 s)",
+          "delayMs": 3000,
+          "action": {
+            "type":  "SendMediaKeyAction",
+            "value": "KEY_VOLUME_UP"
+          }
+        }
+      }
+    }
+  ]
+}

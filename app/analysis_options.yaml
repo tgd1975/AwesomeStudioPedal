@@ -1,0 +1,41 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    missing_required_param: error
+    missing_return: error
+    dead_code: warning
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+
+linter:
+  rules:
+    - always_declare_return_types
+    - always_require_non_null_named_parameters
+    - annotate_overrides
+    - avoid_dynamic_calls
+    - avoid_empty_else
+    - avoid_print
+    - avoid_returning_null_for_future
+    - avoid_type_to_string
+    - avoid_unnecessary_containers
+    - avoid_unused_constructor_parameters
+    - await_only_futures
+    - cancel_subscriptions
+    - close_sinks
+    - directives_ordering
+    - literal_only_boolean_expressions
+    - no_duplicate_case_values
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_final_fields
+    - prefer_final_locals
+    - prefer_is_empty
+    - prefer_is_not_empty
+    - sort_child_properties_last
+    - unawaited_futures
+    - unnecessary_await_in_return
+    - unnecessary_null_checks
+    - use_key_in_widget_constructors
+    - use_super_parameters

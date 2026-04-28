@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "id":     "play-pause-media",
+    "author": "tgd1975",
+    "tags":   ["media", "music", "practice", "one-button"],
+    "tested": "macOS 14, Spotify / Apple Music"
+  },
+  "profiles": [
+    {
+      "name":        "01 Play Pause",
+      "description": "Single-button media control. Press to play or pause any media player that responds to the standard media play/pause key (Spotify, Apple Music, VLC, YouTube in a browser, etc.). No configuration required — the key is a universal media shortcut on all platforms.",
+      "buttons": {
+        "A": {
+          "type":  "SendMediaKeyAction",
+          "name":  "Play/Pause — MEDIA_PLAY_PAUSE",
+          "value": "MEDIA_PLAY_PAUSE"
+        }
+      }
+    }
+  ]
+}

@@ -4,6 +4,10 @@ void BleKeyboardAdapter::begin()
 {
     Bluefruit.begin();
     Bluefruit.setTxPower(4);
+    // Best practice: keep <=14 chars — the BLE 4.x advertising PDU only
+    // leaves ~14 bytes for the GAP Local Name once Flags / TX Power /
+    // Service UUID AD entries are included; longer names are truncated
+    // by the host stack in the pre-connect scan list.
     Bluefruit.setName("Strix-Pedal");
 
     hid.begin();

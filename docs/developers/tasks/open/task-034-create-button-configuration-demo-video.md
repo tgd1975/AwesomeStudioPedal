@@ -2,6 +2,8 @@
 id: TASK-034
 title: Create Button Configuration Demo Video
 status: open
+epic: video-content
+order: 2
 opened: 2026-04-10
 effort: Large (8-24h)
 complexity: Medium

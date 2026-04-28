@@ -32,7 +32,17 @@ void Button::isr()
     }
     if (! awaitingRelease && isDebounced(now))
     {
-        pressCount++;
+        if ((now - lastPressTime_) < doublePressWindow_ && lastPressTime_ != 0)
+        {
+            doublePressFlag_ = true;
+            pressCount = 0; // both taps consumed by the double press
+        }
+        else
+        {
+            pressCount++;
+        }
+        lastPressTime_ = now;
+        pressStartTime_ = now;
         awaitingRelease = true;
         lastDebounceTime = now;
     }
@@ -40,7 +50,7 @@ void Button::isr()
 
 bool Button::event()
 {
-    if (pressCount > 0)
+    if (pressCount > 0 && (millis() - lastPressTime_) >= doublePressWindow_)
     {
         pressCount--;
         return true;
@@ -54,6 +64,30 @@ void Button::reset()
     awaitingRelease = false;
     released = false;
     lastDebounceTime = 0;
+    pressStartTime_ = 0;
+    lastPressTime_ = 0;
+    doublePressFlag_ = false;
+}
+
+void Button::setDoublePressWindow(unsigned long ms) { doublePressWindow_ = ms; }
+
+unsigned long Button::holdDurationMs() const
+{
+    if (awaitingRelease)
+    {
+        return millis() - pressStartTime_;
+    }
+    return 0;
+}
+
+bool Button::doublePressEvent()
+{
+    if (doublePressFlag_)
+    {
+        doublePressFlag_ = false;
+        return true;
+    }
+    return false;
 }
 
 bool Button::releaseEvent()
