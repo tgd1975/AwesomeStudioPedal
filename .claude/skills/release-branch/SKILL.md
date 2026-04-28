@@ -111,9 +111,21 @@ Invoke as `/release-branch vX.Y.Z`. If no version is given, read the current ver
 
    Print the PR URL.
 
-4. **Prompt user to merge**: tell the user to merge the PR in the GitHub UI (review,
-   approve, squash-merge or merge commit — their choice), then confirm back here.
-   Wait for explicit confirmation before continuing.
+4. **Merge the PR via `gh`** (preferred over the GitHub UI — keeps the flow in
+   the terminal and avoids context-switching). Ask the user to confirm the merge
+   strategy (`--squash`, `--merge`, or `--rebase`), then run:
+
+   ```bash
+   gh pr merge <PR-NUMBER> --<strategy> --delete-branch
+   ```
+
+   `--delete-branch` removes the remote branch after a successful merge. If
+   required checks are still running, add `--auto` so the merge fires once they
+   pass; otherwise omit it for an immediate merge. Stop and surface any merge
+   error (conflicts, failing required checks) — do not retry blindly.
+
+   Only fall back to "merge in the GitHub UI" if the user explicitly asks for a
+   manual review pass.
 
 ### Phase 4 — Release on main
 
