@@ -1,4 +1,3 @@
-
 # Task Overview
 
 <!-- HEADER -->
@@ -8,8 +7,6 @@
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
 <!-- END HEADER -->
-
-<!-- BURNUP:START -->
 
 <a id="burn-up"></a>
 
@@ -50,9 +47,6 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 25 | 25 | 0 | 0 | 0 | 0 | 2 | 2 |
-<!-- BURNUP:END -->
-
-<!-- GENERATED -->
 
 ## Active Tasks
 
@@ -98,4 +92,3 @@ _No active tasks._
 - [v0.3.0](archive/v0.3.0/OVERVIEW.md)
 - [v0.4.0](archive/v0.4.0/OVERVIEW.md)
 - [v0.4.1](archive/v0.4.1/OVERVIEW.md)
-<!-- END GENERATED -->
