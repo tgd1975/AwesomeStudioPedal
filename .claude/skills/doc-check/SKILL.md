@@ -1,10 +1,18 @@
+---
+name: doc-check
+description: After creating or moving any `.md` file under `docs/` (excluding `docs/developers/tasks/` and `docs/developers/ideas/`), invoke this skill to validate persona placement (builder / musician / developer). On a Mismatch verdict, the skill proposes a `git mv` and waits for user confirmation before running it.
+---
+
 # doc-check
 
-The user invokes this as `/doc-check` to validate documentation persona placement.
+The user invokes this as `/doc-check`, but the agent should also invoke
+it automatically after creating or moving any `.md` file under `docs/`
+(excluding `docs/developers/tasks/` and `docs/developers/ideas/`, which
+are internal scaffolding with their own conventions).
 
 ## Purpose
 
-Enforces the three-persona documentation structure by analyzing `.md` files changed relative to `main` and suggesting correct persona directories.
+Enforces the three-persona documentation structure by analyzing `.md` files changed relative to `main` and suggesting correct persona directories. On a clear Mismatch, offers to move the file with a proposed `git mv` command — but never moves silently.
 
 ## Workflow
 
@@ -118,9 +126,38 @@ The skill performs these steps:
    - Calculate confidence and suggested persona
 5. **Generate report**: Format output as shown above
 
+## Move offer (on Mismatch)
+
+For each file with verdict `Mismatch`:
+
+1. Compute the proposed target path by replacing the current persona
+   segment in the path with the suggested persona. For example,
+   `docs/builders/user-guide.md` with suggested persona `musician`
+   becomes `docs/musicians/user-guide.md`.
+
+2. Print the proposed move on its own line, formatted so the user can
+   copy-paste or accept it:
+
+   ```
+   Proposed move:
+     git mv docs/builders/user-guide.md docs/musicians/user-guide.md
+   Reason: content keywords match musician (press button, profile, Bluetooth)
+   ```
+
+3. Ask the user: "Run this move?" Wait for explicit confirmation.
+
+4. **On approval**, run `git mv <old> <new>`. Report the new path.
+
+5. **On refusal or no answer**, do nothing — the file stays put. The
+   verdict remains in the report for the user's record.
+
+Do not run the move silently. Do not batch-move multiple files in one
+prompt — ask file-by-file so the user can approve each independently.
+
 ## Notes
 
-- This is an advisory tool only - it does not move or rename files
-- The skill helps maintain documentation organization but doesn't enforce it
-- Manual review is still required for final decisions
+- The skill is no longer purely advisory — it offers to move on Mismatch
+  but only with explicit user approval per move.
+- Manual review is still required for final decisions on Low / Medium
+  confidence verdicts.
 - Consider running this skill as part of PR validation or pre-commit hooks

@@ -1,0 +1,33 @@
+# direnv config for AwesomeStudioPedal — per-developer device handles.
+#
+# Setup:
+#   1. Install direnv: `sudo apt install direnv` (Ubuntu) or `brew install direnv` (macOS).
+#   2. Hook your shell — see https://direnv.net/docs/hook.html. For bash:
+#        eval "$(direnv hook bash)"   # add to ~/.bashrc
+#   3. Copy this file: `cp .envrc.example .envrc`
+#   4. Fill in the values below for your hardware.
+#   5. `direnv allow` from the repo root — direnv will then load these
+#      whenever your shell is inside the repo.
+#
+# All variables are namespaced ASP_* so they don't collide with anything else.
+# Skills and scripts read them via `${ASP_*}`; never hard-code the literal
+# values inline.
+
+# Pixel / Android device serial — output of `adb devices`. The /verify-on-device
+# and /ui-dump skills also honour ANDROID_SERIAL (the standard adb env var);
+# setting both is harmless. If you have only one device plugged in at a time
+# you can leave this empty and the skills will auto-detect.
+export ASP_PIXEL_DEVICE=""
+export ANDROID_SERIAL="${ASP_PIXEL_DEVICE}"
+
+# ESP32 USB serial port for PlatformIO uploads / `pio device monitor`.
+# Linux: usually /dev/ttyUSB0 or /dev/ttyACM0. macOS: /dev/cu.usbserial-XXXX.
+export ASP_ESP32_PORT=""
+
+# nRF52840 USB serial port (only needed if you target the nRF build).
+export ASP_NRF52840_PORT=""
+
+# BLE pedal MAC address — used by /ble-reset and any pedal-side BLE tooling
+# that runs on the host (e.g. bluetoothctl). Format: AA:BB:CC:DD:EE:FF.
+# Find it by running `bluetoothctl scan on` while the pedal is advertising.
+export ASP_PEDAL_MAC=""

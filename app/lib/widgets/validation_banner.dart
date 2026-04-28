@@ -16,7 +16,7 @@ class _ValidationBannerState extends State<ValidationBanner> {
   bool _isValid = true;
   bool _checked = false;
 
-  int _lastProfileCount = -1;
+  ProfilesState? _subscribed;
 
   Future<void> _validate(ProfilesState state) async {
     if (state.profiles.isEmpty) {
@@ -40,14 +40,32 @@ class _ValidationBannerState extends State<ValidationBanner> {
     });
   }
 
+  void _onProfilesChanged() {
+    final state = _subscribed;
+    if (state == null) return;
+    _validate(state);
+  }
+
   @override
-  Widget build(BuildContext context) {
-    final state = context.watch<ProfilesState>();
-    final count = state.profiles.length;
-    if (count != _lastProfileCount) {
-      _lastProfileCount = count;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final state = context.read<ProfilesState>();
+    if (!identical(state, _subscribed)) {
+      _subscribed?.removeListener(_onProfilesChanged);
+      state.addListener(_onProfilesChanged);
+      _subscribed = state;
       WidgetsBinding.instance.addPostFrameCallback((_) => _validate(state));
     }
+  }
+
+  @override
+  void dispose() {
+    _subscribed?.removeListener(_onProfilesChanged);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     if (!_checked) return const SizedBox.shrink();
     final color = _isValid ? AspTokens.success : AspTokens.error;
     final label = _isValid

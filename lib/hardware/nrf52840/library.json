@@ -1,9 +1,0 @@
-{
-  "name": "HardwareNRF52840",
-  "version": "1.0.0",
-  "description": "nRF52840/Arduino hardware implementations (LEDController, ButtonController, BleKeyboardAdapter)",
-  "build": {
-    "srcDirs": ["src"],
-    "includeDir": "include"
-  }
-}

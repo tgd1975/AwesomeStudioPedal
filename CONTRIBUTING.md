@@ -88,8 +88,8 @@ inside a Claude Code session:
 | Skill | What it does |
 |-------|-------------|
 | `/tasks` | List all open tasks in a compact table |
-| `/task-new "Title"` | Scaffold a new task file and update OVERVIEW.md |
-| `/task-done TASK-NNN` | Close a task and update OVERVIEW.md |
+| `/ts-task-new "Title"` | Scaffold a new task file and update OVERVIEW.md |
+| `/ts-task-done TASK-NNN` | Close a task and update OVERVIEW.md |
 | `/test` | Run host unit tests (`make test-host`) and report results |
 | `/lint` | Run markdown lint, code smell check, and Mermaid validation |
 | `/clang-tidy` | Run clang-tidy on C++ files changed relative to `main` |
@@ -107,8 +107,8 @@ Open tasks are tracked in [docs/developers/tasks/](docs/developers/tasks/).
 
 - **Browse tasks**: see [OVERVIEW.md](docs/developers/tasks/OVERVIEW.md) or run `/tasks`
 - **Pick up a task**: read its file, branch off `main` (`feature/TASK-NNN-short-title`)
-- **Close a task**: use `/task-done TASK-NNN` — moves the file to `closed/` and updates the overview
-- **Create a task**: use `/task-new "Short title"` — scaffolds the file and updates the overview
+- **Close a task**: use `/ts-task-done TASK-NNN` — moves the file to `closed/` and updates the overview
+- **Create a task**: use `/ts-task-new "Short title"` — scaffolds the file and updates the overview
 - **Update overview manually**: `python scripts/update_task_overview.py`
 
 Each task file contains a description, acceptance criteria, and notes.

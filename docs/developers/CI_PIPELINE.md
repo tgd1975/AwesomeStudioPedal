@@ -42,8 +42,6 @@ The `Doxyfile` at the repository root configures Doxygen. Input directories:
 - `src/`
 - `include/`
 - `lib/PedalLogic/`
-- `lib/hardware/esp32/`
-- `lib/hardware/nrf52840/`
 
 Output: `docs/api/html/`. The `docs/api/` directory is gitignored — generated output is never
 committed.

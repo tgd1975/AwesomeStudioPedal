@@ -10,6 +10,56 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
+## [v0.4.1] — 2026-04-29
+
+### Changed
+
+**Architecture**
+
+- Hardware Abstraction Layer (EPIC-020): replaced `#ifdef` platform soup
+  with a `PedalApp` class hierarchy — `Esp32PedalApp`, `Nrf52840PedalApp`,
+  `HostPedalApp`, plus a shared `BlePedalApp` layer
+- `IFileSystem` dependency injection — filesystem access no longer wired
+  through `HOST_TEST_BUILD` guards
+- Per-target source layout: `src/esp32/` and `src/nrf52840/` collapsed
+  from `lib/hardware/*`; `include/` and `src/` mirror each other under
+  every target
+- Host promoted to a first-class platform with end-to-end loop tests
+- Entry points reorganised into per-target subfolders
+
+**Task system**
+
+- `awesome-task-system/` is now the canonical source; live copies under
+  `scripts/`, `.claude/skills/`, and `docs/developers/task-system.yaml`
+  are generated artefacts kept in sync via `scripts/sync_task_system.py`
+  (enforced by pre-commit)
+- Project-level env vars via direnv (`$ASP_PIXEL_DEVICE`,
+  `$ASP_ESP32_PORT`, `$ASP_NRF52840_PORT`, `$ASP_PEDAL_MAC`) replace
+  hand-typed device serials and ports
+
+### Added
+
+**Agent-collaboration skills (EPIC-021)**
+
+- `/status` — bundles branch + last 3 commits + git status into one call
+- `/housekeep` — wraps `scripts/housekeep.py --apply` and stages the
+  regenerated index files
+- `/commit` — encodes the `--no-verify` decision protocol from CLAUDE.md
+- `/doc-check` — auto-triggers on `.md` moves to validate persona placement
+- `/ble-reset` — disconnect → remove → scan → pair → connect → verify
+  recovery sequence for flaky pedal pairing
+- `/ui-dump` and `/verify-on-device` — own the `adb shell uiautomator
+  dump` loop for driving the Pixel app
+
+### Fixed
+
+- Action Editor value field no longer carries over when the action type
+  changes to one with a different value space (TASK-280)
+- Validation banner now refreshes immediately after profile edits
+  instead of waiting for the profile count to change (TASK-281)
+
+---
+
 ## [0.4.0] — 2026-04-28
 
 ### Added

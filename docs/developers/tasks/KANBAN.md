@@ -20,7 +20,7 @@ kanban
 
 ## feature_test
 
-_⚪ 1 open · 🔵 0 active · 🟡 2 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
+_⚪ 1 open · 🔵 0 active · 🟡 2 paused · 🟢 2 closed · ████░░░░░░ 40%_
 
 ```mermaid
 kanban
@@ -31,6 +31,8 @@ kanban
     TASK_226["Feature Test — CLI scan with two pedals (S-04)"]
     TASK_249["nRF52840 pairing_pin is entirely unwired (security parity with ESP32)"]
   Closed
+    TASK_280["Defect — Action Editor value field carries over when Action Type changes"]
+    TASK_281["Defect — Validation banner stale until profile count changes"]
 ```
 
 ## iphone-app
@@ -68,7 +70,7 @@ kanban
 
 ## Other
 
-_⚪ 3 open · 🔵 0 active · 🟡 0 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
+_⚪ 5 open · 🔵 0 active · 🟡 0 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
 
 ```mermaid
 kanban
@@ -76,6 +78,8 @@ kanban
     TASK_148["Reorganise Developer Documentation"]
     TASK_259["Android app test protocol — record device and Android version per test run"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
+    TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
+    TASK_304["Simulator pedal buttons must not react to mouse hover"]
   Active
   Paused
   Closed
