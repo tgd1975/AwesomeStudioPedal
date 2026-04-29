@@ -1,6 +1,6 @@
 # Ideas Overview
 
-**Open: 31** | **Archived: 16**
+**Open: 30** | **Archived: 17**
 
 Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until they are either converted into structured tasks or archived. Archived ideas are kept for history in [`archived/`](archived/). See [README.md](README.md) for the file-naming convention (one row per IDEA, sub-notes use the `idea-NNN.<sub-slug>.md` form).
 
@@ -18,7 +18,6 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-014](open/idea-014-automated-hardware-testing-rig.md) | 🛠️ tooling | Automated Hardware Testing Rig | A relay-based test interface with optocoupler output detection that enables fully automated on-device testing without human intervention |
 | [IDEA-015](open/idea-015-marketing-material.md) | 📣 outreach | Marketing Material | Create compelling marketing material to attract musicians and builders |
 | [IDEA-016](open/idea-016-articles-written-by-journalists.md) | 📣 outreach | Articles Written by Journalists | Write one article for each persona |
-| [IDEA-017](open/idea-017-community-profiles-repository.md) | 📱 apps | Community Profiles Repository | A curated folder of ready-to-use profiles for popular tools and workflows, directly accessible from the web configurators and the mobile app — with a call for community contributions. |
 | [IDEA-018](open/idea-018-bom-prototype.md) | 📖 docs | Bill of Materials — Prototype | A complete, sourced BOM for the default 4-button prototype with part numbers, quantities, costs, and substitution notes — replacing the current placeholder list in BUILD_GUIDE.md. |
 | [IDEA-020](open/idea-020-mbse-sysmlv2.md) | 📖 docs | MBSE System Documentation with SysML v2 | Retroactively document the system using SysML v2 textual notation — stakeholder needs, derived requirements, structural architecture, behavioural models, and interface contracts — all as committed text files with CI validation and rendered output. |
 | [IDEA-022](open/idea-022-mkdocs-documentation-site.md) | 📖 docs | MkDocs Documentation Site | Introduce MkDocs as a unified documentation platform for both developer-facing and public-facing content — replacing a growing flat collection of Markdown files with a navigable, searchable, CI-rendered site. |
@@ -51,6 +50,7 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-006](archived/idea-006-macros.md) | ⚡ firmware | Macros |
 | [IDEA-009](archived/idea-009-long-press-event.md) | ⚡ firmware | Long Press Event |
 | [IDEA-010](archived/idea-010-double-press-event.md) | ⚡ firmware | Double Press Event |
+| [IDEA-017](archived/idea-017-community-profiles-repository.md) | 📱 apps | Community Profiles Repository |
 | [IDEA-019](archived/idea-019-wiring-as-code.md) | 🛠️ tooling | Wiring as Code — Schematic-as-Code for Documentation and Netlist Generation |
 | [IDEA-021](archived/idea-021-task_system_concept_for_small_teams.md) | 🛠️ tooling | Task and Idea System Concept for Small Teams |
 | [IDEA-024](archived/idea-024-profile-independent-actions.md) | ⚡ firmware | Profile-Independent Actions |
