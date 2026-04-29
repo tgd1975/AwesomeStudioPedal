@@ -83,7 +83,7 @@ edits — inserting a new path entry does not renumber anything else, so PCB dif
 stay minimal.
 
 **Segment count rule** (authoritative for both the renderer and the netlist
-exporter — [idea-027-exporters.md](idea-027-exporters.md) §Net-shape mapping
+exporter — [idea-027.exporters.md](idea-027.exporters.md) §Net-shape mapping
 defers to this definition):
 
 1. Group consecutive tokens of the same component into one node. Net-name tokens
@@ -220,7 +220,7 @@ taps:
 > **Superseded:** earlier drafts of this doc documented a long-form
 > `{ ref: "...", layout: { position: 0.3 } }` entry with per-tap layout
 > overrides. That form is removed. Per
-> [idea-027-layout-engine-concept.md](idea-027-layout-engine-concept.md) §3
+> [idea-027.layout-engine-concept.md](idea-027.layout-engine-concept.md) §3
 > and §4, all geometric decisions — including per-tap positioning — live
 > in `layout.yml` as a slot property (`{ region: bus-<name>, position: 0.3 }`),
 > not in the topology. Topology files carry no layout fields.
@@ -244,7 +244,7 @@ Valid values:
 
 Omitting `pull` on a net whose effective input direction is `in` triggers ERC
 check E1. `pull:` is the ERC's sole source of truth for E1 — see
-[idea-027-erc-engine.md §E1 notes](idea-027-erc-engine.md).
+[idea-027.erc-engine.md §E1 notes](idea-027.erc-engine.md).
 
 **Scope.** `pull:` is legal on all three net forms and is always a direct child
 of a `connections[*]` entry — never per-pin, never under `pins[*]`, `path[*]`,
@@ -278,7 +278,7 @@ net name.
 For nets touching MCU `GPIO`-typed pins (profile-declared `direction: "bidir"`),
 the authoritative per-use direction is set on the net via
 `role: in | out | bidir` (see
-[idea-027-components.md §3](idea-027-components.md#L163-L175)).
+[idea-027.components.md §3](idea-027.components.md#L163-L175)).
 
 Two shapes:
 
@@ -398,7 +398,7 @@ connections:
 of the three forms are a topology problem, not a YAML problem: restructure, or
 graduate to KiCad (IDEA-011). Components that need non-canonical placement can
 be assigned the `free` slot in `layout.yml` with a rubric waiver (see
-[idea-027-layout-engine-concept.md](idea-027-layout-engine-concept.md) §2
+[idea-027.layout-engine-concept.md](idea-027.layout-engine-concept.md) §2
 non-goals and §4.1). `.circuit.yml` itself carries no geometric fields under
 any circumstance.
 
@@ -413,7 +413,7 @@ before rendering. The schema enforces:
   error) so plugin experimentation stays cheap but typos stay visible.
   `meta.erc` is a map of check code (`E1`, `E5`, …) to severity
   (`off | warn | error`) — per-circuit overrides of the defaults; owned by
-  [idea-027-erc-engine.md](idea-027-erc-engine.md).
+  [idea-027.erc-engine.md](idea-027.erc-engine.md).
 - every `components[*].type` resolves to an existing profile in the library
 - every `connections[*].pins[*]` follows the `REF.PIN` format
 - every referenced `REF` appears in `components`
@@ -529,7 +529,7 @@ The renderer uses **`ruamel.yaml`** in round-trip mode, pinned in
 
 - Map insertion order is preserved across load → dump → load, which the
   layout engine relies on (see
-  [idea-027-layout-engine-concept.md §15](idea-027-layout-engine-concept.md)
+  [idea-027.layout-engine-concept.md §15](idea-027.layout-engine-concept.md)
   and the i2c-sensor side tie-break at §5.3 — "pin declared first in topology
   wins").
 - PyYAML ≥ 5.1 preserves order on load by default but loses it through dump,
@@ -547,7 +547,7 @@ it is enforced.
 
 Schema file: `.claude/skills/circuit/schema/layout.schema.json` (alongside
 `circuit.schema.json`). Prose owner:
-[idea-027-layout-engine-concept.md](idea-027-layout-engine-concept.md), next
+[idea-027.layout-engine-concept.md](idea-027.layout-engine-concept.md), next
 to the slot vocabulary.
 
 ### 3. Net-name and identifier rules

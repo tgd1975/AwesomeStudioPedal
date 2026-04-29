@@ -23,7 +23,7 @@ must not key on `category` without first widening this contract.
 ### 1. `category` — explicit layout-engine classification
 
 The `category` field is the lookup key for the canonical-slot table in
-[idea-027-layout-engine-concept.md §5.3](idea-027-layout-engine-concept.md), and is
+[idea-027.layout-engine-concept.md §5.3](idea-027.layout-engine-concept.md), and is
 **independent of the filesystem-addressable `type:`**. Decoupling the two is
 deliberate: the topology-fingerprint in layout §8.4 hashes `category`, not `type`,
 so renaming or splitting a `components/*.py` file does not invalidate downstream
@@ -88,7 +88,7 @@ For LEDs, `metadata` carries the colour-indexed forward-voltage table — see
 optional list of short lowercase tokens that describe what the component *is* in
 terms a maker would recognise (`"led"`, `"i2c"`, `"pull-up"`, `"decoupling"`).
 The circuit skill intersects this list with the `keywords` field of
-[rule-catalog entries](idea-027-rule-catalog.md#catalog-format) to decide which
+[rule-catalog entries](idea-027.rule-catalog.md#catalog-format) to decide which
 educational rules to surface when the profile is used. Authoring rules:
 
 - written in lowercase, NFKC-normalised form (`"i2c"` not `"I2C"` or `"I²C"`);
@@ -203,7 +203,7 @@ value on a `GPIO`) and the **authoritative per-use direction** is carried in
 does not set `role:` inherits the pin's profile direction (so non-GPIO pins need no
 net-level role). The yaml schema for `role:` — specifically where it attaches
 (per-net, per-path-segment, per-pin-within-net) — lives in
-[idea-027-yaml-format.md](idea-027-yaml-format.md); this doc owns only the
+[idea-027.yaml-format.md](idea-027.yaml-format.md); this doc owns only the
 pin-level side of the hybrid.
 
 **`type` and `direction` are not redundant.** An IC's VCC pin is
@@ -212,7 +212,7 @@ pin-level side of the hybrid.
 `direction` names the flow.
 
 This hybrid is what a future signal-flow rubric (deferred from v1 per [layout
-§10](idea-027-layout-engine-concept.md) — the placeholder name was
+§10](idea-027.layout-engine-concept.md) — the placeholder name was
 `signal_flow_ok`) would consume if it ships; encoding per-pin direction
 **now** means the later rubric needs no schema break. If the deferred check
 is dropped entirely, the per-pin `direction` still earns its keep via the
@@ -404,7 +404,7 @@ lands in that single commit, each with `category`, `side` on every pin, and `dir
 appear as a new directory with the full initial library; there is no staged-rollout
 mode where some profiles have the new fields and others don't. The Phase 2 cutover
 described in
-[idea-027-layout-engine-concept.md §16.1](idea-027-layout-engine-concept.md) is a
+[idea-027.layout-engine-concept.md §16.1](idea-027.layout-engine-concept.md) is a
 separate PR that consumes this library to ship the YAML renderer + layout kernel.
 
 ---
@@ -486,7 +486,7 @@ fingerprint mechanics.
 | Case | Files changed |
 |---|---|
 | **Existing category** (e.g. a new I2C sensor that fits `i2c-sensor`) | Profile file only (`components/*.py`). One-file change. |
-| **New category** (no row in §5.3 yet) | Profile file **plus** a §5.3 canonical-slot row in [idea-027-layout-engine-concept.md](idea-027-layout-engine-concept.md) **plus** a fresh rule-ID allocated for that row in the kernel rule table. Two-file change; no bump of an existing ID is involved, so downstream `layout.yml` files are not invalidated. |
+| **New category** (no row in §5.3 yet) | Profile file **plus** a §5.3 canonical-slot row in [idea-027.layout-engine-concept.md](idea-027.layout-engine-concept.md) **plus** a fresh rule-ID allocated for that row in the kernel rule table. Two-file change; no bump of an existing ID is involved, so downstream `layout.yml` files are not invalidated. |
 | **Changing an existing category's placement behaviour** (new slot math, new label default, new placement rule for a row that already exists) | §5.3 row edit + **rule-ID bump** on that row in the kernel rule table. The profile file is usually not touched (this is a layout-kernel change, not a profile change). Per layout §8.4 the bump cascades: every downstream `layout.yml` using the bumped rule auto-invalidates and needs a `/circuit layout` re-run. |
 
 **Connection-shape names.** The identifiers used in §5.3
@@ -523,7 +523,7 @@ The profiles shipped with the Phase 1 cutover PR (see "Phase 1 cutover" above).
 This list is heuristic, not derived from a survey — it targets the median maker
 project (read a sensor, display or transmit the value, maybe drive a small
 load) plus this project's audio-pedal core. It is intentionally not exhaustive:
-additions grow reactively per [layout §14.2](idea-027-layout-engine-concept.md)
+additions grow reactively per [layout §14.2](idea-027.layout-engine-concept.md)
 as real needs surface. Every row in the first table fits an existing §5.3
 canonical-slot row and is therefore trivially solvable by the deterministic
 kernel. Rows in the second table are components maker projects reach for
@@ -592,7 +592,7 @@ missing row.
 
 | Pattern | Needs | Priority |
 |---|---|---|
-| Generic diode / Schottky (for reverse-polarity protection) | `diode` row — ERC E9 needs a semantic distinction from `resistor`, not just a type label; otherwise every USB-C / barrel-jack circuit fails E9 by construction | **High** — E9 ships at v0.1 as WARNING (not ERROR) for this reason; see [erc-engine §E9 note](idea-027-erc-engine.md). Promotes to ERROR once `diode` lands |
+| Generic diode / Schottky (for reverse-polarity protection) | `diode` row — ERC E9 needs a semantic distinction from `resistor`, not just a type label; otherwise every USB-C / barrel-jack circuit fails E9 by construction | **High** — E9 ships at v0.1 as WARNING (not ERROR) for this reason; see [erc-engine §E9 note](idea-027.erc-engine.md). Promotes to ERROR once `diode` lands |
 | 3-pin linear regulator (AMS1117-3.3, LM7805) | `regulator` row: fixed-role 3 pins (IN / OUT / GND) | High — ubiquitous on maker boards |
 | Potentiometer / trimpot | `pot` row: ADC-tap-between-rails shape (VCC / wiper / GND) | High — maker-UI workhorse |
 | DHT22 / DHT11 (1-wire digital sensor) | Rename `i2c-sensor` row to `digital-sensor`, or add a parallel row | Medium |
@@ -606,7 +606,7 @@ missing row.
 ## Pin aliases
 
 Aliases rename profile pins for human readability — they live in this doc
-(rather than in [idea-027-yaml-format.md](idea-027-yaml-format.md)) because
+(rather than in [idea-027.yaml-format.md](idea-027.yaml-format.md)) because
 every consumer that cites a pin by name — ERC messages, BOM rows, the
 netlist — resolves aliases against the profile's pin identifiers, so the
 alias contract is co-located with the profile contract that defines those
@@ -616,7 +616,7 @@ Every GPIO can carry a human-readable alias that propagates through ERC, BOM, an
 netlist. Aliases are declared either inline under `meta.aliases` or sourced from an
 external file referenced by `meta.config: data/config.json` — the YAML-level schema
 for both forms, including validation that the `meta.config` path resolves to an
-existing file, lives in [idea-027-yaml-format.md](idea-027-yaml-format.md) (see the
+existing file, lives in [idea-027.yaml-format.md](idea-027.yaml-format.md) (see the
 `meta.*` keys rules there):
 
 ```yaml
@@ -630,7 +630,7 @@ meta:
 ERC messages use aliases: `"BTN_A: floating input"` rather than `"IO13: floating
 input"`. BOM rows that surface a pin name (rare — mostly diagnostic columns) use
 the alias for the same reason. **The KiCad netlist does not** — see
-[idea-027-exporters.md §Net naming](idea-027-exporters.md), which uses physical
+[idea-027.exporters.md §Net naming](idea-027.exporters.md), which uses physical
 pin identifiers in `(node (ref X) (pin Y))` because KiCad matches pin numbers,
 not friendly names. Aliases are orthogonal to `category`, `side`, and
 `direction` — they rename pins for human readability only, without changing any

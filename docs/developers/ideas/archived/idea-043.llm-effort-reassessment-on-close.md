@@ -1,10 +1,6 @@
----
-id: IDEA-043-llm-effort-reassessment-on-close
-title: Re-assess effort on task close (estimate vs. actual)
-category: tooling
-description: When closing a task, record a post-hoc effort size alongside the original estimate — same vocabulary, same flag-or-judgment flow as `/ts-task-new`. Feeds IDEA-043-release-burnup-chart and surfaces estimation drift.
-related: IDEA-043
----
+> Sub-note of [IDEA-043](idea-043-coordinated-task-system-rollout.md)
+
+# Re-assess effort on task close (estimate vs. actual)
 
 ## Archive Reason
 
@@ -14,7 +10,7 @@ related: IDEA-043
 
 ## Motivation
 
-[IDEA-043-release-burnup-chart](idea-043-release-burnup-chart.md) plots cumulative "estimated effort" since the last release tag — but those numbers are the *initial* guess, recorded before the work was understood and never corrected. Tobias is curious how those first estimates held up. So am I.
+[IDEA-043-release-burnup-chart](idea-043.release-burnup-chart.md) plots cumulative "estimated effort" since the last release tag — but those numbers are the *initial* guess, recorded before the work was understood and never corrected. Tobias is curious how those first estimates held up. So am I.
 
 ## Approach
 

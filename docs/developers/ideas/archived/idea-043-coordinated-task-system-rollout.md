@@ -16,9 +16,9 @@ A single coordinated rollout for three interlocking sub-ideas plus one prerequis
 
 ## Sub-pages
 
-- [IDEA-043-release-burnup-chart](idea-043-release-burnup-chart.md) — auto-generated burn-up section in `tasks/OVERVIEW.md`, the dashboard.
-- [IDEA-043-llm-effort-reassessment-on-close](idea-043-llm-effort-reassessment-on-close.md) — `effort_actual` written by `/ts-task-done`, the data the dashboard needs.
-- [IDEA-043-paused-as-first-class-task-status](idea-043-paused-as-first-class-task-status.md) — `paused/` folder and status, cleans up the lifecycle the dashboard summarizes.
+- [IDEA-043-release-burnup-chart](idea-043.release-burnup-chart.md) — auto-generated burn-up section in `tasks/OVERVIEW.md`, the dashboard.
+- [IDEA-043-llm-effort-reassessment-on-close](idea-043.llm-effort-reassessment-on-close.md) — `effort_actual` written by `/ts-task-done`, the data the dashboard needs.
+- [IDEA-043-paused-as-first-class-task-status](idea-043.paused-as-first-class-task-status.md) — `paused/` folder and status, cleans up the lifecycle the dashboard summarizes.
 
 Plus one prerequisite, scoped here:
 
@@ -156,7 +156,7 @@ Cheap insurance. Catches the "I edited the live copy out of habit" failure mode 
 
 ## 3. paused-as-first-class-task-status — implementation notes
 
-Full motivation and design: [IDEA-043-paused-as-first-class-task-status](idea-043-paused-as-first-class-task-status.md). Notes here are the additional refinements that came out of reviewing the three sub-ideas together.
+Full motivation and design: [IDEA-043-paused-as-first-class-task-status](idea-043.paused-as-first-class-task-status.md). Notes here are the additional refinements that came out of reviewing the three sub-ideas together.
 
 ### Premise
 
@@ -295,7 +295,7 @@ If the overcount becomes annoying before it self-resolves: a one-shot script cou
 
 ## 4. llm-effort-reassessment-on-close — implementation notes
 
-Full motivation and design: [IDEA-043-llm-effort-reassessment-on-close](idea-043-llm-effort-reassessment-on-close.md). Notes here are the additional refinements.
+Full motivation and design: [IDEA-043-llm-effort-reassessment-on-close](idea-043.llm-effort-reassessment-on-close.md). Notes here are the additional refinements.
 
 ### Premise
 
@@ -381,7 +381,7 @@ The rule is honor-system as written — the agent can read frontmatter at any ti
 
 ## 5. release-burnup-chart — implementation notes
 
-Full motivation and design: [IDEA-043-release-burnup-chart](idea-043-release-burnup-chart.md). Notes here cover the implementation specifics that emerged from the joint review.
+Full motivation and design: [IDEA-043-release-burnup-chart](idea-043.release-burnup-chart.md). Notes here cover the implementation specifics that emerged from the joint review.
 
 ### Premise
 

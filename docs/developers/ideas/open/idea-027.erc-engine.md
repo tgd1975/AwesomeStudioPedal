@@ -1,14 +1,6 @@
----
-id: IDEA-027-erc-engine
-title: ERC Engine — topology-only electrical rule check
-category: tooling
-description: >
-  Companion to IDEA-027. Specifies the ERC's pipeline position, configuration model,
-  S- and E-class checks, output format, and the NetGraph data model shared with
-  the netlist exporter.
-status: open
-related: IDEA-027
----
+> Sub-note of [IDEA-027](idea-027-circuit-skill.md)
+
+# ERC Engine — topology-only electrical rule check
 
 The ERC operates on the **parsed YAML net graph** — not on Schemdraw drawing primitives.
 This means ERC runs before rendering, fails fast on electrical errors, and is completely
@@ -29,7 +21,7 @@ position, trace length, or any rendered geometry. Two consequences follow:
 - **Physical-placement concerns are rubric items, not ERC checks.** "Decoupling cap
   placed far from VCC pin", "ground return path too long", and similar physical-layout
   diagnostics belong in the readability rubric
-  ([layout §10](idea-027-layout-engine-concept.md)), not here. If a future check would
+  ([layout §10](idea-027.layout-engine-concept.md)), not here. If a future check would
   need a coordinate to fire, that is the signal it belongs in the rubric, not the ERC.
 - **Error messages cite pins, not wire segments.** An E9 finding points at `J1.VBUS`,
   not at "the horizontal wire segment from x=120 to x=340". The render step may
@@ -148,7 +140,7 @@ alongside S1–S3 with their severity, message template, and `id` literal — on
 detection happens upstream. Schema-validation findings are emitted under those codes so
 the ERC report renders them under the same severity column and the same catalog-backed
 "Why / Senior's tip / Source" block (looked up by `id` from
-[rules.json](idea-027-rule-catalog.md)). `validate_catalog.py` therefore requires a
+[rules.json](idea-027.rule-catalog.md)). `validate_catalog.py` therefore requires a
 catalog row for every code in the constant table — **S1–S5 + E1–E10 = 15 rows** —
 regardless of which pipeline stage physically emits the finding.
 
@@ -173,11 +165,11 @@ activation predicate is not satisfied is never run, regardless of configuration.
 | # | Check | Severity | Active when | Logic |
 |---|---|---|---|---|
 | E1 | **Floating input** | ERROR | Any signal input pin in a net | Net contains a pin whose `type` is `GPIO` with runtime `role: in`, or `type: INPUT_ONLY`; net has no `pull` key and no external pull resistor (see E1 notes). `type: GROUND` and `type: POWER` pins are excluded even though they carry `direction: "in"` — they are supply sinks, not signal inputs. |
-| E2 | **LED missing resistor** | ERROR | Any LED in the circuit | LED anode pin sits on a `path:` net; the flattened path from the driving GPIO to the anode contains no resistor segment. LEDs wired on `pins:` or `bus:` nets trigger E2 directly (a non-`path:` topology is itself the error — a current-limiting resistor has no well-defined position on an unordered junction; see [yaml-format §Form 1](idea-027-yaml-format.md#form-1--pins-unordered-set) and [§Form 3](idea-027-yaml-format.md#form-3--bus-shared-backbone-with-taps) for the topology choice). |
+| E2 | **LED missing resistor** | ERROR | Any LED in the circuit | LED anode pin sits on a `path:` net; the flattened path from the driving GPIO to the anode contains no resistor segment. LEDs wired on `pins:` or `bus:` nets trigger E2 directly (a non-`path:` topology is itself the error — a current-limiting resistor has no well-defined position on an unordered junction; see [yaml-format §Form 1](idea-027.yaml-format.md#form-1--pins-unordered-set) and [§Form 3](idea-027.yaml-format.md#form-3--bus-shared-backbone-with-taps) for the topology choice). |
 | E3 | **LED resistor out of range** | WARNING | Any LED whose path contains a resistor component | Resistor value outside 100 Ω–1 kΩ for the MCU's VCC; calculated as `I = (VCC - v_forward) / R`. E3 runs independently of E2 — if the LED is wired without a resistor, E2 fires and E3 has no resistor to evaluate; E3 never consumes E2's pass/fail result. See E3 note for why "pin at risk" is WARNING and not ERROR. |
 | E4 | **INPUT_ONLY pin driven** | ERROR | ESP32 or similar MCU | Membership test: net contains a pin whose profile `type` is `INPUT_ONLY` *and* contains any other pin with `direction: "out"`. Position within the net is not consulted — any output on the same net is a fault. |
 | E5 | **Strapping pin without pull** | WARNING | MCU with `is_strapping` pins, on nets containing a switch | Strapping pin is in a net with a switch; net has no `pull: firmware` or `pull: hardware_up`. See E5 note below for why the switch scope. |
-| E6 | **Missing decoupling cap** | WARNING | Any IC with a VCC pin | IC's VCC pin net contains no capacitor anywhere on the net (100 nF expected). Topology-only: the check cannot verify the cap sits physically near the IC — per-IC enforcement and proximity to the VCC pin are rubric concerns (see `R-CAP-PROX` / `R-CAP-PER-IC` in [layout §10 readability rubric](idea-027-layout-engine-concept.md); the concrete rule IDs land with the rubric item). One shared bulk cap on a multi-IC VCC rail satisfies E6 for every IC on that rail by design; the rubric is where authors get pushback on under-decoupled rails. |
+| E6 | **Missing decoupling cap** | WARNING | Any IC with a VCC pin | IC's VCC pin net contains no capacitor anywhere on the net (100 nF expected). Topology-only: the check cannot verify the cap sits physically near the IC — per-IC enforcement and proximity to the VCC pin are rubric concerns (see `R-CAP-PROX` / `R-CAP-PER-IC` in [layout §10 readability rubric](idea-027.layout-engine-concept.md); the concrete rule IDs land with the rubric item). One shared bulk cap on a multi-IC VCC rail satisfies E6 for every IC on that rail by design; the rubric is where authors get pushback on under-decoupled rails. |
 | E7 | **I2C missing pull-up** | WARNING | Any component with `func: ["I2C_SDA"]` or `["I2C_SCL"]` (membership test on the list) | SDA/SCL net has no resistor to a VCC net |
 | E8 | **Current budget exceeded** | WARNING | MCU + any LEDs | Sum of `(VCC - v_forward) / R` across all LED nets exceeds `max_total_current_ma` from MCU profile. **v0.1 scope: LEDs only.** Other GPIO-driven loads (buzzers, relays, logic-level outputs) are not summed; extending E8 to cover them requires per-component current metadata that no non-LED profile declares today. |
 | E9 | **Reverse-polarity unprotected** | WARNING (v0.1) → ERROR (post-`diode`) | Any power input connector | Membership test: the net containing the power connector's VBUS/VIN pin contains no diode or P-MOSFET component. "Before reaching the MCU" is not enforced directly — on a `pins:` net "before" is not defined, and E9 would otherwise be unenforceable on the common `pins: [J1.VBUS, U1.VIN]` topology. Authors who want a component positionally between J1.VBUS and U1.VIN promote the net to `path:` form; E9's pass condition is the same (a diode/P-MOSFET is on the net), but the `path:` form also makes the protection element visible in the rendered schematic. |
@@ -214,12 +206,12 @@ activation predicate is not satisfied is never run, regardless of configuration.
   the source of truth, not the C++. The rare case of two input pins on one net
   needing different pull semantics is not supported by design; that topology is
   a smell, and the right fix is to split the net. See
-  [yaml-format §Form 2](idea-027-yaml-format.md#form-2--path-ordered-sequence) for the three legal `pull:`
+  [yaml-format §Form 2](idea-027.yaml-format.md#form-2--path-ordered-sequence) for the three legal `pull:`
   values.
 
   **Unresolved `role:` on a GPIO pin.** If a net touches a `GPIO`-typed pin and
   no applicable `role:` entry resolves it (the pin falls back to profile
-  `direction: "bidir"` — see [yaml-format §role:](idea-027-yaml-format.md#role--per-use-direction-for-gpio-typed-pins)),
+  `direction: "bidir"` — see [yaml-format §role:](idea-027.yaml-format.md#role--per-use-direction-for-gpio-typed-pins)),
   E1 cannot determine whether the pin is a signal input and therefore whether a
   `pull:` is required. In that case E1 downgrades to WARNING on that net and
   emits a "missing role" message naming the unresolved pin, rather than either
@@ -247,7 +239,7 @@ activation predicate is not satisfied is never run, regardless of configuration.
 - **E9**: intended severity is ERROR (a missing protection diode on a barrel jack or
   USB-C power input destroys the MCU on a wiring mistake), but **at v0.1 E9 ships as
   WARNING** because the `diode` category is backlogged (see the `diode` row in
-  [components §Backlog](idea-027-components.md)): with no way to semantically
+  [components §Backlog](idea-027.components.md)): with no way to semantically
   distinguish a protection diode from any other resistor in `path:`, every USB-C /
   barrel-jack circuit would fail E9 by construction. E9 auto-promotes to ERROR once
   the `diode` category lands. USB-C's CC pins provide some protection in compliant
@@ -276,7 +268,7 @@ activation predicate is not satisfied is never run, regardless of configuration.
 ```
 
 Each non-OK finding is expanded below the table with the explanation, heuristic, and
-source link drawn from the [rule catalog](idea-027-rule-catalog.md), so the report
+source link drawn from the [rule catalog](idea-027.rule-catalog.md), so the report
 teaches as well as fails:
 
 ```markdown

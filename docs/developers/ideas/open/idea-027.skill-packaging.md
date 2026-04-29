@@ -57,8 +57,8 @@ No other CLI tools required.
 
 `ruamel.yaml` is pinned (not `pyyaml`) because the layout engine's slot-resolution
 rules depend on map-insertion-order preservation — see
-[yaml-format §1 loader pin](idea-027-yaml-format.md#1-yaml-loader-ruamelyaml-pinned)
-and [layout-engine §5.3](idea-027-layout-engine-concept.md) / §15 (loader
+[yaml-format §1 loader pin](idea-027.yaml-format.md#1-yaml-loader-ruamelyaml-pinned)
+and [layout-engine §5.3](idea-027.layout-engine-concept.md) / §15 (loader
 requirement). `ruamel.yaml` preserves order by default; PyYAML ≥ 5.1 preserves
 order only when explicitly configured and silently regresses if any caller
 forgets. One pinned loader, one behaviour everywhere.
@@ -197,7 +197,7 @@ repo, or via any Markdown viewer.
 | `docs/circuit-yaml.md` | Full `.circuit.yml` format reference — all three connection forms, every key, annotated examples |
 | `docs/erc-checks.md` | Per-check reference: what triggers it, what it means, severity, suppression examples |
 | `docs/components.md` | Component library reference (all built-in profiles) + step-by-step guide for adding a new profile |
-| `docs/layout.md` | Layout engine user guide: how to invoke `/circuit layout`, output files (`layout.yml`, `meta.yml`, SVG), rubric interpretation, kernel-failure reports, `--reflow` / `--no-ai` semantics, known limitations. Design rationale links out to [idea-027-layout-engine-concept.md](idea-027-layout-engine-concept.md) — see item 4 below. |
+| `docs/layout.md` | Layout engine user guide: how to invoke `/circuit layout`, output files (`layout.yml`, `meta.yml`, SVG), rubric interpretation, kernel-failure reports, `--reflow` / `--no-ai` semantics, known limitations. Design rationale links out to [idea-027.layout-engine-concept.md](idea-027.layout-engine-concept.md) — see item 4 below. |
 
 `README.md` at the skill root is deliberately short: install instructions, pip line, and
 a link to `docs/index.md`. It is what GitHub shows on the skill's repository page.
@@ -246,14 +246,14 @@ phase where their subject is implemented:
 
 The six items below resolve the packaging deltas introduced by the layout
 engine concept and the v0.1/v1 staging split
-([idea-027-layout-engine-concept.md §17.1](idea-027-layout-engine-concept.md)).
+([idea-027.layout-engine-concept.md §17.1](idea-027.layout-engine-concept.md)).
 They are settled and feed directly into Phase 2 implementation.
 
 ### 1. Layout entrypoint script name
 
 The layout engine ships as **`layout.py`** at the skill root, exposed as
 `/circuit layout <name>` per
-[§13 contributor workflow](idea-027-layout-engine-concept.md). Argument parsing
+[§13 contributor workflow](idea-027.layout-engine-concept.md). Argument parsing
 covers `<name>`, `--reflow`, and `--no-ai`. The `allowed-tools` glob
 `Bash(python .claude/skills/circuit/layout.py *)` pre-approves every form.
 
@@ -315,7 +315,7 @@ reference documentation: how to invoke `/circuit layout`, what the output
 files mean, how to read a rubric, how to handle kernel-failure reports.
 Audience: skill users (human builders and Claude).
 
-[idea-027-layout-engine-concept.md](idea-027-layout-engine-concept.md)
+[idea-027.layout-engine-concept.md](idea-027.layout-engine-concept.md)
 stays in `docs/developers/ideas/` as the **design record**. It is archived
 under `docs/developers/ideas/archived/` at the moment the skill goes 1.0.
 Audience: maintainers reasoning about why the engine is shaped the way it is.
@@ -357,9 +357,9 @@ config surface we do not otherwise need.
 Resolved in `Requirements` above: `ruamel.yaml >= 0.17`. The pin is load-bearing
 the moment layout ships because §5.3 slot resolution and any future
 first-declared-wins rule depend on map-insertion-order preservation. See
-the loader-library item in [yaml-format pending discussion](idea-027-yaml-format.md)
+the loader-library item in [yaml-format pending discussion](idea-027.yaml-format.md)
 for the PyYAML-vs-ruamel comparison, and
-[layout-engine §15](idea-027-layout-engine-concept.md) for the loader
+[layout-engine §15](idea-027.layout-engine-concept.md) for the loader
 requirement statement.
 
 A schema-level test asserting `load → dump → load` preserves order lives in

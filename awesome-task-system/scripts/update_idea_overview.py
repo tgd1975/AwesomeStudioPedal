@@ -29,6 +29,17 @@ OVERVIEW = os.path.join(IDEAS_DIR, "OVERVIEW.md")
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)$", re.MULTILINE)
 
+# Main idea files are named `idea-NNN-<slug>.md`. Sub-notes attached to a
+# main idea use a dot instead of the hyphen: `idea-NNN.<sub-slug>.md`.
+# See docs/developers/ideas/README.md for the convention. Sub-notes never
+# appear in OVERVIEW.
+SUB_FILE_RE = re.compile(r"^idea-\d+\..+\.md$", re.IGNORECASE)
+
+
+def is_sub_file(filename: str) -> bool:
+    """True for sub-notes (`idea-NNN.<sub-slug>.md`), which OVERVIEW skips."""
+    return bool(SUB_FILE_RE.match(filename))
+
 # Emoji prefix per known idea category. Unknown categories render as bare text.
 CATEGORY_ICONS = {
     "hardware": "🔧",
@@ -77,6 +88,8 @@ def load_ideas(directory):
     for fname in sorted(os.listdir(directory)):
         if not fname.endswith(".md"):
             continue
+        if is_sub_file(fname):
+            continue
         idea = parse_idea_file(os.path.join(directory, fname))
         if idea:
             ideas.append(idea)
@@ -92,7 +105,9 @@ def render_overview(open_ideas, archived_ideas):
         "Ideas are lightweight, qualitative proposals tracked in"
         " [`open/`](open/) until they are either converted into structured"
         " tasks or archived. Archived ideas are kept for history in"
-        " [`archived/`](archived/).",
+        " [`archived/`](archived/). See [README.md](README.md) for the"
+        " file-naming convention (one row per IDEA, sub-notes use the"
+        " `idea-NNN.<sub-slug>.md` form).",
         "",
         "## Open Ideas",
         "",

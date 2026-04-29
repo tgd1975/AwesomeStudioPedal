@@ -2,7 +2,7 @@
 
 Authoritative design statement for the Circuit-Skill layout engine. This document
 is the source of truth for Phase 2 implementation. The companion
-[idea-027-layout-engine-discussion.md](idea-027-layout-engine-discussion.md)
+[idea-027.layout-engine-discussion.md](idea-027.layout-engine-discussion.md)
 captures the exploration, alternatives, and rationale that led here — read it for
 the "why," read this document for the "what."
 
@@ -696,7 +696,7 @@ is an input vs an output) that the v1 topology does not carry. The check
 returns in a later version once the YAML format is extended. In the
 meantime, left/right signal flow is enforced indirectly by slot-side
 assignment, which depends on per-pin side metadata owned by the
-component library (see [idea-027-components.md](idea-027-components.md));
+component library (see [idea-027.components.md](idea-027.components.md));
 a component profile that tags pins poorly will let layout flow wrong
 without the rubric flagging it.
 
@@ -1256,7 +1256,7 @@ kernel-only is trivially feasible, and isolates the AI layer's
 justification to **categories the kernel does not yet have a §5.3
 row for** (audio jacks, pots, regulators, transistors, encoders, and
 other shapes makers reach for — see
-[components.md backlog](idea-027-components.md#backlog--requires-a-new-53-row-first)).
+[components.md backlog](idea-027.components.md#backlog--requires-a-new-53-row-first)).
 Per §17.1, the AI placer is built after those shapes actually start
 showing up in real circuits, not speculatively.
 
@@ -1305,14 +1305,14 @@ Explicitly *not* resolved here, deferred:
 - Manual escape hatches (draw.io, Inkscape, SVG hand-editing). The
   discussion doc's analysis stands: **do not build.** Graduate to KiCad
   (IDEA-011) when the auto pipeline is genuinely insufficient.
-- Netlist export (tracked in [idea-027-exporters.md](idea-027-exporters.md)).
+- Netlist export (tracked in [idea-027.exporters.md](idea-027.exporters.md)).
 - Component-library authoring (tracked in
-  [idea-027-components.md](idea-027-components.md)).
-- ERC rules (tracked in [idea-027-erc-engine.md](idea-027-erc-engine.md)).
+  [idea-027.components.md](idea-027.components.md)).
+- ERC rules (tracked in [idea-027.erc-engine.md](idea-027.erc-engine.md)).
 - Skill packaging and distribution (tracked in
-  [idea-027-skill-packaging.md](idea-027-skill-packaging.md)).
+  [idea-027.skill-packaging.md](idea-027.skill-packaging.md)).
 - YAML schema details beyond layout (tracked in
-  [idea-027-yaml-format.md](idea-027-yaml-format.md)).
+  [idea-027.yaml-format.md](idea-027.yaml-format.md)).
 
 This document owns placement, slot vocabulary, router, rubric, sidecar,
 and CI contract. Nothing else.
@@ -1335,14 +1335,14 @@ That framing decides the scope:
   makers reach for routinely (MCUs, LEDs, buttons, passives, I2C sensors,
   jacks, headers), with a documented growth path for new categories
   (regulators, pots, transistors, encoders — see
-  [components.md backlog](idea-027-components.md#backlog--requires-a-new-53-row-first)).
+  [components.md backlog](idea-027.components.md#backlog--requires-a-new-53-row-first)).
   Adding a row is a one-PR change; the kernel does not need a redesign per
   category.
 - **Skill packaging as a portable artifact** —
   [Phase 7 in idea-027-circuit-skill.md](idea-027-circuit-skill.md#phase-7--standalone-repository-extraction)
   extracts the skill into its own repository so other projects can install
   it as a dependency. The path-agnostic script contract
-  ([skill-packaging §Portability](idea-027-skill-packaging.md#portability-contract))
+  ([skill-packaging §Portability](idea-027.skill-packaging.md#portability-contract))
   is the load-bearing piece that makes this trivial.
 - **AI vs kernel split as a cost lever for the audience** — kernel-only mode
   (`--no-ai`) is a first-class path so contributors without API keys can

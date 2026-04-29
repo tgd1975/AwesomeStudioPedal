@@ -2,7 +2,7 @@
 
 Both exporters are downstream consumers. The BOM exporter walks `components` directly;
 the netlist exporter walks the shared `NetGraph` owned by
-[idea-027-erc-engine.md §Net graph data model](idea-027-erc-engine.md). Neither
+[idea-027.erc-engine.md §Net graph data model](idea-027.erc-engine.md). Neither
 exporter re-parses YAML and neither re-implements flattening.
 
 **ERC gating.** Exporters run independently of ERC findings. A circuit with ERROR-level
@@ -44,14 +44,14 @@ table:
 |---|---|---|
 | `resistor` | `value` (Ω) | `.circuit.yml` `value:` field |
 | `capacitor` | `value` (F) + `dielectric` if declared | `.circuit.yml` `value:` and `dielectric:` |
-| `led` | `color` (or `default` if omitted) | `.circuit.yml` `color:` field per [components.md "variant selection"](idea-027-components.md) |
+| `led` | `color` (or `default` if omitted) | `.circuit.yml` `color:` field per [components.md "variant selection"](idea-027.components.md) |
 | `button`, `jack`, `header` | none | — |
 | `ic`, `i2c-sensor` | none (identity is in `type`) | — |
 
 The projector is defined alongside `bom_exporter.py` rather than on the
 component profile because it concerns presentation, not electrical semantics —
 keeping it out of `components/*.py` matches the "category keys layout, not
-semantics" invariant from [components.md §1](idea-027-components.md).
+semantics" invariant from [components.md §1](idea-027.components.md).
 
 ### Outputs
 
@@ -94,7 +94,7 @@ importer reads `Reference, Value, Footprint, Datasheet` and ignores the rest;
 ordering scripts, the `Type` column lets them resolve the profile path back).
 
 `Footprint` is sourced from `metadata.footprint` on the component profile; it
-is blank until [components.md §metadata](idea-027-components.md) gains a
+is blank until [components.md §metadata](idea-027.components.md) gains a
 `footprint` field (see the cross-doc dependency note at the foot of this file).
 
 ---
@@ -104,7 +104,7 @@ is blank until [components.md §metadata](idea-027-components.md) gains a
 The netlist exporter is a thin projection of `NetGraph` into KiCad `.net` syntax. All
 flattening — `pins` membership, `path` segmentation, terminal net-name merging
 (`GND`, `VCC`), bus collapse — happens inside `NetGraph` per
-[idea-027-erc-engine.md](idea-027-erc-engine.md). The exporter does **not** re-flatten;
+[idea-027.erc-engine.md](idea-027.erc-engine.md). The exporter does **not** re-flatten;
 it walks `NetGraph.nets` once and emits one `(net ...)` block per entry.
 
 **Net-shape mapping.** What `NetGraph` exposes vs. what the exporter does with it:
@@ -112,7 +112,7 @@ it walks `NetGraph.nets` once and emits one `(net ...)` block per entry.
 | `.circuit.yml` form | `NetGraph.nets` representation | KiCad output |
 |---|---|---|
 | `pins` | One entry, all pins as members | One `(net ...)` block |
-| `path` (N component-nodes) | N−1 segment entries; first carries the declared net name, the rest carry stable auto-generated names (see "Segment naming" below). Segment count follows the node-grouping rule in [idea-027-yaml-format.md §Form 2](idea-027-yaml-format.md#form-2--path-ordered-sequence). | One `(net ...)` block per segment |
+| `path` (N component-nodes) | N−1 segment entries; first carries the declared net name, the rest carry stable auto-generated names (see "Segment naming" below). Segment count follows the node-grouping rule in [idea-027.yaml-format.md §Form 2](idea-027.yaml-format.md#form-2--path-ordered-sequence). | One `(net ...)` block per segment |
 | `bus` | **One entry** containing the backbone endpoints and every tap pin as members. The per-tap visual segments the renderer draws are not present in `NetGraph.nets`. | One `(net ...)` block — the whole bus is electrically one net |
 
 ```mermaid
@@ -172,20 +172,20 @@ The `segment_names:` override on a path net replaces the auto-generated names wh
 KiCad net names must match a specific convention (e.g. an existing PCB project's
 naming). Length requirement, error-reporting behaviour, and the authoritative
 segment-count rule all live in
-[idea-027-yaml-format.md §Form 2](idea-027-yaml-format.md#form-2--path-ordered-sequence) — this exporter
+[idea-027.yaml-format.md §Form 2](idea-027.yaml-format.md#form-2--path-ordered-sequence) — this exporter
 just consumes the flattened `NetGraph`.
 
 **Net codes.** Net codes are assigned in `NetGraph.nets` insertion order, which is
 declaration order in `.circuit.yml`. Stable net codes across runs depend on the YAML
 loader preserving map insertion order — a contract pinned by
-[idea-027-yaml-format.md §Cross-cutting decisions §1](idea-027-yaml-format.md).
+[idea-027.yaml-format.md §Cross-cutting decisions §1](idea-027.yaml-format.md).
 
 **Net naming.** Net names emitted to KiCad are taken verbatim from
 `connections[*].net`. `(node (ref X) (pin Y))` always uses the **physical**
 pin identifier from the component profile — KiCad matches pin numbers, not
 friendly names. **Aliases are not propagated into the netlist** at all:
 `meta.aliases` is a pin-rename for human-facing surfaces (ERC messages, BOM
-rows) per [idea-027-components.md §Pin aliases](idea-027-components.md), and
+rows) per [idea-027.components.md §Pin aliases](idea-027.components.md), and
 has no role in the KiCad output. A net name that happens to match an alias
 value is coincidental and triggers no substitution.
 
@@ -244,7 +244,7 @@ The example below shows the output for an ESP32 + LED + bus-form I2C circuit
 (MCU + OLED + BME280 sharing `I2C_SDA` with a pull-up). The source
 `.circuit.yml` is sketched here so the netlist below stands on its own; it is
 a superset of the canonical example in
-[idea-027-yaml-format.md §Complete example](idea-027-yaml-format.md), promoted
+[idea-027.yaml-format.md §Complete example](idea-027.yaml-format.md), promoted
 from `path:` to `bus:` because it has three I2C devices on the data line:
 
 ```yaml
@@ -326,7 +326,7 @@ day-one targets (ESP32, nRF52840) and a dedicated bus-collapse fixture
 above: MCU + OLED + BME280 sharing `I2C_SDA` with a pull-up). The bus fixture
 is introduced here — it is the first circuit that exercises bus collapse and
 backs the "Add a BME280 sensor" acceptance scenario in
-[idea-027-skill-packaging.md §Evaluations](idea-027-skill-packaging.md#evaluations-acceptance-tests).
+[idea-027.skill-packaging.md §Evaluations](idea-027.skill-packaging.md#evaluations-acceptance-tests).
 
 ---
 
@@ -335,12 +335,12 @@ backs the "Add a BME280 sensor" acceptance scenario in
 ### Blocks Phase 4 ship
 
 1. **YAML loader pin** — resolved in
-   [idea-027-yaml-format.md §Cross-cutting decisions §1](idea-027-yaml-format.md)
+   [idea-027.yaml-format.md §Cross-cutting decisions §1](idea-027.yaml-format.md)
    as `ruamel.yaml` round-trip mode. Must ship before this exporter: without a
    loader that preserves map insertion order, netlist net codes are not stable
    across machines and the staleness guard fires non-deterministically.
 2. **`segment_names` length check** — resolved in
-   [idea-027-yaml-format.md §Form 2](idea-027-yaml-format.md#form-2--path-ordered-sequence) as a
+   [idea-027.yaml-format.md §Form 2](idea-027.yaml-format.md#form-2--path-ordered-sequence) as a
    validator-time error citing expected vs. actual count and the
    auto-generated names. Must ship before this exporter: a silent-truncation
    `segment_names` produces nets named after the wrong pins, breaking
@@ -353,7 +353,7 @@ backs the "Add a BME280 sensor" acceptance scenario in
    column and KiCad's auto-import skips footprint assignment. One line per
    profile + one schema entry.
 2. **`role:` net-level key in net names** — the shape is resolved in
-   [idea-027-yaml-format.md §Net-level attributes](idea-027-yaml-format.md)
+   [idea-027.yaml-format.md §Net-level attributes](idea-027.yaml-format.md)
    (scalar or `REF.PIN`-keyed map). The exporter doesn't read `role:` (it's
    `NetMeta`, dropped on the floor), but the *netlist net name* may want to
    reflect direction in future (`I2C_SDA_OUT` vs `I2C_SDA_IN`). Out of scope

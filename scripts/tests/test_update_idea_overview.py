@@ -136,6 +136,36 @@ class TestRenderOverview(unittest.TestCase):
         out = uio.render_overview([], [archived])
         self.assertIn("| ID | Category | Title |", out)
 
+    def test_overview_intro_links_to_readme(self):
+        out = uio.render_overview([], [])
+        self.assertIn("[README.md](README.md)", out)
+
+
+class TestSubFileDetection(unittest.TestCase):
+
+    def test_main_file_is_not_sub_file(self):
+        self.assertFalse(uio.is_sub_file("idea-027-circuit-skill.md"))
+        self.assertFalse(uio.is_sub_file("idea-001-mobile-app.md"))
+        self.assertFalse(uio.is_sub_file("idea-043-coordinated-rollout.md"))
+
+    def test_sub_file_with_dot_separator(self):
+        self.assertTrue(uio.is_sub_file("idea-027.erc-engine.md"))
+        self.assertTrue(uio.is_sub_file("idea-027.components.md"))
+        self.assertTrue(uio.is_sub_file("idea-043.release-burnup-chart.md"))
+
+    def test_load_ideas_skips_sub_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = pathlib.Path(tmp) / "open"
+            # Main file: should be loaded.
+            _write(tmp_p / "idea-027-circuit-skill.md",
+                   "---\nid: IDEA-027\ntitle: Circuit\n---\n")
+            # Sub-file: even with frontmatter, must be skipped.
+            _write(tmp_p / "idea-027.erc-engine.md",
+                   "---\nid: IDEA-027-ERC\ntitle: ERC\n---\n")
+            ideas = uio.load_ideas(str(tmp_p))
+            self.assertEqual(len(ideas), 1)
+            self.assertEqual(ideas[0]["id"], "IDEA-027")
+
 
 class TestMainIdempotent(unittest.TestCase):
 

@@ -53,3 +53,13 @@ approach, open questions. No prescribed structure.>
 
 Do not commit — ideas are usually created as part of a larger
 brainstorming session, and the user will commit the batch together.
+
+## Sub-notes (do not scaffold here)
+
+If the user asks for a *sub-note* attached to an existing IDEA — a
+companion design doc, discarded alternative, deep dive on one
+sub-system — that is **not** a new IDEA-NNN. Per the convention in
+[`docs/developers/ideas/README.md`](../../../docs/developers/ideas/README.md),
+sub-notes are filenames of the form `idea-NNN.<sub-slug>.md` (dot
+between the number and the slug, no frontmatter, never in OVERVIEW).
+Create them by hand — this skill deliberately does not scaffold them.

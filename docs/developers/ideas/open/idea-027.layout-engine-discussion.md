@@ -3,7 +3,7 @@
 > **This document is the exploration log, not the authoritative design.**
 > The consolidated, consistent concept — which resolves the contradictions
 > flagged in the "Design review: known gaps" section below — lives in
-> [idea-027-layout-engine-concept.md](idea-027-layout-engine-concept.md).
+> [idea-027.layout-engine-concept.md](idea-027.layout-engine-concept.md).
 > Read that first for the "what"; read this file for the "why" and the
 > alternatives that were considered and rejected.
 

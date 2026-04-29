@@ -1,10 +1,6 @@
----
-id: IDEA-043-paused-as-first-class-task-status
-title: "`paused` as a first-class task status"
-category: tooling
-description: Promote pause from an "active task with prerequisites" overload to a real status alongside open / active / closed, with its own folder and index visibility.
-related: IDEA-043
----
+> Sub-note of [IDEA-043](idea-043-coordinated-task-system-rollout.md)
+
+# `paused` as a first-class task status
 
 ## Archive Reason
 
@@ -56,7 +52,7 @@ Three reasons the overload hurts in practice:
 
 1. **Honest dashboards.** "5 active tasks" should mean *5 tasks being worked on*, not "5 active + 3 parked-but-still-shelved-as-active." The number is a planning signal; making it accurate is cheap.
 2. **Preserves the original "we already started this" signal.** That's why `/ts-task-pause` exists in the first place. `paused` keeps the signal *and* makes it queryable. Today the signal is buried in body markdown.
-3. **Pairs with [IDEA-043-release-burnup-chart](idea-043-release-burnup-chart.md).** A burn-up chart that lumps paused tasks in with active ones overstates progress. If the chart filters on `status: active`, paused tasks correctly fall out without special-casing.
+3. **Pairs with [IDEA-043-release-burnup-chart](idea-043.release-burnup-chart.md).** A burn-up chart that lumps paused tasks in with active ones overstates progress. If the chart filters on `status: active`, paused tasks correctly fall out without special-casing.
 
 ## Impact surface
 

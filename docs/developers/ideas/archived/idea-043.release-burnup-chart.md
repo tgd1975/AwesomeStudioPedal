@@ -1,10 +1,6 @@
----
-id: IDEA-043-release-burnup-chart
-title: Release burn-up chart from closed tasks
-category: tooling
-description: Auto-generated burn-up section embedded in tasks/OVERVIEW.md — tasks-closed and epics-closed shown side-by-side, plus an effort-hours chart with estimate-vs-actual lines (per IDEA-043-llm-effort-reassessment-on-close).
-related: IDEA-043
----
+> Sub-note of [IDEA-043](idea-043-coordinated-task-system-rollout.md)
+
+# Release burn-up chart from closed tasks
 
 ## Archive Reason
 
@@ -27,7 +23,7 @@ A single script (Python under `scripts/`, or a slash command `/release-progress`
 
 1. Resolves the most recent tag via `git describe --tags --abbrev=0`.
 2. Walks `git log <tag>..HEAD --diff-filter=A --no-renames --name-only --date=short --pretty=format:'COMMIT %ad' -- 'docs/developers/tasks/closed/task-*.md' 'docs/developers/tasks/closed/epic-*.md'` to find tasks and epics closed since the tag. The `COMMIT <date>` sentinel and the file paths arrive as separate lines, so the script reads the stream line-by-line: each `COMMIT <date>` line sets the current commit date, every following non-empty line until the next sentinel is a path closed on that date. `--no-renames` ensures a `git mv open/ → closed/` is recorded as an add in `closed/`. After parsing, the script dedupes by basename to handle tasks that have moved through `open/ → active/ → closed/` more than once, keeping the latest closure date per task.
-3. Reads each task's frontmatter and maps **both** `effort:` (initial estimate) and `effort_actual:` (post-hoc t-shirt size from [IDEA-043-llm-effort-reassessment-on-close](idea-043-llm-effort-reassessment-on-close.md), when present) to midpoint hours, using the canonical t-shirt vocabulary below:
+3. Reads each task's frontmatter and maps **both** `effort:` (initial estimate) and `effort_actual:` (post-hoc t-shirt size from [IDEA-043-llm-effort-reassessment-on-close](idea-043.llm-effort-reassessment-on-close.md), when present) to midpoint hours, using the canonical t-shirt vocabulary below:
 
    | Size | Label | Range | Midpoint (h) |
    |---|---|---|---|

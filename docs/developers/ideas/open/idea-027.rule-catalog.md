@@ -50,7 +50,7 @@ Field notes:
 - `keywords` drive contextual surfacing by the skill — when the maker adds a component
   whose profile declares matching keywords, the skill pulls the entry into the
   conversation before running the ERC. The vocabulary is shared with
-  [`metadata.keywords`](idea-027-components.md#2-metadata--human-readable-identity-and-electrical-constraints)
+  [`metadata.keywords`](idea-027.components.md#2-metadata--human-readable-identity-and-electrical-constraints)
   on component profiles.
   The validator enforces four invariants on this vocabulary:
   - **Normalisation.** `validate_catalog.py` lowercases and NFKC-normalises keywords
@@ -61,7 +61,7 @@ Field notes:
   - **Profile membership.** The validator rejects any catalog keyword that does not
     appear in at least one shipped component profile. The profile source of truth
     it scans is `.claude/skills/circuit/components/*.py`, the path pinned by
-    [components.md §4](idea-027-components.md#4-schema-registration). Rules whose
+    [components.md §4](idea-027.components.md#4-schema-registration). Rules whose
     natural surfacing target is a topic rather than a specific component (e.g.
     PS-01 bulk-cap advice that applies to the board as a whole, not to any one
     part) use the reserved keyword `topic:<category>` — e.g. `topic:power-supply`
@@ -258,7 +258,7 @@ by **at least one** catalog entry. The constant table holds **S1–S5 + E1–E10
 codes** — S4 and S5 are detected by schema validation rather than by predicates in
 the ERC engine, but their codes (severity, message template, `id`) are defined
 alongside S1–S3 so schema-validation findings surface in the same ERC report format
-(see [erc-engine §Checks](idea-027-erc-engine.md#checks)). A single check may be
+(see [erc-engine §Checks](idea-027.erc-engine.md#checks)). A single check may be
 taught by multiple entries when it legitimately covers more than one angle — e.g.
 E4 current budget splitting into a per-pin rule and a total-chip rule rather than
 one compound entry. This means introducing a new ERC check and its
