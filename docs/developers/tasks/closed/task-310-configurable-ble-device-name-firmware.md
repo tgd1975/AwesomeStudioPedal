@@ -1,14 +1,45 @@
 ---
 id: TASK-310
 title: Configurable BLE device name — firmware + schema
-status: open
+status: closed
 opened: 2026-04-29
+closed: 2026-04-29
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: Clarification
 epic: config-driven-runtime-customisation
 order: 5
 ---
+
+## Resolution
+
+**Won't do — closed without implementation (2026-04-29).**
+
+The BLE keyboard adapter on ESP32 (`HookableBleKeyboard`) is constructed
+during static initialization, before `setup()` runs and therefore before
+LittleFS is mounted. To use a value from `config.json` at construction we
+would need to either:
+
+1. Read the filesystem during static construction — undefined behaviour
+   on ESP32 Arduino (`init()` has not yet run, the LittleFS subsystem is
+   not initialised).
+2. Cache the desired name in a separate file read at construction time —
+   same problem; the read itself triggers the unsafe `LittleFS.begin()`.
+3. Restructure `BlePedalApp` so the adapter is created in `setupCommon()`
+   after `loadHardwareConfig()` runs. This works but is a meaningful
+   refactor for a cosmetic feature (the user-visible win is renaming the
+   pedal in their phone's BLE scan list).
+
+Decision: keep the advertised name hard-coded in the platform-specific
+adapters (`AwesomeStudioPedal` on ESP32, `Strix-Pedal` on nRF52840). The
+restructure under (3) is not worth the cost for the value delivered.
+
+Sibling tasks TASK-311 (web config builder) and TASK-312 (Flutter app)
+are also closed without implementation — there is nothing for them to
+configure.
+
+The seeding idea IDEA-025 is updated with the postmortem so future
+readers see why this was tried and abandoned before reopening.
 
 ## Description
 

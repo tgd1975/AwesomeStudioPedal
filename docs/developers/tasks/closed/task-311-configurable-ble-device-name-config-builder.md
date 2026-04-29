@@ -1,8 +1,9 @@
 ---
 id: TASK-311
 title: Configurable BLE device name — web config builder support
-status: open
+status: closed
 opened: 2026-04-29
+closed: 2026-04-29
 effort: Small (<2h)
 complexity: Medium
 human-in-loop: Clarification
@@ -10,6 +11,18 @@ epic: config-driven-runtime-customisation
 order: 6
 prerequisites: [TASK-310]
 ---
+
+## Resolution
+
+**Won't do — closed without implementation (2026-04-29).**
+
+Prerequisite TASK-310 was closed without implementation: the BLE adapter
+on ESP32 is constructed during static initialization, before LittleFS is
+mounted, so the device name cannot be read from `config.json` without a
+significant restructure. Decided not worth the cost. There is nothing
+left for the config builder to configure here.
+
+See TASK-310's `## Resolution` section and IDEA-025 for the postmortem.
 
 ## Description
 
