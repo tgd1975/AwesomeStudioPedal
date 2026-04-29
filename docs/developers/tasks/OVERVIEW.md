@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 17** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 13** | **Total: 35** | ████░░░░░░ 37%
+⚪ **Open: 16** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 14** | **Total: 35** | ████░░░░░░ 40%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29"]
-    line [12]
+    line [13]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29"]
-    line [22.5]
-    line [11.5]
+    line [23.5]
+    line [11.75]
 ```
 
 </td></tr></table>
@@ -49,7 +49,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
-| 2026-04-29 | 12 | 12 | 22.5 | 22.5 | 11.5 | 11.5 | 1 | 1 |
+| 2026-04-29 | 13 | 13 | 23.5 | 23.5 | 11.8 | 11.8 | 1 | 1 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -86,7 +86,6 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (<2h) | Small | ⚪ open |
 | [TASK-259](open/task-259-android-app-test-protocol.md) | Android app test protocol — record device and Android version per test run | Small (<2h) | Junior | ⚪ open |
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
-| [TASK-317](open/task-317-ts-epic-new-autofill-branch.md) | `/ts-epic-new` auto-fills `branch: feature/<epic-slug>` | Small (<2h) | Junior | ⚪ open |
 | [TASK-318](open/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-319](open/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | ⚪ open |
 | [TASK-320](open/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | ⚪ open |
@@ -108,6 +107,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-314](closed/task-314-nbsp-between-icon-and-category.md) | Use non-breaking space between category icon and name | XS (<30m) |
 | [TASK-315](closed/task-315-idea-sub-file-naming-convention.md) | Idea sub-file naming convention — one IDEA = one OVERVIEW row | Small (<2h) |
 | [TASK-316](closed/task-316-epic-branch-frontmatter-field.md) | Add optional `branch:` field to epic frontmatter | Small (<2h) |
+| [TASK-317](closed/task-317-ts-epic-new-autofill-branch.md) | `/ts-epic-new` auto-fills `branch: feature/<epic-slug>` | Small (<2h) |
 
 ## Archived Releases
 

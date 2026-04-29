@@ -20,17 +20,17 @@ kanban
 
 ## epic-suggested-branch
 
-_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 1 closed · ███░░░░░░░ 33%_
+_⚪ 1 open · 🔵 0 active · 🟡 0 paused · 🟢 2 closed · ███████░░░ 67%_
 
 ```mermaid
 kanban
   Open
-    TASK_317["`/ts-epic-new` auto-fills `branch: feature/<epic-slug>`"]
     TASK_318["`/ts-task-active` nags when current branch ≠ epic's `branch:`"]
   Active
   Paused
   Closed
     TASK_316["Add optional `branch:` field to epic frontmatter"]
+    TASK_317["`/ts-epic-new` auto-fills `branch: feature/<epic-slug>`"]
 ```
 
 ## feature_test
