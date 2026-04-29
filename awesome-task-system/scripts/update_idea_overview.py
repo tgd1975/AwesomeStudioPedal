@@ -29,6 +29,30 @@ OVERVIEW = os.path.join(IDEAS_DIR, "OVERVIEW.md")
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)$", re.MULTILINE)
 
+# Emoji prefix per known idea category. Unknown categories render as bare text.
+CATEGORY_ICONS = {
+    "hardware": "🔧",
+    "firmware": "⚡",
+    "apps": "📱",
+    "tooling": "🛠️",
+    "docs": "📖",
+    "outreach": "📣",
+}
+
+
+def format_category(category: str) -> str:
+    """Render a category cell with an emoji prefix when known.
+
+    Empty / missing → em dash.
+    Known category  → "<emoji> <name>".
+    Unknown name    → bare name (no icon).
+    """
+    name = (category or "").strip()
+    if not name:
+        return "—"
+    icon = CATEGORY_ICONS.get(name)
+    return f"{icon} {name}" if icon else name
+
 
 def parse_idea_file(path):
     with open(path, encoding="utf-8") as f:
@@ -78,7 +102,7 @@ def render_overview(open_ideas, archived_ideas):
             idea_id = idea.get("id", "?")
             title = idea.get("title", idea["_file"])
             description = idea.get("description", "").replace("|", "\\|")
-            category = idea.get("category", "").strip() or "—"
+            category = format_category(idea.get("category", ""))
             fname = idea["_file"]
             lines.append(
                 f"| [{idea_id}](open/{fname}) | {category} | {title} | {description} |"
@@ -97,7 +121,7 @@ def render_overview(open_ideas, archived_ideas):
         for idea in archived_ideas:
             idea_id = idea.get("id", "?")
             title = idea.get("title", idea["_file"])
-            category = idea.get("category", "").strip() or "—"
+            category = format_category(idea.get("category", ""))
             fname = idea["_file"]
             lines.append(f"| [{idea_id}](archived/{fname}) | {category} | {title} |")
 

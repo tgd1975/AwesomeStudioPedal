@@ -59,7 +59,7 @@ class TestRenderOverview(unittest.TestCase):
                 "category": "firmware", "_file": "idea-001-first.md"}
         out = uio.render_overview([idea], [])
         self.assertIn(
-            "| [IDEA-001](open/idea-001-first.md) | firmware | First | Does things. |",
+            "| [IDEA-001](open/idea-001-first.md) | ⚡ firmware | First | Does things. |",
             out,
         )
 
@@ -67,13 +67,22 @@ class TestRenderOverview(unittest.TestCase):
         idea = {"id": "IDEA-002", "title": "No desc",
                 "category": "tooling", "_file": "idea-002.md"}
         out = uio.render_overview([idea], [])
-        self.assertIn("| [IDEA-002](open/idea-002.md) | tooling | No desc |  |", out)
+        self.assertIn("| [IDEA-002](open/idea-002.md) | 🛠️ tooling | No desc |  |", out)
 
     def test_missing_category_renders_em_dash(self):
         idea = {"id": "IDEA-010", "title": "Uncategorised",
                 "description": "x", "_file": "idea-010.md"}
         out = uio.render_overview([idea], [])
         self.assertIn("| [IDEA-010](open/idea-010.md) | — | Uncategorised | x |", out)
+
+    def test_unknown_category_renders_without_icon(self):
+        idea = {"id": "IDEA-011", "title": "Mystery",
+                "category": "weather-balloon", "description": "x",
+                "_file": "idea-011.md"}
+        out = uio.render_overview([idea], [])
+        self.assertIn(
+            "| [IDEA-011](open/idea-011.md) | weather-balloon | Mystery | x |", out
+        )
 
     def test_pipe_in_description_is_escaped(self):
         idea = {"id": "IDEA-003", "title": "Piped", "category": "firmware",
@@ -86,12 +95,24 @@ class TestRenderOverview(unittest.TestCase):
                     "_file": "idea-099.md"}
         out = uio.render_overview([], [archived])
         self.assertIn("## Archived Ideas", out)
-        self.assertIn("| [IDEA-099](archived/idea-099.md) | hardware | Done |", out)
+        self.assertIn("| [IDEA-099](archived/idea-099.md) | 🔧 hardware | Done |", out)
 
     def test_archived_missing_category_renders_em_dash(self):
         archived = {"id": "IDEA-098", "title": "Old", "_file": "idea-098.md"}
         out = uio.render_overview([], [archived])
         self.assertIn("| [IDEA-098](archived/idea-098.md) | — | Old |", out)
+
+    def test_format_category_known_categories(self):
+        self.assertEqual(uio.format_category("hardware"), "🔧 hardware")
+        self.assertEqual(uio.format_category("firmware"), "⚡ firmware")
+        self.assertEqual(uio.format_category("apps"), "📱 apps")
+        self.assertEqual(uio.format_category("tooling"), "🛠️ tooling")
+        self.assertEqual(uio.format_category("docs"), "📖 docs")
+        self.assertEqual(uio.format_category("outreach"), "📣 outreach")
+
+    def test_format_category_empty_renders_em_dash(self):
+        self.assertEqual(uio.format_category(""), "—")
+        self.assertEqual(uio.format_category("   "), "—")
 
     def test_open_table_has_category_column_header(self):
         idea = {"id": "IDEA-001", "title": "x", "_file": "idea-001.md"}

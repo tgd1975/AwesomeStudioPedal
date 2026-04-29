@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 21** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 1** | **Total: 27** | ░░░░░░░░░░ 4%
+⚪ **Open: 21** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 2** | **Total: 28** | █░░░░░░░░░ 7%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -15,7 +15,41 @@
 
 ## Burn-up since v0.4.1
 
-_No tasks or epics closed since v0.4.1 yet._
+<table><tr><td>
+
+```mermaid
+xychart-beta
+    title "Cumulative tasks closed"
+    x-axis ["04-29"]
+    line [1]
+```
+
+</td><td>
+
+```mermaid
+xychart-beta
+    title "Cumulative epics closed"
+    x-axis ["04-29"]
+    line [0]
+```
+
+</td><td>
+
+```mermaid
+xychart-beta
+    title "Cumulative effort hours — green: estimate, blue: actual"
+    x-axis ["04-29"]
+    line [5]
+    line [1]
+```
+
+</td></tr></table>
+
+_Legend: green line = estimate (midpoint hours from `effort:`); blue line = actual (midpoint hours from `effort_actual:`)._
+
+| Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
+|------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
+| 2026-04-29 | 1 | 1 | 5 | 5 | 1 | 1 | 0 | 0 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -66,6 +100,7 @@ _No tasks or epics closed since v0.4.1 yet._
 | ID | Title | Effort |
 |----|-------|--------|
 | [TASK-305](closed/task-305-add-category-field-to-ideas.md) | Add category field to ideas and surface it in OVERVIEW | Medium (2-8h) |
+| [TASK-313](closed/task-313-emoji-icons-for-idea-categories.md) | Add emoji icons to idea category column in OVERVIEW | Small (<2h) |
 
 ## Archived Releases
 

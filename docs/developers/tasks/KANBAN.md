@@ -87,7 +87,7 @@ kanban
 
 ## Other
 
-_⚪ 5 open · 🔵 0 active · 🟡 0 paused · 🟢 1 closed · ██░░░░░░░░ 17%_
+_⚪ 5 open · 🔵 0 active · 🟡 0 paused · 🟢 2 closed · ███░░░░░░░ 29%_
 
 ```mermaid
 kanban
@@ -101,5 +101,6 @@ kanban
   Paused
   Closed
     TASK_305["Add category field to ideas and surface it in OVERVIEW"]
+    TASK_313["Add emoji icons to idea category column in OVERVIEW"]
 ```
 
