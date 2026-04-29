@@ -1,9 +1,11 @@
 ---
 id: TASK-306
 title: Profile-independent actions — firmware + schema
-status: active
+status: closed
+closed: 2026-04-29
 opened: 2026-04-29
 effort: Medium (2-8h)
+effort_actual: Medium (2-8h)
 complexity: Medium
 human-in-loop: Clarification
 epic: config-driven-runtime-customisation

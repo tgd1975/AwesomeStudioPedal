@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 18** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 7** | **Total: 30** | ██░░░░░░░░ 23%
+⚪ **Open: 18** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 8** | **Total: 30** | ███░░░░░░░ 27%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -56,9 +56,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-306](active/task-306-profile-independent-actions-firmware.md) | Profile-independent actions — firmware + schema | Medium (2-8h) | Medium | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -97,6 +95,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | ID | Title | Effort |
 |----|-------|--------|
 | [TASK-305](closed/task-305-add-category-field-to-ideas.md) | Add category field to ideas and surface it in OVERVIEW | Medium (2-8h) |
+| [TASK-306](closed/task-306-profile-independent-actions-firmware.md) | Profile-independent actions — firmware + schema | Medium (2-8h) |
 | [TASK-310](closed/task-310-configurable-ble-device-name-firmware.md) | Configurable BLE device name — firmware + schema | Medium (2-8h) |
 | [TASK-311](closed/task-311-configurable-ble-device-name-config-builder.md) | Configurable BLE device name — web config builder support | Small (<2h) |
 | [TASK-312](closed/task-312-configurable-ble-device-name-flutter-app.md) | Configurable BLE device name — Flutter app support | Small (<2h) |
