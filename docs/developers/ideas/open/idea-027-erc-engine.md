@@ -1,6 +1,7 @@
 ---
 id: IDEA-027-erc-engine
 title: ERC Engine — topology-only electrical rule check
+category: tooling
 description: >
   Companion to IDEA-027. Specifies the ERC's pipeline position, configuration model,
   S- and E-class checks, output format, and the NetGraph data model shared with

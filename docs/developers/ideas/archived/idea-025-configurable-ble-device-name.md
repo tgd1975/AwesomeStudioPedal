@@ -1,8 +1,13 @@
 ---
 id: IDEA-025
 title: Configurable BLE Device Name
+category: firmware
 description: Allow users to configure the BLE device name via config.json
 ---
+
+## Archive Reason
+
+2026-04-29 — Converted to EPIC-020 (TASK-310, TASK-311, TASK-312). Auto-generated fallback rule revised to `ASP_{numButtons}_{numProfiles}` (no NVS counter).
 
 ## Details
 

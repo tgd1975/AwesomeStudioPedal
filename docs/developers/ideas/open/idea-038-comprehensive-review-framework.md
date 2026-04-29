@@ -1,6 +1,7 @@
 ---
 id: IDEA-038
 title: Comprehensive code & architecture review framework — define the dimensions
+category: docs
 description: Iteratively define what "thorough review" means for this project — clarity, testability, documentation, usefulness, no dead-ends, extendability — into an actionable rubric.
 ---
 

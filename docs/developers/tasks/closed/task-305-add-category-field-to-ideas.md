@@ -1,9 +1,11 @@
 ---
 id: TASK-305
 title: Add category field to ideas and surface it in OVERVIEW
-status: open
+status: closed
+closed: 2026-04-29
 opened: 2026-04-29
 effort: Medium (2-8h)
+effort_actual: Small (<2h)
 complexity: Junior
 human-in-loop: Clarification
 ---

@@ -1,6 +1,7 @@
 ---
 id: IDEA-043-release-burnup-chart
 title: Release burn-up chart from closed tasks
+category: tooling
 description: Auto-generated burn-up section embedded in tasks/OVERVIEW.md — tasks-closed and epics-closed shown side-by-side, plus an effort-hours chart with estimate-vs-actual lines (per IDEA-043-llm-effort-reassessment-on-close).
 related: IDEA-043
 ---

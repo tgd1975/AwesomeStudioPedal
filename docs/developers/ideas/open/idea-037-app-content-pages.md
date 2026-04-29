@@ -1,6 +1,7 @@
 ---
 id: IDEA-037
 title: App content pages — Info/About, How-To, and supporting screens
+category: apps
 description: Add minimal in-app content pages — Info/About, a crisp How-To, and similar supporting screens — so the app is self-explanatory without external docs.
 ---
 

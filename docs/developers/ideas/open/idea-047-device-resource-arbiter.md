@@ -1,6 +1,7 @@
 ---
 id: IDEA-047
 title: Device-resource arbiter for parallel test sessions
+category: tooling
 description: Mutual-exclusion lock around scarce hardware (ESP32, nRF52840, Pixel) so two parallel agent sessions can't grab the same device simultaneously, with self-recovery from hangs and crashes.
 ---
 

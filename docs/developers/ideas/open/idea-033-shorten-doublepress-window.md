@@ -1,6 +1,7 @@
 ---
 id: IDEA-033
 title: Shorten double-press window to reduce single-press latency
+category: firmware
 description: 300 ms defer on every single-press feels sluggish — find the smallest window that still lets humans double-tap reliably.
 ---
 

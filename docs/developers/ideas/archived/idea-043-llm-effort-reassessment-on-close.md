@@ -1,6 +1,7 @@
 ---
 id: IDEA-043-llm-effort-reassessment-on-close
 title: Re-assess effort on task close (estimate vs. actual)
+category: tooling
 description: When closing a task, record a post-hoc effort size alongside the original estimate — same vocabulary, same flag-or-judgment flow as `/ts-task-new`. Feeds IDEA-043-release-burnup-chart and surfaces estimation drift.
 related: IDEA-043
 ---

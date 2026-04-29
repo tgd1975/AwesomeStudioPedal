@@ -1,6 +1,7 @@
 ---
 id: IDEA-027
 title: Circuit-Skill — AI-Assisted Schematic Generation with ERC, BOM, and Netlist Export
+category: tooling
 description: >
   A Claude Code skill that generates Schemdraw-based circuit schematics from a declarative
   YAML circuit description, enforces electrical best practices via a hardware linter (ERC),

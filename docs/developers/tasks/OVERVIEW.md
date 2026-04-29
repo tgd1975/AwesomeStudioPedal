@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 22** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 0** | **Total: 27** | ░░░░░░░░░░ 0%
+⚪ **Open: 21** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 1** | **Total: 27** | ░░░░░░░░░░ 4%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -24,7 +24,7 @@ _No tasks or epics closed since v0.4.1 yet._
 
 | ID | Title | Effort | Complexity | Status |
 |----|-------|--------|------------|--------|
-| [TASK-305](active/task-305-add-category-field-to-ideas.md) | Add category field to ideas and surface it in OVERVIEW | Medium (2-8h) | Junior | 🔵 **active** |
+| [TASK-306](active/task-306-profile-independent-actions-firmware.md) | Profile-independent actions — firmware + schema | Medium (2-8h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -54,7 +54,6 @@ _No tasks or epics closed since v0.4.1 yet._
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-303](open/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) | Junior | ⚪ open |
 | [TASK-304](open/task-304-simulator-button-no-hover-reaction.md) | Simulator pedal buttons must not react to mouse hover | XS (<30m) | Junior | ⚪ open |
-| [TASK-306](open/task-306-profile-independent-actions-firmware.md) | Profile-independent actions — firmware + schema | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-307](open/task-307-profile-independent-actions-simulator.md) | Profile-independent actions — web simulator support | Small (<2h) | Medium | ⚪ open |
 | [TASK-308](open/task-308-profile-independent-actions-config-builder.md) | Profile-independent actions — web config builder support | Small (<2h) | Medium | ⚪ open |
 | [TASK-309](open/task-309-profile-independent-actions-flutter-app.md) | Profile-independent actions — Flutter app support | Small (<2h) | Medium | ⚪ open |
@@ -66,6 +65,7 @@ _No tasks or epics closed since v0.4.1 yet._
 
 | ID | Title | Effort |
 |----|-------|--------|
+| [TASK-305](closed/task-305-add-category-field-to-ideas.md) | Add category field to ideas and surface it in OVERVIEW | Medium (2-8h) |
 
 ## Archived Releases
 

@@ -1,6 +1,7 @@
 ---
 id: IDEA-017
 title: Community Profiles Repository
+category: apps
 description: A curated folder of ready-to-use profiles for popular tools and workflows, directly accessible from the web configurators and the mobile app — with a call for community contributions.
 ---
 

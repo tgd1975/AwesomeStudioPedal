@@ -1,6 +1,7 @@
 ---
 id: IDEA-049
 title: Make the logo more prominent across apps and tools
+category: apps
 description: Use the project logo more consistently — especially in the simulator and the config builders, which currently have none.
 ---
 

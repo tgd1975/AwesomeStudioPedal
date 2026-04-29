@@ -1,6 +1,7 @@
 ---
 id: IDEA-039
 title: Action Editor "Key (raw HID)" — pick a value space (USB Usage IDs vs firmware-internal codes) and align app, firmware, and docs
+category: firmware
 description: Decide whether the "Key (raw HID)" numeric value is the standard USB HID Usage ID (e.g. 0x28 = Enter) or the firmware-internal NicoHood/BleKeyboard code (e.g. 0xB0 = Enter), then align the app field, firmware parser, schema, and docs to a single answer.
 ---
 

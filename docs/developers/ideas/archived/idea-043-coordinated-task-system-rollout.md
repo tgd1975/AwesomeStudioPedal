@@ -1,6 +1,7 @@
 ---
 id: IDEA-043
 title: Coordinated task-system rollout — burn-up dashboard, post-hoc effort, paused status, and awesome-task-system carve-out
+category: tooling
 description: Sequenced rollout for the burn-up dashboard, post-hoc effort reassessment, paused-as-first-class status, and the awesome-task-system source-of-truth carve-out.
 related: IDEA-031
 ---

@@ -1,6 +1,7 @@
 ---
 id: IDEA-030
 title: Epic-Suggested Branch with Soft Enforcement
+category: tooling
 description: Each epic declares a suggested branch; task/commit flows nudge (not block) the user when work on an epic happens on a different branch, to encourage smaller, focused releases.
 ---
 

@@ -4,7 +4,8 @@ Regenerate docs/developers/ideas/OVERVIEW.md from idea files in
 docs/developers/ideas/open/.
 
 Each file must contain YAML frontmatter with at least `id` and `title`
-fields; `description` is optional.
+fields; `description` and `category` are optional. A missing `category`
+renders as an em dash in the table.
 
 Usage:
     python scripts/update_idea_overview.py            # write OVERVIEW.md
@@ -70,15 +71,18 @@ def render_overview(open_ideas, archived_ideas):
 
     if open_ideas:
         lines += [
-            "| ID | Title | Description |",
-            "|----|-------|-------------|",
+            "| ID | Category | Title | Description |",
+            "|----|----------|-------|-------------|",
         ]
         for idea in open_ideas:
             idea_id = idea.get("id", "?")
             title = idea.get("title", idea["_file"])
             description = idea.get("description", "").replace("|", "\\|")
+            category = idea.get("category", "").strip() or "—"
             fname = idea["_file"]
-            lines.append(f"| [{idea_id}](open/{fname}) | {title} | {description} |")
+            lines.append(
+                f"| [{idea_id}](open/{fname}) | {category} | {title} | {description} |"
+            )
     else:
         lines.append("_No open ideas._")
 
@@ -87,14 +91,15 @@ def render_overview(open_ideas, archived_ideas):
             "",
             "## Archived Ideas",
             "",
-            "| ID | Title |",
-            "|----|-------|",
+            "| ID | Category | Title |",
+            "|----|----------|-------|",
         ]
         for idea in archived_ideas:
             idea_id = idea.get("id", "?")
             title = idea.get("title", idea["_file"])
+            category = idea.get("category", "").strip() or "—"
             fname = idea["_file"]
-            lines.append(f"| [{idea_id}](archived/{fname}) | {title} |")
+            lines.append(f"| [{idea_id}](archived/{fname}) | {category} | {title} |")
 
     return "\n".join(lines) + "\n"
 

@@ -1,6 +1,7 @@
 ---
 id: IDEA-043-paused-as-first-class-task-status
 title: "`paused` as a first-class task status"
+category: tooling
 description: Promote pause from an "active task with prerequisites" overload to a real status alongside open / active / closed, with its own folder and index visibility.
 related: IDEA-043
 ---

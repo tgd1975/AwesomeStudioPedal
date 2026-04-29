@@ -1,8 +1,13 @@
 ---
 id: IDEA-024
 title: Profile-Independent Actions
+category: firmware
 description: An optional always-active pseudo-profile whose actions fire in parallel with the active profile's actions on every button event — regardless of which profile is selected. If the block is absent, behaviour is identical to today.
 ---
+
+## Archive Reason
+
+2026-04-29 — Converted to EPIC-020 (TASK-306, TASK-307, TASK-308, TASK-309).
 
 ## Context
 

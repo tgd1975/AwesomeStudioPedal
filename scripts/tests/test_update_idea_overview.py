@@ -56,26 +56,52 @@ class TestRenderOverview(unittest.TestCase):
 
     def test_single_open_idea_renders_row(self):
         idea = {"id": "IDEA-001", "title": "First", "description": "Does things.",
-                "_file": "idea-001-first.md"}
+                "category": "firmware", "_file": "idea-001-first.md"}
         out = uio.render_overview([idea], [])
-        self.assertIn("| [IDEA-001](open/idea-001-first.md) | First | Does things. |", out)
+        self.assertIn(
+            "| [IDEA-001](open/idea-001-first.md) | firmware | First | Does things. |",
+            out,
+        )
 
     def test_missing_description_renders_empty_cell(self):
-        idea = {"id": "IDEA-002", "title": "No desc", "_file": "idea-002.md"}
+        idea = {"id": "IDEA-002", "title": "No desc",
+                "category": "tooling", "_file": "idea-002.md"}
         out = uio.render_overview([idea], [])
-        self.assertIn("| [IDEA-002](open/idea-002.md) | No desc |  |", out)
+        self.assertIn("| [IDEA-002](open/idea-002.md) | tooling | No desc |  |", out)
+
+    def test_missing_category_renders_em_dash(self):
+        idea = {"id": "IDEA-010", "title": "Uncategorised",
+                "description": "x", "_file": "idea-010.md"}
+        out = uio.render_overview([idea], [])
+        self.assertIn("| [IDEA-010](open/idea-010.md) | — | Uncategorised | x |", out)
 
     def test_pipe_in_description_is_escaped(self):
-        idea = {"id": "IDEA-003", "title": "Piped",
+        idea = {"id": "IDEA-003", "title": "Piped", "category": "firmware",
                 "description": "Has | pipe", "_file": "idea-003.md"}
         out = uio.render_overview([idea], [])
         self.assertIn("Has \\| pipe", out)
 
     def test_archived_section_only_when_non_empty(self):
-        archived = {"id": "IDEA-099", "title": "Done", "_file": "idea-099.md"}
+        archived = {"id": "IDEA-099", "title": "Done", "category": "hardware",
+                    "_file": "idea-099.md"}
         out = uio.render_overview([], [archived])
         self.assertIn("## Archived Ideas", out)
-        self.assertIn("[IDEA-099](archived/idea-099.md)", out)
+        self.assertIn("| [IDEA-099](archived/idea-099.md) | hardware | Done |", out)
+
+    def test_archived_missing_category_renders_em_dash(self):
+        archived = {"id": "IDEA-098", "title": "Old", "_file": "idea-098.md"}
+        out = uio.render_overview([], [archived])
+        self.assertIn("| [IDEA-098](archived/idea-098.md) | — | Old |", out)
+
+    def test_open_table_has_category_column_header(self):
+        idea = {"id": "IDEA-001", "title": "x", "_file": "idea-001.md"}
+        out = uio.render_overview([idea], [])
+        self.assertIn("| ID | Category | Title | Description |", out)
+
+    def test_archived_table_has_category_column_header(self):
+        archived = {"id": "IDEA-099", "title": "x", "_file": "idea-099.md"}
+        out = uio.render_overview([], [archived])
+        self.assertIn("| ID | Category | Title |", out)
 
 
 class TestMainIdempotent(unittest.TestCase):

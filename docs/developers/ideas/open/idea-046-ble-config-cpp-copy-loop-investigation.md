@@ -1,6 +1,7 @@
 ---
 id: IDEA-046
 title: Investigate the ble_config_service.cpp copy loop — possible build-system smell
+category: firmware
 status: open
 opened: 2026-04-28
 ---

@@ -21,6 +21,14 @@ Steps:
    (e.g. `idea-042-my-new-idea.md`).
 3. Ask the user for a one-line `description:` (shown in the OVERVIEW
    table). Keep it to ~120 chars. If the user declines, omit the field.
+3a. Ask the user for a `category:`. Pick one of the project's existing
+    categories — read the current set from
+    `docs/developers/ideas/OVERVIEW.md` (the `Category` column in the
+    Open and Archived tables). Don't invent a new category without
+    discussing it with the user — the value is rendered in the index
+    and ad-hoc additions break the grouping. If the user genuinely
+    can't place the idea, omit the field; the OVERVIEW renders missing
+    categories as an em dash.
 4. Write the file to `docs/developers/ideas/open/` with this template:
 
 ```markdown
@@ -28,6 +36,7 @@ Steps:
 id: IDEA-NNN
 title: <title>
 description: <one-line description — optional>
+category: <one of the existing categories — optional>
 ---
 
 # <title>

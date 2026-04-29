@@ -1,6 +1,7 @@
 ---
 id: IDEA-042
 title: One-click profile contribution from the app to the community profiles repository
+category: apps
 description: A near-frictionless "Share this profile" flow inside the mobile app and web tools that submits a user's profile to the community repo for maintainer review — no Git, no fork, no PR knowledge required.
 ---
 
