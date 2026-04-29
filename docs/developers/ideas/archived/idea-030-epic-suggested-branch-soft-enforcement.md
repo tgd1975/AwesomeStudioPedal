@@ -7,6 +7,10 @@ description: Each epic declares a suggested branch; task/commit flows nudge (not
 
 # Epic-Suggested Branch with Soft Enforcement
 
+## Archive Reason
+
+2026-04-29 — Converted to EPIC-021 with TASK-316/317/318.
+
 ## Motivation
 
 The current release demonstrates the problem clearly: **way too much is
