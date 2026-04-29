@@ -91,6 +91,16 @@ void PedalApp::executeActionWithLogging(uint8_t buttonIndex)
     const char* profileName = profileManager_->getProfileName(profileIndex).c_str();
     Serial.printf("Button %s pressed (Profile: %s)\n", btnLabel, profileName);
 
+    if (const Profile* independent = profileManager_->getIndependentActions())
+    {
+        if (Action* indAction = independent->getAction(buttonIndex))
+        {
+            const char* actionType = ProfileManager::getActionTypeString(indAction->getType());
+            Serial.printf("  -> Executing independent %s action\n", actionType);
+            indAction->execute();
+        }
+    }
+
     if (auto action = profileManager_->getAction(profileIndex, buttonIndex))
     {
         if (action->isInProgress())
@@ -127,6 +137,13 @@ void PedalApp::setupEventHandlers()
             idx,
             [this, idx]()
             {
+                if (const Profile* independent = profileManager_->getIndependentActions())
+                {
+                    if (auto indAction = independent->getAction(idx))
+                    {
+                        indAction->executeRelease();
+                    }
+                }
                 uint8_t profile = profileManager_->getCurrentProfile();
                 if (auto action = profileManager_->getAction(profile, idx))
                 {
@@ -142,6 +159,13 @@ void PedalApp::setupEventHandlers()
             idx,
             [this, idx]()
             {
+                if (const Profile* independent = profileManager_->getIndependentActions())
+                {
+                    if (auto indAction = independent->getLongPressAction(idx))
+                    {
+                        indAction->execute();
+                    }
+                }
                 uint8_t profile = profileManager_->getCurrentProfile();
                 if (auto action = profileManager_->getProfile(profile)->getLongPressAction(idx))
                 {
@@ -154,6 +178,13 @@ void PedalApp::setupEventHandlers()
             idx,
             [this, idx]()
             {
+                if (const Profile* independent = profileManager_->getIndependentActions())
+                {
+                    if (auto indAction = independent->getDoublePressAction(idx))
+                    {
+                        indAction->execute();
+                    }
+                }
                 uint8_t profile = profileManager_->getCurrentProfile();
                 if (auto action = profileManager_->getProfile(profile)->getDoublePressAction(idx))
                 {

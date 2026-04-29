@@ -17,6 +17,21 @@ using namespace ArduinoJson;
  * @param configPath Path to the configuration file to write
  * @return true if saving succeeded, false if file write failed
  */
+static void writeButtonActionsToJson(const Profile& source, JsonObject buttons)
+{
+    char btnName[2];
+    for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
+    {
+        Btn::name(b, btnName);
+        Action* action = source.getAction(b);
+        if (action)
+        {
+            JsonObject actionObj = buttons.createNestedObject(btnName);
+            ConfigLoader::actionToJson(action, actionObj);
+        }
+    }
+}
+
 bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::string& configPath)
 {
     DynamicJsonDocument doc(JSON_DOC_CAPACITY);
@@ -35,18 +50,13 @@ bool ConfigLoader::saveToFile(const ProfileManager& profileManager, const std::s
         profileObj["description"] = profile->getDescription().c_str();
 
         JsonObject buttons = profileObj.createNestedObject("buttons");
+        writeButtonActionsToJson(*profile, buttons);
+    }
 
-        char btnName[2];
-        for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
-        {
-            Btn::name(b, btnName);
-            Action* action = profile->getAction(b);
-            if (action)
-            {
-                JsonObject actionObj = buttons.createNestedObject(btnName);
-                actionToJson(action, actionObj);
-            }
-        }
+    if (const Profile* independent = profileManager.getIndependentActions())
+    {
+        JsonObject independentObj = doc.createNestedObject("independentActions");
+        writeButtonActionsToJson(*independent, independentObj);
     }
 
     std::string content{};

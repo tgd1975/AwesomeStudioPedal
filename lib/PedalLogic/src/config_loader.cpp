@@ -163,6 +163,17 @@ bool ConfigLoader::loadFromString(ProfileManager& profileManager,
         profileManager.addProfile(i, std::move(newProfile));
     }
 
+    if (doc.containsKey("independentActions"))
+    {
+        auto independent = std::make_unique<Profile>("__independent__");
+        populateProfileFromJson(*independent, doc["independentActions"], keyboard);
+        profileManager.setIndependentActions(std::move(independent));
+    }
+    else
+    {
+        profileManager.setIndependentActions(nullptr);
+    }
+
     profileManager.resetToFirstProfile();
     logLoadedConfig(profileManager);
     return true;

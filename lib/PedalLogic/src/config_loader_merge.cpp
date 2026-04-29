@@ -89,6 +89,14 @@ bool ConfigLoader::mergeConfig(ProfileManager& profileManager,
         logger_->log("Added profile: ", profileName);
     }
 
+    if (doc.containsKey("independentActions"))
+    {
+        auto independent = std::make_unique<Profile>("__independent__");
+        populateProfileFromJson(*independent, doc["independentActions"], keyboard);
+        profileManager.setIndependentActions(std::move(independent));
+        logger_->log("Replaced independent actions");
+    }
+
     logLoadedConfig(profileManager);
     return true;
 }
