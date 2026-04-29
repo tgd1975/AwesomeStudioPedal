@@ -20,13 +20,13 @@ kanban
 
 ## epic-suggested-branch
 
-_⚪ 1 open · 🔵 0 active · 🟡 0 paused · 🟢 2 closed · ███████░░░ 67%_
+_⚪ 0 open · 🔵 1 active · 🟡 0 paused · 🟢 2 closed · ███████░░░ 67%_
 
 ```mermaid
 kanban
   Open
-    TASK_318["`/ts-task-active` nags when current branch ≠ epic's `branch:`"]
   Active
+    TASK_318["`/ts-task-active` nags when current branch ≠ epic's `branch:`"]
   Paused
   Closed
     TASK_316["Add optional `branch:` field to epic frontmatter"]
@@ -83,17 +83,17 @@ kanban
 
 ## Other
 
-_⚪ 5 open · 🔵 1 active · 🟡 0 paused · 🟢 5 closed · ████░░░░░░ 45%_
+_⚪ 4 open · 🔵 2 active · 🟡 0 paused · 🟢 5 closed · ████░░░░░░ 45%_
 
 ```mermaid
 kanban
   Open
     TASK_148["Reorganise Developer Documentation"]
-    TASK_259["Android app test protocol — record device and Android version per test run"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
     TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
     TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
   Active
+    TASK_259["Android app test protocol — record device and Android version per test run"]
     TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
   Paused
   Closed

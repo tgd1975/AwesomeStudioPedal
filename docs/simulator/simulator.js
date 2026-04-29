@@ -539,64 +539,6 @@ function exportConfig() {
 }
 
 // ── Wire up DOM events ───────────────────────────────────────────────────────
-function _showStartScreen() {
-  const overlay = document.createElement('div');
-  overlay.id = 'start-screen';
-  overlay.style.cssText = [
-    'position:fixed;inset:0;background:rgba(245,245,245,.97);z-index:8888',
-    'display:flex;align-items:center;justify-content:center',
-  ].join(';');
-
-  overlay.innerHTML = `
-    <div style="text-align:center;max-width:460px;padding:32px;">
-      <h2 style="font-size:22px;font-weight:700;margin-bottom:8px;">
-        Choose a starting point
-      </h2>
-      <p style="color:#555;margin-bottom:28px;line-height:1.6;">
-        Load a community profile set to get started, or continue with a blank canvas.
-      </p>
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <button id="ss-community"
-          style="padding:12px 20px;background:#2563eb;color:#fff;border:none;
-                 border-radius:8px;font-size:15px;cursor:pointer;font-weight:600;">
-          Browse community profiles
-        </button>
-        <button id="ss-blank"
-          style="padding:12px 20px;background:#fff;color:#1a1a1a;
-                 border:1px solid #d1d5db;border-radius:8px;font-size:15px;cursor:pointer;">
-          Start blank
-        </button>
-      </div>
-      <p id="ss-error" style="display:none;color:#991b1b;margin-top:16px;font-size:13px;"></p>
-    </div>
-  `;
-
-  function dismiss() {
-    if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-  }
-
-  overlay.querySelector('#ss-community').onclick = () => {
-    dismiss();
-    const gallery = new ProfilesGallery({
-      indexUrl: 'https://tgd1975.github.io/AwesomeStudioPedal/profiles/index.json',
-      baseUrl:  'https://tgd1975.github.io/AwesomeStudioPedal/profiles/',
-      onLoad:   (json) => {
-        loadConfig(json);
-        document.getElementById('config-name').textContent =
-          (json.profiles && json.profiles[0] && json.profiles[0].name) || 'community profile';
-      },
-    });
-    gallery.open();
-  };
-
-  overlay.querySelector('#ss-blank').onclick = () => {
-    dismiss();
-    document.getElementById('config-name').textContent = 'blank — load a profiles.json to begin';
-  };
-
-  document.body.appendChild(overlay);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   renderButtonGrid();
   renderProfileLeds();
@@ -689,6 +631,8 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelPendingDelays();
   });
 
-  // Show "Choose a starting point" screen on page open instead of auto-loading.
-  _showStartScreen();
+  // Auto-load the demo so the pedal renders on first paint. Browse community
+  // profiles and the file inputs replace this config in place.
+  loadConfig(EXAMPLE_DATA);
+  document.getElementById('config-name').textContent = 'example (default) — load your own profiles.json to replace';
 });

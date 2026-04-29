@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 16** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 14** | **Total: 35** | ████░░░░░░ 40%
+⚪ **Open: 14** | 🔵 **Active: 3** | 🟡 **Paused: 4** | 🟢 **Closed: 14** | **Total: 35** | ████░░░░░░ 40%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29"]
-    line [13]
+    line [14]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29"]
-    line [23.5]
-    line [11.75]
+    line [24.5]
+    line [12]
 ```
 
 </td></tr></table>
@@ -49,7 +49,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
-| 2026-04-29 | 13 | 13 | 23.5 | 23.5 | 11.8 | 11.8 | 1 | 1 |
+| 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -58,7 +58,9 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | ID | Title | Effort | Complexity | Status |
 |----|-------|--------|------------|--------|
+| [TASK-259](active/task-259-android-app-test-protocol.md) | Android app test protocol — record device and Android version per test run | Small (<2h) | Junior | 🔵 **active** |
 | [TASK-303](active/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) | Junior | 🔵 **active** |
+| [TASK-318](active/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -84,9 +86,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | ⚪ open |
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (<2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (<2h) | Small | ⚪ open |
-| [TASK-259](open/task-259-android-app-test-protocol.md) | Android app test protocol — record device and Android version per test run | Small (<2h) | Junior | ⚪ open |
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
-| [TASK-318](open/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-319](open/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | ⚪ open |
 | [TASK-320](open/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | ⚪ open |
 
