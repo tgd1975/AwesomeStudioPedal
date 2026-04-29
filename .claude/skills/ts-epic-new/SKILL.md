@@ -26,6 +26,9 @@ status: open            # derived by housekeep.py — do not edit manually
 opened: YYYY-MM-DD
 closed:                 # set by housekeep.py when all tasks close
 assigned:               # optional — username of the owner
+branch:                 # optional — suggested git branch for tasks in this epic
+                        # (single branch name, e.g. feature/<epic-slug>;
+                        # /ts-task-active soft-warns when current branch differs)
 ---
 
 # <Short title>

@@ -20,7 +20,7 @@ kanban
 
 ## epic-suggested-branch
 
-_⚪ 2 open · 🔵 1 active · 🟡 0 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
+_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 1 closed · ███░░░░░░░ 33%_
 
 ```mermaid
 kanban
@@ -28,9 +28,9 @@ kanban
     TASK_317["`/ts-epic-new` auto-fills `branch: feature/<epic-slug>`"]
     TASK_318["`/ts-task-active` nags when current branch ≠ epic's `branch:`"]
   Active
-    TASK_316["Add optional `branch:` field to epic frontmatter"]
   Paused
   Closed
+    TASK_316["Add optional `branch:` field to epic frontmatter"]
 ```
 
 ## feature_test
@@ -83,7 +83,7 @@ kanban
 
 ## Other
 
-_⚪ 6 open · 🔵 0 active · 🟡 0 paused · 🟢 5 closed · ████░░░░░░ 45%_
+_⚪ 5 open · 🔵 1 active · 🟡 0 paused · 🟢 5 closed · ████░░░░░░ 45%_
 
 ```mermaid
 kanban
@@ -91,10 +91,10 @@ kanban
     TASK_148["Reorganise Developer Documentation"]
     TASK_259["Android app test protocol — record device and Android version per test run"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
-    TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
     TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
     TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
   Active
+    TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
   Paused
   Closed
     TASK_304["Simulator pedal buttons must not react to mouse hover"]

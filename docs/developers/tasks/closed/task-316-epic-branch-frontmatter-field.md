@@ -1,9 +1,11 @@
 ---
 id: TASK-316
 title: Add optional `branch:` field to epic frontmatter
-status: open
+status: closed
+closed: 2026-04-29
 opened: 2026-04-29
 effort: Small (<2h)
+effort_actual: XS (<30m)
 complexity: Junior
 human-in-loop: No
 epic: epic-suggested-branch
