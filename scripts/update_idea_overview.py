@@ -40,18 +40,23 @@ CATEGORY_ICONS = {
 }
 
 
+# U+00A0 keeps the emoji and the category name on the same line — a regular
+# space lets narrow renderers wrap the name and orphan the icon.
+_NBSP = " "
+
+
 def format_category(category: str) -> str:
     """Render a category cell with an emoji prefix when known.
 
     Empty / missing → em dash.
-    Known category  → "<emoji> <name>".
+    Known category  → "<emoji> <name>" (non-breaking space).
     Unknown name    → bare name (no icon).
     """
     name = (category or "").strip()
     if not name:
         return "—"
     icon = CATEGORY_ICONS.get(name)
-    return f"{icon} {name}" if icon else name
+    return f"{icon}{_NBSP}{name}" if icon else name
 
 
 def parse_idea_file(path):
