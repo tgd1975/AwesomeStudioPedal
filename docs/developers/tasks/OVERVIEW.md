@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 15** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 0** | **Total: 19** | ░░░░░░░░░░ 0%
+⚪ **Open: 16** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 0** | **Total: 20** | ░░░░░░░░░░ 0%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -13,43 +13,9 @@
 
 <a id="burn-up"></a>
 
-## Burn-up since v0.4.0
+## Burn-up since v0.4.1
 
-<table><tr><td>
-
-```mermaid
-xychart-beta
-    title "Cumulative tasks closed"
-    x-axis ["04-29"]
-    line [25]
-```
-
-</td><td>
-
-```mermaid
-xychart-beta
-    title "Cumulative epics closed"
-    x-axis ["04-29"]
-    line [2]
-```
-
-</td><td>
-
-```mermaid
-xychart-beta
-    title "Cumulative effort hours — green: estimate, blue: actual"
-    x-axis ["04-29"]
-    line [0]
-    line [0]
-```
-
-</td></tr></table>
-
-_Legend: green line = estimate (midpoint hours from `effort:`); blue line = actual (midpoint hours from `effort_actual:`)._
-
-| Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
-|------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
-| 2026-04-29 | 25 | 25 | 0 | 0 | 0 | 0 | 2 | 2 |
+_No tasks or epics closed since v0.4.1 yet._
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -86,6 +52,7 @@ _No active tasks._
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-303](open/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) | Junior | ⚪ open |
 | [TASK-304](open/task-304-simulator-button-no-hover-reaction.md) | Simulator pedal buttons must not react to mouse hover | XS (<30m) | Junior | ⚪ open |
+| [TASK-305](open/task-305-add-category-field-to-ideas.md) | Add category field to ideas and surface it in OVERVIEW | Medium (2-8h) | Junior | ⚪ open |
 
 ## Closed Tasks
 

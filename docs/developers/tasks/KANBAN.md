@@ -68,7 +68,7 @@ kanban
 
 ## Other
 
-_⚪ 5 open · 🔵 0 active · 🟡 0 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
+_⚪ 6 open · 🔵 0 active · 🟡 0 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
 
 ```mermaid
 kanban
@@ -78,6 +78,7 @@ kanban
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
     TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
     TASK_304["Simulator pedal buttons must not react to mouse hover"]
+    TASK_305["Add category field to ideas and surface it in OVERVIEW"]
   Active
   Paused
   Closed
