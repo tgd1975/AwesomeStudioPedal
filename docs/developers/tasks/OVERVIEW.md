@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 18** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 10** | **Total: 33** | ███░░░░░░░ 30%
+⚪ **Open: 18** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 11** | **Total: 33** | ███░░░░░░░ 33%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -56,9 +56,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-309](active/task-309-profile-independent-actions-flutter-app.md) | Profile-independent actions — Flutter app support | Small (<2h) | Medium | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -100,6 +98,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-306](closed/task-306-profile-independent-actions-firmware.md) | Profile-independent actions — firmware + schema | Medium (2-8h) |
 | [TASK-307](closed/task-307-profile-independent-actions-simulator.md) | Profile-independent actions — web simulator support | Small (<2h) |
 | [TASK-308](closed/task-308-profile-independent-actions-config-builder.md) | Profile-independent actions — web config builder support | Small (<2h) |
+| [TASK-309](closed/task-309-profile-independent-actions-flutter-app.md) | Profile-independent actions — Flutter app support | Small (<2h) |
 | [TASK-310](closed/task-310-configurable-ble-device-name-firmware.md) | Configurable BLE device name — firmware + schema | Medium (2-8h) |
 | [TASK-311](closed/task-311-configurable-ble-device-name-config-builder.md) | Configurable BLE device name — web config builder support | Small (<2h) |
 | [TASK-312](closed/task-312-configurable-ble-device-name-flutter-app.md) | Configurable BLE device name — Flutter app support | Small (<2h) |

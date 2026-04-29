@@ -1,9 +1,11 @@
 ---
 id: TASK-309
 title: Profile-independent actions — Flutter app support
-status: active
+status: closed
+closed: 2026-04-29
 opened: 2026-04-29
 effort: Small (<2h)
+effort_actual: Small (<2h)
 complexity: Medium
 human-in-loop: Clarification
 epic: config-driven-runtime-customisation
