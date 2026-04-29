@@ -1,7 +1,7 @@
 ---
 id: TASK-308
 title: Profile-independent actions — web config builder support
-status: open
+status: active
 opened: 2026-04-29
 effort: Small (<2h)
 complexity: Medium
@@ -20,10 +20,10 @@ schema from TASK-306.
 
 ## Acceptance Criteria
 
-- [ ] Builder shows a section for editing `independentActions` separate from the per-profile button maps.
-- [ ] Adding an entry produces JSON that validates against `profiles.schema.json` from TASK-306.
-- [ ] The block can be removed entirely, producing a `profiles.json` without the key (not an empty object).
-- [ ] Loading an existing `profiles.json` that already contains `independentActions` populates the editor correctly.
+- [x] Builder shows a section for editing `independentActions` separate from the per-profile button maps.
+- [x] Adding an entry produces JSON that validates against `profiles.schema.json` from TASK-306.
+- [x] The block can be removed entirely, producing a `profiles.json` without the key (not an empty object).
+- [x] Loading an existing `profiles.json` that already contains `independentActions` populates the editor correctly.
 
 ## Test Plan
 
