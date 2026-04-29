@@ -20,15 +20,15 @@ kanban
 
 ## epic-suggested-branch
 
-_⚪ 3 open · 🔵 0 active · 🟡 0 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
+_⚪ 2 open · 🔵 1 active · 🟡 0 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
 
 ```mermaid
 kanban
   Open
-    TASK_316["Add optional `branch:` field to epic frontmatter"]
     TASK_317["`/ts-epic-new` auto-fills `branch: feature/<epic-slug>`"]
     TASK_318["`/ts-task-active` nags when current branch ≠ epic's `branch:`"]
   Active
+    TASK_316["Add optional `branch:` field to epic frontmatter"]
   Paused
   Closed
 ```
@@ -83,7 +83,7 @@ kanban
 
 ## Other
 
-_⚪ 7 open · 🔵 0 active · 🟡 0 paused · 🟢 4 closed · ████░░░░░░ 36%_
+_⚪ 6 open · 🔵 0 active · 🟡 0 paused · 🟢 5 closed · ████░░░░░░ 45%_
 
 ```mermaid
 kanban
@@ -92,12 +92,12 @@ kanban
     TASK_259["Android app test protocol — record device and Android version per test run"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
     TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
-    TASK_304["Simulator pedal buttons must not react to mouse hover"]
     TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
     TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
   Active
   Paused
   Closed
+    TASK_304["Simulator pedal buttons must not react to mouse hover"]
     TASK_305["Add category field to ideas and surface it in OVERVIEW"]
     TASK_313["Add emoji icons to idea category column in OVERVIEW"]
     TASK_314["Use non-breaking space between category icon and name"]

@@ -1,9 +1,11 @@
 ---
 id: TASK-304
 title: Simulator pedal buttons must not react to mouse hover
-status: open
+status: closed
+closed: 2026-04-29
 opened: 2026-04-28
 effort: XS (<30m)
+effort_actual: XS (<30m)
 complexity: Junior
 human-in-loop: No
 ---

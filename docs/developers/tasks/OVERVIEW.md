@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 20** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 11** | **Total: 35** | ███░░░░░░░ 31%
+⚪ **Open: 18** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 12** | **Total: 35** | ███░░░░░░░ 34%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -56,7 +56,9 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-316](active/task-316-epic-branch-frontmatter-field.md) | Add optional `branch:` field to epic frontmatter | Small (<2h) | Junior | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -85,8 +87,6 @@ _No active tasks._
 | [TASK-259](open/task-259-android-app-test-protocol.md) | Android app test protocol — record device and Android version per test run | Small (<2h) | Junior | ⚪ open |
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-303](open/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) | Junior | ⚪ open |
-| [TASK-304](open/task-304-simulator-button-no-hover-reaction.md) | Simulator pedal buttons must not react to mouse hover | XS (<30m) | Junior | ⚪ open |
-| [TASK-316](open/task-316-epic-branch-frontmatter-field.md) | Add optional `branch:` field to epic frontmatter | Small (<2h) | Junior | ⚪ open |
 | [TASK-317](open/task-317-ts-epic-new-autofill-branch.md) | `/ts-epic-new` auto-fills `branch: feature/<epic-slug>` | Small (<2h) | Junior | ⚪ open |
 | [TASK-318](open/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-319](open/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | ⚪ open |
@@ -96,6 +96,7 @@ _No active tasks._
 
 | ID | Title | Effort |
 |----|-------|--------|
+| [TASK-304](closed/task-304-simulator-button-no-hover-reaction.md) | Simulator pedal buttons must not react to mouse hover | XS (<30m) |
 | [TASK-305](closed/task-305-add-category-field-to-ideas.md) | Add category field to ideas and surface it in OVERVIEW | Medium (2-8h) |
 | [TASK-306](closed/task-306-profile-independent-actions-firmware.md) | Profile-independent actions — firmware + schema | Medium (2-8h) |
 | [TASK-307](closed/task-307-profile-independent-actions-simulator.md) | Profile-independent actions — web simulator support | Small (<2h) |
