@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 18** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 8** | **Total: 30** | ███░░░░░░░ 27%
+⚪ **Open: 17** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 8** | **Total: 30** | ███░░░░░░░ 27%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29"]
-    line [7]
+    line [8]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29"]
-    line [14.25]
-    line [3.25]
+    line [19.25]
+    line [8.25]
 ```
 
 </td></tr></table>
@@ -49,14 +49,16 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
-| 2026-04-29 | 7 | 7 | 14.2 | 14.2 | 3.2 | 3.2 | 0 | 0 |
+| 2026-04-29 | 8 | 8 | 19.2 | 19.2 | 8.2 | 8.2 | 0 | 0 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-307](active/task-307-profile-independent-actions-simulator.md) | Profile-independent actions — web simulator support | Small (<2h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -86,7 +88,6 @@ _No active tasks._
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-303](open/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) | Junior | ⚪ open |
 | [TASK-304](open/task-304-simulator-button-no-hover-reaction.md) | Simulator pedal buttons must not react to mouse hover | XS (<30m) | Junior | ⚪ open |
-| [TASK-307](open/task-307-profile-independent-actions-simulator.md) | Profile-independent actions — web simulator support | Small (<2h) | Medium | ⚪ open |
 | [TASK-308](open/task-308-profile-independent-actions-config-builder.md) | Profile-independent actions — web config builder support | Small (<2h) | Medium | ⚪ open |
 | [TASK-309](open/task-309-profile-independent-actions-flutter-app.md) | Profile-independent actions — Flutter app support | Small (<2h) | Medium | ⚪ open |
 

@@ -243,13 +243,23 @@ function updateProfileLeds(index) {
   }
 }
 
+// ── Independent actions (profile-independent, fire alongside profile actions)
+// Stored on config.independentActions, keyed by slot. Survives profile switches
+// because selectProfile() only mutates currentProfile, not config.
+function independentActionFor(slot) {
+  if (!config || !config.independentActions) return null;
+  const a = config.independentActions[slot];
+  return (a && a.type) ? a : null;
+}
+
 // ── Gesture handling ─────────────────────────────────────────────────────────
 function handleButtonDown(slot) {
   if (!config) return;
   const profile = config.profiles[currentProfile];
   if (!profile) return;
   const action = profile.buttons && profile.buttons[slot];
-  if (!action || !action.type) return;
+  const indAction = independentActionFor(slot);
+  if (!action && !indAction) return;
 
   const gs = getGestureState(slot);
   const now = Date.now();
@@ -260,33 +270,44 @@ function handleButtonDown(slot) {
     gs.singlePressTimer = null;
   }
 
-  // Double-press check: two taps within the window
-  if (action.doublePress && (now - gs.lastTapTime) < DOUBLE_PRESS_WINDOW_MS && gs.lastTapTime !== 0) {
+  // Double-press check: two taps within the window. Mirror firmware order —
+  // independent doublePress fires first, then profile doublePress.
+  const profileHasDouble = action && action.doublePress;
+  const indHasDouble = indAction && indAction.doublePress;
+  if ((profileHasDouble || indHasDouble) && (now - gs.lastTapTime) < DOUBLE_PRESS_WINDOW_MS && gs.lastTapTime !== 0) {
     gs.lastTapTime = 0;
-    dispatchAction(action.doublePress, '[DBL]');
+    if (indHasDouble) dispatchAction(indAction.doublePress, '[IND DBL]');
+    if (profileHasDouble) dispatchAction(action.doublePress, '[DBL]');
     return;
   }
 
   gs.lastTapTime = now;
 
-  // Long-press timer
-  if (action.longPress) {
+  // Long-press timer. Independent longPress fires first, then profile longPress.
+  const profileHasLong = action && action.longPress;
+  const indHasLong = indAction && indAction.longPress;
+  if (profileHasLong || indHasLong) {
     gs.longPressTimer = setTimeout(() => {
       gs.longPressTimer = null;
       gs.lastTapTime = 0;
-      dispatchAction(action.longPress, '[LONG]');
+      if (indHasLong) dispatchAction(indAction.longPress, '[IND LONG]');
+      if (profileHasLong) dispatchAction(action.longPress, '[LONG]');
       const btnEl = document.getElementById(`btn-${slot}`);
       if (btnEl) btnEl.classList.remove('held');
       heldButtons.delete(slot);
     }, LONG_PRESS_MS);
   }
 
-  // Handle hold-while-pressed actions immediately on press
-  if (WHILE_PRESSED_TYPES.includes(action.type)) {
+  // Handle hold-while-pressed actions immediately on press for both layers.
+  // Independent fires first, then profile (mirrors firmware press path).
+  const indWhilePressed = indAction && WHILE_PRESSED_TYPES.includes(indAction.type);
+  const profileWhilePressed = action && WHILE_PRESSED_TYPES.includes(action.type);
+  if (indWhilePressed) ioLog(indAction);
+  if (profileWhilePressed) ioLog(action);
+  if (indWhilePressed || profileWhilePressed) {
     heldButtons.add(slot);
     const btnEl = document.getElementById(`btn-${slot}`);
     if (btnEl) btnEl.classList.add('held');
-    ioLog(action);
     return;
   }
 
@@ -300,6 +321,7 @@ function handleButtonUp(slot) {
   const profile = config.profiles[currentProfile];
   if (!profile) return;
   const action = profile.buttons && profile.buttons[slot];
+  const indAction = independentActionFor(slot);
 
   const gs = getGestureState(slot);
   const btnEl = document.getElementById(`btn-${slot}`);
@@ -312,33 +334,42 @@ function handleButtonUp(slot) {
 
   if (btnEl) btnEl.classList.remove('held');
 
-  if (!action || !action.type) return;
+  if (!action && !indAction) return;
 
-  // Release for while-pressed types
+  // Release for while-pressed types. Independent release fires first, then profile.
   if (heldButtons.has(slot)) {
     heldButtons.delete(slot);
-    if (WHILE_PRESSED_TYPES.includes(action.type)) {
+    if (indAction && WHILE_PRESSED_TYPES.includes(indAction.type)) {
+      ioLog({ type: 'PinRelease', pin: indAction.pin, source: indAction.type });
+    }
+    if (action && WHILE_PRESSED_TYPES.includes(action.type)) {
       ioLog({ type: 'PinRelease', pin: action.pin, source: action.type });
     }
     return;
   }
 
-  // For buttons with doublePress configured, defer the single press by the window
-  // so a second tap within the window can intercept it as a double press.
-  if (action.doublePress) {
+  // For buttons with doublePress configured (on either layer), defer the single
+  // press by the window so a second tap can intercept it as a double press.
+  const hasAnyDouble = (action && action.doublePress) || (indAction && indAction.doublePress);
+  if (hasAnyDouble) {
     gs.singlePressTimer = setTimeout(() => {
       gs.singlePressTimer = null;
       gs.lastTapTime = 0;
-      firePrimaryAction(slot, action, profile);
+      firePrimaryAction(slot, action, profile, indAction);
     }, DOUBLE_PRESS_WINDOW_MS);
     return;
   }
 
   // No doublePress configured — fire immediately
-  firePrimaryAction(slot, action, profile);
+  firePrimaryAction(slot, action, profile, indAction);
 }
 
-function firePrimaryAction(slot, action, profile) {
+function firePrimaryAction(slot, action, profile, indAction) {
+  // Independent action fires first (mirrors firmware order in PedalApp::executeActionWithLogging).
+  if (indAction) dispatchAction(indAction, '[IND]');
+
+  if (!action) return;
+
   if (action.type === 'DelayedAction') {
     const btnEl = document.getElementById(`btn-${slot}`);
     bleLog(formatActionOutput(action));
@@ -423,24 +454,36 @@ function refreshButtonLabel(slot, profile) {
   const btnEl = document.getElementById(`btn-${slot}`);
   if (!btnEl) return;
   const action = profile && profile.buttons && profile.buttons[slot];
+  const indAction = independentActionFor(slot);
   const nameEl = btnEl.querySelector('.btn-name');
-  if (nameEl) nameEl.textContent = (action && action.name) ? action.name : '';
+  if (nameEl) {
+    if (action && action.name) nameEl.textContent = action.name;
+    else if (indAction && indAction.name) nameEl.textContent = indAction.name;
+    else nameEl.textContent = '';
+  }
 
   const badgesEl = btnEl.querySelector('.btn-badges');
   if (badgesEl) {
     const badges = [];
     if (action && action.longPress) badges.push('\u23f3');   // ⏳ long press
     if (action && action.doublePress) badges.push('2\u00d7'); // 2× double press
+    if (indAction) badges.push("\u2605");                  // ★ independent action
     badgesEl.textContent = badges.join(' ');
   }
 }
 
 // ── Infer hardware layout from profiles.json ─────────────────────────────────
-function inferLayoutFromProfiles(profiles) {
+function inferLayoutFromProfiles(profiles, independentActions) {
   let maxSlotIndex = 0;
   for (const p of profiles) {
     if (!p.buttons) continue;
     for (const slot of Object.keys(p.buttons)) {
+      const idx = SLOT_NAMES.indexOf(slot.toUpperCase());
+      if (idx > maxSlotIndex) maxSlotIndex = idx;
+    }
+  }
+  if (independentActions) {
+    for (const slot of Object.keys(independentActions)) {
       const idx = SLOT_NAMES.indexOf(slot.toUpperCase());
       if (idx > maxSlotIndex) maxSlotIndex = idx;
     }
@@ -462,7 +505,7 @@ function loadConfig(jsonData) {
   heldButtons.clear();
   cancelPendingDelays();
 
-  const layout = inferLayoutFromProfiles(config.profiles);
+  const layout = inferLayoutFromProfiles(config.profiles, config.independentActions);
   setHardwareLayout(layout.numButtons, layout.numSelectLeds);
 
   setBleConnected(true);

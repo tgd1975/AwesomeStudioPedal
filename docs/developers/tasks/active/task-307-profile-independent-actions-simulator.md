@@ -1,7 +1,7 @@
 ---
 id: TASK-307
 title: Profile-independent actions — web simulator support
-status: open
+status: active
 opened: 2026-04-29
 effort: Small (<2h)
 complexity: Medium
@@ -21,9 +21,9 @@ profile switches leave independents intact, missing block is a no-op.
 
 ## Acceptance Criteria
 
-- [ ] Simulator loads a `profiles.json` containing `independentActions` without errors.
-- [ ] On a button event the simulator dispatches both the profile action and the independent action.
-- [ ] Switching profiles in the simulator UI does not clear or change the independent action set.
+- [x] Simulator loads a `profiles.json` containing `independentActions` without errors.
+- [x] On a button event the simulator dispatches both the profile action and the independent action (independent fires first, mirroring firmware order).
+- [x] Switching profiles in the simulator UI does not clear or change the independent action set.
 
 ## Test Plan
 
