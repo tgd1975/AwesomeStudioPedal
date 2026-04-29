@@ -83,7 +83,7 @@ kanban
 
 ## Other
 
-_⚪ 5 open · 🔵 0 active · 🟡 0 paused · 🟢 4 closed · ████░░░░░░ 44%_
+_⚪ 7 open · 🔵 0 active · 🟡 0 paused · 🟢 4 closed · ████░░░░░░ 36%_
 
 ```mermaid
 kanban
@@ -93,6 +93,8 @@ kanban
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
     TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
     TASK_304["Simulator pedal buttons must not react to mouse hover"]
+    TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
+    TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
   Active
   Paused
   Closed

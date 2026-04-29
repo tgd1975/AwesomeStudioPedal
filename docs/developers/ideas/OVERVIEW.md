@@ -1,6 +1,6 @@
 # Ideas Overview
 
-**Open: 30** | **Archived: 17**
+**Open: 29** | **Archived: 18**
 
 Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until they are either converted into structured tasks or archived. Archived ideas are kept for history in [`archived/`](archived/). See [README.md](README.md) for the file-naming convention (one row per IDEA, sub-notes use the `idea-NNN.<sub-slug>.md` form).
 
@@ -24,7 +24,6 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-023](open/idea-023-led-resistor-guide.md) | 📖 docs | LED Current-Limiting Resistor Guide — Matched Brightness for 5 mm LEDs | A builder-facing reference table for selecting the correct Vorwiderstand for any common 5 mm LED colour so they appear at roughly equal perceived brightness when driven directly from a 3.3 V GPIO. |
 | [IDEA-027](open/idea-027-circuit-skill.md) | 🛠️ tooling | Circuit-Skill — AI-Assisted Schematic Generation with ERC, BOM, and Netlist Export | > |
 | [IDEA-029](open/idea-029-configurable-select-long-press-pairing.md) | ⚡ firmware | Configurable SELECT Long-Press to Activate BLE Pairing Mode | Very-long-press on the SELECT button activates BLE pairing mode; the feature is opt-in via config.json so it can be disabled for testing and CI. |
-| [IDEA-030](open/idea-030-epic-suggested-branch-soft-enforcement.md) | 🛠️ tooling | Epic-Suggested Branch with Soft Enforcement | Each epic declares a suggested branch; task/commit flows nudge (not block) the user when work on an epic happens on a different branch, to encourage smaller, focused releases. |
 | [IDEA-031](open/idea-031-extract-task-system-standalone-repo.md) | 🛠️ tooling | Extract the task-and-idea system into a standalone public GitHub repository | Lift the docs-as-code task + idea management system out of AwesomeStudioPedal into its own public repo so other small teams can use it and this project can consume it as an installable tool. |
 | [IDEA-032](open/idea-032-extract-circuits-as-docs-standalone-repo.md) | 🛠️ tooling | Extract the circuits-as-docs system into a standalone public GitHub repository | Lift the Schemdraw-based schematic generator, pre-commit staleness hook, and docs-as-code wiring pattern into a standalone public repo so other hardware projects can document their circuits the same way. |
 | [IDEA-033](open/idea-033-shorten-doublepress-window.md) | ⚡ firmware | Shorten double-press window to reduce single-press latency | 300 ms defer on every single-press feels sluggish — find the smallest window that still lets humans double-tap reliably. |
@@ -57,6 +56,7 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-025](archived/idea-025-configurable-ble-device-name.md) | ⚡ firmware | Configurable BLE Device Name |
 | [IDEA-026](archived/idea-026-task-group-improvements.md) | 🛠️ tooling | Task Group Improvements |
 | [IDEA-028](archived/idea-028-hardware-abstraction-layer.md) | ⚡ firmware | Hardware Abstraction Layer — replace #ifdef soup with a platform class hierarchy |
+| [IDEA-030](archived/idea-030-epic-suggested-branch-soft-enforcement.md) | 🛠️ tooling | Epic-Suggested Branch with Soft Enforcement |
 | [IDEA-043](archived/idea-043-coordinated-task-system-rollout.md) | 🛠️ tooling | Coordinated task-system rollout — burn-up dashboard, post-hoc effort, paused status, and awesome-task-system carve-out |
 | [IDEA-044](archived/idea-044-action-editor-value-field-resets-on-type-change.md) | 📱 apps | Action Editor value field clears (or contextualises) when Action Type changes |
 | [IDEA-045](archived/idea-045-validation-banner-revalidates-on-action-edit.md) | 📱 apps | Validation banner revalidates when an action is edited (not only when profile count changes) |

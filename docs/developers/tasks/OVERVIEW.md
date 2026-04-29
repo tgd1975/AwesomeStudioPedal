@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 18** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 11** | **Total: 33** | ███░░░░░░░ 33%
+⚪ **Open: 20** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 11** | **Total: 35** | ███░░░░░░░ 31%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29"]
-    line [10]
+    line [11]
 ```
 
 </td><td>
@@ -30,7 +30,7 @@ xychart-beta
 xychart-beta
     title "Cumulative epics closed"
     x-axis ["04-29"]
-    line [0]
+    line [1]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29"]
-    line [21.25]
-    line [10.25]
+    line [22.25]
+    line [11.25]
 ```
 
 </td></tr></table>
@@ -49,7 +49,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
-| 2026-04-29 | 10 | 10 | 21.2 | 21.2 | 10.2 | 10.2 | 0 | 0 |
+| 2026-04-29 | 11 | 11 | 22.2 | 22.2 | 11.2 | 11.2 | 1 | 1 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -89,6 +89,8 @@ _No active tasks._
 | [TASK-316](open/task-316-epic-branch-frontmatter-field.md) | Add optional `branch:` field to epic frontmatter | Small (<2h) | Junior | ⚪ open |
 | [TASK-317](open/task-317-ts-epic-new-autofill-branch.md) | `/ts-epic-new` auto-fills `branch: feature/<epic-slug>` | Small (<2h) | Junior | ⚪ open |
 | [TASK-318](open/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-319](open/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | ⚪ open |
+| [TASK-320](open/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | ⚪ open |
 
 ## Closed Tasks
 
