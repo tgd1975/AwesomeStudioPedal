@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 19** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 10** | **Total: 33** | ███░░░░░░░ 30%
+⚪ **Open: 18** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 10** | **Total: 33** | ███░░░░░░░ 30%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29"]
-    line [9]
+    line [10]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29"]
-    line [20.25]
-    line [9.25]
+    line [21.25]
+    line [10.25]
 ```
 
 </td></tr></table>
@@ -49,14 +49,16 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
-| 2026-04-29 | 9 | 9 | 20.2 | 20.2 | 9.2 | 9.2 | 0 | 0 |
+| 2026-04-29 | 10 | 10 | 21.2 | 21.2 | 10.2 | 10.2 | 0 | 0 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-309](active/task-309-profile-independent-actions-flutter-app.md) | Profile-independent actions — Flutter app support | Small (<2h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -86,7 +88,6 @@ _No active tasks._
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-303](open/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) | Junior | ⚪ open |
 | [TASK-304](open/task-304-simulator-button-no-hover-reaction.md) | Simulator pedal buttons must not react to mouse hover | XS (<30m) | Junior | ⚪ open |
-| [TASK-309](open/task-309-profile-independent-actions-flutter-app.md) | Profile-independent actions — Flutter app support | Small (<2h) | Medium | ⚪ open |
 | [TASK-316](open/task-316-epic-branch-frontmatter-field.md) | Add optional `branch:` field to epic frontmatter | Small (<2h) | Junior | ⚪ open |
 | [TASK-317](open/task-317-ts-epic-new-autofill-branch.md) | `/ts-epic-new` auto-fills `branch: feature/<epic-slug>` | Small (<2h) | Junior | ⚪ open |
 | [TASK-318](open/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) | Medium | ⚪ open |

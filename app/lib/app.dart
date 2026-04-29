@@ -7,6 +7,7 @@ import 'models/profiles_state.dart';
 import 'screens/action_editor_screen.dart';
 import 'screens/community_profiles_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/independent_actions_screen.dart';
 import 'screens/json_preview_screen.dart';
 import 'screens/profile_editor_screen.dart';
 import 'screens/profile_list_screen.dart';
@@ -73,6 +74,11 @@ GoRouter _buildRouter() => GoRouter(
           path: '/json-preview',
           name: 'json-preview',
           builder: (_, __) => const JsonPreviewScreen(),
+        ),
+        GoRoute(
+          path: '/independent-actions',
+          name: 'independent-actions',
+          builder: (_, __) => const IndependentActionsScreen(),
         ),
       ],
     );

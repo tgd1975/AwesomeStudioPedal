@@ -1,7 +1,7 @@
 ---
 id: TASK-309
 title: Profile-independent actions — Flutter app support
-status: open
+status: active
 opened: 2026-04-29
 effort: Small (<2h)
 complexity: Medium
@@ -19,9 +19,9 @@ round-trip cleanly when sent to and received from the pedal over BLE.
 
 ## Acceptance Criteria
 
-- [ ] App reads a `profiles.json` containing `independentActions` from the pedal without losing data.
-- [ ] App UI exposes editing the independent action set separately from per-profile button maps.
-- [ ] App writes a `profiles.json` with or without the block; absent block is omitted entirely (not written as `{}`).
+- [x] App reads a `profiles.json` containing `independentActions` from the pedal without losing data.
+- [x] App UI exposes editing the independent action set separately from per-profile button maps.
+- [x] App writes a `profiles.json` with or without the block; absent block is omitted entirely (not written as `{}`).
 
 ## Test Plan
 
