@@ -56,7 +56,9 @@
       "Bash(flutter run *)",
       "Bash(flutter build *)",
       "Bash(flutter install)",
-      "Bash(flutter install *)"
+      "Bash(flutter install *)",
+      "Bash(python3 scripts/security_review_changes.py *)",
+      "Bash(bash scripts/install_git_hooks.sh)"
     ]
   },
   "hooks": {
