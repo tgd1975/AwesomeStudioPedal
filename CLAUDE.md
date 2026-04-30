@@ -100,20 +100,39 @@ skill: **you trigger the activation, not the user.**
 - When the task ID is ambiguous (no `TASK-NNN` mentioned), ask once which
   task this work belongs to before proceeding.
 
-## Parallel sessions — commit only your own work
+## Commits go through /commit — always
 
-Multiple Claude Code sessions often run against this repo in parallel. When you commit,
-stage and commit **only the files you changed in the current conversation**. Foreign
-staged files almost certainly belong to another in-flight task — sweeping them into
-your commit mixes unrelated work and can clobber the other session's progress.
+Every commit on this repo must flow through the `/commit` skill, which uses git's
+**pathspec form** (`git commit -m "..." -- <files>`) to commit atomically without
+touching the real index. Never run `git add` followed by `git commit` directly,
+and never invoke `git commit` without an explicit pathspec list.
+
+**Why this is mandatory** — see [docs/developers/COMMIT_POLICY.md](docs/developers/COMMIT_POLICY.md)
+for the full rationale (parallel-session race, pathspec atomicity, hook
+load-bearing role). Short version: multiple Claude Code sessions run against
+this repo in parallel, and `git add` + `git commit` mutates a shared index. A
+hook failure in one session leaves another session's foreign staged files
+mixed in with yours. Pathspec form scopes blast radius to a single commit
+attempt.
 
 **Rules:**
 
-- Always `git add <specific files>` — never `git add -A` or `git add .`.
-- If `git status` shows staged files you did not touch, leave them staged and commit
-  only your own. Do not mention or "clean up" the foreign files.
+- Always invoke `/commit "<message>" <file> [<file> …]`. Never `git add` +
+  `git commit`. Never `git commit` without a pathspec list.
+- Stage and commit **only the files you changed in the current conversation**.
+  If `git status` shows staged or modified files you did not touch, leave them
+  alone — they almost certainly belong to another in-flight session. Do not
+  mention or "clean up" the foreign files.
 - **Exception:** if the user explicitly says "commit all staged files", "commit
   everything", or similar, then include them.
+
+**Bypass** — `ASP_COMMIT_BYPASS=<reason>` in the environment of the `git commit`
+invocation skips the `/commit`-only check. The reason string is mandatory
+(non-empty), and every bypass is logged to `.git/asp-commit-bypass.log` for
+periodic review. Reserved for: interactive rebases (git invokes `git commit`
+internally during conflict resolution), recovery from a broken `/commit` skill
+itself, and rare manual repo surgery. Empty / unset = no bypass. See
+COMMIT_POLICY.md for the full bypass policy.
 
 ## Pre-commit hook failures on unrelated changes
 
@@ -125,21 +144,21 @@ the hook (`--no-verify`) may be acceptable — but it is always a case-by-case d
 
 | Check | Question |
 |---|---|
-| Staged files only | Are all staged files unrelated to the hook failure? (e.g. only `.md` files staged, but C++ tests fail) |
+| Pathspec files only | Are all files in this commit's pathspec list unrelated to the hook failure? (e.g. only `.md` files in the commit, but C++ tests fail.) Compare against the pathspec list, not against `git status` — pathspec form does not stage anything, so the working tree may show unrelated mods. |
 | Pre-existing breakage | Is the failing check broken on `main` / in the working tree already, not caused by this commit? |
-| No silent regression | Would bypassing hide a real regression introduced by the staged changes? |
+| No silent regression | Would bypassing hide a real regression introduced by the pathspec files? |
 
 **If all three are true**, present this to the user:
 
 > "The pre-commit hook failed, but the failure is in `[file/check]` which is unrelated to
-> the staged files (`[list staged files]`). This appears to be a pre-existing issue.
+> the files in this commit (`[list pathspec files]`). This appears to be a pre-existing issue.
 > It may be OK to bypass the hook for this commit with `--no-verify`.
 > Do you want me to proceed with `--no-verify`, or fix the hook failure first?"
 
 **Never bypass silently.** Always name the failing check, explain why it appears unrelated,
 and get explicit user approval before using `--no-verify`.
 
-Use `/commit` to apply this protocol consistently — it stages only the user-named files, attempts the commit, and on hook failure runs the three checks above before asking about `--no-verify`.
+Use `/commit` to apply this protocol consistently — it commits via pathspec form, and on hook failure runs the three checks above before asking about `--no-verify`.
 
 ## Project env vars — use `$ASP_*`, never retype device serials
 

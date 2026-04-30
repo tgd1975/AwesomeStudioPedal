@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 18** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 19** | **Total: 42** | ████░░░░░░ 45%
+⚪ **Open: 18** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 20** | **Total: 43** | █████░░░░░ 47%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30"]
-    line [14, 18]
+    line [14, 19]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30"]
-    line [24.5, 32.5]
-    line [12, 13.75]
+    line [24.5, 33.5]
+    line [12, 14]
 ```
 
 </td></tr></table>
@@ -50,7 +50,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
-| 2026-04-30 | 4 | 18 | 8 | 32.5 | 1.8 | 13.8 | 1 | 2 |
+| 2026-04-30 | 5 | 19 | 9 | 33.5 | 2 | 14 | 1 | 2 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -88,10 +88,10 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-319](open/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | ⚪ open |
 | [TASK-320](open/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | ⚪ open |
-| [TASK-324](open/task-324-update-claudemd-and-add-commit-policy-page.md) | Update CLAUDE.md and add COMMIT_POLICY.md rationale page | Small (<2h) | Medium | ⚪ open |
 | [TASK-325](open/task-325-implement-precommit-hook-enforcement.md) | Implement pre-commit hook enforcement of /commit-only commits | Medium (2-8h) | Senior | ⚪ open |
 | [TASK-326](open/task-326-route-other-commit-skills-through-commit.md) | Route /release, /release-branch, and other commit-issuing skills through /commit | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-327](open/task-327-decide-partial-hunk-policy.md) | Decide partial-hunk policy — unsupported, or /commit --partial escape hatch | Small (<2h) | Medium | ⚪ open |
+| [TASK-328](open/task-328-prevent-parallel-housekeep-execution.md) | Prevent parallel execution of housekeep.py (and audit sibling scripts) | Small (<2h) | Medium | ⚪ open |
 
 ## Closed Tasks
 
@@ -116,6 +116,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-318](closed/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) |
 | [TASK-322](closed/task-322-decide-commit-provenance-and-bypass-mechanism.md) | Decide commit-provenance signal and bypass mechanism for /commit | Small (<2h) |
 | [TASK-323](closed/task-323-convert-commit-skill-to-pathspec-form.md) | Convert /commit skill to pathspec form | Small (<2h) |
+| [TASK-324](closed/task-324-update-claudemd-and-add-commit-policy-page.md) | Update CLAUDE.md and add COMMIT_POLICY.md rationale page | Small (<2h) |
 
 ## Archived Releases
 
