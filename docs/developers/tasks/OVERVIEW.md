@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 17** | 🔵 **Active: 2** | 🟡 **Paused: 4** | 🟢 **Closed: 20** | **Total: 43** | █████░░░░░ 47%
+⚪ **Open: 17** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 21** | **Total: 43** | █████░░░░░ 49%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -60,7 +60,6 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | ID | Title | Effort | Complexity | Status |
 |----|-------|--------|------------|--------|
 | [TASK-321](active/task-321-fix-ci-failures-mermaid-clang-tidy.md) | Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes | Medium (2-8h) | Medium | 🔵 **active** |
-| [TASK-325](active/task-325-implement-precommit-hook-enforcement.md) | Implement pre-commit hook enforcement of /commit-only commits | Medium (2-8h) | Senior | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -117,6 +116,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-322](closed/task-322-decide-commit-provenance-and-bypass-mechanism.md) | Decide commit-provenance signal and bypass mechanism for /commit | Small (<2h) |
 | [TASK-323](closed/task-323-convert-commit-skill-to-pathspec-form.md) | Convert /commit skill to pathspec form | Small (<2h) |
 | [TASK-324](closed/task-324-update-claudemd-and-add-commit-policy-page.md) | Update CLAUDE.md and add COMMIT_POLICY.md rationale page | Small (<2h) |
+| [TASK-325](closed/task-325-implement-precommit-hook-enforcement.md) | Implement pre-commit hook enforcement of /commit-only commits | Medium (2-8h) |
 
 ## Archived Releases
 

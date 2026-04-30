@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Commit user-named files atomically via git's pathspec form (no staging step), applying the CLAUDE.md "Pre-commit hook failures on unrelated changes" protocol when the hook fails. Never adds --no-verify silently — explicit user approval is required.
+description: Commit user-named files atomically via scripts/commit-pathspec.sh (which wraps `git commit -m "..." -- <files>`, writes the provenance token the pre-commit hook validates, and adds untracked files in the pathspec). Applies the CLAUDE.md "Pre-commit hook failures on unrelated changes" protocol when the hook fails. Never adds --no-verify silently — explicit user approval is required.
 ---
 
 # commit
@@ -42,28 +42,32 @@ keeps blast radius scoped to the single commit attempt.
    Per the project's "Parallel sessions — commit only your own work"
    rule, the file list must be explicit.
 
-2. **Attempt the commit in pathspec form** with the message via
-   heredoc, ending with the standard
+2. **Invoke the wrapper script** with the message via heredoc, ending
+   with the standard
    `Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>` trailer
    (omit the trailer if the user is committing a non-agent change
    manually):
 
    ```bash
-   git commit -m "$(cat <<'EOF'
+   scripts/commit-pathspec.sh "$(cat <<'EOF'
    <commit message>
 
    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
    EOF
-   )" -- <file> [<file> …]
+   )" <file> [<file> …]
    ```
 
-   The `--` separates the message from the pathspec list. Files
-   already staged for this commit are still committed; files that are
-   only staged but not in the pathspec list are *not* — they stay
-   staged for a future commit. Files not staged at all are committed
-   straight from the working tree if they appear in the pathspec.
+   The wrapper handles three things you must not duplicate:
 
-   Do **not** run `git add` first. Pathspec form replaces it.
+   1. `git add` for untracked files in the pathspec (modified-tracked
+      files are committed directly via pathspec without staging).
+   2. Writing the provenance token at `.git/asp-commit-token` that the
+      pre-commit hook validates.
+   3. Running `git commit -m "..." -- <files>` in pathspec form.
+
+   Do **not** run `git add` yourself on tracked files. Do **not** call
+   `git commit` directly — the pre-commit hook will reject it for
+   missing the provenance token.
 
 3. **On hook success** — report the new commit's short hash + subject
    (one line). Done.
@@ -100,11 +104,11 @@ keeps blast radius scoped to the single commit attempt.
    > `--no-verify`. Do you want me to proceed with `--no-verify`, or
    > fix the hook failure first?
 
-   Wait for explicit user approval. On approval, retry with the same
-   pathspec form plus `--no-verify`:
+   Wait for explicit user approval. On approval, retry via the
+   wrapper with `--no-verify`:
 
    ```bash
-   git commit --no-verify -m "..." -- <file> [<file> …]
+   scripts/commit-pathspec.sh --no-verify "<message>" <file> [<file> …]
    ```
 
    On refusal, stop — the user will fix the hook failure first.
