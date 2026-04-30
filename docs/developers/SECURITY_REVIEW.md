@@ -195,7 +195,7 @@ applies to new git hooks and new skill scripts.
 
 ## Related
 
-- [CLAUDE_REVIEW.md](CLAUDE_REVIEW.md) — sibling system for self-improvement
-  reviews of Claude transcripts (different purpose, similar wiring shape).
+- [CLAUDE_RECAP.md](CLAUDE_RECAP.md) — sibling system for self-improvement
+  recaps of Claude transcripts (different purpose, similar wiring shape).
 - [BRANCH_PROTECTION_CONCEPT.md](BRANCH_PROTECTION_CONCEPT.md) — the broader
   trust-and-gate story for this repo.

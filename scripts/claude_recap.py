@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Run a headless Claude Code review of recent session transcripts.
+"""Run a headless Claude Code recap of recent session transcripts.
 
 Triggered by the SessionStart hook. Reads transcripts in
 ~/.claude/projects/<project-dir>/ that were modified after the last_run
-marker in .claude-review.md, then invokes `claude -p` with a prompt asking
+marker in .claude-recap.md, then invokes `claude -p` with a prompt asking
 the agent to analyse those transcripts and append findings to
-.claude-review.md.
+.claude-recap.md.
 
-Runs in the background; output is appended to .claude-review.log.
+Runs in the background; output is appended to .claude-recap.log.
 """
 from __future__ import annotations
 
@@ -22,9 +22,9 @@ import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-REVIEW_FILE = REPO_ROOT / ".claude-review.md"
-LOG_FILE = REPO_ROOT / ".claude-review.log"
-LOCK_FILE = REPO_ROOT / ".claude-review.lock"
+REVIEW_FILE = REPO_ROOT / ".claude-recap.md"
+LOG_FILE = REPO_ROOT / ".claude-recap.log"
+LOCK_FILE = REPO_ROOT / ".claude-recap.lock"
 
 PROJECT_TRANSCRIPT_DIR = (
     Path.home()
@@ -188,7 +188,7 @@ def build_prompt(summaries: list[Path], last_run: _dt.datetime | None) -> str:
     transcript_list = "\n".join(f"- {p}" for p in summaries)
     return f"""You are running as a background analysis agent for the AwesomeStudioPedal repo.
 Your job: skim recent Claude Code session summaries and append a review section
-to .claude-review.md at the repo root.
+to .claude-recap.md at the repo root.
 
 CONTEXT
 - Repo root: {REPO_ROOT}
@@ -213,9 +213,9 @@ WHAT TO LOOK FOR
 6. Hook ideas: automated behaviours that would have helped ("from now on whenever X").
 
 OUTPUT FORMAT
-Open .claude-review.md. If it does not exist, create it with this header:
+Open .claude-recap.md. If it does not exist, create it with this header:
 
-    # Claude Review
+    # Claude Recap
 
     Automated post-session analysis. This file is gitignored.
 
@@ -258,11 +258,11 @@ titled `### Missing permissions` listing the exact `Bash(...)` patterns that
 should be added to .claude/settings.json, then stop. Do not attempt to edit
 settings.json yourself.
 
-Be terse. Total output to .claude-review.md should be well under 200 lines
+Be terse. Total output to .claude-recap.md should be well under 200 lines
 even on a busy week. The summaries are already small — read them directly,
 no need to sample.
 
-Do not modify any file other than .claude-review.md.
+Do not modify any file other than .claude-recap.md.
 """
 
 
@@ -270,10 +270,10 @@ def main() -> int:
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     log = LOG_FILE.open("a", encoding="utf-8")
     stamp = _dt.datetime.now(tz=_dt.timezone.utc).isoformat(timespec="seconds")
-    log.write(f"\n=== {stamp} claude_review.py start ===\n")
+    log.write(f"\n=== {stamp} claude_recap.py start ===\n")
 
     # Prevent concurrent runs (e.g. + pressed twice in quick succession)
-    # from racing on .claude-review.md and burning duplicate budget.
+    # from racing on .claude-recap.md and burning duplicate budget.
     try:
         lock_fd = os.open(str(LOCK_FILE), os.O_CREAT | os.O_EXCL | os.O_WRONLY)
     except FileExistsError:
@@ -330,7 +330,7 @@ def _run(log) -> int:
         f"; last_run={last_run}\n"
     )
 
-    summary_dir = Path(tempfile.mkdtemp(prefix="claude-review-"))
+    summary_dir = Path(tempfile.mkdtemp(prefix="claude-recap-"))
     summaries: list[Path] = []
     for t in transcripts:
         s = summarize_transcript(t, summary_dir)

@@ -62,6 +62,17 @@
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'nohup python3 scripts/claude_recap.py >/dev/null 2>&1 & disown ; exit 0'",
+            "statusMessage": "Triggering background claude-recap..."
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",

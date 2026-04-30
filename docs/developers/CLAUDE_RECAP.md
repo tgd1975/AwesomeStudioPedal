@@ -1,20 +1,20 @@
-# Claude Review — background transcript analysis
+# Claude Recap — background transcript analysis
 
 A self-improvement loop for the Claude Code workflow: every so often, a headless
-Claude session reads recent conversation transcripts and writes a short review
-into [.claude-review.md](../../.claude-review.md) at the repo root, calling out
+Claude session reads recent conversation transcripts and writes a short recap
+into [.claude-recap.md](../../.claude-recap.md) at the repo root, calling out
 repeated manual steps, skipped skills, CLAUDE.md rule violations, and ideas for
 new automation.
 
-The review file is **gitignored** — it is local feedback, not committed history.
+The recap file is **gitignored** — it is local feedback, not committed history.
 
 ## How it is wired
 
 | Piece | Location |
 |---|---|
 | Trigger | `SessionStart` hook in [.claude/settings.json](../../.claude/settings.json) |
-| Script | [scripts/claude_review.py](../../scripts/claude_review.py) |
-| Output | `.claude-review.md` (review), `.claude-review.log` (script log), `.claude-review.lock` (mutex) — all at repo root, all gitignored |
+| Script | [scripts/claude_recap.py](../../scripts/claude_recap.py) |
+| Output | `.claude-recap.md` (review), `.claude-recap.log` (script log), `.claude-recap.lock` (mutex) — all at repo root, all gitignored |
 | Transcripts read | `~/.claude/projects/-home-tobias-Dokumente-Projekte-AwesomeStudioPedal/*.jsonl` |
 | Headless model | `claude -p --model sonnet` (binary auto-located under `~/.vscode/extensions/anthropic.claude-code-*-linux-x64/`) |
 
@@ -24,8 +24,8 @@ runs detached and writes its own log.
 
 ## What the script does
 
-1. Acquires `.claude-review.lock` (skips if another run is in progress).
-2. Reads the `<!-- last_run: ... -->` marker from `.claude-review.md`.
+1. Acquires `.claude-recap.lock` (skips if another run is in progress).
+2. Reads the `<!-- last_run: ... -->` marker from `.claude-recap.md`.
 3. Throttles: if the last run was less than **6 hours** ago, exits cheaply.
    Target cadence is ~2 runs/day, so pressing the trigger multiple times a
    day is harmless.
@@ -39,7 +39,7 @@ runs detached and writes its own log.
    they account for most volume and rarely matter for review questions.
 6. Invokes `claude -p --model sonnet --max-budget-usd 1.00 --no-session-persistence`
    with a prompt that pre-extracts the summaries and instructs the agent to
-   append a new dated section to `.claude-review.md`.
+   append a new dated section to `.claude-recap.md`.
 7. Cleans up the temp summary directory.
 
 The full prompt the headless agent receives is in `build_prompt()` inside the
@@ -65,10 +65,10 @@ under 200 lines per run.
 
 ## Output format
 
-`.claude-review.md` accumulates dated sections, newest at the bottom:
+`.claude-recap.md` accumulates dated sections, newest at the bottom:
 
 ```markdown
-# Claude Review
+# Claude Recap
 
 Automated post-session analysis. This file is gitignored.
 
@@ -97,10 +97,10 @@ script throttles and finds new transcripts.
 The `permissions.allow` block in [.claude/settings.json](../../.claude/settings.json)
 grants the headless agent everything it needs:
 
-- Read `~/.claude/projects/*` (transcripts) and `/tmp/claude-review-*/**`
+- Read `~/.claude/projects/*` (transcripts) and `/tmp/claude-recap-*/**`
   (pre-extracted summaries).
-- Read/Write/Edit `.claude-review.md`.
-- Run `python3 scripts/claude_review.py` (so a session can re-trigger it).
+- Read/Write/Edit `.claude-recap.md`.
+- Run `python3 scripts/claude_recap.py` (so a session can re-trigger it).
 
 If the headless agent hits a permission denial, the prompt instructs it not to
 retry — instead it appends a `### Missing permissions` section listing the
@@ -111,19 +111,19 @@ exact `Bash(...)` patterns to add, then stops. The agent is explicitly told
 
 | Goal | How |
 |---|---|
-| Skip one run | `touch .claude-review.lock` before starting Claude Code (and remove it later). |
-| Throttle harder | Edit `MIN_INTERVAL` in [scripts/claude_review.py](../../scripts/claude_review.py). |
+| Skip one run | `touch .claude-recap.lock` before starting Claude Code (and remove it later). |
+| Throttle harder | Edit `MIN_INTERVAL` in [scripts/claude_recap.py](../../scripts/claude_recap.py). |
 | Disable entirely | Remove the `SessionStart` block from [.claude/settings.json](../../.claude/settings.json). |
-| Re-run on demand | `python3 scripts/claude_review.py` (subject to the 6-hour throttle). |
+| Re-run on demand | `python3 scripts/claude_recap.py` (subject to the 6-hour throttle). |
 
 ## Troubleshooting
 
-- **No review appears after a session.** Check `.claude-review.log` — the
+- **No review appears after a session.** Check `.claude-recap.log` — the
   script logs every run, including throttle skips and missing-binary errors.
 - **`ERROR: no claude binary found`.** The script looks for the bundled
   VSCode-extension binary under `~/.vscode/extensions/anthropic.claude-code-*-linux-x64/resources/native-binary/claude`.
   If you use a different install, adjust `find_claude_binary()`.
-- **Stale lock file.** If a previous run crashed, `.claude-review.lock` may
+- **Stale lock file.** If a previous run crashed, `.claude-recap.lock` may
   linger and block subsequent runs. Delete it.
 - **Budget exceeded.** Each headless run is capped at $1.00 via
   `--max-budget-usd`. If the agent terminates early, the `last_run` marker

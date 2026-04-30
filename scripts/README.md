@@ -7,7 +7,7 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 | Script | Purpose | Usage |
 |--------|---------|-------|
 | [`check_code_smells.py`](check_code_smells.py) | Code smell detector for AwesomeStudioPedal C++ sources. | `python3 check_code_smells.py` |
-| [`claude_review.py`](claude_review.py) | Run a headless Claude Code review of recent session transcripts. | `python3 claude_review.py` |
+| [`claude_recap.py`](claude_recap.py) | Run a headless Claude Code recap of recent session transcripts. | `python3 claude_recap.py` |
 | [`cleanup-releases.sh`](cleanup-releases.sh) | cleanup-releases.sh — keep only the current + 2 previous GitHub releases. | `./cleanup-releases.sh` |
 | [`format-code.sh`](format-code.sh) | Format all C++ files with clang-format | `./format-code.sh` |
 | [`generate-schematic.py`](generate-schematic.py) | Circuit schematic generator for AwesomeStudioPedal. | `python3 generate-schematic.py` |
@@ -38,11 +38,11 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 
 **Usage**: `python3 check_code_smells.py`
 
-### claude_review.py
+### claude_recap.py
 
-**Purpose**: Run a headless Claude Code review of recent session transcripts.
+**Purpose**: Run a headless Claude Code recap of recent session transcripts.
 
-**Usage**: `python3 claude_review.py`
+**Usage**: `python3 claude_recap.py`
 
 ### cleanup-releases.sh
 

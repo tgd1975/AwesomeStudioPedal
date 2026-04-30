@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 15** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 17** | **Total: 36** | █████░░░░░ 47%
+⚪ **Open: 14** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 17** | **Total: 36** | █████░░░░░ 47%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30"]
-    line [14, 16]
+    line [14, 17]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30"]
-    line [24.5, 30.5]
-    line [12, 13.25]
+    line [24.5, 31.5]
+    line [12, 13.5]
 ```
 
 </td></tr></table>
@@ -50,14 +50,16 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
-| 2026-04-30 | 2 | 16 | 6 | 30.5 | 1.2 | 13.2 | 1 | 2 |
+| 2026-04-30 | 3 | 17 | 7 | 31.5 | 1.5 | 13.5 | 1 | 2 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-321](active/task-321-fix-ci-failures-mermaid-clang-tidy.md) | Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes | Medium (2-8h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -86,7 +88,6 @@ _No active tasks._
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-319](open/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | ⚪ open |
 | [TASK-320](open/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | ⚪ open |
-| [TASK-321](open/task-321-fix-ci-failures-mermaid-clang-tidy.md) | Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes | Medium (2-8h) | Medium | ⚪ open |
 
 ## Closed Tasks
 
