@@ -857,6 +857,8 @@ def generate_epics_md(tasks_dir: Path = TASKS_DIR,
             lines += _flat_list_section(unepiced)
             lines.append("")
 
+    while lines and lines[-1] == "":
+        lines.pop()
     out_path = tasks_dir / "EPICS.md"
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -1037,6 +1039,8 @@ def generate_kanban_md(tasks_dir: Path = TASKS_DIR,
         out.extend(kanban_block(no_epic))
         out.append("")
 
+    while out and out[-1] == "":
+        out.pop()
     out_path = tasks_dir / "KANBAN.md"
     out_path.write_text("\n".join(out) + "\n", encoding="utf-8")
 

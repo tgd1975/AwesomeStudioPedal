@@ -340,6 +340,7 @@ def main():
 
     header_block = (
         HEADER_START + "\n\n"
+        + "<!-- markdownlint-disable-file MD033 -->\n\n"
         + "\n".join(header_lines).strip("\n")
         + "\n\n" + HEADER_END + "\n\n"
     )

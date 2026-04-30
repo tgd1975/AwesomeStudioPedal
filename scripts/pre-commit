@@ -491,9 +491,25 @@ if [ -n "$PYTHON" ] && [ -f "${REPO_ROOT}/scripts/housekeep.py" ]; then
     # other parallel sessions may have unstaged status edits whose moves we
     # must not sweep into this commit (per CLAUDE.md "commit only your own
     # work" rule).
-    git add "${REPO_ROOT}/docs/developers/tasks/OVERVIEW.md" \
-            "${REPO_ROOT}/docs/developers/tasks/EPICS.md" \
-            "${REPO_ROOT}/docs/developers/tasks/KANBAN.md"
+    REGEN_INDEX_FILES=(
+        "${REPO_ROOT}/docs/developers/tasks/OVERVIEW.md"
+        "${REPO_ROOT}/docs/developers/tasks/EPICS.md"
+        "${REPO_ROOT}/docs/developers/tasks/KANBAN.md"
+        "${REPO_ROOT}/docs/developers/ideas/OVERVIEW.md"
+    )
+    git add "${REGEN_INDEX_FILES[@]}"
+
+    # Lint the regenerated files. The earlier markdown pass ran before
+    # housekeep, so any lint issues introduced by regen would otherwise land.
+    if [ -n "$MARKDOWNLINT" ]; then
+        echo -e "${YELLOW}Re-linting housekeep-regenerated index files...${NC}"
+        "$MARKDOWNLINT" "${REGEN_INDEX_FILES[@]}" 2>&1
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}Markdown lint failed on regenerated index files. Fix the generator (scripts/housekeep.py / scripts/update_idea_overview.py).${NC}"
+            exit 1
+        fi
+        echo -e "${GREEN}Regenerated index files OK.${NC}"
+    fi
 fi
 
 exit 0
