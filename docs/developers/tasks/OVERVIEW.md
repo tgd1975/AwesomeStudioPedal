@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 22** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 27** | **Total: 54** | █████░░░░░ 50%
+⚪ **Open: 28** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 27** | **Total: 60** | ████░░░░░░ 45%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30"]
-    line [14, 26]
+    line [14, 27]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30"]
-    line [24.5, 51.75]
-    line [12, 26]
+    line [24.5, 52.75]
+    line [12, 27]
 ```
 
 </td></tr></table>
@@ -50,7 +50,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
-| 2026-04-30 | 12 | 26 | 27.2 | 51.8 | 14 | 26 | 2 | 3 |
+| 2026-04-30 | 13 | 27 | 28.2 | 52.8 | 15 | 27 | 2 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -96,6 +96,12 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-337](open/task-337-firmware-expose-version-config-active-profile.md) | Firmware — expose firmware version, readable config, active-profile notify (BLE) | Large (8-24h) | Senior | ⚪ open |
 | [TASK-338](open/task-338-add-hid-display-table-and-live-keystroke-page.md) | Add HID-usage display lookup table (generated) and Live-keystroke page | Large (8-24h) | Senior | ⚪ open |
 | [TASK-339](open/task-339-add-asp-logo-to-web-simulator-header.md) | Add ASP logo to web simulator header | Small (<2h) | Junior | ⚪ open |
+| [TASK-340](open/task-340-add-asp-logo-to-profile-builder-header.md) | Add ASP logo to profile builder header | Small (<2h) | Junior | ⚪ open |
+| [TASK-341](open/task-341-add-asp-logo-to-configuration-builder-header.md) | Add ASP logo to configuration builder header | Small (<2h) | Junior | ⚪ open |
+| [TASK-342](open/task-342-add-asp-logo-to-mobile-app-appbar.md) | Add ASP logo to mobile app AppBar | Small (<2h) | Junior | ⚪ open |
+| [TASK-343](open/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (<2h) | Junior | ⚪ open |
+| [TASK-344](open/task-344-archive-idea-049-after-logo-tasks-shipped.md) | Archive IDEA-049 after logo tasks shipped | XS (<30m) | Junior | ⚪ open |
+| [TASK-345](open/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) | Medium | ⚪ open |
 
 ## Closed Tasks
 
