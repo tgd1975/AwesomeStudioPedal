@@ -204,5 +204,41 @@ class TestMainIdempotent(unittest.TestCase):
             self.assertEqual(first, second)
 
 
+class TestGeneratedOverviewIsLintClean(unittest.TestCase):
+    """Idea OVERVIEW.md must pass markdownlint even when titles or
+    descriptions contain `<word>` placeholders or pipe characters.
+    """
+
+    def setUp(self):
+        import shutil
+        self.markdownlint = shutil.which("markdownlint-cli2")
+        if not self.markdownlint:
+            self.skipTest("markdownlint-cli2 not installed")
+
+    def test_hostile_title_and_description_lint_clean(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = pathlib.Path(tmp)
+            _write(tmp_p / "open" / "idea-001.md",
+                   "---\nid: IDEA-001\n"
+                   "title: Try archive/<version>/ pattern for ideas\n"
+                   "description: Notes from a | b | c discussion\n"
+                   "category: tooling\n---\n")
+            overview = tmp_p / "OVERVIEW.md"
+
+            with patch.object(uio, "OPEN_DIR", str(tmp_p / "open")), \
+                 patch.object(uio, "ARCHIVED_DIR", str(tmp_p / "archived")), \
+                 patch.object(uio, "OVERVIEW", str(overview)), \
+                 redirect_stdout(io.StringIO()):
+                uio.main([])
+
+            import subprocess
+            result = subprocess.run(
+                [self.markdownlint, str(overview)],
+                capture_output=True, text=True,
+            )
+            self.assertEqual(result.returncode, 0,
+                             result.stdout + result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -378,6 +378,25 @@ def build_plan(tasks_dir: Path = TASKS_DIR,
 STATUS_ICON = {"open": "⚪", "active": "🔵", "closed": "🟢", "paused": "🟡"}
 
 
+def _md_cell(text: str) -> str:
+    """Escape free-text frontmatter fields for safe rendering in a markdown table cell.
+
+    Markdownlint rules guarded:
+      MD033 (no-inline-html) — `<word>` placeholders in titles like
+        `archive/<version>/` would otherwise be parsed as raw HTML.
+        Replace `<` / `>` with HTML entities so the rendered glyph is
+        identical but the linter sees no tag.
+      Table column separators — escape `|` so a stray pipe in a title
+        does not split the cell.
+    """
+    return (
+        str(text)
+        .replace("|", "\\|")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
+
+
 def _progress_bar(pct: int, width: int = 10) -> str:
     filled = round(width * pct / 100)
     return "█" * filled + "░" * (width - filled)
@@ -619,9 +638,9 @@ def _flat_list_section(tasks: list[dict]) -> list[str]:
     ]
     for t in sorted(tasks, key=_flat_list_sort_key):
         tid = t.get("id", "?")
-        title = t.get("title", "?")
+        title = _md_cell(t.get("title", "?"))
         status = t.get("status", "open")
-        effort = t.get("effort", "?")
+        effort = _md_cell(t.get("effort", "?"))
         fname = Path(str(t.get("_path", tid))).name
         folder = {"closed": "closed", "active": "active",
                   "paused": "paused"}.get(status, "open")
@@ -714,10 +733,11 @@ def generate_epics_md(tasks_dir: Path = TASKS_DIR,
         for epic_name in sorted(by_epic.keys(), key=_epic_sort_key):
             meta = epic_meta.get(epic_name, {})
             epic_id = meta.get("id", epic_name)
-            epic_title = meta.get("title", epic_name)
+            epic_title_raw = meta.get("title", epic_name)
+            epic_title = _md_cell(epic_title_raw)
             epic_status = derive_epic_status(epic_name, tasks)
             badge = _status_badge(epic_status)
-            anchor = re.sub(r"[^a-z0-9 _-]", "", f"{epic_id}-{epic_title}".lower()).replace(" ", "-")
+            anchor = re.sub(r"[^a-z0-9 _-]", "", f"{epic_id}-{epic_title_raw}".lower()).replace(" ", "-")
             n_open, n_active, n_paused, n_closed, pct = _task_counts(epic_name)
             bar = _progress_bar(pct)
             paused_cell = f" {n_paused} |" if show_paused_col else ""
@@ -799,7 +819,7 @@ def generate_epics_md(tasks_dir: Path = TASKS_DIR,
         for epic_name in sorted(by_epic.keys(), key=_epic_sort_key):
             meta = epic_meta.get(epic_name, {})
             epic_id = meta.get("id", epic_name)
-            epic_title = meta.get("title", epic_name)
+            epic_title = _md_cell(meta.get("title", epic_name))
             epic_status = derive_epic_status(epic_name, tasks)
             assigned = meta.get("assigned", "")
             assigned_str = f" — @{assigned}" if assigned else ""
@@ -971,8 +991,10 @@ def generate_kanban_md(tasks_dir: Path = TASKS_DIR,
         # Mermaid kanban: `"` ends the quoted label; a leading `` ` `` after `["`
         # switches mermaid into markdown-string mode and breaks parsing on
         # subsequent backticks (CI failure mode in TASK-321 — task titles like
-        # ``/ts-task-active` nags…``). Strip both.
-        label = label.replace('"', "").replace("`", "")
+        # ``/ts-task-active` nags…``). Strip both. Angle brackets are also
+        # stripped — inside a fenced ```mermaid block markdownlint does not flag
+        # them, but Mermaid itself can mis-parse `<` in labels in some renderers.
+        label = label.replace('"', "").replace("`", "").replace("<", "").replace(">", "")
         return f'    {_node_id(tid)}["{label}"]'
 
     columns: list[tuple[str, str]] = [("open", "Open")]
@@ -1009,7 +1031,10 @@ def generate_kanban_md(tasks_dir: Path = TASKS_DIR,
         return f"_{' · '.join(parts)}_"
 
     # Build index
-    index_entries = [f"[{e}](#{e.lower().replace(' ', '-')})" for e in active_epics]
+    index_entries = [
+        f"[{_md_cell(e)}](#{e.lower().replace(' ', '-')})"
+        for e in active_epics
+    ]
     if _has_unfinished(no_epic):
         index_entries.append("[Other](#other)")
 
@@ -1024,7 +1049,7 @@ def generate_kanban_md(tasks_dir: Path = TASKS_DIR,
 
     for epic in active_epics:
         buckets = by_epic[epic]
-        out.append(f"## {epic}")
+        out.append(f"## {_md_cell(epic)}")
         out.append("")
         out.append(stats(buckets))
         out.append("")

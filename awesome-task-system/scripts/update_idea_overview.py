@@ -29,6 +29,22 @@ OVERVIEW = os.path.join(IDEAS_DIR, "OVERVIEW.md")
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)$", re.MULTILINE)
 
+
+def _md_cell(text):
+    """Escape free-text frontmatter for safe rendering in a markdown table cell.
+
+    Mirrors the helper in housekeep.py / update_task_overview.py.
+    Guards against MD033 (`<word>` parsed as inline HTML) and pipe
+    characters that would split table cells.
+    """
+    return (
+        str(text)
+        .replace("|", "\\|")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
+
+
 # Main idea files are named `idea-NNN-<slug>.md`. Sub-notes attached to a
 # main idea use a dot instead of the hyphen: `idea-NNN.<sub-slug>.md`.
 # See docs/developers/ideas/README.md for the convention. Sub-notes never
@@ -120,8 +136,8 @@ def render_overview(open_ideas, archived_ideas):
         ]
         for idea in open_ideas:
             idea_id = idea.get("id", "?")
-            title = idea.get("title", idea["_file"])
-            description = idea.get("description", "").replace("|", "\\|")
+            title = _md_cell(idea.get("title", idea["_file"]))
+            description = _md_cell(idea.get("description", ""))
             category = format_category(idea.get("category", ""))
             fname = idea["_file"]
             lines.append(
@@ -140,7 +156,7 @@ def render_overview(open_ideas, archived_ideas):
         ]
         for idea in archived_ideas:
             idea_id = idea.get("id", "?")
-            title = idea.get("title", idea["_file"])
+            title = _md_cell(idea.get("title", idea["_file"]))
             category = format_category(idea.get("category", ""))
             fname = idea["_file"]
             lines.append(f"| [{idea_id}](archived/{fname}) | {category} | {title} |")
