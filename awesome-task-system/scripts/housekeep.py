@@ -12,14 +12,55 @@ nothing. Pass `--apply` to actually move files and write overviews.
 Usage:
     python scripts/housekeep.py            # dry-run — print plan only
     python scripts/housekeep.py --apply    # execute moves and regen
+
+Concurrency
+-----------
+`--apply` (and `--init` / `--fix-order`, which also write to disk)
+acquires an exclusive lock on `<repo-root>/.housekeep.lock` before
+doing any work. If another instance already holds the lock, the
+second invocation **waits up to LOCK_WAIT_SECONDS for the lock**, then
+exits non-zero with a message naming the holder's PID.
+
+Rationale: housekeep is invoked from many independent paths
+(pre-commit hook, /housekeep skill, /ts-task-* skills, manual runs)
+and parallel Claude Code sessions are common in this repo, so two
+runs can race and produce a half-correct index where the last writer
+wins. Wait-then-fail-loud was picked because (a) the pre-commit hook
+must not swallow regen failures, (b) silent skips desynchronise the
+index from the moved file, and (c) the common case — a second run
+triggered *after* the first finishes — "just works" via the wait.
+
+The lock is acquired with `fcntl.flock` on POSIX and
+`msvcrt.locking` on Windows, both of which release automatically when
+the process exits. This means a stale lockfile on disk (from a
+killed process) does not wedge future runs — do not "fix" this by
+deleting the file at startup. Dry-run (no flag) does not acquire the
+lock; it is a pure read.
+
+Sibling-script audit (TASK-328)
+-------------------------------
+- `sync_task_system.py`: idempotent file copy from
+  `awesome-task-system/` → live. Concurrent runs would copy the same
+  source bytes to the same destination paths; the result is
+  deterministic regardless of order. **Safe — no lock needed.**
+- `update_task_overview.py` / `update_idea_overview.py`: regenerate a
+  single OVERVIEW.md from frontmatter. Always invoked by
+  `housekeep.py` (the deprecated public path is documented in their
+  docstrings). Serialised by their caller, so they inherit
+  housekeep's lock. **Safe — no lock needed.**
+- `organize_closed_tasks.py`: explicit release-time archival
+  (`v0.X.Y` argument), invoked by hand at release. No trigger
+  fan-out. **Safe — no lock needed.**
 """
 from __future__ import annotations
 
 import argparse
+import contextlib
 import os
 import re
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -47,6 +88,116 @@ def _status_folders(active_enabled: bool, paused_enabled: bool) -> tuple[str, ..
 
 TASK_STATUS_FOLDERS = _status_folders(_ACTIVE_ENABLED, _PAUSED_ENABLED)
 ARCHIVE_FOLDER = "archive"
+
+LOCK_FILENAME = ".housekeep.lock"
+LOCK_WAIT_SECONDS = 30
+LOCK_POLL_SECONDS = 0.2
+
+
+def _lock_path() -> Path:
+    """Return the path to the lock file at the repo root.
+
+    The lock lives at the repo root (next to .git) rather than under
+    /tmp so that runs against unrelated checkouts do not falsely
+    serialise each other.
+    """
+    return Path.cwd() / LOCK_FILENAME
+
+
+@contextlib.contextmanager
+def acquire_lock(wait_seconds: float | None = None):
+    """Acquire an exclusive process-wide lock for housekeep --apply.
+
+    Waits up to `wait_seconds` (defaulting to module-level
+    `LOCK_WAIT_SECONDS`, resolved at call time so tests can patch it)
+    for the lock to become available. If the wait times out, raises
+    SystemExit(2) with a message naming the PID of the current
+    holder (best-effort — the file may have been released between
+    the check and the message).
+
+    The lock is held by an OS-level advisory lock on the file
+    descriptor (`fcntl.flock` on POSIX, `msvcrt.locking` on Windows),
+    which the kernel releases automatically when the process exits —
+    so a stale lockfile on disk does not wedge future runs.
+    """
+    if wait_seconds is None:
+        wait_seconds = LOCK_WAIT_SECONDS
+    lock_path = _lock_path()
+    fd = os.open(str(lock_path), os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        deadline = time.monotonic() + wait_seconds
+        acquired = False
+        while True:
+            try:
+                _platform_lock(fd)
+                acquired = True
+                break
+            except BlockingIOError:
+                if time.monotonic() >= deadline:
+                    holder = _read_holder_pid(lock_path)
+                    msg = (f"housekeep: another instance is running "
+                           f"(holder PID={holder or 'unknown'}); "
+                           f"timed out after {wait_seconds:g}s waiting "
+                           f"for {lock_path}.")
+                    print(msg, file=sys.stderr)
+                    raise SystemExit(2)
+                time.sleep(LOCK_POLL_SECONDS)
+        # Record our PID in the lockfile so other waiters can name us
+        # in their timeout message. Best-effort; a failure here does
+        # not invalidate the lock.
+        try:
+            os.lseek(fd, 0, os.SEEK_SET)
+            os.ftruncate(fd, 0)
+            os.write(fd, f"{os.getpid()}\n".encode("ascii"))
+        except OSError:
+            pass
+        try:
+            yield
+        finally:
+            if acquired:
+                _platform_unlock(fd)
+    finally:
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+
+
+def _read_holder_pid(lock_path: Path) -> str | None:
+    try:
+        text = lock_path.read_text(encoding="ascii").strip()
+        return text or None
+    except OSError:
+        return None
+
+
+if sys.platform == "win32":  # pragma: no cover — exercised on Windows only
+    import msvcrt
+
+    def _platform_lock(fd: int) -> None:
+        try:
+            msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
+        except OSError as exc:
+            raise BlockingIOError(str(exc)) from exc
+
+    def _platform_unlock(fd: int) -> None:
+        try:
+            os.lseek(fd, 0, os.SEEK_SET)
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+        except OSError:
+            pass
+else:
+    import fcntl
+
+    def _platform_lock(fd: int) -> None:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+    def _platform_unlock(fd: int) -> None:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        except OSError:
+            pass
+
 
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)$", re.MULTILINE)
@@ -1121,18 +1272,20 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.init:
-        return run_init(_CFG)
+        with acquire_lock():
+            return run_init(_CFG)
 
     if args.fix_order:
-        tasks = scan_task_items_only(scan_tasks())
-        changes = fix_order_fields(tasks)
-        if not changes:
-            print("housekeep --fix-order: order: fields already contiguous.")
-        else:
-            for path, n in changes:
-                print(f"housekeep --fix-order: {path} -> order: {n}")
-            print(f"housekeep --fix-order: rewrote {len(changes)} file(s).")
-        return 0
+        with acquire_lock():
+            tasks = scan_task_items_only(scan_tasks())
+            changes = fix_order_fields(tasks)
+            if not changes:
+                print("housekeep --fix-order: order: fields already contiguous.")
+            else:
+                for path, n in changes:
+                    print(f"housekeep --fix-order: {path} -> order: {n}")
+                print(f"housekeep --fix-order: rewrote {len(changes)} file(s).")
+            return 0
 
     if _EPICS_ENABLED:
         tasks_for_validation = scan_task_items_only(scan_tasks())
@@ -1146,12 +1299,15 @@ def main(argv: list[str] | None = None) -> int:
                   "contiguously per epic.", file=sys.stderr)
             return 1
 
-    plan = build_plan(epics_enabled=_EPICS_ENABLED)
-    print_plan(plan)
     if args.apply:
-        apply_plan(plan)
-        print("housekeep: applied.")
+        with acquire_lock():
+            plan = build_plan(epics_enabled=_EPICS_ENABLED)
+            print_plan(plan)
+            apply_plan(plan)
+            print("housekeep: applied.")
     else:
+        plan = build_plan(epics_enabled=_EPICS_ENABLED)
+        print_plan(plan)
         print("housekeep: dry-run — pass --apply to execute.")
     return 0
 

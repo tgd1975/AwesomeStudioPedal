@@ -111,3 +111,6 @@ app/android/local.properties
 .claude-recap.md
 .claude-recap.log
 .claude-recap.lock
+
+# Housekeep single-instance lock (TASK-328)
+.housekeep.lock

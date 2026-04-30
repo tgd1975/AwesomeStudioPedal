@@ -1,7 +1,7 @@
 ---
 id: TASK-328
 title: Prevent parallel execution of housekeep.py (and audit sibling scripts)
-status: open
+status: active
 opened: 2026-04-30
 effort: Small (<2h)
 complexity: Medium
