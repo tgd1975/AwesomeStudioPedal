@@ -1,9 +1,11 @@
 ---
 id: TASK-259
 title: Android app test protocol — record device and Android version per test run
-status: open
+status: closed
+closed: 2026-04-30
 opened: 2026-04-26
 effort: Small (<2h)
+effort_actual: XS (<30m)
 complexity: Junior
 human-in-loop: Clarification
 ---
