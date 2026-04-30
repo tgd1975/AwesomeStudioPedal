@@ -75,10 +75,10 @@ kanban
   Open
     TASK_148["Reorganise Developer Documentation"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
-    TASK_328["Prevent parallel execution of housekeep.py (and audit sibling scripts)"]
+    TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
   Active
     TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
-    TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
+    TASK_328["Prevent parallel execution of housekeep.py (and audit sibling scripts)"]
   Paused
   Closed
     TASK_259["Android app test protocol — record device and Android version per test run"]

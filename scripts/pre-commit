@@ -478,28 +478,6 @@ if [ -n "$STAGED_FILES" ]; then
 fi
 echo -e "${GREEN}No secrets detected.${NC}"
 
-echo -e "${YELLOW}Regenerating WireViz outputs for staged wiring YAML changes...${NC}"
-
-WIREVIZ=$(command -v wireviz 2>/dev/null || true)
-if [ -n "$WIREVIZ" ]; then
-    STAGED_WIRING=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^docs/builders/wiring/.*\.yml$' || true)
-    if [ -n "$STAGED_WIRING" ]; then
-        echo "Regenerating WireViz outputs for:"
-        echo "$STAGED_WIRING"
-        for yml_file in $STAGED_WIRING; do
-            "$WIREVIZ" -f st "${REPO_ROOT}/${yml_file}"
-            svg_file="${yml_file%.yml}.svg"
-            tsv_file="${yml_file%.yml}.bom.tsv"
-            git add "${REPO_ROOT}/${svg_file}" "${REPO_ROOT}/${tsv_file}" 2>/dev/null || true
-        done
-        echo -e "${GREEN}WireViz outputs regenerated and staged.${NC}"
-    else
-        echo -e "${GREEN}No wiring YAML changes — skipping WireViz.${NC}"
-    fi
-else
-    echo -e "${YELLOW}wireviz not found — skipping regeneration (run: pip install -r requirements-wiring.txt).${NC}"
-fi
-
 echo -e "${YELLOW}Updating idea overview...${NC}"
 python3 "${REPO_ROOT}/scripts/update_idea_overview.py"
 git add "${REPO_ROOT}/docs/developers/ideas/OVERVIEW.md"
