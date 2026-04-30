@@ -122,6 +122,72 @@ class TestCommitPathspecWrapper(unittest.TestCase):
             f"expected success, got: stderr={result.stderr} stdout={result.stdout}",
         )
 
+    def test_accepts_rename_with_both_paths_in_pathspec(self) -> None:
+        # TASK-347: after `git mv A B`, both A and B must be accepted as
+        # pathspec entries so the resulting commit records a rename
+        # rather than an orphan add (B) with a dangling source-side
+        # deletion (A).
+        (self.work / "old.txt").write_text("renamed body\n")
+        self._git("add", "old.txt")
+        self._git("commit", "-q", "-m", "seed old.txt")
+        self._git("mv", "old.txt", "new.txt")
+        result = self._run_wrapper("rename old to new", "old.txt", "new.txt")
+        self.assertEqual(
+            result.returncode,
+            0,
+            f"expected success, got: stderr={result.stderr} stdout={result.stdout}",
+        )
+        # The commit should record both sides — old.txt deleted, new.txt
+        # added. With rename detection, git log surfaces it as a rename;
+        # name-status with -M confirms it.
+        log = self._git(
+            "log", "-1", "--name-status", "-M", "--format="
+        ).stdout.strip()
+        self.assertTrue(
+            log.startswith("R"),
+            f"expected rename status (R…) in log, got: {log!r}",
+        )
+        self.assertIn("old.txt", log)
+        self.assertIn("new.txt", log)
+        # The working tree must be clean — no orphan ` D old.txt`.
+        status = self._git("status", "--porcelain").stdout
+        self.assertEqual(
+            status,
+            "",
+            f"expected clean working tree after rename commit, got: {status!r}",
+        )
+
+    def test_accepts_on_disk_deletion_of_tracked_file(self) -> None:
+        # TASK-347: deleting a tracked file from disk (without `git rm`)
+        # must be commitable via the wrapper. The path is in HEAD and
+        # in the index (as the unmodified entry), so the wrapper accepts
+        # it; pathspec form picks up the working-tree absence and the
+        # commit records the deletion.
+        (self.work / "doomed.txt").write_text("goodbye\n")
+        self._git("add", "doomed.txt")
+        self._git("commit", "-q", "-m", "seed doomed.txt")
+        (self.work / "doomed.txt").unlink()
+        result = self._run_wrapper("delete doomed", "doomed.txt")
+        self.assertEqual(
+            result.returncode,
+            0,
+            f"expected success, got: stderr={result.stderr} stdout={result.stdout}",
+        )
+        log = self._git(
+            "log", "-1", "--name-status", "--format="
+        ).stdout.strip()
+        self.assertTrue(
+            log.startswith("D"),
+            f"expected deletion status (D…) in log, got: {log!r}",
+        )
+        self.assertIn("doomed.txt", log)
+        status = self._git("status", "--porcelain").stdout
+        self.assertEqual(
+            status,
+            "",
+            f"expected clean working tree after deletion commit, got: {status!r}",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

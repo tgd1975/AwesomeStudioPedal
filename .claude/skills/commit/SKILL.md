@@ -63,6 +63,27 @@ keeps blast radius scoped to the single commit attempt.
    them now would defeat the parallel-session safety property of
    pathspec form.
 
+   **Renames and deletions — name BOTH (or the deleted) path.**
+
+   - **Rename via `git mv A B`**: include *both* `A` and `B` in the
+     pathspec list. Naming only `B` makes git's temp-index build see
+     `A` as still-present-in-HEAD and skip the deletion side, so the
+     commit records an addition of `B` while leaving `A` orphaned in
+     the working tree as a ` D` entry. This is the bug TASK-347 fixed
+     end-to-end; the wrapper now accepts rename sources, but it can
+     only commit the deletion side if you name it.
+   - **Plain deletion (file removed from disk, with or without
+     `git rm`)**: include the deleted path in the pathspec. The
+     wrapper accepts paths that are in HEAD even when missing from
+     both disk and index, so a `rm A` followed by
+     `/commit "..." A` commits the deletion.
+   - **Pure addition** (untracked → committed): `git add` first as
+     described above, then name the path.
+
+   Do **not** `git add` rename sources or deletions — those are *not*
+   untracked, and adding them is at best a no-op and at worst stages
+   working-tree state you didn't intend.
+
 3. **Invoke the wrapper script** with the message via heredoc, ending
    with the standard
    `Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>` trailer

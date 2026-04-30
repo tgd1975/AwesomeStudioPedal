@@ -1,9 +1,11 @@
 ---
 id: TASK-347
 title: Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug)
-status: open
+status: closed
+closed: 2026-05-01
 opened: 2026-04-30
 effort: Small (<2h)
+effort_actual: Small (<2h)
 complexity: Medium
 human-in-loop: Clarification
 epic: commit-atomicity

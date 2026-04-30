@@ -13,9 +13,14 @@
 # must `git add` any untracked pathspec entries before invoking this
 # script. Auto-adding masks parallel-session races: a foreign session
 # can land a commit that adds the same path to the tree between the
-# wrapper's `git ls-files --error-unmatch` check and its `git commit`,
-# producing two "successful" commits that both add the same file
-# (TASK-329).
+# wrapper's untracked check and its `git commit`, producing two
+# "successful" commits that both add the same file (TASK-329).
+#
+# Renames and deletions ARE supported (TASK-347). The pre-flight check
+# accepts any pathspec entry that is in HEAD or has an index entry —
+# rename sources (after `git mv A B`, A is in HEAD but not in index)
+# and on-disk-deleted tracked files both pass. Only paths unknown to
+# both HEAD and index are rejected as truly untracked.
 #
 # Usage:
 #   scripts/commit-pathspec.sh "<message>" <file> [<file> …]
@@ -54,17 +59,37 @@ if [ "$#" -eq 0 ]; then
     exit 1
 fi
 
-# Step 1: reject untracked pathspec entries.
-# Pathspec form requires every named file to be known to git. The /commit
-# skill is responsible for `git add`ing new files before invoking this
-# wrapper; if any pathspec entry is still untracked here, fail fast so
-# the agent refreshes (and may discover a foreign-session commit) rather
-# than silently adding.
+# Step 1: reject truly-untracked pathspec entries.
+#
+# Pathspec form requires every named file to be known to git in *some*
+# capacity — either tracked in HEAD (so it can be modified or deleted)
+# or staged in the index (so it can be added or rename-destinationed).
+# The /commit skill is responsible for `git add`ing new files before
+# invoking this wrapper; if any pathspec entry is unknown to git here,
+# fail fast so the agent refreshes (and may discover a foreign-session
+# commit) rather than silently adding.
+#
+# A naïve `git ls-files --error-unmatch -- "$f"` check rejects rename
+# *sources*: after `git mv A B`, A is removed from the index and only
+# B is present, so `ls-files A` fails — but A is not untracked, it is
+# the source side of an in-progress rename and must reach the commit
+# for git to record it as a rename rather than a delete + add. The
+# correct primitive is: accept if the path is in HEAD OR has any index
+# entry (add, modify, delete-source, etc.). Reject only if it is
+# unknown to both.
 UNTRACKED=()
 for f in "$@"; do
-    if ! git ls-files --error-unmatch -- "$f" >/dev/null 2>&1; then
-        UNTRACKED+=("$f")
+    # In the index? Catches: tracked-modified, staged-add,
+    # rename-destination. Misses: rename-source (no index entry).
+    if git ls-files --error-unmatch -- "$f" >/dev/null 2>&1; then
+        continue
     fi
+    # In HEAD? Catches: rename-source, staged-deletion of a tracked
+    # file, plain on-disk deletion of a tracked file (no `git rm`).
+    if git cat-file -e "HEAD:$f" 2>/dev/null; then
+        continue
+    fi
+    UNTRACKED+=("$f")
 done
 if [ "${#UNTRACKED[@]}" -gt 0 ]; then
     echo "ERROR: untracked pathspec entries (run 'git add' first):" >&2
