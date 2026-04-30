@@ -5,6 +5,10 @@ description: Eliminate parallel-session staging races by making /commit use path
 category: 🛠️ tooling
 ---
 
+## Archive Reason
+
+2026-04-30 — Converted to EPIC-022 (Atomic /commit and mandatory commit path).
+
 # Atomic /commit via pathspec + mandatory hook-enforced /commit path
 
 Multiple Claude Code sessions often run against this repo in parallel.

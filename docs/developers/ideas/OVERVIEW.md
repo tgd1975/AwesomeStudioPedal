@@ -1,6 +1,6 @@
 # Ideas Overview
 
-**Open: 31** | **Archived: 18**
+**Open: 30** | **Archived: 19**
 
 Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until they are either converted into structured tasks or archived. Archived ideas are kept for history in [`archived/`](archived/). See [README.md](README.md) for the file-naming convention (one row per IDEA, sub-notes use the `idea-NNN.<sub-slug>.md` form).
 
@@ -38,7 +38,6 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-048](open/idea-048-off-the-shelf-pedalboard.md) | 🔧 hardware | Off-the-shelf pedalboard build — 2 pedals from mostly stock components | A 2-pedal board assembled from as many off-the-shelf parts as possible (enclosure, switches, jacks, hardware) — minimise custom fabrication. |
 | [IDEA-049](open/idea-049-logo-more-prominent.md) | 📱 apps | Make the logo more prominent across apps and tools | Use the project logo more consistently — especially in the simulator and the config builders, which currently have none. |
 | [IDEA-050](open/idea-050-version-auto-memory-via-awesome-task-system.md) | 🛠️ tooling | Version auto-memory via the awesome-task-system mirror pattern | Mirror Claude's auto-memory through awesome-task-system so memory edits become reviewable, versioned commits instead of out-of-repo files. |
-| [IDEA-051](open/idea-051-atomic-commit-via-pathspec-and-mandatory-commit-path.md) | 🛠️ tooling | Atomic /commit via pathspec + mandatory hook-enforced /commit path | Eliminate parallel-session staging races by making /commit use pathspec form (atomic, no lock) and requiring all commits to flow through /commit, enforced by the pre-commit hook. |
 
 ## Archived Ideas
 
@@ -62,3 +61,4 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-043](archived/idea-043-coordinated-task-system-rollout.md) | 🛠️ tooling | Coordinated task-system rollout — burn-up dashboard, post-hoc effort, paused status, and awesome-task-system carve-out |
 | [IDEA-044](archived/idea-044-action-editor-value-field-resets-on-type-change.md) | 📱 apps | Action Editor value field clears (or contextualises) when Action Type changes |
 | [IDEA-045](archived/idea-045-validation-banner-revalidates-on-action-edit.md) | 📱 apps | Validation banner revalidates when an action is edited (not only when profile count changes) |
+| [IDEA-051](archived/idea-051-atomic-commit-via-pathspec-and-mandatory-commit-path.md) | 🛠️ tooling | Atomic /commit via pathspec + mandatory hook-enforced /commit path |
