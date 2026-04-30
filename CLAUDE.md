@@ -182,6 +182,13 @@ After any task-system file change (status edits, idea moves, epic edits, ad-hoc 
 
 The pre-commit hook also runs `housekeep --apply` and stages OVERVIEW/EPICS/KANBAN as a backstop, so a stale index never lands. It does **not** stage moved task files — those still belong to whichever session edited the status. Treat the hook as a safety net, not a substitute: regen at edit time keeps `git status` clean and lets you review what's about to be committed.
 
+**OVERVIEW/EPICS/KANBAN are an exception to "commit only your own work".** These four files (`docs/developers/tasks/OVERVIEW.md`, `EPICS.md`, `KANBAN.md`, and `docs/developers/ideas/OVERVIEW.md`) are entirely generated from on-disk state by `housekeep.py`. They have no per-author authorship — whoever commits the regen first wins, and a later commit will simply re-derive the latest counts. So:
+
+- **When you make any commit, if these files are sitting modified, include them in your pathspec.** No need to check who triggered the regen. They are cheap to land and incorrect to leave behind.
+- **Conversely, don't be disappointed if you triggered a regen and a parallel session committed it before you.** Their commit landed the same generated content yours would have. Re-run housekeep if you need to refresh, and move on.
+
+This applies to the four index files above only. Moved *task* files (e.g. `task-NNN-foo.md` rename from `active/` to `closed/`) still belong to whichever session edited the status, per the parallel-session rule.
+
 ## Git reconnaissance — use /status
 
 Use `/status` for routine git reconnaissance (branch, last 3 commits, staged short, working short) instead of separate `git status` / `git log` / `git rev-parse` calls. One bundled invocation collapses several permission prompts into one.
