@@ -108,7 +108,7 @@ kanban
 
 ## Other
 
-_⚪ 2 open · 🔵 1 active · 🟡 0 paused · 🟢 10 closed · ████████░░ 77%_
+_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 11 closed · ████████░░ 85%_
 
 ```mermaid
 kanban
@@ -116,7 +116,6 @@ kanban
     TASK_148["Reorganise Developer Documentation"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
   Active
-    TASK_328["Prevent parallel execution of housekeep.py (and audit sibling scripts)"]
   Paused
   Closed
     TASK_259["Android app test protocol — record device and Android version per test run"]
@@ -129,5 +128,6 @@ kanban
     TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
     TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
     TASK_321["Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes"]
+    TASK_328["Prevent parallel execution of housekeep.py (and audit sibling scripts)"]
 ```
 

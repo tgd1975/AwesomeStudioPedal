@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 28** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 27** | **Total: 60** | ████░░░░░░ 45%
+⚪ **Open: 28** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 28** | **Total: 60** | █████░░░░░ 47%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -57,9 +57,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-328](active/task-328-prevent-parallel-housekeep-execution.md) | Prevent parallel execution of housekeep.py (and audit sibling scripts) | Small (<2h) | Medium | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -133,6 +131,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-325](closed/task-325-implement-precommit-hook-enforcement.md) | Implement pre-commit hook enforcement of /commit-only commits | Medium (2-8h) |
 | [TASK-326](closed/task-326-route-other-commit-skills-through-commit.md) | Route /release, /release-branch, and other commit-issuing skills through /commit | Medium (2-8h) |
 | [TASK-327](closed/task-327-decide-partial-hunk-policy.md) | Decide partial-hunk policy — unsupported, or /commit --partial escape hatch | Small (<2h) |
+| [TASK-328](closed/task-328-prevent-parallel-housekeep-execution.md) | Prevent parallel execution of housekeep.py (and audit sibling scripts) | Small (<2h) |
 | [TASK-329](closed/task-329-drop-auto-git-add-from-commit-pathspec.md) | Drop auto-git-add for untracked files from commit-pathspec.sh | Small (<2h) |
 
 ## Archived Releases
