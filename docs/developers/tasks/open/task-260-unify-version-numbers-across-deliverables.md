@@ -46,10 +46,7 @@ Manual verification at next release cut:
 
 - **Format mismatches per ecosystem.** Flutter wants `1.0.0+1`, npm wants `1.0.0`, firmware uses the `vX.Y.Z` literal. The release script needs a small mapping table — pick one canonical `MAJOR.MINOR.PATCH` and project it into each format.
 - **The Flutter `+B` build counter.** `pubspec.yaml` versions look like `1.0.0+1` where `+1` is the Android `versionCode`. Decision needed: does the build counter reset on every version bump, or increment forever? Recommend **increment forever** — Google Play requires a strictly increasing `versionCode`, and resetting it complicates Play Store uploads.
-- **First-bump jump is large.** Flutter app goes 1.0.0 → 0.4.0 (a *downgrade* in semver terms). Two options:
-  - Hard reset to 0.4.0 and live with the explanatory note in the changelog.
-  - Skip ahead — pick a unified version higher than every existing one, e.g. `v1.1.0`, so no deliverable goes backwards.
-  Prefer the second option for the app specifically; semver-decreasing a published artifact causes problems with package managers and app stores. **Open question for the user.**
+- **First-bump jump is large — decision: hard reset.** Flutter app goes 1.0.0 → next firmware bump (`v0.4.x` / `v0.5.0`), a semver downgrade. Decided 2026-05-01 to **hard reset** the Flutter app to the unified number and live with an explanatory note in the changelog. Trade-off accepted: the app is not yet published to Play Store (see TASK-160), so package-manager / store-update breakage is not an issue today. If publishing happens before this lands, revisit the decision.
 - **Out of scope.** No automated check that all versions agree (a CI guard could be a follow-up). No version-bump tooling beyond extending the existing `/release` skill. No semantic-release / conventional-commit automation.
 - **Related.** TASK-179 (determine Android app release approach) and TASK-160 (publish to Play Store) both intersect with versioning policy and should be revisited after this task lands.
 
