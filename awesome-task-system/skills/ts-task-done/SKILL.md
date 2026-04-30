@@ -67,7 +67,7 @@ Steps:
 3. Run `python scripts/housekeep.py --apply` — this moves the file to `closed/` and
    regenerates `OVERVIEW.md`, `EPICS.md`, and `KANBAN.md`.
 
-4. Stage and commit. The closing this skill performs **owns the
+1. Stage and commit. The closing this skill performs **owns the
    resulting OVERVIEW/EPICS/KANBAN regen** — those regen lines reflect
    *this task moving to closed*, so they are part of this commit even
    under the "commit only your own work" rule in `CLAUDE.md`. Stage:
@@ -89,4 +89,4 @@ Steps:
    `close TASK-NNN: <task title from frontmatter>`
    Do NOT push.
 
-5. Report: "TASK-NNN moved to closed/, overviews updated, and committed."
+2. Report: "TASK-NNN moved to closed/, overviews updated, and committed."

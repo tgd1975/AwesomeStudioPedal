@@ -67,9 +67,9 @@ Steps:
 
 8. **Update CHANGELOG**: read `CHANGELOG.md`. Find the `## [Unreleased]` section.
 
-   - If the section is **empty**, note it to the user and still update the heading —
+- If the section is **empty**, note it to the user and still update the heading —
      the section will be empty in the versioned entry.
-   - Replace `## [Unreleased]` with:
+- Replace `## [Unreleased]` with:
 
      ```
      ## [Unreleased]
@@ -86,7 +86,7 @@ Steps:
    git add CHANGELOG.md
    ```
 
-9. **Update README firmware section**: replace the block between
+1. **Update README firmware section**: replace the block between
    `<!-- RELEASE_SECTION_START -->` and `<!-- RELEASE_SECTION_END -->` in `README.md`
    with the real download links. Read the existing block first to detect whether
    previous releases are already listed, then write the updated block:
@@ -110,7 +110,7 @@ Steps:
    git add README.md
    ```
 
-10. **Commit the bump, archive, changelog, and README**:
+2. **Commit the bump, archive, changelog, and README**:
 
    ```bash
    git add include/version.h
