@@ -68,7 +68,7 @@ kanban
 
 ## Other
 
-_⚪ 3 open · 🔵 2 active · 🟡 0 paused · 🟢 8 closed · ██████░░░░ 62%_
+_⚪ 3 open · 🔵 1 active · 🟡 0 paused · 🟢 9 closed · ███████░░░ 69%_
 
 ```mermaid
 kanban
@@ -77,7 +77,6 @@ kanban
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
     TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
   Active
-    TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
     TASK_328["Prevent parallel execution of housekeep.py (and audit sibling scripts)"]
   Paused
   Closed
@@ -88,6 +87,7 @@ kanban
     TASK_313["Add emoji icons to idea category column in OVERVIEW"]
     TASK_314["Use non-breaking space between category icon and name"]
     TASK_315["Idea sub-file naming convention — one IDEA = one OVERVIEW row"]
+    TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
     TASK_321["Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes"]
 ```
 

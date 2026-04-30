@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 13** | 🔵 **Active: 2** | 🟡 **Paused: 4** | 🟢 **Closed: 24** | **Total: 43** | ██████░░░░ 56%
+⚪ **Open: 13** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 25** | **Total: 43** | ██████░░░░ 58%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -59,7 +59,6 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | ID | Title | Effort | Complexity | Status |
 |----|-------|--------|------------|--------|
-| [TASK-319](active/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | 🔵 **active** |
 | [TASK-328](active/task-328-prevent-parallel-housekeep-execution.md) | Prevent parallel execution of housekeep.py (and audit sibling scripts) | Small (<2h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
@@ -110,6 +109,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-316](closed/task-316-epic-branch-frontmatter-field.md) | Add optional `branch:` field to epic frontmatter | Small (<2h) |
 | [TASK-317](closed/task-317-ts-epic-new-autofill-branch.md) | `/ts-epic-new` auto-fills `branch: feature/<epic-slug>` | Small (<2h) |
 | [TASK-318](closed/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) |
+| [TASK-319](closed/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) |
 | [TASK-321](closed/task-321-fix-ci-failures-mermaid-clang-tidy.md) | Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes | Medium (2-8h) |
 | [TASK-322](closed/task-322-decide-commit-provenance-and-bypass-mechanism.md) | Decide commit-provenance signal and bypass mechanism for /commit | Small (<2h) |
 | [TASK-323](closed/task-323-convert-commit-skill-to-pathspec-form.md) | Convert /commit skill to pathspec form | Small (<2h) |
