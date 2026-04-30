@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 13** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 26** | **Total: 44** | ██████░░░░ 59%
+⚪ **Open: 22** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 27** | **Total: 54** | █████░░░░░ 50%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -86,7 +86,16 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (<2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (<2h) | Small | ⚪ open |
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
-| [TASK-329](open/task-329-drop-auto-git-add-from-commit-pathspec.md) | Drop auto-git-add for untracked files from commit-pathspec.sh | Small (<2h) | Medium | ⚪ open |
+| [TASK-330](open/task-330-decide-content-page-open-questions.md) | Decide content-page open questions (source-of-truth, i18n, context-awareness, first-run) | Small (<2h) | Medium | ⚪ open |
+| [TASK-331](open/task-331-add-info-about-page.md) | Add Info/About page to the Flutter app | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-332](open/task-332-add-howto-quickstart-page.md) | Add How-To quickstart page (3–5 steps) | Small (<2h) | Junior | ⚪ open |
+| [TASK-333](open/task-333-add-profiles-troubleshooting-legal-pages.md) | Add Profiles explainer, Troubleshooting, and Legal pages | Medium (2-8h) | Junior | ⚪ open |
+| [TASK-334](open/task-334-add-startup-splash-screen.md) | Add startup splash screen (Flutter + native) | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-335](open/task-335-add-connection-status-strip-and-details-sheet.md) | Add connection status strip and details sheet | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-336](open/task-336-add-connected-pedal-page-board-only.md) | Add Connected-Pedal page (board only; firmware/config sections placeholdered) | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-337](open/task-337-firmware-expose-version-config-active-profile.md) | Firmware — expose firmware version, readable config, active-profile notify (BLE) | Large (8-24h) | Senior | ⚪ open |
+| [TASK-338](open/task-338-add-hid-display-table-and-live-keystroke-page.md) | Add HID-usage display lookup table (generated) and Live-keystroke page | Large (8-24h) | Senior | ⚪ open |
+| [TASK-339](open/task-339-add-asp-logo-to-web-simulator-header.md) | Add ASP logo to web simulator header | Small (<2h) | Junior | ⚪ open |
 
 ## Closed Tasks
 
@@ -118,6 +127,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-325](closed/task-325-implement-precommit-hook-enforcement.md) | Implement pre-commit hook enforcement of /commit-only commits | Medium (2-8h) |
 | [TASK-326](closed/task-326-route-other-commit-skills-through-commit.md) | Route /release, /release-branch, and other commit-issuing skills through /commit | Medium (2-8h) |
 | [TASK-327](closed/task-327-decide-partial-hunk-policy.md) | Decide partial-hunk policy — unsupported, or /commit --partial escape hatch | Small (<2h) |
+| [TASK-329](closed/task-329-drop-auto-git-add-from-commit-pathspec.md) | Drop auto-git-add for untracked files from commit-pathspec.sh | Small (<2h) |
 
 ## Archived Releases
 

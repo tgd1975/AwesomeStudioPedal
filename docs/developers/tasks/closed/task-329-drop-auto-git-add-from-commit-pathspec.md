@@ -1,9 +1,11 @@
 ---
 id: TASK-329
 title: Drop auto-git-add for untracked files from commit-pathspec.sh
-status: open
+status: closed
+closed: 2026-04-30
 opened: 2026-04-30
 effort: Small (<2h)
+effort_actual: Small (<2h)
 complexity: Medium
 human-in-loop: Clarification
 epic: commit-atomicity
@@ -42,20 +44,20 @@ wrapper — this just enforces it by removing the silent fallback.
 
 ## Acceptance Criteria
 
-- [ ] `scripts/commit-pathspec.sh` no longer runs `git add` for any
+- [x] `scripts/commit-pathspec.sh` no longer runs `git add` for any
       reason. The pathspec is passed straight to `git commit -m "..."
-      -- <files>`.
-- [ ] `.claude/skills/commit/SKILL.md` updated: the "Add untracked
-      files" step (currently step 2) becomes mandatory prose that the
-      agent must execute before the wrapper, not optional fallback
-      behaviour.
-- [ ] `scripts/tests/test_commit_provenance.py` extended (or a new
-      `test_commit_pathspec.py` added) to verify the wrapper rejects
-      untracked-pathspec invocations with a non-zero exit and a clear
-      error message.
-- [ ] Smoke test: run `/commit` on a newly-created (untracked) file
-      without explicitly `git add`ing it first — confirm the wrapper
-      now fails fast rather than silently adding.
+      -- <files>`. Untracked entries fail with exit 2 + clear stderr.
+- [x] `.claude/skills/commit/SKILL.md` updated: the "Add untracked
+      files" step is now mandatory prose (Step 2) that the agent must
+      execute before the wrapper, not optional fallback behaviour.
+- [x] `scripts/tests/test_commit_pathspec.py` added — verifies the
+      wrapper rejects untracked-pathspec invocations with exit 2 and
+      a clear error message, and confirms the index stays untouched
+      on the rejection path.
+- [x] Smoke test: invoked the wrapper on a newly-created (untracked)
+      file in this repo (not just the test fixture) — wrapper exited
+      2 with the expected stderr and the file remained untracked
+      (`?? scripts/asp-smoke-untracked.tmp`).
 
 ## Test Plan
 

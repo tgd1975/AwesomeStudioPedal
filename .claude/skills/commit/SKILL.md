@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Commit user-named files atomically via scripts/commit-pathspec.sh (which wraps `git commit -m "..." -- <files>`, writes the provenance token the pre-commit hook validates, and adds untracked files in the pathspec). Applies the CLAUDE.md "Pre-commit hook failures on unrelated changes" protocol when the hook fails. Never adds --no-verify silently — explicit user approval is required.
+description: Commit user-named files atomically via scripts/commit-pathspec.sh (which wraps `git commit -m "..." -- <files>` and writes the provenance token the pre-commit hook validates). Applies the CLAUDE.md "Pre-commit hook failures on unrelated changes" protocol when the hook fails. Never adds --no-verify silently — explicit user approval is required.
 ---
 
 # commit
@@ -42,7 +42,28 @@ keeps blast radius scoped to the single commit attempt.
    Per the project's "Parallel sessions — commit only your own work"
    rule, the file list must be explicit.
 
-2. **Invoke the wrapper script** with the message via heredoc, ending
+2. **`git add` any untracked pathspec entries.** Pathspec form requires
+   every named file to be known to git. For each file in the pathspec
+   that does not yet exist in the index, run:
+
+   ```bash
+   git add -- <untracked-file>
+   ```
+
+   This step is **mandatory** when needed and **not optional**: the
+   wrapper script rejects untracked pathspec entries with exit code 2
+   rather than auto-adding them. Auto-adding once existed in the
+   wrapper and was removed in TASK-329 because it masked parallel-
+   session races — a foreign-session commit could land the same path
+   between the wrapper's untracked check and its commit, producing two
+   commits that both "added" the file. Failing fast forces a refresh.
+
+   Do **not** `git add` tracked files (modified or otherwise) — those
+   are committed directly via the pathspec on the next step. Staging
+   them now would defeat the parallel-session safety property of
+   pathspec form.
+
+3. **Invoke the wrapper script** with the message via heredoc, ending
    with the standard
    `Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>` trailer
    (omit the trailer if the user is committing a non-agent change
@@ -57,17 +78,14 @@ keeps blast radius scoped to the single commit attempt.
    )" <file> [<file> …]
    ```
 
-   The wrapper handles three things you must not duplicate:
+   The wrapper handles two things you must not duplicate:
 
-   1. `git add` for untracked files in the pathspec (modified-tracked
-      files are committed directly via pathspec without staging).
-   2. Writing the provenance token at `.git/asp-commit-token` that the
+   1. Writing the provenance token at `.git/asp-commit-token` that the
       pre-commit hook validates.
-   3. Running `git commit -m "..." -- <files>` in pathspec form.
+   2. Running `git commit -m "..." -- <files>` in pathspec form.
 
-   Do **not** run `git add` yourself on tracked files. Do **not** call
-   `git commit` directly — the pre-commit hook will reject it for
-   missing the provenance token.
+   Do **not** call `git commit` directly — the pre-commit hook will
+   reject it for missing the provenance token.
 
 3. **On hook success** — report the new commit's short hash + subject
    (one line). Done.

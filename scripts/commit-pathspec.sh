@@ -2,13 +2,20 @@
 # scripts/commit-pathspec.sh — wrapper for git's pathspec-form commit
 #
 # This is the executable behind the /commit skill. It writes the
-# provenance token at .git/asp-commit-token, runs `git add` for any
-# untracked files in the pathspec, then runs
+# provenance token at .git/asp-commit-token and runs
 # `git commit -m "..." -- <files>`.
 #
 # The pre-commit hook validates the token and rejects commits that
 # did not come from this wrapper. See docs/developers/COMMIT_POLICY.md
 # for the full design.
+#
+# Untracked files are NOT auto-added. The caller (the /commit skill)
+# must `git add` any untracked pathspec entries before invoking this
+# script. Auto-adding masks parallel-session races: a foreign session
+# can land a commit that adds the same path to the tree between the
+# wrapper's `git ls-files --error-unmatch` check and its `git commit`,
+# producing two "successful" commits that both add the same file
+# (TASK-329).
 #
 # Usage:
 #   scripts/commit-pathspec.sh "<message>" <file> [<file> …]
@@ -17,6 +24,7 @@
 # Exit codes:
 #   0  commit succeeded
 #   1  commit failed (hook, git, or invalid args)
+#   2  pathspec contains an untracked entry
 
 set -euo pipefail
 
@@ -46,16 +54,25 @@ if [ "$#" -eq 0 ]; then
     exit 1
 fi
 
-# Step 1: git add only the untracked files in the pathspec.
-# Tracked files (modified or unmodified) go in via the pathspec on the
-# git-commit invocation; staging them now would defeat the parallel-
-# session safety property.
+# Step 1: reject untracked pathspec entries.
+# Pathspec form requires every named file to be known to git. The /commit
+# skill is responsible for `git add`ing new files before invoking this
+# wrapper; if any pathspec entry is still untracked here, fail fast so
+# the agent refreshes (and may discover a foreign-session commit) rather
+# than silently adding.
+UNTRACKED=()
 for f in "$@"; do
     if ! git ls-files --error-unmatch -- "$f" >/dev/null 2>&1; then
-        # Untracked — needs to be added so pathspec can see it.
-        git add -- "$f"
+        UNTRACKED+=("$f")
     fi
 done
+if [ "${#UNTRACKED[@]}" -gt 0 ]; then
+    echo "ERROR: untracked pathspec entries (run 'git add' first):" >&2
+    for f in "${UNTRACKED[@]}"; do
+        echo "  $f" >&2
+    done
+    exit 2
+fi
 
 # Step 2: write the provenance token. Format: <pid> <nonce> <unix-ts>.
 # PID is the shell that will run `git commit` next (i.e. $$).
