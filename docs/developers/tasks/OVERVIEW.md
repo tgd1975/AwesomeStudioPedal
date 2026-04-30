@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 12** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 26** | **Total: 43** | ██████░░░░ 60%
+⚪ **Open: 13** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 26** | **Total: 44** | ██████░░░░ 59%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -86,6 +86,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (<2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (<2h) | Small | ⚪ open |
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-329](open/task-329-drop-auto-git-add-from-commit-pathspec.md) | Drop auto-git-add for untracked files from commit-pathspec.sh | Small (<2h) | Medium | ⚪ open |
 
 ## Closed Tasks
 
