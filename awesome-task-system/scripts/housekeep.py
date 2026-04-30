@@ -40,14 +40,23 @@ lock; it is a pure read.
 Sibling-script audit (TASK-328)
 -------------------------------
 - `sync_task_system.py`: idempotent file copy from
-  `awesome-task-system/` → live. Concurrent runs would copy the same
-  source bytes to the same destination paths; the result is
-  deterministic regardless of order. **Safe — no lock needed.**
-- `update_task_overview.py` / `update_idea_overview.py`: regenerate a
-  single OVERVIEW.md from frontmatter. Always invoked by
-  `housekeep.py` (the deprecated public path is documented in their
-  docstrings). Serialised by their caller, so they inherit
-  housekeep's lock. **Safe — no lock needed.**
+  `awesome-task-system/` → live. Concurrent `--apply` runs copy the
+  same source bytes to the same destination paths via `shutil.copy2`;
+  last-writer-wins is benign because both writers produce identical
+  bytes. **Safe — no lock needed.** `--check` is read-only.
+- `update_task_overview.py`: regenerate `OVERVIEW.md` from task
+  frontmatter. Only called by `housekeep.py` (the deprecated public
+  path is documented in its docstring). Serialised by its caller, so
+  it inherits housekeep's lock. **Safe — no lock needed.**
+- `update_idea_overview.py`: regenerate ideas `OVERVIEW.md` from
+  frontmatter. Called both by `housekeep.py` and directly by
+  `scripts/pre-commit`, so it does **not** inherit housekeep's lock
+  on the pre-commit path. The output is a pure function of the
+  on-disk idea files: two parallel runs reading the same tree write
+  byte-identical bytes to the same path, so a last-writer-wins race
+  is benign. **Safe — no lock needed.** Re-evaluate if the script
+  ever takes input from a non-deterministic source (clock, env,
+  random ordering).
 - `organize_closed_tasks.py`: explicit release-time archival
   (`v0.X.Y` argument), invoked by hand at release. No trigger
   fan-out. **Safe — no lock needed.**

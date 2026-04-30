@@ -1,9 +1,11 @@
 ---
 id: TASK-328
 title: Prevent parallel execution of housekeep.py (and audit sibling scripts)
-status: active
+status: closed
+closed: 2026-04-30
 opened: 2026-04-30
 effort: Small (<2h)
+effort_actual: Medium (2-8h)
 complexity: Medium
 human-in-loop: Clarification
 ---
@@ -44,22 +46,31 @@ case and should "just work" (which a wait-then-run pattern delivers naturally).
 
 ## Acceptance Criteria
 
-- [ ] `housekeep.py` acquires an exclusive lock (e.g. `fcntl.flock` on a pidfile in
-      a writable, repo-local path) before doing any index regeneration; releases it
-      on exit (success or failure).
-- [ ] Concurrent invocation behaviour is decided, documented in the script's module
-      docstring, and matches the implemented behaviour (the recommended default is
-      "wait up to N seconds, then fail with a clear message naming the lock holder's
-      PID").
-- [ ] A host test exercises the concurrency path — e.g. spawn two `housekeep.py`
-      subprocesses, assert exactly one regenerates the index and the other observes
-      the lock as expected (waits, or fails with the documented exit code/message).
-- [ ] Audit decision recorded for `sync_task_system.py`,
-      `update_task_overview.py`, `update_idea_overview.py`,
-      `organize_closed_tasks.py`: either the same lock pattern is applied, or the
-      script is documented as safe (read-only, idempotent, or always-serialised by
-      its caller).
-- [ ] `awesome-task-system/scripts/housekeep.py` is updated identically and
+- [x] `housekeep.py` acquires an exclusive lock on
+      `<repo-root>/.housekeep.lock` (`fcntl.flock` on POSIX,
+      `msvcrt.locking` on Windows) before any --apply / --init /
+      --fix-order work; the kernel releases on process exit. Landed
+      in commit `42e235c`.
+- [x] Concurrent behaviour: wait up to 30s, then exit non-zero
+      naming the holder PID. Documented in the module docstring of
+      `awesome-task-system/scripts/housekeep.py` and matches the
+      implementation. Dry-run does not acquire the lock.
+- [x] Host test `scripts/tests/test_housekeep_concurrency.py`
+      spawns two --apply runs and asserts the lock contention
+      behaviour. Landed in commit `42e235c`.
+- [x] Audit recorded in the housekeep.py module docstring
+      ("Sibling-script audit (TASK-328)" block):
+      - `sync_task_system.py` — safe, deterministic byte-identical
+        output on `--apply`; `--check` is read-only.
+      - `update_task_overview.py` — safe, only ever called by
+        `housekeep.py`, inherits the lock.
+      - `update_idea_overview.py` — safe, called both by housekeep
+        and directly by `scripts/pre-commit`; pure-function output
+        from on-disk frontmatter, last-writer-wins is benign.
+      - `organize_closed_tasks.py` — safe, one-shot release-time
+        archival, no trigger fan-out.
+- [x] `awesome-task-system/scripts/housekeep.py` and
+      `scripts/housekeep.py` are byte-identical;
       `python scripts/sync_task_system.py --check` passes.
 
 ## Test Plan

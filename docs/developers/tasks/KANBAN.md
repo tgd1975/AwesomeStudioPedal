@@ -108,13 +108,14 @@ kanban
 
 ## Other
 
-_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 11 closed · ████████░░ 85%_
+_⚪ 3 open · 🔵 0 active · 🟡 0 paused · 🟢 11 closed · ████████░░ 79%_
 
 ```mermaid
 kanban
   Open
     TASK_148["Reorganise Developer Documentation"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
+    TASK_346["Make pre-commit C++ and app checks content-sensitive"]
   Active
   Paused
   Closed

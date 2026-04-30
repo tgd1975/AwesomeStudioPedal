@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 28** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 28** | **Total: 60** | █████░░░░░ 47%
+⚪ **Open: 29** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 28** | **Total: 61** | █████░░░░░ 46%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -100,6 +100,7 @@ _No active tasks._
 | [TASK-343](open/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (<2h) | Junior | ⚪ open |
 | [TASK-344](open/task-344-archive-idea-049-after-logo-tasks-shipped.md) | Archive IDEA-049 after logo tasks shipped | XS (<30m) | Junior | ⚪ open |
 | [TASK-345](open/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-346](open/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (<2h) | Medium | ⚪ open |
 
 ## Closed Tasks
 
