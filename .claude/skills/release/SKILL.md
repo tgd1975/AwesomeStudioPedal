@@ -110,12 +110,24 @@ Steps:
    git add README.md
    ```
 
-2. **Commit the bump, archive, changelog, and README**:
+2. **Commit the bump, archive, changelog, and README**.
+
+   This is a multi-file release operation that does not fit the
+   `/commit` pathspec model (the archive directory contents are not
+   knowable as a flat file list). Use the
+   `ASP_COMMIT_BYPASS=<reason>` mechanism documented in
+   [docs/developers/COMMIT_POLICY.md](../../../docs/developers/COMMIT_POLICY.md);
+   the bypass is logged to `.git/asp-commit-bypass.log` for review:
 
    ```bash
    git add include/version.h
-   git commit --no-verify -m "chore: bump version to vX.Y.Z, archive closed tasks, update CHANGELOG"
+   ASP_COMMIT_BYPASS="release: version bump + archive + CHANGELOG" \
+       git commit --no-verify -m "chore: bump version to vX.Y.Z, archive closed tasks, update CHANGELOG"
    ```
+
+   `--no-verify` is kept here because `/release` runs the full release
+   build separately; re-running the pre-commit chain (tests + clang-tidy
+   + mermaid) would duplicate that work.
 
 1. **Create annotated tag**:
 

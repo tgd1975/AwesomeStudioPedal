@@ -76,8 +76,14 @@ Invoke as `/release-branch vX.Y.Z`. If no version is given, read the current ver
    BASE=$(git merge-base HEAD main)
    git reset --soft $BASE
    git add CHANGELOG.md
-   git commit -m "<confirmed message>"
+   ASP_COMMIT_BYPASS="release-branch: squash commit" \
+       git commit -m "<confirmed message>"
    ```
+
+   The bypass is required because the squash commit's file set is
+   "everything in the branch" — not enumerable as a flat pathspec
+   list. See [docs/developers/COMMIT_POLICY.md](../../../docs/developers/COMMIT_POLICY.md);
+   the bypass is logged to `.git/asp-commit-bypass.log`.
 
 2. **Push branch**:
 
@@ -167,11 +173,14 @@ Invoke as `/release-branch vX.Y.Z`. If no version is given, read the current ver
     git add docs/developers/tasks/archive/vX.Y.Z/
     ```
 
-5. **Commit the bump and archive**:
+5. **Commit the bump and archive**.
+
+    Multi-file release operation — uses the documented bypass:
 
     ```bash
     git add platformio.ini include/version.h
-    git commit -m "chore: bump version to vX.Y.Z and archive closed tasks"
+    ASP_COMMIT_BYPASS="release-branch: version bump + archive" \
+        git commit -m "chore: bump version to vX.Y.Z and archive closed tasks"
     ```
 
 6. **Create annotated tag**:
