@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 20** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 17** | **Total: 42** | ████░░░░░░ 40%
+⚪ **Open: 19** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 18** | **Total: 42** | ████░░░░░░ 43%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -88,7 +88,6 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-319](open/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | ⚪ open |
 | [TASK-320](open/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | ⚪ open |
-| [TASK-322](open/task-322-decide-commit-provenance-and-bypass-mechanism.md) | Decide commit-provenance signal and bypass mechanism for /commit | Small (<2h) | Senior | ⚪ open |
 | [TASK-323](open/task-323-convert-commit-skill-to-pathspec-form.md) | Convert /commit skill to pathspec form | Small (<2h) | Medium | ⚪ open |
 | [TASK-324](open/task-324-update-claudemd-and-add-commit-policy-page.md) | Update CLAUDE.md and add COMMIT_POLICY.md rationale page | Small (<2h) | Medium | ⚪ open |
 | [TASK-325](open/task-325-implement-precommit-hook-enforcement.md) | Implement pre-commit hook enforcement of /commit-only commits | Medium (2-8h) | Senior | ⚪ open |
@@ -116,6 +115,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-316](closed/task-316-epic-branch-frontmatter-field.md) | Add optional `branch:` field to epic frontmatter | Small (<2h) |
 | [TASK-317](closed/task-317-ts-epic-new-autofill-branch.md) | `/ts-epic-new` auto-fills `branch: feature/<epic-slug>` | Small (<2h) |
 | [TASK-318](closed/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) |
+| [TASK-322](closed/task-322-decide-commit-provenance-and-bypass-mechanism.md) | Decide commit-provenance signal and bypass mechanism for /commit | Small (<2h) |
 
 ## Archived Releases
 

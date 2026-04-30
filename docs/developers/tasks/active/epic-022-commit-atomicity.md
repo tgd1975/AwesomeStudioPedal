@@ -6,7 +6,7 @@ status: open
 opened: 2026-04-30
 closed:
 assigned:
-branch: feature/commit-atomicity
+branch: feature/config-extensions
 ---
 
 # Atomic /commit and mandatory commit path
