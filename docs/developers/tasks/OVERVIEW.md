@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 14** | 🔵 **Active: 3** | 🟡 **Paused: 4** | 🟢 **Closed: 14** | **Total: 35** | ████░░░░░░ 40%
+⚪ **Open: 14** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 16** | **Total: 35** | █████░░░░░ 46%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -58,9 +58,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | ID | Title | Effort | Complexity | Status |
 |----|-------|--------|------------|--------|
-| [TASK-259](active/task-259-android-app-test-protocol.md) | Android app test protocol — record device and Android version per test run | Small (<2h) | Junior | 🔵 **active** |
 | [TASK-303](active/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) | Junior | 🔵 **active** |
-| [TASK-318](active/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -94,6 +92,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | ID | Title | Effort |
 |----|-------|--------|
+| [TASK-259](closed/task-259-android-app-test-protocol.md) | Android app test protocol — record device and Android version per test run | Small (<2h) |
 | [TASK-304](closed/task-304-simulator-button-no-hover-reaction.md) | Simulator pedal buttons must not react to mouse hover | XS (<30m) |
 | [TASK-305](closed/task-305-add-category-field-to-ideas.md) | Add category field to ideas and surface it in OVERVIEW | Medium (2-8h) |
 | [TASK-306](closed/task-306-profile-independent-actions-firmware.md) | Profile-independent actions — firmware + schema | Medium (2-8h) |
@@ -108,6 +107,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-315](closed/task-315-idea-sub-file-naming-convention.md) | Idea sub-file naming convention — one IDEA = one OVERVIEW row | Small (<2h) |
 | [TASK-316](closed/task-316-epic-branch-frontmatter-field.md) | Add optional `branch:` field to epic frontmatter | Small (<2h) |
 | [TASK-317](closed/task-317-ts-epic-new-autofill-branch.md) | `/ts-epic-new` auto-fills `branch: feature/<epic-slug>` | Small (<2h) |
+| [TASK-318](closed/task-318-ts-task-active-branch-nag.md) | `/ts-task-active` nags when current branch ≠ epic's `branch:` | Medium (2-8h) |
 
 ## Archived Releases
 

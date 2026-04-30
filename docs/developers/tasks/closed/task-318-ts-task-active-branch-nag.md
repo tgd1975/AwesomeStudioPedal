@@ -1,9 +1,11 @@
 ---
 id: TASK-318
 title: `/ts-task-active` nags when current branch ≠ epic's `branch:`
-status: open
+status: closed
+closed: 2026-04-29
 opened: 2026-04-29
 effort: Medium (2-8h)
+effort_actual: Small (<2h)
 complexity: Medium
 human-in-loop: Clarification
 epic: epic-suggested-branch
