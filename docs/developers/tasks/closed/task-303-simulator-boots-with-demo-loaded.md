@@ -1,9 +1,11 @@
 ---
 id: TASK-303
 title: Simulator boots with demo profiles loaded; community gallery still reachable
-status: active
+status: closed
+closed: 2026-04-30
 opened: 2026-04-28
 effort: Small (<2h)
+effort_actual: XS (<30m)
 complexity: Junior
 human-in-loop: No
 ---

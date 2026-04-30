@@ -68,7 +68,7 @@ kanban
 
 ## Other
 
-_⚪ 5 open · 🔵 1 active · 🟡 0 paused · 🟢 6 closed · █████░░░░░ 50%_
+_⚪ 5 open · 🔵 0 active · 🟡 0 paused · 🟢 7 closed · ██████░░░░ 58%_
 
 ```mermaid
 kanban
@@ -79,10 +79,10 @@ kanban
     TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
     TASK_321["Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes"]
   Active
-    TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
   Paused
   Closed
     TASK_259["Android app test protocol — record device and Android version per test run"]
+    TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
     TASK_304["Simulator pedal buttons must not react to mouse hover"]
     TASK_305["Add category field to ideas and surface it in OVERVIEW"]
     TASK_313["Add emoji icons to idea category column in OVERVIEW"]

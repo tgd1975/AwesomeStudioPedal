@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 15** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 16** | **Total: 36** | ████░░░░░░ 44%
+⚪ **Open: 15** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 17** | **Total: 36** | █████░░░░░ 47%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -57,9 +57,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-303](active/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) | Junior | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -95,6 +93,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | ID | Title | Effort |
 |----|-------|--------|
 | [TASK-259](closed/task-259-android-app-test-protocol.md) | Android app test protocol — record device and Android version per test run | Small (<2h) |
+| [TASK-303](closed/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (<2h) |
 | [TASK-304](closed/task-304-simulator-button-no-hover-reaction.md) | Simulator pedal buttons must not react to mouse hover | XS (<30m) |
 | [TASK-305](closed/task-305-add-category-field-to-ideas.md) | Add category field to ideas and surface it in OVERVIEW | Medium (2-8h) |
 | [TASK-306](closed/task-306-profile-independent-actions-firmware.md) | Profile-independent actions — firmware + schema | Medium (2-8h) |
