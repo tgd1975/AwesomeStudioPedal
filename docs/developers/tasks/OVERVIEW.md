@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 29** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 28** | **Total: 61** | █████░░░░░ 46%
+⚪ **Open: 28** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 29** | **Total: 61** | █████░░░░░ 48%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -100,7 +100,6 @@ _No active tasks._
 | [TASK-343](open/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (<2h) | Junior | ⚪ open |
 | [TASK-344](open/task-344-archive-idea-049-after-logo-tasks-shipped.md) | Archive IDEA-049 after logo tasks shipped | XS (<30m) | Junior | ⚪ open |
 | [TASK-345](open/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) | Medium | ⚪ open |
-| [TASK-346](open/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (<2h) | Medium | ⚪ open |
 
 ## Closed Tasks
 
@@ -134,6 +133,7 @@ _No active tasks._
 | [TASK-327](closed/task-327-decide-partial-hunk-policy.md) | Decide partial-hunk policy — unsupported, or /commit --partial escape hatch | Small (<2h) |
 | [TASK-328](closed/task-328-prevent-parallel-housekeep-execution.md) | Prevent parallel execution of housekeep.py (and audit sibling scripts) | Small (<2h) |
 | [TASK-329](closed/task-329-drop-auto-git-add-from-commit-pathspec.md) | Drop auto-git-add for untracked files from commit-pathspec.sh | Small (<2h) |
+| [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (<2h) |
 
 ## Archived Releases
 

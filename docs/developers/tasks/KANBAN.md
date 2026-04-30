@@ -108,14 +108,13 @@ kanban
 
 ## Other
 
-_⚪ 3 open · 🔵 0 active · 🟡 0 paused · 🟢 11 closed · ████████░░ 79%_
+_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 12 closed · █████████░ 86%_
 
 ```mermaid
 kanban
   Open
     TASK_148["Reorganise Developer Documentation"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
-    TASK_346["Make pre-commit C++ and app checks content-sensitive"]
   Active
   Paused
   Closed
@@ -130,5 +129,6 @@ kanban
     TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
     TASK_321["Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes"]
     TASK_328["Prevent parallel execution of housekeep.py (and audit sibling scripts)"]
+    TASK_346["Make pre-commit C++ and app checks content-sensitive"]
 ```
 

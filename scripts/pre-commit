@@ -120,32 +120,42 @@ fi
 
 echo -e "${GREEN}/commit provenance OK.${NC}"
 
+# Gate the C++ checks (clang-format here, clang-tidy + host-test below) on
+# whether this commit's staged paths actually touch C++ inputs. Use --cached
+# so unrelated working-tree edits from parallel sessions don't trigger heavy
+# checks — pathspec-form commits routinely leave foreign mods around.
+STAGED_CPP_PATHS=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '^(lib|inc|src|test)/' || true)
+
 echo -e "${YELLOW}Checking C++ code formatting...${NC}"
 
-CLANGFORMAT=$(command -v clang-format 2>/dev/null || true)
-if [ -n "$CLANGFORMAT" ]; then
-    # Check if clang-format is available
-    FILES_CHANGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(cpp|h|hpp)$' || true)
-    if [ -n "$FILES_CHANGED" ]; then
-        echo "Checking formatting for changed files:"
-        echo "$FILES_CHANGED"
-        
-        # Check formatting
-        FORMAT_ISSUES=0
-        for file in $FILES_CHANGED; do
-            if ! "$CLANGFORMAT" --dry-run --Werror "$file"; then
-                FORMAT_ISSUES=1
-            fi
-        done
-        
-        if [ $FORMAT_ISSUES -ne 0 ]; then
-            echo -e "${RED}C++ code formatting issues found. Run 'clang-format -i' to fix.${NC}"
-            exit 1
-        fi
-    fi
-    echo -e "${GREEN}C++ formatting OK.${NC}"
+if [ -z "$STAGED_CPP_PATHS" ]; then
+    echo -e "${GREEN}No C++ paths staged — skipping clang-format.${NC}"
 else
-    echo -e "${YELLOW}clang-format not found, skipping C++ formatting check.${NC}"
+    CLANGFORMAT=$(command -v clang-format 2>/dev/null || true)
+    if [ -n "$CLANGFORMAT" ]; then
+        # Check if clang-format is available
+        FILES_CHANGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(cpp|h|hpp)$' || true)
+        if [ -n "$FILES_CHANGED" ]; then
+            echo "Checking formatting for changed files:"
+            echo "$FILES_CHANGED"
+
+            # Check formatting
+            FORMAT_ISSUES=0
+            for file in $FILES_CHANGED; do
+                if ! "$CLANGFORMAT" --dry-run --Werror "$file"; then
+                    FORMAT_ISSUES=1
+                fi
+            done
+
+            if [ $FORMAT_ISSUES -ne 0 ]; then
+                echo -e "${RED}C++ code formatting issues found. Run 'clang-format -i' to fix.${NC}"
+                exit 1
+            fi
+        fi
+        echo -e "${GREEN}C++ formatting OK.${NC}"
+    else
+        echo -e "${YELLOW}clang-format not found, skipping C++ formatting check.${NC}"
+    fi
 fi
 
 echo -e "${YELLOW}Checking Markdown formatting...${NC}"
@@ -295,79 +305,87 @@ fi
 
 echo -e "${YELLOW}Running clang-tidy on staged C++ sources...${NC}"
 
-# clang-tidy mirrors the Static Analysis CI job. Only fires when staged files
-# include C++ in lib/PedalLogic/src — the same path CI scans. Missing the tool
-# is a loud failure per CLAUDE.md "Missing executables".
-STAGED_CXX=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^lib/PedalLogic/src/.*\.cpp$' || true)
-if [ -n "$STAGED_CXX" ]; then
-    CLANG_TIDY=$(command -v clang-tidy 2>/dev/null || command -v clang-tidy-18 2>/dev/null || true)
-    if [ -z "$CLANG_TIDY" ]; then
-        echo -e "${RED}clang-tidy not found — cannot run the static analysis CI runs.${NC}"
-        echo -e "${RED}Install: sudo apt install clang-tidy   (or clang-tidy-18)${NC}"
-        exit 1
-    fi
-    # CI builds with -DCMAKE_EXPORT_COMPILE_COMMANDS=ON in .vscode/build.
-    # If the host build dir lacks compile_commands.json, configure once.
-    TIDY_BUILD_DIR="${REPO_ROOT}/.vscode/build"
-    if [ ! -f "${TIDY_BUILD_DIR}/compile_commands.json" ]; then
-        echo "Configuring CMake to emit compile_commands.json (first run)..."
-        cmake -B "${TIDY_BUILD_DIR}" -S "${REPO_ROOT}" \
-              -G Ninja \
-              -DCMAKE_BUILD_TYPE=Debug \
-              -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-              -Wno-dev \
-              --log-level=WARNING
-    fi
-    # Run against ALL lib/PedalLogic/src/*.cpp — the same set CI scans —
-    # because clang-tidy follows includes and a header change in a non-staged
-    # file can break compilation of staged sources. Capture the output so we
-    # can show it on failure but stay quiet on success.
-    TIDY_LOG=$(mktemp)
-    set +e
-    find "${REPO_ROOT}/lib/PedalLogic/src" -name "*.cpp" | \
-        xargs "$CLANG_TIDY" -p "${TIDY_BUILD_DIR}" --quiet >"$TIDY_LOG" 2>&1
-    TIDY_STATUS=$?
-    set -e
-    if [ $TIDY_STATUS -ne 0 ]; then
-        grep -E "error:" "$TIDY_LOG" | head -50
-        rm -f "$TIDY_LOG"
-        echo -e "${RED}clang-tidy reported errors. Commit aborted.${NC}"
-        echo -e "${RED}Re-run: find lib/PedalLogic/src -name '*.cpp' | xargs $CLANG_TIDY -p ${TIDY_BUILD_DIR}${NC}"
-        exit 1
-    fi
-    rm -f "$TIDY_LOG"
-    echo -e "${GREEN}clang-tidy OK.${NC}"
+# clang-tidy mirrors the Static Analysis CI job. Outer gate: any C++ path
+# staged at all; inner gate: lib/PedalLogic/src — the same path CI scans.
+# Missing the tool is a loud failure per CLAUDE.md "Missing executables".
+if [ -z "$STAGED_CPP_PATHS" ]; then
+    echo -e "${GREEN}No C++ paths staged — skipping clang-tidy.${NC}"
 else
-    echo -e "${GREEN}No staged C++ sources in lib/PedalLogic/src — skipping clang-tidy.${NC}"
+    STAGED_CXX=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^lib/PedalLogic/src/.*\.cpp$' || true)
+    if [ -n "$STAGED_CXX" ]; then
+        CLANG_TIDY=$(command -v clang-tidy 2>/dev/null || command -v clang-tidy-18 2>/dev/null || true)
+        if [ -z "$CLANG_TIDY" ]; then
+            echo -e "${RED}clang-tidy not found — cannot run the static analysis CI runs.${NC}"
+            echo -e "${RED}Install: sudo apt install clang-tidy   (or clang-tidy-18)${NC}"
+            exit 1
+        fi
+        # CI builds with -DCMAKE_EXPORT_COMPILE_COMMANDS=ON in .vscode/build.
+        # If the host build dir lacks compile_commands.json, configure once.
+        TIDY_BUILD_DIR="${REPO_ROOT}/.vscode/build"
+        if [ ! -f "${TIDY_BUILD_DIR}/compile_commands.json" ]; then
+            echo "Configuring CMake to emit compile_commands.json (first run)..."
+            cmake -B "${TIDY_BUILD_DIR}" -S "${REPO_ROOT}" \
+                  -G Ninja \
+                  -DCMAKE_BUILD_TYPE=Debug \
+                  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+                  -Wno-dev \
+                  --log-level=WARNING
+        fi
+        # Run against ALL lib/PedalLogic/src/*.cpp — the same set CI scans —
+        # because clang-tidy follows includes and a header change in a non-staged
+        # file can break compilation of staged sources. Capture the output so we
+        # can show it on failure but stay quiet on success.
+        TIDY_LOG=$(mktemp)
+        set +e
+        find "${REPO_ROOT}/lib/PedalLogic/src" -name "*.cpp" | \
+            xargs "$CLANG_TIDY" -p "${TIDY_BUILD_DIR}" --quiet >"$TIDY_LOG" 2>&1
+        TIDY_STATUS=$?
+        set -e
+        if [ $TIDY_STATUS -ne 0 ]; then
+            grep -E "error:" "$TIDY_LOG" | head -50
+            rm -f "$TIDY_LOG"
+            echo -e "${RED}clang-tidy reported errors. Commit aborted.${NC}"
+            echo -e "${RED}Re-run: find lib/PedalLogic/src -name '*.cpp' | xargs $CLANG_TIDY -p ${TIDY_BUILD_DIR}${NC}"
+            exit 1
+        fi
+        rm -f "$TIDY_LOG"
+        echo -e "${GREEN}clang-tidy OK.${NC}"
+    else
+        echo -e "${GREEN}No staged C++ sources in lib/PedalLogic/src — skipping clang-tidy.${NC}"
+    fi
 fi
 
 echo -e "${YELLOW}Running unit tests before commit...${NC}"
 
-if [ ! -f "${BUILD_DIR}/CMakeCache.txt" ]; then
-    echo "Configuring CMake (first run)..."
-    cmake -B "${BUILD_DIR}" -S "${REPO_ROOT}" \
-          -DCMAKE_BUILD_TYPE=Release \
-          -Wno-dev \
-          --log-level=WARNING
+if [ -z "$STAGED_CPP_PATHS" ]; then
+    echo -e "${GREEN}No C++ paths staged — skipping host-test build/run.${NC}"
+else
+    if [ ! -f "${BUILD_DIR}/CMakeCache.txt" ]; then
+        echo "Configuring CMake (first run)..."
+        cmake -B "${BUILD_DIR}" -S "${REPO_ROOT}" \
+              -DCMAKE_BUILD_TYPE=Release \
+              -Wno-dev \
+              --log-level=WARNING
+    fi
+
+    cmake --build "${BUILD_DIR}" --target pedal_tests -j"$(nproc)"
+    BUILD_STATUS=$?
+
+    if [ $BUILD_STATUS -ne 0 ]; then
+        echo -e "${RED}Build failed. Commit aborted.${NC}"
+        exit 1
+    fi
+
+    "${BUILD_DIR}/test/pedal_tests" --gtest_color=yes --gtest_brief=1
+    TEST_STATUS=$?
+
+    if [ $TEST_STATUS -ne 0 ]; then
+        echo -e "${RED}Tests failed. Commit aborted.${NC}"
+        exit 1
+    fi
+
+    echo -e "${GREEN}All tests passed.${NC}"
 fi
-
-cmake --build "${BUILD_DIR}" --target pedal_tests -j"$(nproc)"
-BUILD_STATUS=$?
-
-if [ $BUILD_STATUS -ne 0 ]; then
-    echo -e "${RED}Build failed. Commit aborted.${NC}"
-    exit 1
-fi
-
-"${BUILD_DIR}/test/pedal_tests" --gtest_color=yes --gtest_brief=1
-TEST_STATUS=$?
-
-if [ $TEST_STATUS -ne 0 ]; then
-    echo -e "${RED}Tests failed. Commit aborted.${NC}"
-    exit 1
-fi
-
-echo -e "${GREEN}All tests passed.${NC}"
 
 FLUTTER=$(command -v flutter 2>/dev/null || true)
 if [ -n "$FLUTTER" ]; then
