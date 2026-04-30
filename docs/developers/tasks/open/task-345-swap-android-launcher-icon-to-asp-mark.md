@@ -6,7 +6,7 @@ opened: 2026-04-30
 effort: Medium (2-8h)
 complexity: Medium
 human-in-loop: No
-epic: LogoBranding
+epic: logo-branding
 order: 7
 ---
 

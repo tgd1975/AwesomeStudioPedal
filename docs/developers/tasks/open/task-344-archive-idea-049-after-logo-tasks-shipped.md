@@ -6,7 +6,7 @@ opened: 2026-04-30
 effort: XS (<30m)
 complexity: Junior
 human-in-loop: No
-epic: LogoBranding
+epic: logo-branding
 order: 6
 prerequisites: [TASK-339, TASK-340, TASK-341, TASK-342, TASK-343, TASK-345]
 ---

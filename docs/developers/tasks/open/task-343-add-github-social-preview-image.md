@@ -6,7 +6,7 @@ opened: 2026-04-30
 effort: Small (<2h)
 complexity: Junior
 human-in-loop: Clarification
-epic: LogoBranding
+epic: logo-branding
 order: 5
 ---
 
