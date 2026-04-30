@@ -27,13 +27,13 @@ kanban
 
 ## commit-atomicity
 
-_⚪ 1 open · 🔵 0 active · 🟡 0 paused · 🟢 7 closed · █████████░ 88%_
+_⚪ 0 open · 🔵 1 active · 🟡 0 paused · 🟢 7 closed · █████████░ 88%_
 
 ```mermaid
 kanban
   Open
-    TASK_347["Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug)"]
   Active
+    TASK_347["Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug)"]
   Paused
   Closed
     TASK_322["Decide commit-provenance signal and bypass mechanism for /commit"]
@@ -128,13 +128,14 @@ kanban
 
 ## Other
 
-_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 12 closed · █████████░ 86%_
+_⚪ 3 open · 🔵 0 active · 🟡 0 paused · 🟢 12 closed · ████████░░ 80%_
 
 ```mermaid
 kanban
   Open
     TASK_148["Reorganise Developer Documentation"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
+    TASK_348["Derive clang-tidy lint set from compile_commands.json"]
   Active
   Paused
   Closed
