@@ -161,6 +161,8 @@ After creating or moving any `.md` file under `docs/` (excluding `docs/developer
 
 After any task-system file change (status edits, idea moves, epic edits, ad-hoc OVERVIEW regen), invoke `/housekeep` rather than running `python scripts/housekeep.py --apply` directly. The skill stages the regenerated index files (OVERVIEW.md / EPICS.md / KANBAN.md / ideas OVERVIEW) so they ride along with the change that triggered them. The `/ts-task-active` / `/ts-task-done` / `/ts-task-pause` / `/ts-task-reopen` skills already invoke housekeep internally — `/housekeep` is for manual edits outside that path.
 
+The pre-commit hook also runs `housekeep --apply` and stages OVERVIEW/EPICS/KANBAN as a backstop, so a stale index never lands. It does **not** stage moved task files — those still belong to whichever session edited the status. Treat the hook as a safety net, not a substitute: regen at edit time keeps `git status` clean and lets you review what's about to be committed.
+
 ## Git reconnaissance — use /status
 
 Use `/status` for routine git reconnaissance (branch, last 3 commits, staged short, working short) instead of separate `git status` / `git log` / `git rev-parse` calls. One bundled invocation collapses several permission prompts into one.

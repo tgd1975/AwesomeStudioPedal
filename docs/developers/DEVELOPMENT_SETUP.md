@@ -231,6 +231,34 @@ var is unset, so the strict requirement is only when you have multiple devices p
 
 ---
 
+## Git hooks
+
+The repo's pre-commit hook (formatting, schema validation, unit tests, secret
+scan, task-system regen) lives at [`scripts/pre-commit`](../../scripts/pre-commit).
+The security-review hooks (`pre-merge-commit`, `post-merge`, `pre-rebase`)
+live in [`scripts/git-hooks/`](../../scripts/git-hooks/). Install all of them
+in one go after cloning:
+
+```bash
+bash scripts/install_git_hooks.sh
+```
+
+The installer is idempotent and safe to re-run. It:
+
+- symlinks the security-review hooks (or copies them on Windows where symlinks
+  fail), and
+- writes a tiny wrapper at `.git/hooks/pre-commit` that `exec`s
+  `scripts/pre-commit`. The wrapper means edits to `scripts/pre-commit`
+  take effect immediately on every platform — no re-install needed.
+
+To bypass the security-review hooks for a single command:
+`ASP_SKIP_SECURITY_REVIEW=1 git pull`. The pre-commit hook can be bypassed
+with `git commit --no-verify`, but this is strongly discouraged — see the
+"Pre-commit hook failures on unrelated changes" section in
+[`CLAUDE.md`](../../CLAUDE.md) for the case-by-case decision rules.
+
+---
+
 ## Flutter app development
 
 The companion app lives in `app/`. It requires Flutter (installed at `/opt/flutter` on the

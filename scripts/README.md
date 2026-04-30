@@ -7,16 +7,23 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 | Script | Purpose | Usage |
 |--------|---------|-------|
 | [`check_code_smells.py`](check_code_smells.py) | Code smell detector for AwesomeStudioPedal C++ sources. | `python3 check_code_smells.py` |
+| [`claude_review.py`](claude_review.py) | Run a headless Claude Code review of recent session transcripts. | `python3 claude_review.py` |
 | [`cleanup-releases.sh`](cleanup-releases.sh) | cleanup-releases.sh — keep only the current + 2 previous GitHub releases. | `./cleanup-releases.sh` |
 | [`format-code.sh`](format-code.sh) | Format all C++ files with clang-format | `./format-code.sh` |
 | [`generate-schematic.py`](generate-schematic.py) | Circuit schematic generator for AwesomeStudioPedal. | `python3 generate-schematic.py` |
 | [`housekeep.py`](housekeep.py) | Central housekeeping for the task system. | `python3 housekeep.py` |
+| [`install_git_hooks.sh`](install_git_hooks.sh) | Install repo-side git hooks into .git/hooks/. | `./install_git_hooks.sh` |
 | [`migrate_tasks.py`](migrate_tasks.py) | Migrate tasks from REPOSITORY_IMPROVEMENT_CONCEPT.md into | `python3 migrate_tasks.py` |
 | [`organize_closed_tasks.py`](organize_closed_tasks.py) | Archive all closed tasks into a versioned release folder under tasks/archive/. | `python3 organize_closed_tasks.py` |
 | [`pedal_config.py`](pedal_config.py) | pedal_config.py — CLI tool for scanning, uploading, and validating pedal configs over BLE. | `python3 pedal_config.py` |
 | [`pre-commit`](pre-commit) | Comprehensive pre-commit hook for code quality checks | `python3 pre-commit` |
+| [`release_burnup.py`](release_burnup.py) | Generate the burn-up section for OVERVIEW.md. | `python3 release_burnup.py` |
+| [`release_snapshot.py`](release_snapshot.py) | Snapshot OVERVIEW / EPICS / KANBAN into `archive/<version>/` on release. | `python3 release_snapshot.py` |
+| [`screenshot.py`](screenshot.py) | Capture an Android screenshot via adb and resize so the longest edge fits | `python3 screenshot.py` |
+| [`security_review_changes.py`](security_review_changes.py) | Security review for incoming changes (pull / merge / rebase). | `python3 security_review_changes.py` |
 | [`serial_monitor.py`](serial_monitor.py) | Simple serial monitor for ESP32/Arduino devices | `python3 serial_monitor.py` |
 | [`sync_skills_config.py`](sync_skills_config.py) | Sync enabled_skills in .vibe/config.toml with .claude/skills/ directory. | `python3 sync_skills_config.py` |
+| [`sync_task_system.py`](sync_task_system.py) | Sync the task-system source-of-truth from awesome-task-system/ to live copies. | `python3 sync_task_system.py` |
 | [`task_system_config.py`](task_system_config.py) | Shared config loader for the task system. | `python3 task_system_config.py` |
 | [`update_idea_overview.py`](update_idea_overview.py) | Regenerate docs/developers/ideas/OVERVIEW.md from idea files in | `python3 update_idea_overview.py` |
 | [`update_scripts_readme.py`](update_scripts_readme.py) | Automatically update scripts/README.md based on current scripts in the folder. | `python3 update_scripts_readme.py` |
@@ -30,6 +37,12 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 **Purpose**: Code smell detector for AwesomeStudioPedal C++ sources.
 
 **Usage**: `python3 check_code_smells.py`
+
+### claude_review.py
+
+**Purpose**: Run a headless Claude Code review of recent session transcripts.
+
+**Usage**: `python3 claude_review.py`
 
 ### cleanup-releases.sh
 
@@ -55,6 +68,12 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 
 **Usage**: `python3 housekeep.py`
 
+### install_git_hooks.sh
+
+**Purpose**: Install repo-side git hooks into .git/hooks/.
+
+**Usage**: `./install_git_hooks.sh`
+
 ### migrate_tasks.py
 
 **Purpose**: Migrate tasks from REPOSITORY_IMPROVEMENT_CONCEPT.md into
@@ -79,6 +98,30 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 
 **Usage**: `python3 pre-commit`
 
+### release_burnup.py
+
+**Purpose**: Generate the burn-up section for OVERVIEW.md.
+
+**Usage**: `python3 release_burnup.py`
+
+### release_snapshot.py
+
+**Purpose**: Snapshot OVERVIEW / EPICS / KANBAN into `archive/<version>/` on release.
+
+**Usage**: `python3 release_snapshot.py`
+
+### screenshot.py
+
+**Purpose**: Capture an Android screenshot via adb and resize so the longest edge fits
+
+**Usage**: `python3 screenshot.py`
+
+### security_review_changes.py
+
+**Purpose**: Security review for incoming changes (pull / merge / rebase).
+
+**Usage**: `python3 security_review_changes.py`
+
 ### serial_monitor.py
 
 **Purpose**: Simple serial monitor for ESP32/Arduino devices
@@ -90,6 +133,12 @@ This folder contains utility scripts for development, CI/CD, and maintenance tas
 **Purpose**: Sync enabled_skills in .vibe/config.toml with .claude/skills/ directory.
 
 **Usage**: `python3 sync_skills_config.py`
+
+### sync_task_system.py
+
+**Purpose**: Sync the task-system source-of-truth from awesome-task-system/ to live copies.
+
+**Usage**: `python3 sync_task_system.py`
 
 ### task_system_config.py
 

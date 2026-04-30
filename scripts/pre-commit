@@ -243,6 +243,31 @@ except json.JSONDecodeError as e:
 fi
 echo -e "${GREEN}devcontainer.json OK.${NC}"
 
+echo -e "${YELLOW}Checking BLE security flags...${NC}"
+# BLE_CONFIG_TEST_BUILD disables BLE authentication and must only appear in the
+# dedicated test env. Verify it is absent from all production envs in platformio.ini.
+PLATFORMIO_INI="${REPO_ROOT}/platformio.ini"
+if [ -f "$PLATFORMIO_INI" ]; then
+    # Extract all build_flags lines that are NOT inside the ble-config-test env block
+    # by checking if BLE_CONFIG_TEST_BUILD appears outside of that env header.
+    IN_TEST_ENV=0
+    while IFS= read -r line; do
+        if echo "$line" | grep -qE '^\[env:'; then
+            if echo "$line" | grep -q 'ble-config-test'; then
+                IN_TEST_ENV=1
+            else
+                IN_TEST_ENV=0
+            fi
+        fi
+        if [ "$IN_TEST_ENV" -eq 0 ] && echo "$line" | grep -q 'BLE_CONFIG_TEST_BUILD'; then
+            echo -e "${RED}SECURITY ERROR: BLE_CONFIG_TEST_BUILD found in a non-test env in platformio.ini.${NC}"
+            echo -e "${RED}This disables BLE authentication. Remove it from all production envs before committing.${NC}"
+            exit 1
+        fi
+    done < "$PLATFORMIO_INI"
+fi
+echo -e "${GREEN}BLE security flags OK.${NC}"
+
 echo -e "${YELLOW}Checking for secrets and sensitive files...${NC}"
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
 
@@ -266,26 +291,43 @@ if [ -n "$STAGED_FILES" ]; then
 fi
 echo -e "${GREEN}No secrets detected.${NC}"
 
-echo -e "${YELLOW}Regenerating circuit schematic SVGs for staged source changes...${NC}"
+echo -e "${YELLOW}Regenerating WireViz outputs for staged wiring YAML changes...${NC}"
 
-SCHEMATIC_TRIGGERS=$(git diff --cached --name-only --diff-filter=ACM | grep -E \
-    '^(scripts/generate-schematic\.py|data/config\.json|lib/hardware/(esp32|nrf52840)/include/builder_config\.h)$' || true)
-
-if [ -n "$SCHEMATIC_TRIGGERS" ]; then
-    PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
-    if "$PYTHON" -c "import schemdraw" 2>/dev/null; then
-        echo "Trigger files staged: regenerating both circuit SVGs."
-        "$PYTHON" "${REPO_ROOT}/scripts/generate-schematic.py" --target esp32
-        "$PYTHON" "${REPO_ROOT}/scripts/generate-schematic.py" --target nrf52840
-        git add \
-            "${REPO_ROOT}/docs/builders/wiring/esp32/main-circuit.svg" \
-            "${REPO_ROOT}/docs/builders/wiring/nrf52840/main-circuit.svg"
-        echo -e "${GREEN}Circuit SVGs regenerated and staged.${NC}"
+WIREVIZ=$(command -v wireviz 2>/dev/null || true)
+if [ -n "$WIREVIZ" ]; then
+    STAGED_WIRING=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^docs/builders/wiring/.*\.yml$' || true)
+    if [ -n "$STAGED_WIRING" ]; then
+        echo "Regenerating WireViz outputs for:"
+        echo "$STAGED_WIRING"
+        for yml_file in $STAGED_WIRING; do
+            "$WIREVIZ" -f st "${REPO_ROOT}/${yml_file}"
+            svg_file="${yml_file%.yml}.svg"
+            tsv_file="${yml_file%.yml}.bom.tsv"
+            git add "${REPO_ROOT}/${svg_file}" "${REPO_ROOT}/${tsv_file}" 2>/dev/null || true
+        done
+        echo -e "${GREEN}WireViz outputs regenerated and staged.${NC}"
     else
-        echo -e "${YELLOW}schemdraw not importable — skipping SVG regeneration (run: pip install -r requirements-schematic.txt).${NC}"
+        echo -e "${GREEN}No wiring YAML changes — skipping WireViz.${NC}"
     fi
 else
-    echo -e "${GREEN}No schematic source changes — skipping SVG regeneration.${NC}"
+    echo -e "${YELLOW}wireviz not found — skipping regeneration (run: pip install -r requirements-wiring.txt).${NC}"
+fi
+
+echo -e "${YELLOW}Updating idea overview...${NC}"
+python3 "${REPO_ROOT}/scripts/update_idea_overview.py"
+git add "${REPO_ROOT}/docs/developers/ideas/OVERVIEW.md"
+
+echo -e "${YELLOW}Updating task-system overviews...${NC}"
+PYTHON=$(command -v python3 2>/dev/null || command -v python 2>/dev/null || true)
+if [ -n "$PYTHON" ] && [ -f "${REPO_ROOT}/scripts/housekeep.py" ]; then
+    "$PYTHON" "${REPO_ROOT}/scripts/housekeep.py" --apply
+    # Stage only the regenerated index files. Do NOT stage moved task files —
+    # other parallel sessions may have unstaged status edits whose moves we
+    # must not sweep into this commit (per CLAUDE.md "commit only your own
+    # work" rule).
+    git add "${REPO_ROOT}/docs/developers/tasks/OVERVIEW.md" \
+            "${REPO_ROOT}/docs/developers/tasks/EPICS.md" \
+            "${REPO_ROOT}/docs/developers/tasks/KANBAN.md"
 fi
 
 exit 0
