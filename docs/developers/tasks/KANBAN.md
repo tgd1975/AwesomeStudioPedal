@@ -68,15 +68,15 @@ kanban
 
 ## Other
 
-_⚪ 3 open · 🔵 1 active · 🟡 0 paused · 🟢 9 closed · ███████░░░ 69%_
+_⚪ 2 open · 🔵 2 active · 🟡 0 paused · 🟢 9 closed · ███████░░░ 69%_
 
 ```mermaid
 kanban
   Open
     TASK_148["Reorganise Developer Documentation"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
-    TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
   Active
+    TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
     TASK_328["Prevent parallel execution of housekeep.py (and audit sibling scripts)"]
   Paused
   Closed

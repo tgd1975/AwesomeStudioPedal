@@ -430,31 +430,6 @@ except json.JSONDecodeError as e:
 fi
 echo -e "${GREEN}devcontainer.json OK.${NC}"
 
-echo -e "${YELLOW}Checking BLE security flags...${NC}"
-# BLE_CONFIG_TEST_BUILD disables BLE authentication and must only appear in the
-# dedicated test env. Verify it is absent from all production envs in platformio.ini.
-PLATFORMIO_INI="${REPO_ROOT}/platformio.ini"
-if [ -f "$PLATFORMIO_INI" ]; then
-    # Extract all build_flags lines that are NOT inside the ble-config-test env block
-    # by checking if BLE_CONFIG_TEST_BUILD appears outside of that env header.
-    IN_TEST_ENV=0
-    while IFS= read -r line; do
-        if echo "$line" | grep -qE '^\[env:'; then
-            if echo "$line" | grep -q 'ble-config-test'; then
-                IN_TEST_ENV=1
-            else
-                IN_TEST_ENV=0
-            fi
-        fi
-        if [ "$IN_TEST_ENV" -eq 0 ] && echo "$line" | grep -q 'BLE_CONFIG_TEST_BUILD'; then
-            echo -e "${RED}SECURITY ERROR: BLE_CONFIG_TEST_BUILD found in a non-test env in platformio.ini.${NC}"
-            echo -e "${RED}This disables BLE authentication. Remove it from all production envs before committing.${NC}"
-            exit 1
-        fi
-    done < "$PLATFORMIO_INI"
-fi
-echo -e "${GREEN}BLE security flags OK.${NC}"
-
 echo -e "${YELLOW}Checking for secrets and sensitive files...${NC}"
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
 

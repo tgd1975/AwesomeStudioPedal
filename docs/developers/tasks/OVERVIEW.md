@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 13** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 25** | **Total: 43** | ██████░░░░ 58%
+⚪ **Open: 12** | 🔵 **Active: 2** | 🟡 **Paused: 4** | 🟢 **Closed: 25** | **Total: 43** | ██████░░░░ 58%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30"]
-    line [14, 24]
+    line [14, 25]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30"]
-    line [24.5, 50.5]
-    line [12, 25.5]
+    line [24.5, 51.5]
+    line [12, 25.75]
 ```
 
 </td></tr></table>
@@ -50,7 +50,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
-| 2026-04-30 | 10 | 24 | 26 | 50.5 | 13.5 | 25.5 | 2 | 3 |
+| 2026-04-30 | 11 | 25 | 27 | 51.5 | 13.8 | 25.8 | 2 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -59,6 +59,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | ID | Title | Effort | Complexity | Status |
 |----|-------|--------|------------|--------|
+| [TASK-320](active/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | 🔵 **active** |
 | [TASK-328](active/task-328-prevent-parallel-housekeep-execution.md) | Prevent parallel execution of housekeep.py (and audit sibling scripts) | Small (<2h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
@@ -86,7 +87,6 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (<2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (<2h) | Small | ⚪ open |
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
-| [TASK-320](open/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | ⚪ open |
 
 ## Closed Tasks
 

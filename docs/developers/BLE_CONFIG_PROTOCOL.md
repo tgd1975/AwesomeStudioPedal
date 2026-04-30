@@ -124,19 +124,12 @@ Both services coexist in GATT. **The device operates as a normal BLE HID keyboar
 host that pairs with it (phone, tablet, Windows, macOS) performs GATT service discovery
 after connecting and finds the full HID service.
 
-In production, the advertisement is whatever `BleKeyboard` emits by default — HID UUID
+The advertisement is whatever `BleKeyboard` emits by default — HID UUID
 (`0x1812`), keyboard appearance (`0x03C1`), and the device name — so the pedal is
 discoverable as a standard Bluetooth keyboard on Android, iOS, Windows, macOS, and Linux.
-The Config service UUID is **not** advertised in production; clients that want to upload
+The Config service UUID is **not** advertised; clients that want to upload
 configs (the Flutter app and `pedal_config.py` CLI) discover it via GATT service
 discovery after connecting to the pedal by name or address.
-
-In the on-device integration-test firmware (`BLE_CONFIG_TEST_BUILD`), the advertisement is
-overridden to contain **only** the Config service UUID. This is done to stop BlueZ's HID
-daemon from auto-connecting via passive scan and reading encrypted HID characteristics
-before a bond is established — a sequence that would terminate the test runner's
-connection before it can subscribe to notifications. The override is test-only and does
-not ship.
 
 The Config service does not interfere with keyboard report delivery — chunked writes are
 processed in the main loop between HID events.
