@@ -186,3 +186,15 @@ When adding a new skill (creating `.claude/skills/<name>/SKILL.md`), always also
 3. Stage and commit both sides together.
 
 The pre-commit hook calls `sync_task_system.py --check` and rejects any commit where the two sides diverge. The full mirror set lives in the `MIRRORS` list at the top of [scripts/sync_task_system.py](scripts/sync_task_system.py); add new mirrored files there when introduced. See [awesome-task-system/LAYOUT.md](awesome-task-system/LAYOUT.md) for the full workflow.
+
+## Auto-memory
+
+Claude's auto-memory lives at `~/.claude/projects/<project-hash>/memory/` — **outside this repo, not versioned by git**. Edits made during a session persist for future conversations on the same machine, but are not captured in commits, not portable across machines, and not reviewable in PRs.
+
+Practical consequences:
+
+- A request like "commit that memory update" cannot be satisfied today — the memory directory is not a git working tree.
+- Memory is per-machine; the Windows 11 and Ubuntu checkouts of this project see different memory.
+- Accidentally deleted memory is gone — there is no git history to recover from.
+
+Closing this gap is tracked in [IDEA-050](docs/developers/ideas/open/idea-050-version-auto-memory-via-awesome-task-system.md) — apply the awesome-task-system mirror pattern to memory so edits become real, reviewable commits.

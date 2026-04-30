@@ -1,6 +1,6 @@
 # Ideas Overview
 
-**Open: 29** | **Archived: 18**
+**Open: 31** | **Archived: 18**
 
 Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until they are either converted into structured tasks or archived. Archived ideas are kept for history in [`archived/`](archived/). See [README.md](README.md) for the file-naming convention (one row per IDEA, sub-notes use the `idea-NNN.<sub-slug>.md` form).
 
@@ -37,6 +37,8 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-047](open/idea-047-device-resource-arbiter.md) | 🛠️ tooling | Device-resource arbiter for parallel test sessions | Mutual-exclusion lock around scarce hardware (ESP32, nRF52840, Pixel) so two parallel agent sessions can't grab the same device simultaneously, with self-recovery from hangs and crashes. |
 | [IDEA-048](open/idea-048-off-the-shelf-pedalboard.md) | 🔧 hardware | Off-the-shelf pedalboard build — 2 pedals from mostly stock components | A 2-pedal board assembled from as many off-the-shelf parts as possible (enclosure, switches, jacks, hardware) — minimise custom fabrication. |
 | [IDEA-049](open/idea-049-logo-more-prominent.md) | 📱 apps | Make the logo more prominent across apps and tools | Use the project logo more consistently — especially in the simulator and the config builders, which currently have none. |
+| [IDEA-050](open/idea-050-version-auto-memory-via-awesome-task-system.md) | 🛠️ tooling | Version auto-memory via the awesome-task-system mirror pattern | Mirror Claude's auto-memory through awesome-task-system so memory edits become reviewable, versioned commits instead of out-of-repo files. |
+| [IDEA-051](open/idea-051-atomic-commit-via-pathspec-and-mandatory-commit-path.md) | 🛠️ tooling | Atomic /commit via pathspec + mandatory hook-enforced /commit path | Eliminate parallel-session staging races by making /commit use pathspec form (atomic, no lock) and requiring all commits to flow through /commit, enforced by the pre-commit hook. |
 
 ## Archived Ideas
 
