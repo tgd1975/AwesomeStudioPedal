@@ -58,7 +58,9 @@
       "Bash(flutter install)",
       "Bash(flutter install *)",
       "Bash(python3 scripts/security_review_changes.py *)",
-      "Bash(bash scripts/install_git_hooks.sh)"
+      "Bash(bash scripts/install_git_hooks.sh)",
+      "Bash(scripts/commit-pathspec.sh *)",
+      "Bash(./scripts/commit-pathspec.sh *)"
     ]
   },
   "hooks": {
