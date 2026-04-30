@@ -174,11 +174,36 @@ The three checks remain:
 standard message. Bypass via `--no-verify` after explicit user approval
 is unchanged.
 
+## Partial-hunk commits — not supported
+
+`/commit` does not support partial-hunk commits (`git add -p`). The
+pathspec form is whole-file by design — `git commit -m "..." -- <file>`
+commits the file's full working-tree state, not a subset of hunks.
+
+If you genuinely need to commit some hunks of a file but not others,
+the supported workaround is to **split the edit into two passes**:
+commit one half through `/commit`, make the remaining edits, commit
+the other half through `/commit`. Or serialise sessions for that
+specific task so the shared-index race that pathspec was built to
+solve isn't in play.
+
+This is deliberate. A `/commit --partial` mode would need `flock`
+on a project lockfile (to prevent two concurrent partial-hunk commits
+from corrupting each other's index state), stale-lockfile cleanup,
+crash recovery, and decisions about whether the lock spans the whole
+interactive `git add -p` session. Each is the kind of edge case the
+EPIC-022 design specifically eliminates by going whole-file. The
+demand is also hypothetical — no closed task in this repo has needed
+partial-hunk committing.
+
+Reversibility: if a real workflow surfaces later, Option B can be
+added in a follow-up — the hook already supports it (the wrapper
+would acquire the lock, run `git add -p` interactively, then
+`git commit -m "..." --` with no pathspec since the hunks are
+already staged). For now, the decision is "not yet", not "never".
+
 ## What this does not solve
 
-- **Partial-hunk commits**. Pathspec form has no equivalent of
-  `git add -p`; the whole file is committed. Partial-hunk policy is
-  decided in TASK-327.
 - **Rebases and cherry-picks**. Git invokes `git commit` internally
   during these flows. The bypass mechanism is the answer; do not try
   to route rebase commits through `/commit`.

@@ -1,9 +1,11 @@
 ---
 id: TASK-327
 title: Decide partial-hunk policy — unsupported, or /commit --partial escape hatch
-status: open
+status: closed
+closed: 2026-04-30
 opened: 2026-04-30
 effort: Small (<2h)
+effort_actual: XS (<30m)
 complexity: Medium
 human-in-loop: Main
 epic: commit-atomicity
@@ -30,13 +32,45 @@ Decide which, document it, and implement only if Option B.
 
 ## Acceptance Criteria
 
-- [ ] Decision documented in `docs/developers/COMMIT_POLICY.md` (created
+- [x] Decision documented in `docs/developers/COMMIT_POLICY.md` (created
       in TASK-324) with the rationale.
-- [ ] If Option A: `/commit` skill explicitly states partial-hunk
+- [x] If Option A: `/commit` skill explicitly states partial-hunk
       committing is not supported and points users at the workaround
       (split the file or serialise sessions).
-- [ ] If Option B: `/commit --partial` implemented, with `flock` on a
+- [N/A] If Option B: `/commit --partial` implemented, with `flock` on a
       project-local lockfile, and tested end-to-end.
+
+## Decision — Option A (unsupported)
+
+`/commit` does not and will not support partial-hunk commits. The
+`/commit` skill's "When NOT to use" section already states this
+(added in TASK-323); COMMIT_POLICY.md gets a new "Partial-hunk
+commits — not supported" subsection that owns the rationale.
+
+**Rationale**:
+
+- *Demand is hypothetical*. No closed task in this repo has needed
+  `git add -p`. The Claude-driven flow generates whole-file edits;
+  `/commit` is what we use, and `/commit` is whole-file by design.
+  Building Option B before there's a real workflow that needs it is
+  speculative work.
+- *Option B's machinery is real surface area*. `flock` on a project
+  lockfile means: stale-lockfile recovery, crash handling, race
+  conditions when two sessions hit the lock simultaneously, the
+  question of whether the lock should hold across the entire
+  `git add -p` interactive session. Each of these is the kind of
+  edge case pathspec was specifically designed to eliminate.
+- *Workaround exists*. If a developer genuinely needs to commit some
+  hunks of a file but not others, the workaround is to split the
+  edit into two passes (commit half, then make the other edits and
+  commit) or to serialise sessions for that one task. One-time
+  annoyance, not daily friction.
+- *Reversibility*. If a real workflow surfaces later that needs
+  partial hunks, Option B can be added in a follow-up task — the
+  hook design already supports it (the wrapper would just acquire
+  the lock, do `git add -p` interactively, then `git commit -m
+  "..." --` with no pathspec, since the staged hunks are now in the
+  index). The decision today is "not yet", not "never".
 
 ## Test Plan
 
