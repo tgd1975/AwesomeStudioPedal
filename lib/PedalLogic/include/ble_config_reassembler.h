@@ -27,11 +27,11 @@
 // the TASK-240 mismatch (the firmware previously advertised 32 KB on the wire
 // but parsed only ~8 KB).
 #ifndef MAX_CONFIG_BYTES
-#define MAX_CONFIG_BYTES 16384
+#define MAX_CONFIG_BYTES 16384 // NOLINT(cppcoreguidelines-macro-usage)
 #endif
 
 #ifndef JSON_DOC_CAPACITY
-#define JSON_DOC_CAPACITY 49152
+#define JSON_DOC_CAPACITY 49152 // NOLINT(cppcoreguidelines-macro-usage)
 #endif
 
 /**

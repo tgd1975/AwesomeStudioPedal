@@ -806,7 +806,11 @@ def generate_kanban_md(tasks_dir: Path = TASKS_DIR,
         title = t.get("title", tid)
         assigned = t.get("assigned", "")
         label = f"{title} @{assigned}" if assigned else title
-        label = label.replace('"', "")  # only " breaks quoted label syntax
+        # Mermaid kanban: `"` ends the quoted label; a leading `` ` `` after `["`
+        # switches mermaid into markdown-string mode and breaks parsing on
+        # subsequent backticks (CI failure mode in TASK-321 — task titles like
+        # ``/ts-task-active` nags…``). Strip both.
+        label = label.replace('"', "").replace("`", "")
         return f'    {_node_id(tid)}["{label}"]'
 
     columns: list[tuple[str, str]] = [("open", "Open")]

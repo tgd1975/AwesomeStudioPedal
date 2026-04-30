@@ -19,9 +19,8 @@
 
 using namespace ArduinoJson;
 
-// Forward declarations for platform-specific factories
+// Forward declaration for platform-specific factory (createLogger comes from i_logger.h)
 IFileSystem* createFileSystem();
-ILogger* createLogger(); // NOLINT(readability-redundant-declaration)
 
 namespace
 {
@@ -210,6 +209,29 @@ void ConfigLoader::populateProfileFromJson(Profile& profile,
                                            JsonObject buttons,
                                            IBleKeyboard* keyboard)
 {
+    // Build an action from a named sub-object (e.g. "longPress", "doublePress")
+    // and hand it to the supplied registrar. No-op if the key is absent or the
+    // payload does not produce a valid action.
+    auto attachVariant = [&](JsonObject actionJson, const char* variantKey, auto registrar)
+    {
+        if (! actionJson.containsKey(variantKey))
+        {
+            return;
+        }
+        JsonObject variantJson = actionJson[variantKey];
+        auto variantAction = createActionFromJson(variantJson, keyboard);
+        if (! variantAction)
+        {
+            return;
+        }
+        const char* variantName = variantJson["name"] | "";
+        if (variantName[0] != '\0')
+        {
+            variantAction->setName(variantName);
+        }
+        registrar(std::move(variantAction));
+    };
+
     char buttonName[2];
     for (uint8_t b = 0; b < hardwareConfig.numButtons; b++)
     {
@@ -232,31 +254,14 @@ void ConfigLoader::populateProfileFromJson(Profile& profile,
             profile.addAction(b, std::move(action));
         }
 
-        if (actionJson.containsKey("longPress"))
-        {
-            JsonObject lpJson = actionJson["longPress"];
-            auto lpAction = createActionFromJson(lpJson, keyboard);
-            if (lpAction)
-            {
-                const char* lpName = lpJson["name"] | "";
-                if (lpName[0] != '\0')
-                    lpAction->setName(lpName);
-                profile.addLongPressAction(b, std::move(lpAction));
-            }
-        }
-
-        if (actionJson.containsKey("doublePress"))
-        {
-            JsonObject dpJson = actionJson["doublePress"];
-            auto dpAction = createActionFromJson(dpJson, keyboard);
-            if (dpAction)
-            {
-                const char* dpName = dpJson["name"] | "";
-                if (dpName[0] != '\0')
-                    dpAction->setName(dpName);
-                profile.addDoublePressAction(b, std::move(dpAction));
-            }
-        }
+        attachVariant(actionJson,
+                      "longPress",
+                      [&](std::unique_ptr<Action> a)
+                      { profile.addLongPressAction(b, std::move(a)); });
+        attachVariant(actionJson,
+                      "doublePress",
+                      [&](std::unique_ptr<Action> a)
+                      { profile.addDoublePressAction(b, std::move(a)); });
     }
 }
 
@@ -354,7 +359,9 @@ std::unique_ptr<Action> ConfigLoader::createActionFromJson(const JsonObject& act
                 {
                     auto inner = createActionFromJson(actionObj, keyboard);
                     if (inner)
+                    {
                         step.push_back(std::move(inner));
+                    }
                 }
                 macro->addStep(std::move(step));
             }

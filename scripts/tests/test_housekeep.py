@@ -333,8 +333,9 @@ class TestGenerateEpicsMd(unittest.TestCase):
 class TestGenerateKanbanMd(unittest.TestCase):
 
     def _make_task(self, tmp: pathlib.Path, folder: str, task_id: str,
-                   status: str, assigned: str = "") -> None:
-        lines = ["---", f"id: TASK-{task_id}", f"title: Task {task_id}",
+                   status: str, assigned: str = "", title: str = "") -> None:
+        title_value = title or f"Task {task_id}"
+        lines = ["---", f"id: TASK-{task_id}", f'title: "{title_value}"',
                  f"status: {status}"]
         if assigned:
             lines.append(f"assigned: {assigned}")
@@ -398,6 +399,20 @@ class TestGenerateKanbanMd(unittest.TestCase):
             content = self._run(t)
             self.assertIn("```mermaid", content)
             self.assertIn("kanban", content)
+
+    def test_kanban_label_strips_backticks(self):
+        # Regression for TASK-321: a leading backtick in a kanban label put
+        # mermaid into markdown-string mode and broke the parser. Strip both
+        # backticks and double quotes from labels.
+        with tempfile.TemporaryDirectory() as tmp:
+            t = pathlib.Path(tmp)
+            self._make_task(t, "open", "007", "open",
+                            title="`/ts-task-active` nags on `branch:`")
+            content = self._run(t)
+            kanban_line = next(line for line in content.splitlines()
+                               if "TASK_007" in line)
+            self.assertNotIn("`", kanban_line)
+            self.assertIn("/ts-task-active", kanban_line)
 
 
 class TestInitEndToEnd(unittest.TestCase):
