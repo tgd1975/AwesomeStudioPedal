@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 28** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 30** | **Total: 63** | █████░░░░░ 48%
+⚪ **Open: 28** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 31** | **Total: 63** | █████░░░░░ 49%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -58,9 +58,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-348](active/task-348-derive-clang-tidy-set-from-compile-commands.md) | Derive clang-tidy lint set from compile_commands.json | Small (<2h) | Medium | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -138,6 +136,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-329](closed/task-329-drop-auto-git-add-from-commit-pathspec.md) | Drop auto-git-add for untracked files from commit-pathspec.sh | Small (<2h) |
 | [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (<2h) |
 | [TASK-347](closed/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (<2h) |
+| [TASK-348](closed/task-348-derive-clang-tidy-set-from-compile-commands.md) | Derive clang-tidy lint set from compile_commands.json | Small (<2h) |
 
 ## Archived Releases
 

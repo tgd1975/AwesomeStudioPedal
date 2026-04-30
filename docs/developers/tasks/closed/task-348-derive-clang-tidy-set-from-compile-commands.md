@@ -1,9 +1,11 @@
 ---
 id: TASK-348
 title: Derive clang-tidy lint set from compile_commands.json
-status: open
+status: closed
+closed: 2026-05-01
 opened: 2026-04-30
 effort: Small (<2h)
+effort_actual: Small (<2h)
 complexity: Medium
 human-in-loop: No
 ---

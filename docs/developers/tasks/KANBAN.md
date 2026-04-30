@@ -108,7 +108,7 @@ kanban
 
 ## Other
 
-_⚪ 2 open · 🔵 1 active · 🟡 0 paused · 🟢 12 closed · ████████░░ 80%_
+_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 13 closed · █████████░ 87%_
 
 ```mermaid
 kanban
@@ -116,7 +116,6 @@ kanban
     TASK_148["Reorganise Developer Documentation"]
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
   Active
-    TASK_348["Derive clang-tidy lint set from compile_commands.json"]
   Paused
   Closed
     TASK_259["Android app test protocol — record device and Android version per test run"]
@@ -131,5 +130,6 @@ kanban
     TASK_321["Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes"]
     TASK_328["Prevent parallel execution of housekeep.py (and audit sibling scripts)"]
     TASK_346["Make pre-commit C++ and app checks content-sensitive"]
+    TASK_348["Derive clang-tidy lint set from compile_commands.json"]
 ```
 

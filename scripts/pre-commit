@@ -306,53 +306,61 @@ fi
 echo -e "${YELLOW}Running clang-tidy on staged C++ sources...${NC}"
 
 # clang-tidy mirrors the Static Analysis CI job. Outer gate: any C++ path
-# staged at all; inner gate: lib/PedalLogic/src — the same path CI scans.
+# staged at all (STAGED_CPP_PATHS above). The lint set itself is derived from
+# compile_commands.json (TASK-348) so any host-built .cpp is linted without
+# config edits when new files appear under lib/<NewLib>/src/ or src/.
 # Missing the tool is a loud failure per CLAUDE.md "Missing executables".
 if [ -z "$STAGED_CPP_PATHS" ]; then
     echo -e "${GREEN}No C++ paths staged — skipping clang-tidy.${NC}"
 else
-    STAGED_CXX=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^lib/PedalLogic/src/.*\.cpp$' || true)
-    if [ -n "$STAGED_CXX" ]; then
-        CLANG_TIDY=$(command -v clang-tidy 2>/dev/null || command -v clang-tidy-18 2>/dev/null || true)
-        if [ -z "$CLANG_TIDY" ]; then
-            echo -e "${RED}clang-tidy not found — cannot run the static analysis CI runs.${NC}"
-            echo -e "${RED}Install: sudo apt install clang-tidy   (or clang-tidy-18)${NC}"
-            exit 1
-        fi
-        # CI builds with -DCMAKE_EXPORT_COMPILE_COMMANDS=ON in .vscode/build.
-        # If the host build dir lacks compile_commands.json, configure once.
-        TIDY_BUILD_DIR="${REPO_ROOT}/.vscode/build"
-        if [ ! -f "${TIDY_BUILD_DIR}/compile_commands.json" ]; then
-            echo "Configuring CMake to emit compile_commands.json (first run)..."
-            cmake -B "${TIDY_BUILD_DIR}" -S "${REPO_ROOT}" \
-                  -G Ninja \
-                  -DCMAKE_BUILD_TYPE=Debug \
-                  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-                  -Wno-dev \
-                  --log-level=WARNING
-        fi
-        # Run against ALL lib/PedalLogic/src/*.cpp — the same set CI scans —
-        # because clang-tidy follows includes and a header change in a non-staged
-        # file can break compilation of staged sources. Capture the output so we
-        # can show it on failure but stay quiet on success.
-        TIDY_LOG=$(mktemp)
-        set +e
-        find "${REPO_ROOT}/lib/PedalLogic/src" -name "*.cpp" | \
-            xargs "$CLANG_TIDY" -p "${TIDY_BUILD_DIR}" --quiet >"$TIDY_LOG" 2>&1
-        TIDY_STATUS=$?
-        set -e
-        if [ $TIDY_STATUS -ne 0 ]; then
-            grep -E "error:" "$TIDY_LOG" | head -50
-            rm -f "$TIDY_LOG"
-            echo -e "${RED}clang-tidy reported errors. Commit aborted.${NC}"
-            echo -e "${RED}Re-run: find lib/PedalLogic/src -name '*.cpp' | xargs $CLANG_TIDY -p ${TIDY_BUILD_DIR}${NC}"
-            exit 1
-        fi
-        rm -f "$TIDY_LOG"
-        echo -e "${GREEN}clang-tidy OK.${NC}"
-    else
-        echo -e "${GREEN}No staged C++ sources in lib/PedalLogic/src — skipping clang-tidy.${NC}"
+    CLANG_TIDY=$(command -v clang-tidy 2>/dev/null || command -v clang-tidy-18 2>/dev/null || true)
+    if [ -z "$CLANG_TIDY" ]; then
+        echo -e "${RED}clang-tidy not found — cannot run the static analysis CI runs.${NC}"
+        echo -e "${RED}Install: sudo apt install clang-tidy   (or clang-tidy-18)${NC}"
+        exit 1
     fi
+    # CI builds with -DCMAKE_EXPORT_COMPILE_COMMANDS=ON in .vscode/build.
+    # If the host build dir lacks compile_commands.json, configure once.
+    TIDY_BUILD_DIR="${REPO_ROOT}/.vscode/build"
+    if [ ! -f "${TIDY_BUILD_DIR}/compile_commands.json" ]; then
+        echo "Configuring CMake to emit compile_commands.json (first run)..."
+        cmake -B "${TIDY_BUILD_DIR}" -S "${REPO_ROOT}" \
+              -G Ninja \
+              -DCMAKE_BUILD_TYPE=Debug \
+              -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+              -Wno-dev \
+              --log-level=WARNING
+    fi
+    # Derive the lint set from compile_commands.json — anything CMake compiles
+    # on host, minus third-party (_deps/, googletest, arduinojson) and the
+    # test harness (/test/). Run against the full set rather than only staged
+    # files because clang-tidy follows includes and a header change in a
+    # non-staged file can break compilation of staged sources.
+    TIDY_FILES=$(python3 -c "
+import json, re
+excluded = re.compile(r'_deps/|/test/|arduinojson|googletest')
+files = sorted({e['file'] for e in json.load(open('${TIDY_BUILD_DIR}/compile_commands.json'))
+                if not excluded.search(e['file'])})
+print('\n'.join(files))
+")
+    if [ -z "$TIDY_FILES" ]; then
+        echo -e "${RED}clang-tidy: derived empty lint set from compile_commands.json. Bug?${NC}"
+        exit 1
+    fi
+    TIDY_LOG=$(mktemp)
+    set +e
+    echo "$TIDY_FILES" | xargs "$CLANG_TIDY" -p "${TIDY_BUILD_DIR}" --quiet >"$TIDY_LOG" 2>&1
+    TIDY_STATUS=$?
+    set -e
+    if [ $TIDY_STATUS -ne 0 ]; then
+        grep -E "error:" "$TIDY_LOG" | head -50
+        rm -f "$TIDY_LOG"
+        echo -e "${RED}clang-tidy reported errors. Commit aborted.${NC}"
+        echo -e "${RED}Re-run with the same derivation, e.g.: $CLANG_TIDY -p ${TIDY_BUILD_DIR} <files-from-compile_commands.json>${NC}"
+        exit 1
+    fi
+    rm -f "$TIDY_LOG"
+    echo -e "${GREEN}clang-tidy OK.${NC}"
 fi
 
 echo -e "${YELLOW}Running unit tests before commit...${NC}"
