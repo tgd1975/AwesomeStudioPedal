@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 28** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 29** | **Total: 61** | █████░░░░░ 48%
+⚪ **Open: 29** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 29** | **Total: 62** | █████░░░░░ 47%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -21,7 +21,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30"]
-    line [14, 28]
+    line [14, 29]
 ```
 
 </td><td>
@@ -39,8 +39,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30"]
-    line [24.5, 53.75]
-    line [12, 32]
+    line [24.5, 54.75]
+    line [12, 33]
 ```
 
 </td></tr></table>
@@ -50,7 +50,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | Date | Tasks closed | Cum. tasks | Est. h | Cum. est. h | Actual h | Cum. actual h | Epics closed | Cum. epics |
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
-| 2026-04-30 | 14 | 28 | 29.2 | 53.8 | 20 | 32 | 2 | 3 |
+| 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 2 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -100,6 +100,7 @@ _No active tasks._
 | [TASK-343](open/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (<2h) | Junior | ⚪ open |
 | [TASK-344](open/task-344-archive-idea-049-after-logo-tasks-shipped.md) | Archive IDEA-049 after logo tasks shipped | XS (<30m) | Junior | ⚪ open |
 | [TASK-345](open/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-347](open/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (<2h) | Medium | ⚪ open |
 
 ## Closed Tasks
 
