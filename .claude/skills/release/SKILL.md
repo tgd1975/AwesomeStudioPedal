@@ -19,15 +19,64 @@ Steps:
 2. **Verify branch**: run `git branch --show-current`. If not on `main`, warn and stop.
 
 3. **Read current version**: find the `#define FIRMWARE_VERSION` line in `include/version.h`
-   and show it.
+   and show it. This file is the **canonical source-of-truth** for the project-wide
+   version. All other deliverables are bumped in lockstep with it (see TASK-260 and
+   the "Version policy" section in `docs/developers/CI_PIPELINE.md`).
 
-4. **Confirm the new version** with the user before making any changes.
+4. **Confirm the new version** with the user before making any changes. Remind the
+   user, if their target deviates, that **all deliverables share one number** — even
+   ones that did not change since the last release. We do not skip-bump unchanged
+   artifacts.
 
-5. **Bump version**: update `include/version.h`:
+5. **Bump version in every deliverable**. Canonical input is the `MAJOR.MINOR.PATCH`
+   triple (e.g. `0.5.0`); each deliverable receives its format-projected form.
+
+   Mapping table — canonical `X.Y.Z` projects per ecosystem:
+
+   | File | Format | Projection of `X.Y.Z` |
+   |---|---|---|
+   | `include/version.h` | `#define FIRMWARE_VERSION "vX.Y.Z"` | `vX.Y.Z` (literal v-prefix) |
+   | `package.json` | JSON `"version": "X.Y.Z"` | `X.Y.Z` (no v-prefix) |
+   | `app/pubspec.yaml` | YAML `version: X.Y.Z+B` | `X.Y.Z+B` where `B = previous +B + 1` (monotonic; never reset) |
+   | `awesome-task-system/VERSION` | plain text, single line | `X.Y.Z` (no v-prefix, newline-terminated) |
+
+   **Build counter `+B`** in `pubspec.yaml`: read the current `+B`, increment by 1.
+   This becomes the Android `versionCode`. Google Play requires it to be strictly
+   increasing, so **never reset** on a version bump.
+
+   **Android `build.gradle.kts`** auto-derives `versionCode` and `versionName` from
+   Flutter (`flutter.versionCode` / `flutter.versionName`); no manual edit needed.
+
+   Edits to make:
 
    ```c
+   // include/version.h
    #define FIRMWARE_VERSION "vX.Y.Z"
    ```
+
+   ```json
+   // package.json — bump the "version" field only
+   "version": "X.Y.Z",
+   ```
+
+   ```yaml
+   # app/pubspec.yaml — bump version, increment +B by 1
+   version: X.Y.Z+B
+   ```
+
+   ```text
+   # awesome-task-system/VERSION — replace contents
+   X.Y.Z
+   ```
+
+   **CLI / simulator manifests**: TASK-260 anticipates a CLI and standalone simulator
+   that do not exist yet. When they materialize, add their version-bearing files to
+   this table (e.g. `cli/setup.py`, simulator `package.json`). The web simulator at
+   `docs/simulator/` is part of the docs site and has no separate version manifest.
+
+   **Verify lockstep**: after the four edits, `grep -E '0\.[0-9]+\.[0-9]+' include/version.h package.json app/pubspec.yaml awesome-task-system/VERSION`
+   should show the new `X.Y.Z` (with the `+B` suffix on pubspec) in all four files.
+   If any one is missing, fix it before continuing.
 
 6. **Archive closed tasks**: move every flat `.md` file in `docs/developers/tasks/closed/`
    into `docs/developers/tasks/archive/vX.Y.Z/` using `git mv`. Tasks in `open/`,
@@ -120,32 +169,32 @@ Steps:
    the bypass is logged to `.git/asp-commit-bypass.log` for review:
 
    ```bash
-   git add include/version.h
+   git add include/version.h package.json app/pubspec.yaml awesome-task-system/VERSION
    ASP_COMMIT_BYPASS="release: version bump + archive + CHANGELOG" \
        git commit --no-verify -m "chore: bump version to vX.Y.Z, archive closed tasks, update CHANGELOG"
    ```
 
    `--no-verify` is kept here because `/release` runs the full release
    build separately; re-running the pre-commit chain (tests + clang-tidy
-   + mermaid) would duplicate that work.
+   - mermaid) would duplicate that work.
 
-1. **Create annotated tag**:
+3. **Create annotated tag**:
 
     ```bash
     git tag -a vX.Y.Z -m "Release vX.Y.Z"
     ```
 
-2. **Show a final summary** of what will be pushed (commit + tag), then ask the user to
+4. **Show a final summary** of what will be pushed (commit + tag), then ask the user to
     confirm before pushing.
 
-3. **Push commit and tag**:
+5. **Push commit and tag**:
 
     ```bash
     git push origin main
     git push origin vX.Y.Z
     ```
 
-4. **Build firmware for all targets**:
+6. **Build firmware for all targets**:
 
     ```bash
     pio run -e nodemcu-32s
@@ -162,7 +211,7 @@ Steps:
     cp .pio/build/feather-nrf52840/firmware.zip  firmware-feather-nrf52840-vX.Y.Z.zip
     ```
 
-5. **Create GitHub Release** with `gh`, using the `## [vX.Y.Z]` section from CHANGELOG
+7. **Create GitHub Release** with `gh`, using the `## [vX.Y.Z]` section from CHANGELOG
     as release notes, and attach all four firmware artifacts:
 
     ```bash
@@ -184,7 +233,7 @@ Steps:
     | `firmware-feather-nrf52840-vX.Y.Z.hex` | Adafruit Feather nRF52840 — flash hex |
     | `firmware-feather-nrf52840-vX.Y.Z.zip` | Adafruit Feather nRF52840 — OTA zip |
 
-6. **Clean up** the temporary artifact copies:
+8. **Clean up** the temporary artifact copies:
 
     ```bash
     rm firmware-nodemcu-32s-vX.Y.Z.bin firmware-nodemcu-32s-vX.Y.Z-debug.zip \
