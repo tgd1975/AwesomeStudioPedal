@@ -68,7 +68,7 @@ kanban
 
 ## Other
 
-_⚪ 4 open · 🔵 1 active · 🟡 0 paused · 🟢 6 closed · ██████░░░░ 55%_
+_⚪ 5 open · 🔵 1 active · 🟡 0 paused · 🟢 6 closed · █████░░░░░ 50%_
 
 ```mermaid
 kanban
@@ -77,6 +77,7 @@ kanban
     TASK_260["Unify version numbers across all deliverables (firmware, app, CLI, simulator, …)"]
     TASK_319["Pre-commit hook — remove WireViz regen block and verify no remnants"]
     TASK_320["Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236)"]
+    TASK_321["Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes"]
   Active
     TASK_303["Simulator boots with demo profiles loaded; community gallery still reachable"]
   Paused

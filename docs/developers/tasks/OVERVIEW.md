@@ -3,7 +3,7 @@
 
 <!-- HEADER -->
 
-⚪ **Open: 14** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 16** | **Total: 35** | █████░░░░░ 46%
+⚪ **Open: 15** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 16** | **Total: 36** | ████░░░░░░ 44%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -88,6 +88,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-260](open/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-319](open/task-319-remove-wireviz-precommit-block.md) | Pre-commit hook — remove WireViz regen block and verify no remnants | Small (<2h) | Junior | ⚪ open |
 | [TASK-320](open/task-320-remove-ble-flag-precommit-check.md) | Pre-commit hook — remove BLE_CONFIG_TEST_BUILD check (orphan from TASK-236) | XS (<30m) | Junior | ⚪ open |
+| [TASK-321](open/task-321-fix-ci-failures-mermaid-clang-tidy.md) | Fix CI failures (Mermaid lint, clang-tidy) and prevent dirty pushes | Medium (2-8h) | Medium | ⚪ open |
 
 ## Closed Tasks
 
