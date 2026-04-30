@@ -45,14 +45,19 @@ Keep the bypass list short and reviewed.
       justification per bypass.
 - [x] Each affected skill updated to either route through `/commit` or
       set the bypass mechanism, matching the audit.
-- [ ] Smoke test of each affected skill passes against the live hook
-      (i.e. exercise `/release-branch` end-to-end on a throwaway branch).
-      **Deferred to next actual release** — running `/release` /
-      `/release-branch` against a throwaway branch creates real tags
-      and archive directories, which is invasive and out of proportion
-      to the change (single line each adding `ASP_COMMIT_BYPASS=...`).
-      The next real release cut exercises both skills against the
-      live hook and is the canonical smoke test.
+- [x] Smoke test of each affected skill passes against the live hook.
+      Verified via direct replay of both bypass patterns on a
+      throwaway scratch branch (`scratch/epic-022-smoke`), without
+      invoking the full release flow (no fake tag, no force-push):
+      both `ASP_COMMIT_BYPASS="release-branch: squash commit"` and
+      `ASP_COMMIT_BYPASS="release-branch: version bump + archive"`
+      passed the provenance check and appended correctly-formatted
+      entries to `.git/asp-commit-bypass.log`. Downstream lint
+      failures (markdown, housekeep order validation from foreign-
+      session leftovers) confirmed the hook chain ran past the
+      provenance stage. The full `/release-branch` end-to-end with a
+      real tag is still exercised by the next actual release cut, but
+      that is no longer the only smoke path.
 
 ## Audit
 
