@@ -1,6 +1,6 @@
 ---
 name: nrf5-task-routing
-description: Use BEFORE invoking /ts-task-new whenever the new task touches the nRF52840 hardware target — any change under src/nrf52840/, any new test under test/test_*_nrf52840/, any nRF52840 PlatformIO env or build target, or any AC requiring on-device verification on the Adafruit Feather nRF52840 (BLE via Bluefruit, GPIO, ISRs). Routes all such tasks to EPIC-025 (nrf52840-blocked) instead of the feature epic that would otherwise own them by scope. Active until the device is available again — removed by TASK-359 at that point.
+description: Use BEFORE invoking /ts-task-new whenever the new task touches the nRF52840 hardware target — any change under src/nrf52840/, any new test under test/test_*_nrf52840/, any nRF52840 PlatformIO env or build target, any AC requiring on-device verification on the Adafruit Feather nRF52840 (BLE via Bluefruit, GPIO, ISRs), or any Test Plan / AC item proposing new nRF52840 on-device tests (even as "nice-to-have"). Routes nRF5-primary tasks to EPIC-025 (nrf52840-blocked); for ESP32-primary tasks with stray nRF52840 test-plan items, scrubs the items instead. Active until the device is available again — removed by TASK-359 at that point.
 ---
 
 # nrf5-task-routing
@@ -41,16 +41,81 @@ A task "touches nRF52840 hardware" if **any** of the following is true:
 - Its description mentions "nRF52840", "nRF5", "Bluefruit", or
   "Feather nRF52840" in a way that implies hardware-side work
   (not merely "this is also planned for nRF52840 later").
+- Its **Test Plan or AC proposes** any new nRF52840 on-device test
+  — `make test-nrf52840-*`, a new `test/test_*_nrf52840/` directory,
+  or "verify equivalent behaviour on nRF52840". The proposal alone
+  is enough to trigger the routing logic in the next section, even
+  when the task's primary work is platform-agnostic or ESP32-only.
 
 Pure ESP32 tasks are unaffected. Tasks that touch only platform-
 agnostic code in `lib/PedalLogic/` are unaffected. Tasks that
 *reference* nRF52840 in passing (e.g. cross-platform docs) are
-unaffected — only tasks where the work itself targets nRF52840.
+unaffected — only tasks where the work itself targets nRF52840 or
+proposes nRF52840 test work.
+
+## Tests specifically — extra vigilance
+
+Tests that target nRF52840 hardware but cannot be run today **bitrot
+silently**: nobody flashes the device, nobody notices when the test
+becomes stale, and the moment hardware is back the test reads as
+"how did this ever pass?". The whole point of this skill is to
+prevent that category of dead weight from accumulating in the repo
+while the device is gone.
+
+Three scenarios at task-scaffold time:
+
+1. **Task is primarily nRF52840** (already trips the criteria above
+   beyond the test bullet): route to EPIC-025 as usual; the test
+   creation rides along with the implementation when hardware is
+   back. Single bundled item, single point of activation.
+
+2. **Task is primarily ESP32 / cross-platform**, but its Test Plan or
+   AC proposes "also add an nRF52840 on-device test" / "also extend
+   `test/test_*_nrf52840/`" / "verify equivalent behaviour on
+   nRF52840". In this case **do NOT route the whole task** —
+   instead, **scrub the nRF52840 test items** from the Test Plan
+   and ACs before the task is scaffolded, and replace them with a
+   one-liner reference to TASK-360 (the parity audit):
+
+   > "nRF52840 parity verified by [TASK-360](../../../docs/developers/tasks/paused/task-360-nrf52840-esp32-parity-audit.md)
+   > once hardware is available — no nRF52840 tests added in this
+   > task."
+
+   This applies even when the proposed test would compile clean
+   today. Compiling clean is not the same as running. A test that
+   builds into the firmware but never exercises the device is dead
+   weight that has to be pruned later — better to never land it.
+
+3. **A new `test/test_*_nrf52840/` directory** is *never* scaffolded
+   by a feature-epic task while this skill is active. The first such
+   directory lands inside [TASK-358](../../../docs/developers/tasks/paused/task-358-nrf52840-ble-readback-surfaces.md)
+   (BLE readback) along with the implementation. Any later test-
+   directory additions also live in tasks routed to EPIC-025.
+
+The principle: **no nRF52840 test files land in the repo until they
+can be run on hardware**. TASK-360 is the single place where
+nRF52840 test-coverage gaps are catalogued and resolved post-
+hardware-arrival.
 
 ## How to apply
 
-1. **Decide whether the routing applies** using the criteria above. If
-   it does not, skip — invoke `/ts-task-new` normally.
+1. **Decide which path applies** using the criteria above and the
+   "Tests specifically" scenarios:
+
+   - **Scenario 1 (nRF5-primary)**: continue with steps 2–5 below to
+     route the task into EPIC-025.
+   - **Scenario 2 (ESP32-primary with stray nRF52840 test items)**:
+     skip the routing — instead, scrub the nRF52840 test-plan / AC
+     items from the proposed task body and replace them with the
+     TASK-360 reference one-liner. Then invoke `/ts-task-new`
+     normally with the cleaned-up scope. **Do not** route the task
+     itself; the routing is for the *work*, not for residual prose.
+   - **Scenario 3 (new `test/test_*_nrf52840/` directory)**: stop —
+     such a directory only lands inside an existing EPIC-025 task
+     (e.g. TASK-358). Do not scaffold a new feature task that
+     creates one. If the proposed work cannot fit into an existing
+     EPIC-025 task, scaffold it as a new EPIC-025 task instead.
+   - **None apply**: invoke `/ts-task-new` normally.
 
 2. **Determine the next `order:` within EPIC-025.** Scan tasks with
    `epic: nrf52840-blocked` across `open/`, `active/`, `paused/`, and
