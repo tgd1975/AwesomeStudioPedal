@@ -86,5 +86,6 @@ without leaking subscriptions.
   profile-switch site, and the app side is a stream subscription.
 - Could legitimately defer until a UI consumer exists. Decided at
   TASK-353 time whether to ship now or park.
-- Hardware: both ESP32 and nRF52840 connected via USB for the
-  matching test runs.
+- Hardware: ESP32 connected via USB. nRF52840 notify char
+  deferred to TASK-358 (no device available; see
+  [BLE_READBACK_IMPACT.md](../../BLE_READBACK_IMPACT.md)).

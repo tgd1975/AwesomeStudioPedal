@@ -63,11 +63,9 @@ App-side:
 ## Test Plan
 
 **On-device tests** — extend the existing
-`test/test_*_esp32/` and/or `test/test_*_nrf52840/` BLE test
-folder with a read of the new characteristic. Pattern follows
-the existing `kHwIdentityUuid` test (whichever target has one
-today; if neither does, add one for the platform you're flashing
-during this task and document the gap for the other).
+`test/test_ble_config_esp32/` BLE test folder with a read of the
+new characteristic. Pattern follows the existing
+`kHwIdentityUuid` test in that folder.
 
 **Host tests** — the version-string format itself is host-testable
 behind `HOST_TEST_BUILD`. Add a small unit test if the formatting
@@ -83,4 +81,4 @@ return value.
 - This was carved out of the original TASK-337 — the smallest of
   the three deliverables. Cheap, read-only, finishes one of the
   three placeholder rows on the Connected-Pedal page.
-- Hardware: ESP32 + nRF52840 USB-connected for on-device runs.
+- Hardware: ESP32 USB-connected for on-device runs (nRF52840 deferred to TASK-358).

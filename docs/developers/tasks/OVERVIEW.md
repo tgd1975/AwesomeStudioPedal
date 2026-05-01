@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 17** | 🔵 **Active: 0** | 🟡 **Paused: 7** | 🟢 **Closed: 50** | **Total: 74** | ███████░░░ 68%
+⚪ **Open: 17** | 🔵 **Active: 0** | 🟡 **Paused: 8** | 🟢 **Closed: 50** | **Total: 75** | ███████░░░ 67%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -73,6 +73,7 @@ _No active tasks._
 | [TASK-343](paused/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (&lt;2h) | Junior | 🟡 **paused** |
 | [TASK-358](paused/task-358-nrf52840-ble-readback-surfaces.md) | nRF52840 BLE readback surfaces (firmware-version DIS + config readback + active-profile notify) | Large (8-24h) | Senior | 🟡 **paused** |
 | [TASK-359](paused/task-359-remove-nrf5-task-routing-skill.md) | Remove nrf5-task-routing skill once nRF52840 hardware is available | XS (&lt;30m) | Junior | 🟡 **paused** |
+| [TASK-360](paused/task-360-nrf52840-esp32-parity-audit.md) | nRF52840 — verify functional parity with ESP32 across the codebase | Medium (2-8h) | Medium | 🟡 **paused** |
 
 ## Open Tasks
 

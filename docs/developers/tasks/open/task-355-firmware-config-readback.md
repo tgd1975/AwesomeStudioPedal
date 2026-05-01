@@ -69,9 +69,9 @@ App-side:
 
 ## Test Plan
 
-**On-device tests** — `make test-esp32-ble` / matching nRF52840
-target. Extend with a "round-trip equality" test: write a known
-config, read it back, assert byte-equal at the JSON level.
+**On-device tests** — `make test-esp32-ble`. Extend with a
+"round-trip equality" test: write a known config, read it back,
+assert byte-equal at the JSON level.
 
 **Host tests** — if option (b) is chosen, the chunked
 reassembler logic is host-testable behind `HOST_TEST_BUILD`. Add
@@ -90,5 +90,6 @@ Configuration row reflects mocked `readActiveConfig()` data.
   the three deliverables and the one with the real design
   decision (option a vs b) and the real risk surface (nRF52840
   RAM budget).
-- Hardware: both ESP32 and nRF52840 connected via USB for the
-  matching test runs.
+- Hardware: ESP32 connected via USB. nRF52840 round-trip
+  deferred to TASK-358 (no device available; see
+  [BLE_READBACK_IMPACT.md](../../BLE_READBACK_IMPACT.md)).

@@ -95,7 +95,7 @@ kanban
 
 ## nrf52840-blocked
 
-_⚪ 0 open · 🔵 0 active · 🟡 2 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
+_⚪ 0 open · 🔵 0 active · 🟡 3 paused · 🟢 0 closed · ░░░░░░░░░░ 0%_
 
 ```mermaid
 kanban
@@ -104,6 +104,7 @@ kanban
   Paused
     TASK_358["nRF52840 BLE readback surfaces (firmware-version DIS + config readback + active-profile notify)"]
     TASK_359["Remove nrf5-task-routing skill once nRF52840 hardware is available"]
+    TASK_360["nRF52840 — verify functional parity with ESP32 across the codebase"]
   Closed
 ```
 
