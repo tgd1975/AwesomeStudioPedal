@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +9,7 @@ import 'models/profiles_state.dart';
 import 'screens/action_editor_screen.dart';
 import 'screens/community_profiles_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/how_to_screen.dart';
 import 'screens/independent_actions_screen.dart';
 import 'screens/info_about_screen.dart';
 import 'screens/json_preview_screen.dart';
@@ -14,6 +17,7 @@ import 'screens/profile_editor_screen.dart';
 import 'screens/profile_list_screen.dart';
 import 'screens/scanner_screen.dart';
 import 'screens/upload_screen.dart';
+import 'services/first_run.dart';
 import 'theme/asp_theme.dart';
 
 GoRouter _buildRouter() => GoRouter(
@@ -86,6 +90,14 @@ GoRouter _buildRouter() => GoRouter(
           name: 'info',
           builder: (_, __) => const InfoAboutScreen(),
         ),
+        GoRoute(
+          path: '/how-to',
+          name: 'how-to',
+          builder: (context, state) {
+            final firstRun = state.uri.queryParameters['firstRun'] == '1';
+            return HowToScreen(firstRun: firstRun);
+          },
+        ),
       ],
     );
 
@@ -98,6 +110,16 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late final GoRouter _router = _buildRouter();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (await firstRunGate.shouldAutoShowHowTo()) {
+        unawaited(_router.push('/how-to?firstRun=1'));
+      }
+    });
+  }
 
   @override
   void dispose() {

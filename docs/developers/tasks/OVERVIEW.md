@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 27** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 36** | **Total: 67** | █████░░░░░ 54%
+⚪ **Open: 26** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 37** | **Total: 67** | ██████░░░░ 55%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -23,7 +23,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30", "05-01"]
-    line [14, 29, 35]
+    line [14, 29, 36]
 ```
 
 </td><td>
@@ -41,8 +41,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30", "05-01"]
-    line [24.5, 54.75, 68.75]
-    line [12, 33, 39]
+    line [24.5, 54.75, 73.75]
+    line [12, 33, 44]
 ```
 
 </td></tr></table>
@@ -53,7 +53,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 | 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 1 | 2 |
-| 2026-05-01 | 6 | 35 | 14 | 68.8 | 6 | 39 | 1 | 3 |
+| 2026-05-01 | 7 | 36 | 19 | 73.8 | 11 | 44 | 1 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -86,7 +86,6 @@ _No active tasks._
 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | ⚪ open |
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (&lt;2h) | Small | ⚪ open |
-| [TASK-332](open/task-332-add-howto-quickstart-page.md) | Add How-To quickstart page (3–5 steps) | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-333](open/task-333-add-profiles-troubleshooting-legal-pages.md) | Add Profiles explainer, Troubleshooting, and Legal pages | Medium (2-8h) | Junior | ⚪ open |
 | [TASK-334](open/task-334-add-startup-splash-screen.md) | Add startup splash screen (Flutter + native) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-335](open/task-335-add-connection-status-strip-and-details-sheet.md) | Add connection status strip and details sheet | Medium (2-8h) | Medium | ⚪ open |
@@ -138,6 +137,7 @@ _No active tasks._
 | [TASK-329](closed/task-329-drop-auto-git-add-from-commit-pathspec.md) | Drop auto-git-add for untracked files from commit-pathspec.sh | Small (&lt;2h) |
 | [TASK-330](closed/task-330-decide-content-page-open-questions.md) | Decide content-page open questions (source-of-truth, i18n, context-awareness, first-run) | Small (&lt;2h) |
 | [TASK-331](closed/task-331-add-info-about-page.md) | Add Info/About page to the Flutter app | Medium (2-8h) |
+| [TASK-332](closed/task-332-add-howto-quickstart-page.md) | Add How-To quickstart page (3–5 steps) | Small (&lt;2h) |
 | [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (&lt;2h) |
 | [TASK-347](closed/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (&lt;2h) |
 | [TASK-348](closed/task-348-derive-clang-tidy-set-from-compile-commands.md) | Derive clang-tidy lint set from compile_commands.json | Small (&lt;2h) |

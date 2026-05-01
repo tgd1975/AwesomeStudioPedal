@@ -14,10 +14,14 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('AwesomeStudioPedal'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.info_outline),
-            tooltip: 'About',
-            onPressed: () => context.push('/info'),
+          PopupMenuButton<String>(
+            tooltip: 'More',
+            icon: const Icon(Icons.more_vert),
+            onSelected: (value) => context.push(value),
+            itemBuilder: (_) => const [
+              PopupMenuItem(value: '/how-to', child: Text('How to use')),
+              PopupMenuItem(value: '/info', child: Text('About')),
+            ],
           ),
         ],
       ),
