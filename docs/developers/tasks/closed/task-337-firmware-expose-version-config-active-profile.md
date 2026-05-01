@@ -1,14 +1,50 @@
 ---
 id: TASK-337
-title: Firmware — expose firmware version, readable config, active-profile notify (BLE)
-status: open
+title: Firmware — expose firmware version, readable config, active-profile notify (BLE) [SPLIT]
+status: closed
+closed: 2026-05-01
 opened: 2026-04-30
 effort: Large (8-24h)
+effort_actual: XS (<30m)
 complexity: Senior
 human-in-loop: Clarification
 epic: app-content-pages
 order: 8
 ---
+
+## Closed — split into TASK-353/354/355/356
+
+This task bundled three independently-scopable firmware deliverables
+plus a real design decision (config-readback option a vs b). At
+activation time it was split so each piece can scope itself
+honestly, the design decision lands in writing first, and the
+small/cheap pieces aren't held hostage to the heavier ones:
+
+- **[TASK-353](task-353-feasibility-firmware-ble-readback-surfaces.md)**
+  — feasibility & impact analysis (gates the others). Captures the
+  config-readback option (a vs b) decision, the nRF52840 RAM
+  headroom number, and the DIS (0x180A) bundle/skip decision.
+- **[TASK-354](task-354-firmware-version-read-characteristic.md)**
+  — firmware-version read characteristic (+ DIS decision). Cheap,
+  read-only, finishes the Connected-Pedal page Firmware row.
+- **[TASK-355](task-355-firmware-config-readback.md)** — config
+  readback (option chosen in TASK-353). Largest of the three, with
+  the real design + risk surface.
+- **[TASK-356](task-356-firmware-active-profile-notify.md)** —
+  active-profile-index notify char. Independent infrastructure;
+  may defer until a UI consumer exists.
+
+The original task body is preserved below as historical context.
+
+---
+
+## Original description (preserved)
+
+Original ordering placed all three deliverables in one Large/Senior
+task. That packaging assumed they shared enough GATT-table plumbing
+to ship together cheaply; the activation-time review found they
+share only the registration boilerplate, while their per-deliverable
+costs and risks differ by an order of magnitude.
 
 ## Description
 
