@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 19** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 50** | **Total: 73** | ███████░░░ 68%
+⚪ **Open: 17** | 🔵 **Active: 1** | 🟡 **Paused: 6** | 🟢 **Closed: 50** | **Total: 74** | ███████░░░ 68%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -23,7 +23,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30", "05-01"]
-    line [14, 29, 49]
+    line [14, 29, 50]
 ```
 
 </td><td>
@@ -41,8 +41,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30", "05-01"]
-    line [24.5, 54.75, 121.75]
-    line [12, 33, 62.75]
+    line [24.5, 54.75, 126.75]
+    line [12, 33, 63.75]
 ```
 
 </td></tr></table>
@@ -53,14 +53,16 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 | 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 1 | 2 |
-| 2026-05-01 | 20 | 49 | 67 | 121.8 | 29.8 | 62.8 | 1 | 3 |
+| 2026-05-01 | 21 | 50 | 72 | 126.8 | 30.8 | 63.8 | 1 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-343](active/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (&lt;2h) | Junior | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -70,6 +72,8 @@ _No active tasks._
 | [TASK-161](paused/task-161-publish-ios-app-store.md) | Publish app to Apple App Store | Large (8-24h) | High | 🟡 **paused** |
 | [TASK-226](paused/task-226-feature-test-cli-scan-two-pedals.md) | Feature Test — CLI scan with two pedals (S-04) | Small (&lt;2h) | Low | 🟡 **paused** |
 | [TASK-249](paused/task-249-nrf52840-pairing-pin-unwired.md) | nRF52840 pairing_pin is entirely unwired (security parity with ESP32) | Medium (2-8h) | Medium | 🟡 **paused** |
+| [TASK-358](paused/task-358-nrf52840-ble-readback-surfaces.md) | nRF52840 BLE readback surfaces (firmware-version DIS + config readback + active-profile notify) | Large (8-24h) | Senior | 🟡 **paused** |
+| [TASK-359](paused/task-359-remove-nrf5-task-routing-skill.md) | Remove nrf5-task-routing skill once nRF52840 hardware is available | XS (&lt;30m) | Junior | 🟡 **paused** |
 
 ## Open Tasks
 
@@ -86,14 +90,12 @@ _No active tasks._
 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | ⚪ open |
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (&lt;2h) | Small | ⚪ open |
-| [TASK-343](open/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-344](open/task-344-archive-idea-049-after-logo-tasks-shipped.md) | Archive IDEA-049 after logo tasks shipped | XS (&lt;30m) | Junior | ⚪ open |
 | [TASK-352](open/task-352-investigate-pre-commit-hook-latency.md) | Investigate pre-commit hook latency — reorganize, parallelize, or skip irrelevant checks | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-354](open/task-354-firmware-version-read-characteristic.md) | Firmware — expose firmware-version read characteristic (+ DIS 0x180A decision) | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-355](open/task-355-firmware-config-readback.md) | Firmware — config readback (option chosen in TASK-353) | Medium (2-8h) | Senior | ⚪ open |
 | [TASK-356](open/task-356-firmware-active-profile-notify.md) | Firmware — active-profile-index notify characteristic | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-357](open/task-357-reconcile-max-config-bytes-doc-vs-code.md) | Reconcile MAX_CONFIG_BYTES between BLE protocol doc and reassembler code | XS (&lt;30m) | Junior | ⚪ open |
-| [TASK-358](open/task-358-nrf52840-ble-readback-surfaces.md) | nRF52840 BLE readback surfaces (firmware-version DIS + config readback + active-profile notify) | Large (8-24h) | Senior | ⚪ open |
 
 ## Closed Tasks
 

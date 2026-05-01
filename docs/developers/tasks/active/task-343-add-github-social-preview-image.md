@@ -1,7 +1,7 @@
 ---
 id: TASK-343
 title: Add GitHub social preview image
-status: open
+status: active
 opened: 2026-04-30
 effort: Small (<2h)
 complexity: Junior
