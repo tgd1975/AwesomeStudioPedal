@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 20** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 47** | **Total: 71** | ███████░░░ 66%
+⚪ **Open: 19** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 47** | **Total: 71** | ███████░░░ 66%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -23,7 +23,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30", "05-01"]
-    line [14, 29, 46]
+    line [14, 29, 47]
 ```
 
 </td><td>
@@ -41,8 +41,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30", "05-01"]
-    line [24.5, 54.75, 118.75]
-    line [12, 33, 60.5]
+    line [24.5, 54.75, 119.75]
+    line [12, 33, 61.5]
 ```
 
 </td></tr></table>
@@ -53,14 +53,16 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 | 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 1 | 2 |
-| 2026-05-01 | 17 | 46 | 64 | 118.8 | 27.5 | 60.5 | 1 | 3 |
+| 2026-05-01 | 18 | 47 | 65 | 119.8 | 28.5 | 61.5 | 1 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-341](active/task-341-add-asp-logo-to-configuration-builder-header.md) | Add ASP logo to configuration builder header | Small (&lt;2h) | Junior | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -86,7 +88,6 @@ _No active tasks._
 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | ⚪ open |
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (&lt;2h) | Small | ⚪ open |
-| [TASK-341](open/task-341-add-asp-logo-to-configuration-builder-header.md) | Add ASP logo to configuration builder header | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-342](open/task-342-add-asp-logo-to-mobile-app-appbar.md) | Add ASP logo to mobile app AppBar | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-343](open/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-344](open/task-344-archive-idea-049-after-logo-tasks-shipped.md) | Archive IDEA-049 after logo tasks shipped | XS (&lt;30m) | Junior | ⚪ open |

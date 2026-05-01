@@ -1,7 +1,7 @@
 ---
 id: TASK-341
 title: Add ASP logo to configuration builder header
-status: open
+status: active
 opened: 2026-04-30
 effort: Small (<2h)
 complexity: Junior
