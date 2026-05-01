@@ -6,12 +6,12 @@ Source task: [TASK-353](tasks/active/task-353-feasibility-firmware-ble-readback-
 
 | Deliverable | ESP32 | nRF52840 | Notes |
 |---|---|---|---|
-| Firmware-version read | Custom char in `BleConfigService` (UUID `…5c5`) | Bluefruit `BLEDis` (DIS 0x180A) | Different mechanism per platform; same value source `FIRMWARE_VERSION` |
-| **DIS (0x180A) decision** | **Skip** | **Bundle (via `BLEDis`)** | Mixed-mechanism: standard DIS only on the platform where it's free |
-| **Config readback option** | **(a) make existing char readable, retain JSON in RAM** | **Defer** (no BLE config service exists yet) | nRF52840 lacks even config-write today |
-| Active-profile notify | Read+notify char in `BleConfigService` (UUID `…5c6`) | **Defer** | Same nRF52840 infra gap |
+| Firmware-version read | Custom char in `BleConfigService` (UUID `…5c5`) | **Deferred to TASK-358** (planned path: Bluefruit `BLEDis` / DIS 0x180A) | Hardware not currently available — write-only-and-pray rejected |
+| **DIS (0x180A) decision** | **Skip** | **Bundle (via `BLEDis`) — TASK-358** | Mixed-mechanism plan stands; activation gated on device |
+| **Config readback option** | **(a) make existing char readable, retain JSON in RAM** | **Deferred to TASK-358** (no BLE config service exists yet) | nRF52840 lacks even config-write today |
+| Active-profile notify | Read+notify char in `BleConfigService` (UUID `…5c6`) | **Deferred to TASK-358** | Same nRF52840 infra gap |
 
-The platform asymmetry below is the load-bearing finding.
+The platform asymmetry below is the load-bearing finding. **All three deliverables are ESP32-only for this iteration** — nRF52840 hardware is not currently available for verification, and shipping untested firmware-only changes (even cheap ones like `BLEDis`) is rejected. The full nRF52840 readback story is bundled into [TASK-358](tasks/open/task-358-nrf52840-ble-readback-surfaces.md), gated on hardware availability.
 
 ## 1. Platform asymmetry — the elephant in the room
 
@@ -60,7 +60,7 @@ fwChar->setValue(std::string(FIRMWARE_VERSION));
 
 3 lines. Risk: none — read-only, no security implications, no bond required. UUID `…5c5` continues the family established in [BLE_CONFIG_PROTOCOL.md](BLE_CONFIG_PROTOCOL.md#characteristics).
 
-**nRF52840 implementation sketch.** Use Bluefruit's bundled `BLEDis`:
+**nRF52840 implementation sketch (deferred to TASK-358 — hardware not available).** When hardware is back, use Bluefruit's bundled `BLEDis`:
 
 ```cpp
 #include <bluefruit.h>
@@ -87,7 +87,7 @@ This **mixed-mechanism choice** is deliberate. The Connected-Pedal page must rea
 - ESP32: extend [`test/test_ble_config_esp32/`](../../test/test_ble_config_esp32/) — read `…5c5`, assert it equals `FIRMWARE_VERSION`. On-device, hardware-bound.
 - nRF52840: light on-device check via a generic BLE explorer or a small additional fixture; assert DIS Firmware Rev string round-trip. The version-string formatting itself (if any post-processing is added later, e.g. semver + git hash) is host-testable behind `HOST_TEST_BUILD`, but today the value is a literal `#define`.
 
-**Recommendation: GO** on both platforms.
+**Recommendation: GO on ESP32. Defer nRF52840 to TASK-358** until hardware is available — the four-line `BLEDis` integration is cheap to write but cannot be verified today, and shipping untested firmware-only changes is the kind of "we'll find out later" that bites.
 
 ### 3.2 Config readback — TASK-355
 
@@ -168,8 +168,8 @@ Cost: ~40 LOC.
 ## 4. Decisions captured
 
 - **Config readback option**: (a) — resident copy in RAM. Rationale §3.2.
-- **DIS (0x180A)**: bundle on nRF52840 via Bluefruit `BLEDis`; skip on ESP32. Rationale §3.1.
-- **nRF52840 scope**: TASK-354 ships on both platforms (DIS path on nRF52840). TASK-355 and TASK-356 ship on ESP32 only; nRF52840 deferred behind a separate "custom BLE service on nRF52840?" question.
+- **DIS (0x180A)**: planned for nRF52840 via Bluefruit `BLEDis` (TASK-358); skip on ESP32. Rationale §3.1.
+- **nRF52840 scope**: deferred entirely from this iteration — no hardware available for verification. All three deliverables (firmware-version DIS + config readback + active-profile notify) bundled into TASK-358, gated on hardware availability. TASK-354/355/356 ship ESP32-only.
 
 ## 5. UUID assignments
 
@@ -184,6 +184,6 @@ UUID family `516515cX-…` follows the convention in [BLE_CONFIG_PROTOCOL.md](BL
 
 ## 6. Open follow-ups (not in scope here)
 
-- nRF52840 BLE config service — separate scoping task. Includes config-write, config-readback, active-profile notify on nRF52840 if the answer is "yes". Not pre-empted by TASK-355/356 deferrals.
+- [TASK-358](tasks/open/task-358-nrf52840-ble-readback-surfaces.md) — nRF52840 BLE readback (firmware-version via DIS + config readback + active-profile notify). Bundles all three nRF52840 surfaces under one custom-Bluefruit-GATT-service infra spike, gated on hardware availability.
 - Connected-Pedal page UI — already gated on platform per existing widget patterns; "—" placeholder for nRF52840-only-deferred rows is fine.
-- The `MAX_CONFIG_BYTES` doc/code mismatch ([BLE_CONFIG_PROTOCOL.md](BLE_CONFIG_PROTOCOL.md#constants) says 32768; [ble_config_reassembler.h:30](../../lib/PedalLogic/include/ble_config_reassembler.h#L30) defines 16384) is a separate cleanup — flagged here so TASK-355's resident-copy sizing uses the real number (16 KB).
+- [TASK-357](tasks/open/task-357-reconcile-max-config-bytes-doc-vs-code.md) — `MAX_CONFIG_BYTES` doc/code mismatch ([BLE_CONFIG_PROTOCOL.md](BLE_CONFIG_PROTOCOL.md#constants) says 32768; [ble_config_reassembler.h:30](../../lib/PedalLogic/include/ble_config_reassembler.h#L30) defines 16384). TASK-355 sizes against the code value (16 KB); land TASK-357 first so the doc agrees.

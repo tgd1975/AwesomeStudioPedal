@@ -17,16 +17,19 @@ decision_doc: docs/developers/BLE_READBACK_IMPACT.md
 Expose the firmware version over BLE so the Connected-Pedal page
 (TASK-336) can fill its currently-placeholdered Firmware row.
 
+**Platform scope: ESP32 only.** nRF52840 hardware is not currently
+available for verification, and shipping the (cheap) Bluefruit
+`BLEDis` path without on-device confirmation is rejected. The
+nRF52840 firmware-version surface is deferred to
+[TASK-358](task-358-nrf52840-ble-readback-surfaces.md), which
+bundles all three nRF52840 readback surfaces under one custom-
+Bluefruit-GATT-service infra spike.
+
 What ships (per [BLE_READBACK_IMPACT.md §3.1](../../BLE_READBACK_IMPACT.md#31-firmware-version-read-characteristic--task-354)):
 
 - **ESP32**: new READ characteristic in `BleConfigService` at UUID
   `516515c5-4b50-447b-8ca3-cbfce3f4d9f8`, value `FIRMWARE_VERSION`
   from [include/version.h](../../../include/version.h).
-- **nRF52840**: standard **DIS (0x180A)** Device Information Service
-  via Bluefruit's bundled `BLEDis` library — Manufacturer, Model,
-  Firmware Revision. Bundled here because Bluefruit's BLEDis is a
-  4-line drop-in and nRF52840 has no custom service to host the
-  ESP32-style read char.
 - **DIS on ESP32**: skipped — would duplicate the firmware-version
   string in a parallel service for no Connected-Pedal-page benefit.
 
@@ -39,17 +42,17 @@ App-side:
 
 ## Acceptance Criteria
 
-- [ ] Firmware-version characteristic exists on both ESP32 and
-      nRF52840 and returns the canonical version string.
-- [ ] UUID registered in the BLE protocol doc per the TASK-353
-      output.
-- [ ] DIS (0x180A) decision implemented per TASK-353 (bundle or
-      skip).
-- [ ] App's Connected-Pedal page Firmware row is no longer a
-      placeholder — renders the live string when connected, "—"
-      when disconnected.
+- [ ] Firmware-version characteristic exists on **ESP32** at UUID
+      `516515c5-…` and returns the canonical version string from
+      `FIRMWARE_VERSION`. nRF52840 deferred to TASK-358.
+- [ ] UUID `…5c5` registered in
+      [BLE_CONFIG_PROTOCOL.md](../../BLE_CONFIG_PROTOCOL.md#characteristics).
+- [ ] App's Connected-Pedal page Firmware row renders the live
+      string for ESP32-connected pedals, "—" for nRF52840-connected
+      pedals (deferred), "—" when disconnected.
 - [ ] On-device test verifies the characteristic returns the
-      expected string format on at least one of the two targets.
+      expected string format on ESP32 (extends
+      [test/test_ble_config_esp32/](../../../test/test_ble_config_esp32/)).
 
 ## Prerequisites
 
