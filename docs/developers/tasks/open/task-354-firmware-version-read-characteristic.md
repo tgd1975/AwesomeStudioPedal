@@ -1,13 +1,13 @@
 ---
 id: TASK-354
 title: Firmware — expose firmware-version read characteristic (+ DIS 0x180A decision)
-status: active
+status: open
 opened: 2026-05-01
 effort: Small (<2h)
 complexity: Medium
 human-in-loop: Clarification
-epic: app-content-pages
-order: 12
+epic: pedal-details-app-pages
+order: 1
 prerequisites: [TASK-353]
 decision_doc: docs/developers/BLE_READBACK_IMPACT.md
 ---
@@ -42,23 +42,17 @@ App-side:
 
 ## Acceptance Criteria
 
-- [x] Firmware-version characteristic exists on **ESP32** at UUID
+- [ ] Firmware-version characteristic exists on **ESP32** at UUID
       `516515c5-…` and returns the canonical version string from
       `FIRMWARE_VERSION`. nRF52840 deferred to TASK-358.
-- [x] UUID `…5c5` registered in
+- [ ] UUID `…5c5` registered in
       [BLE_CONFIG_PROTOCOL.md](../../BLE_CONFIG_PROTOCOL.md#characteristics).
-      *(Added rows for both `HW_IDENTITY` (`…5c4`) and `FIRMWARE_VERSION`
-      (`…5c5`) — `…5c4` was previously undocumented.)*
-- [x] App's Connected-Pedal page Firmware row renders the live
+- [ ] App's Connected-Pedal page Firmware row renders the live
       string for ESP32-connected pedals, "—" for nRF52840-connected
-      pedals (deferred), "—" when disconnected. *(Widget test
-      `connected_pedal_screen_test.dart` covers all three paths.)*
-- [x] On-device test verifies the characteristic returns the
+      pedals (deferred), "—" when disconnected.
+- [ ] On-device test verifies the characteristic returns the
       expected string format on ESP32 (extends
       [test/test_ble_config_esp32/](../../../test/test_ble_config_esp32/)).
-      *(Added "Test 5" in `runner.py` reading
-      `CHAR_FIRMWARE_VERSION_UUID` and matching `^v\d+\.\d+\.\d+`.
-      Pending hardware verification by user via `/test-device`.)*
 
 ## Prerequisites
 

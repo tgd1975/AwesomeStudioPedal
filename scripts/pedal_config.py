@@ -19,10 +19,6 @@ CHAR_WRITE_HW_UUID    = "516515c2-4b50-447b-8ca3-cbfce3f4d9f8"
 CHAR_STATUS_UUID      = "516515c3-4b50-447b-8ca3-cbfce3f4d9f8"
 # Read-only: returns the board identity string ("esp32" / "nrf52840").
 CHAR_HW_IDENTITY_UUID = "516515c4-4b50-447b-8ca3-cbfce3f4d9f8"
-# Read-only: returns the canonical firmware version string from include/version.h
-# (e.g. "v0.4.1"). ESP32 only — nRF52840 has no custom GATT service today
-# (deferred to TASK-358).
-CHAR_FIRMWARE_VERSION_UUID = "516515c5-4b50-447b-8ca3-cbfce3f4d9f8"
 
 MTU          = 512
 PAYLOAD_SIZE = MTU - 2   # 510 bytes

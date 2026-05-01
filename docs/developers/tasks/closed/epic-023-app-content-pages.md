@@ -20,23 +20,27 @@ by a generated HID usage display table.
 Seeded by IDEA-037 (App content pages — Info/About, How-To, and
 supporting screens).
 
-The epic groups three layers of work that share scope but differ in cost:
+The epic groups two layers of work that share scope but differ in cost:
 
 1. **Pure client-side pages** (Info/About, How-To, Profiles explainer,
    Troubleshooting, Legal, splash, connection status strip) — ship
    without firmware changes.
-2. **Connected-Pedal page** — partially shippable today (board identity
-   from `kHwIdentityUuid`); the firmware-version, readable-config, and
-   live-active-profile parts wait on (3).
-3. **Firmware / BLE surfaces** — new read characteristic for firmware
-   version, readable config (or chunked readback), active-profile
-   notify, and notify-on-send for live keystroke. Splits cleanly into
-   its own task and unblocks the Connected-Pedal and Live-keystroke
-   pages.
+2. **Connected-Pedal page** — initial version shippable on board
+   identity (`kHwIdentityUuid`) alone; the firmware-version,
+   readable-config, and live-active-profile rows are placeholdered
+   until the matching firmware surfaces land.
 
 A decision task lands first to resolve the open questions in IDEA-037
 (content source of truth, i18n scaffolding, context-aware How-To,
 first-run flow) before any UI is built.
+
+The third layer originally tracked here — **firmware / BLE readback
+surfaces** (firmware-version char, config readback, active-profile
+notify) — was carved out into its own
+[EPIC-026 pedal-details-app-pages](epic-026-pedal-details-app-pages.md)
+because that work has a different cost profile (firmware diffs +
+on-device verification gated on the same nRF52840 deferral) from the
+client-side content pages here.
 
 ## Tasks
 

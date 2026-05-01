@@ -198,16 +198,6 @@ class MockBleService extends _i1.Mock implements _i3.BleService {
       ) as _i4.Future<String?>);
 
   @override
-  _i4.Future<String?> readDeviceFirmwareVersion() => (super.noSuchMethod(
-        Invocation.method(
-          #readDeviceFirmwareVersion,
-          [],
-        ),
-        returnValue: _i4.Future<String?>.value(),
-        returnValueForMissingStub: _i4.Future<String?>.value(),
-      ) as _i4.Future<String?>);
-
-  @override
   void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,

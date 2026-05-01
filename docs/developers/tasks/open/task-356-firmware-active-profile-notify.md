@@ -6,8 +6,8 @@ opened: 2026-05-01
 effort: Small (<2h)
 complexity: Medium
 human-in-loop: Clarification
-epic: app-content-pages
-order: 14
+epic: pedal-details-app-pages
+order: 3
 prerequisites: [TASK-353]
 decision_doc: docs/developers/BLE_READBACK_IMPACT.md
 ---

@@ -13,7 +13,6 @@ class ConnectedPedalScreen extends StatefulWidget {
 
 class _ConnectedPedalScreenState extends State<ConnectedPedalScreen> {
   Future<String?>? _boardFuture;
-  Future<String?>? _firmwareFuture;
   BleService? _watched;
 
   @override
@@ -28,13 +27,11 @@ class _ConnectedPedalScreenState extends State<ConnectedPedalScreen> {
 
   void _refresh() {
     final ble = _watched;
-    final connected = ble != null && ble.isConnected;
+    final next = (ble == null || !ble.isConnected)
+        ? Future<String?>.value(null)
+        : ble.readDeviceHardware();
     setState(() {
-      _boardFuture =
-          connected ? ble.readDeviceHardware() : Future<String?>.value(null);
-      _firmwareFuture = connected
-          ? ble.readDeviceFirmwareVersion()
-          : Future<String?>.value(null);
+      _boardFuture = next;
     });
   }
 
@@ -57,16 +54,7 @@ class _ConnectedPedalScreenState extends State<ConnectedPedalScreen> {
             ),
           ),
           const Divider(height: 24),
-          FutureBuilder<String?>(
-            future: _firmwareFuture,
-            builder: (context, snapshot) {
-              final value = snapshot.data;
-              if (ble.isConnected && value != null) {
-                return _Row(label: 'Firmware', value: value);
-              }
-              return const _PendingRow(label: 'Firmware');
-            },
-          ),
+          const _PendingRow(label: 'Firmware'),
           const Divider(height: 24),
           const _PendingRow(label: 'Configuration'),
           const Divider(height: 24),
