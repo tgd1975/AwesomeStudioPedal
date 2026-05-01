@@ -9,6 +9,7 @@ human-in-loop: Clarification
 epic: app-content-pages
 order: 13
 prerequisites: [TASK-353]
+decision_doc: docs/developers/BLE_READBACK_IMPACT.md
 ---
 
 ## Description
@@ -17,11 +18,21 @@ Make the pedal's currently-running configuration readable over BLE
 so the Connected-Pedal page (TASK-336) can fill its
 currently-placeholdered Configuration and Storage rows.
 
-The implementation path — option (a) make existing config
-characteristic readable, retaining the canonical JSON in RAM, vs
-option (b) inverted chunked reassembler with no resident copy — is
-chosen in TASK-353. That decision is reflected here at activation,
-not now.
+**Implementation path: option (a)** — make the existing
+`CHAR_WRITE_UUID` (`516515c1-…`) characteristic readable, retain
+the canonical JSON resident in RAM after each successful upload,
+and return that buffer on read. Chosen over option (b) because
+the resident-copy memory cost (≤ 16 KB / `MAX_CONFIG_BYTES`) is
+non-binding on the measured nRF52840 budget (~215 KB free heap)
+and the implementation is ~5× smaller than an inverted chunked
+reassembler. Full rationale in
+[BLE_READBACK_IMPACT.md §3.2](../../BLE_READBACK_IMPACT.md#32-config-readback--task-355).
+
+**Platform scope: ESP32 only.** nRF52840 has no custom GATT
+service today (HID-only via Bluefruit), so config readback there
+is gated on a separate "should nRF52840 expose a custom BLE
+service?" question that's out of scope here. The Connected-Pedal
+page Configuration row stays "—" for nRF52840-connected pedals.
 
 App-side:
 
@@ -33,18 +44,23 @@ App-side:
 
 ## Acceptance Criteria
 
-- [ ] Config readback works on both ESP32 and nRF52840 per the
-      option chosen in TASK-353.
+- [ ] Config readback works on **ESP32** via option (a) — existing
+      `CHAR_WRITE_UUID` exposes READ, returns the resident JSON.
 - [ ] App reads back exactly what was written for at least the
       example configs in `profiles/`.
-- [ ] nRF52840 RAM headroom is at or above the threshold documented
-      in TASK-353 — no regression beyond the budget.
+- [ ] ESP32 RAM regression is ≤ 16 KB (`MAX_CONFIG_BYTES`); document
+      the measured before/after via `pio run -e nodemcu-32s --target size`.
 - [ ] Connected-Pedal page Configuration row is no longer a
-      placeholder; Storage row renders something useful (size of
-      resident config / total budget), or stays "—" with a
-      one-line rationale committed in this task's Notes.
+      placeholder for ESP32-connected pedals; renders "—" for
+      nRF52840-connected pedals (deferred). Storage row renders
+      something useful (size of resident config / total budget),
+      or stays "—" with a one-line rationale committed in this
+      task's Notes.
 - [ ] On-device test verifies a round-trip (write → read → equal)
-      on at least one target.
+      on ESP32.
+- [ ] nRF52840 deferral is documented (one-line note in
+      Connected-Pedal page widget + a follow-up task scoped:
+      "expose custom BLE service on nRF52840?").
 
 ## Prerequisites
 

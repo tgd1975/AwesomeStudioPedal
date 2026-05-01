@@ -9,6 +9,7 @@ human-in-loop: Clarification
 epic: app-content-pages
 order: 12
 prerequisites: [TASK-353]
+decision_doc: docs/developers/BLE_READBACK_IMPACT.md
 ---
 
 ## Description
@@ -16,12 +17,18 @@ prerequisites: [TASK-353]
 Expose the firmware version over BLE so the Connected-Pedal page
 (TASK-336) can fill its currently-placeholdered Firmware row.
 
-What ships:
+What ships (per [BLE_READBACK_IMPACT.md §3.1](../../BLE_READBACK_IMPACT.md#31-firmware-version-read-characteristic--task-354)):
 
-- **Firmware-version read characteristic** — short string from
-  `include/version.h` (e.g. `"0.4.2 abcdef0"`). New UUID alongside
-  `kHwIdentityUuid`. Read-only, no security implications.
-- **DIS (0x180A)** — bundle or skip per the TASK-353 decision.
+- **ESP32**: new READ characteristic in `BleConfigService` at UUID
+  `516515c5-4b50-447b-8ca3-cbfce3f4d9f8`, value `FIRMWARE_VERSION`
+  from [include/version.h](../../../include/version.h).
+- **nRF52840**: standard **DIS (0x180A)** Device Information Service
+  via Bluefruit's bundled `BLEDis` library — Manufacturer, Model,
+  Firmware Revision. Bundled here because Bluefruit's BLEDis is a
+  4-line drop-in and nRF52840 has no custom service to host the
+  ESP32-style read char.
+- **DIS on ESP32**: skipped — would duplicate the firmware-version
+  string in a parallel service for no Connected-Pedal-page benefit.
 
 App-side:
 

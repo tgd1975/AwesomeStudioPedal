@@ -9,6 +9,7 @@ human-in-loop: Clarification
 epic: app-content-pages
 order: 14
 prerequisites: [TASK-353]
+decision_doc: docs/developers/BLE_READBACK_IMPACT.md
 ---
 
 ## Description
@@ -17,14 +18,21 @@ Add a small read+notify BLE characteristic that tracks the active
 profile index, so the app can reflect SELECT-button profile
 switches in real time without re-reading the whole config.
 
-What ships:
+**Platform scope: ESP32 only.** nRF52840 has no custom GATT
+service today and `Nrf52840PedalApp::saveProfile()` is a no-op
+(profile index doesn't persist across reboot — always boots to 0),
+so this characteristic is deferred on nRF52840 along with TASK-355.
+Full rationale in
+[BLE_READBACK_IMPACT.md §3.3](../../BLE_READBACK_IMPACT.md#33-active-profile-index-notify-characteristic--task-356).
 
-- Read+notify char with a single-byte payload (active profile
+What ships (ESP32):
+
+- Read+notify char at UUID `516515c6-4b50-447b-8ca3-cbfce3f4d9f8`
+  in `BleConfigService` with a single-byte payload (active profile
   index, 0..N-1).
 - Notification fires within one BLE connection-interval of the
-  profile actually changing in firmware. The hook lives at
-  whatever event boundary already exists for "active profile
-  changed" (the SELECT button's profile-switch handler).
+  profile actually changing in firmware. The hook lives in
+  `ProfileManager::switchProfile` / `setCurrentProfile`.
 
 App-side:
 
@@ -34,12 +42,15 @@ App-side:
 
 ## Acceptance Criteria
 
-- [ ] Read+notify characteristic exists on both ESP32 and nRF52840.
+- [ ] Read+notify characteristic exists on **ESP32** at UUID
+      `516515c6-…`. nRF52840 deferred (see Description).
 - [ ] Notification fires within one BLE connection-interval of a
       profile switch (verified via on-device test + observed
       timestamp delta).
 - [ ] App `BleService` exposes a stream of active-profile indices
-      that the rest of the app can `context.watch` against.
+      that the rest of the app can `context.watch` against, with a
+      no-op fallback on nRF52840-connected pedals (the platform
+      lacks the characteristic).
 - [ ] No new consumer UI is required for this task to land — it's
       infrastructure for whichever surface needs it next. The
       Connected-Pedal page's "current profile" row may pick this

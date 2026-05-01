@@ -1,9 +1,11 @@
 ---
 id: TASK-353
 title: Feasibility & impact analysis — firmware BLE readback surfaces
-status: open
+status: closed
+closed: 2026-05-01
 opened: 2026-05-01
 effort: Small (<2h)
+effort_actual: Small (<2h)
 complexity: Medium
 human-in-loop: Main
 epic: app-content-pages
