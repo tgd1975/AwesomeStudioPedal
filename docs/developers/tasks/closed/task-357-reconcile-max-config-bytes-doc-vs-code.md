@@ -1,9 +1,11 @@
 ---
 id: TASK-357
 title: Reconcile MAX_CONFIG_BYTES between BLE protocol doc and reassembler code
-status: open
+status: closed
+closed: 2026-05-01
 opened: 2026-05-01
 effort: XS (<30m)
+effort_actual: XS (<30m)
 complexity: Junior
 human-in-loop: Clarification
 epic: app-content-pages
@@ -25,10 +27,10 @@ This was flagged in [BLE_READBACK_IMPACT.md §6](../../BLE_READBACK_IMPACT.md#6-
 
 ## Acceptance Criteria
 
-- [ ] One canonical value chosen and documented as the single source of truth (recommend the `#define` in `ble_config_reassembler.h`).
-- [ ] [docs/developers/BLE_CONFIG_PROTOCOL.md](../../BLE_CONFIG_PROTOCOL.md) updated so its Constants table matches the code value, with a one-line note pointing the doc reader at the header file as authoritative.
-- [ ] If the canonical value is to be raised (32 KB), update the code `#define` and surface the resident-copy budget impact in [BLE_READBACK_IMPACT.md §3.2](../../BLE_READBACK_IMPACT.md#32-config-readback--task-355) so TASK-355 picks up the new threshold.
-- [ ] No new test work — existing `test/unit/test_ble_config_*` already exercise the boundary; verify they still pass with `make test-host`.
+- [x] One canonical value chosen and documented as the single source of truth (recommend the `#define` in `ble_config_reassembler.h`).
+- [x] [docs/developers/BLE_CONFIG_PROTOCOL.md](../../BLE_CONFIG_PROTOCOL.md) updated so its Constants table matches the code value, with a one-line note pointing the doc reader at the header file as authoritative.
+- [x] If the canonical value is to be raised (32 KB), update the code `#define` and surface the resident-copy budget impact in [BLE_READBACK_IMPACT.md §3.2](../../BLE_READBACK_IMPACT.md#32-config-readback--task-355) so TASK-355 picks up the new threshold. *(N/A — kept at 16 KB.)*
+- [x] No new test work — existing `test/unit/test_ble_config_*` already exercise the boundary; verify they still pass with `make test-host`. *(300 tests pass.)*
 
 ## Test Plan
 
