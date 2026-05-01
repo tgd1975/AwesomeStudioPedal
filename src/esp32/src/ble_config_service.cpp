@@ -6,6 +6,7 @@
 #include "ble_keyboard_adapter.h"
 #include "config.h"
 #include "file_system.h"
+#include "version.h"
 
 #include <Arduino.h>
 #include <NimBLEDevice.h>
@@ -20,6 +21,7 @@ static const char* CHAR_WRITE_UUID = "516515c1-4b50-447b-8ca3-cbfce3f4d9f8";
 static const char* CHAR_WRITE_HW_UUID = "516515c2-4b50-447b-8ca3-cbfce3f4d9f8";
 static const char* CHAR_STATUS_UUID = "516515c3-4b50-447b-8ca3-cbfce3f4d9f8";
 static const char* CHAR_HW_IDENTITY_UUID = "516515c4-4b50-447b-8ca3-cbfce3f4d9f8";
+static const char* CHAR_FIRMWARE_VERSION_UUID = "516515c5-4b50-447b-8ca3-cbfce3f4d9f8";
 
 static NimBLECharacteristic* statusChar_ = nullptr;
 static BleConfigReassembler* reassembler_ = nullptr;
@@ -81,6 +83,10 @@ static void setupGattService(BLEServer* pServer)
     // string contents. std::string has c_str()/length() so it takes the
     // string-specific overload. See TASK-235.
     hwChar->setValue(std::string(hardwareConfig.hardware));
+
+    NimBLECharacteristic* fwChar =
+        svc->createCharacteristic(CHAR_FIRMWARE_VERSION_UUID, NIMBLE_PROPERTY::READ);
+    fwChar->setValue(std::string(FIRMWARE_VERSION));
 
     svc->start();
     Serial.println("BleConfigService: GATT service registered");

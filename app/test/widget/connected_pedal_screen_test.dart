@@ -20,6 +20,7 @@ void main() {
     final ble = MockBleService();
     when(ble.isConnected).thenReturn(true);
     when(ble.readDeviceHardware()).thenAnswer((_) async => 'esp32');
+    when(ble.readDeviceFirmwareVersion()).thenAnswer((_) async => 'v0.4.1');
 
     await tester.pumpWidget(_wrap(ble));
     await tester.pumpAndSettle();
@@ -28,10 +29,45 @@ void main() {
     expect(find.text('esp32'), findsOneWidget);
   });
 
+  testWidgets('connected: firmware row reflects readDeviceFirmwareVersion',
+      (tester) async {
+    final ble = MockBleService();
+    when(ble.isConnected).thenReturn(true);
+    when(ble.readDeviceHardware()).thenAnswer((_) async => 'esp32');
+    when(ble.readDeviceFirmwareVersion()).thenAnswer((_) async => 'v0.4.1');
+
+    await tester.pumpWidget(_wrap(ble));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Firmware'), findsOneWidget);
+    expect(find.text('v0.4.1'), findsOneWidget);
+  });
+
+  testWidgets('connected nRF52840 (no firmware char): firmware row stays placeholder',
+      (tester) async {
+    final ble = MockBleService();
+    when(ble.isConnected).thenReturn(true);
+    when(ble.readDeviceHardware()).thenAnswer((_) async => 'nrf52840');
+    // Characteristic absent — readDeviceFirmwareVersion returns null.
+    when(ble.readDeviceFirmwareVersion()).thenAnswer((_) async => null);
+
+    await tester.pumpWidget(_wrap(ble));
+    await tester.pumpAndSettle();
+
+    expect(find.text('nrf52840'), findsOneWidget);
+    // Firmware row falls back to the placeholder tooltip alongside
+    // Configuration and Storage (3 placeholder rows total).
+    expect(
+      find.byTooltip('Available after firmware update'),
+      findsNWidgets(3),
+    );
+  });
+
   testWidgets('disconnected: shows banner and "—" rows', (tester) async {
     final ble = MockBleService();
     when(ble.isConnected).thenReturn(false);
     when(ble.readDeviceHardware()).thenAnswer((_) async => null);
+    when(ble.readDeviceFirmwareVersion()).thenAnswer((_) async => null);
 
     await tester.pumpWidget(_wrap(ble));
     await tester.pumpAndSettle();
@@ -47,6 +83,8 @@ void main() {
     final ble = MockBleService();
     when(ble.isConnected).thenReturn(true);
     when(ble.readDeviceHardware()).thenAnswer((_) async => 'esp32');
+    // No firmware char available — fall back to placeholder.
+    when(ble.readDeviceFirmwareVersion()).thenAnswer((_) async => null);
 
     await tester.pumpWidget(_wrap(ble));
     await tester.pumpAndSettle();

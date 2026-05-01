@@ -24,6 +24,10 @@ const String kConfigWriteHwUuid = '516515c2-4b50-447b-8ca3-cbfce3f4d9f8';
 const String kConfigStatusUuid = '516515c3-4b50-447b-8ca3-cbfce3f4d9f8';
 // Read-only: returns the board identity string ("esp32" / "nrf52840").
 const String kHwIdentityUuid = '516515c4-4b50-447b-8ca3-cbfce3f4d9f8';
+// Read-only: returns the canonical firmware version string from
+// include/version.h (e.g. "v0.4.1"). ESP32 only — nRF52840 has no custom
+// GATT service today (deferred to TASK-358).
+const String kFirmwareVersionUuid = '516515c5-4b50-447b-8ca3-cbfce3f4d9f8';
 
 // Wire ceiling for an uploaded config. Mirrors MAX_CONFIG_BYTES in
 // lib/PedalLogic/include/ble_config_reassembler.h — keep in sync. Pre-flight

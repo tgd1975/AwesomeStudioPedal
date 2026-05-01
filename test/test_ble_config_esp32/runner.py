@@ -281,6 +281,34 @@ async def run_tests(ser: serial.Serial) -> int:
         report("Persistence: profile survives reboot",
                ok4, f"before='{pre_name}', after='{post_name}'")
 
+    # ------------------------------------------------------------------
+    # Test 5 — Firmware version read characteristic (TASK-354)
+    # ------------------------------------------------------------------
+    print("\n[Test 5] Firmware version read →")
+    # Re-find the device — Test 4 reset it, and `device` may now be stale.
+    device3 = await find_pedal(timeout=BLE_SCAN_TIMEOUT)
+    if device3 is None:
+        report("Firmware version: reconnect for read", False,
+               "device not found")
+    else:
+        async with BleakClient(device3) as client:
+            # Give BlueZ time to complete service discovery before reading.
+            await asyncio.sleep(0.5)
+            try:
+                raw = await client.read_gatt_char(pedal_config.CHAR_FIRMWARE_VERSION_UUID)
+                version = raw.decode("utf-8", errors="replace").strip()
+            except Exception as exc:  # noqa: BLE001
+                report("Firmware version: read characteristic", False,
+                       f"read failed: {exc}")
+            else:
+                # Format: "vX.Y.Z" — match include/version.h's FIRMWARE_VERSION
+                # macro. The runner does not pin a specific version so the
+                # test does not need updating on every release bump; the
+                # shape is what we verify.
+                ok5 = bool(re.match(r"^v\d+\.\d+\.\d+", version))
+                report("Firmware version: read characteristic returns vX.Y.Z",
+                       ok5, f"got '{version}'")
+
     return 0
 
 

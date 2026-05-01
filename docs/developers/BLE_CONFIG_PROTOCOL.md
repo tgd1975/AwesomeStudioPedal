@@ -14,13 +14,17 @@ This is a randomly generated 128-bit UUID unique to this project.
 
 ## Characteristics
 
-| Characteristic     | Short name         | UUID                                   | Properties        |
-|--------------------|--------------------|----------------------------------------|-------------------|
-| Profile config     | `CONFIG_WRITE`     | `516515c1-4b50-447b-8ca3-cbfce3f4d9f8` | WRITE\_NO\_RESPONSE |
-| Hardware config    | `CONFIG_WRITE_HW`  | `516515c2-4b50-447b-8ca3-cbfce3f4d9f8` | WRITE\_NO\_RESPONSE |
-| Transfer status    | `CONFIG_STATUS`    | `516515c3-4b50-447b-8ca3-cbfce3f4d9f8` | NOTIFY            |
+| Characteristic     | Short name              | UUID                                   | Properties        |
+|--------------------|-------------------------|----------------------------------------|-------------------|
+| Profile config     | `CONFIG_WRITE`          | `516515c1-4b50-447b-8ca3-cbfce3f4d9f8` | WRITE\_NO\_RESPONSE |
+| Hardware config    | `CONFIG_WRITE_HW`       | `516515c2-4b50-447b-8ca3-cbfce3f4d9f8` | WRITE\_NO\_RESPONSE |
+| Transfer status    | `CONFIG_STATUS`         | `516515c3-4b50-447b-8ca3-cbfce3f4d9f8` | NOTIFY            |
+| Board identity     | `HW_IDENTITY`           | `516515c4-4b50-447b-8ca3-cbfce3f4d9f8` | READ              |
+| Firmware version   | `FIRMWARE_VERSION`      | `516515c5-4b50-447b-8ca3-cbfce3f4d9f8` | READ              |
 
 The UUID for each characteristic increments the last byte of the service UUID.
+
+`HW_IDENTITY` returns the board string from the active hardware config (`"esp32"` / `"nrf52840"`). `FIRMWARE_VERSION` returns the canonical project version string from [include/version.h](../../include/version.h) (e.g. `"v0.4.1"`). Both are ESP32-only today; the nRF52840 firmware does not yet expose a custom GATT service (see TASK-358).
 
 ## Chunked Write Protocol
 

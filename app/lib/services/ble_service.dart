@@ -16,6 +16,7 @@ class BleService extends ChangeNotifier {
   BluetoothCharacteristic? _writeHwChar;
   BluetoothCharacteristic? _statusChar;
   BluetoothCharacteristic? _hwIdentityChar;
+  BluetoothCharacteristic? _firmwareVersionChar;
   StreamSubscription<BluetoothConnectionState>? _connSub;
 
   bool _connected = false;
@@ -179,6 +180,7 @@ class BleService extends ChangeNotifier {
           _writeHwChar = null;
           _statusChar = null;
           _hwIdentityChar = null;
+          _firmwareVersionChar = null;
           notifyListeners();
         }
       });
@@ -195,6 +197,7 @@ class BleService extends ChangeNotifier {
         if (uuid == kConfigWriteHwUuid) _writeHwChar = c;
         if (uuid == kConfigStatusUuid) _statusChar = c;
         if (uuid == kHwIdentityUuid) _hwIdentityChar = c;
+        if (uuid == kFirmwareVersionUuid) _firmwareVersionChar = c;
       }
 
       if (_statusChar != null) {
@@ -218,6 +221,7 @@ class BleService extends ChangeNotifier {
     _writeHwChar = null;
     _statusChar = null;
     _hwIdentityChar = null;
+    _firmwareVersionChar = null;
     _connected = false;
     notifyListeners();
   }
@@ -235,6 +239,20 @@ class BleService extends ChangeNotifier {
     if (_hwIdentityChar == null) return null;
     try {
       final bytes = await _hwIdentityChar!.read();
+      return utf8.decode(bytes).trim();
+    } on FlutterBluePlusException {
+      return null;
+    }
+  }
+
+  /// Reads the firmware-version characteristic from the connected device.
+  /// Returns the version string (e.g. "v0.4.1"), or null if the
+  /// characteristic is unavailable (nRF52840-connected pedals, or old
+  /// ESP32 firmware that predates TASK-354).
+  Future<String?> readDeviceFirmwareVersion() async {
+    if (_firmwareVersionChar == null) return null;
+    try {
+      final bytes = await _firmwareVersionChar!.read();
       return utf8.decode(bytes).trim();
     } on FlutterBluePlusException {
       return null;
