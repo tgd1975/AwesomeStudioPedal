@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 16** | 🔵 **Active: 0** | 🟡 **Paused: 7** | 🟢 **Closed: 52** | **Total: 75** | ███████░░░ 69%
+⚪ **Open: 15** | 🔵 **Active: 1** | 🟡 **Paused: 7** | 🟢 **Closed: 52** | **Total: 75** | ███████░░░ 69%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -60,7 +60,9 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-357](active/task-357-reconcile-max-config-bytes-doc-vs-code.md) | Reconcile MAX_CONFIG_BYTES between BLE protocol doc and reassembler code | XS (&lt;30m) | Junior | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -93,7 +95,6 @@ _No active tasks._
 | [TASK-354](open/task-354-firmware-version-read-characteristic.md) | Firmware — expose firmware-version read characteristic (+ DIS 0x180A decision) | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-355](open/task-355-firmware-config-readback.md) | Firmware — config readback (option chosen in TASK-353) | Medium (2-8h) | Senior | ⚪ open |
 | [TASK-356](open/task-356-firmware-active-profile-notify.md) | Firmware — active-profile-index notify characteristic | Small (&lt;2h) | Medium | ⚪ open |
-| [TASK-357](open/task-357-reconcile-max-config-bytes-doc-vs-code.md) | Reconcile MAX_CONFIG_BYTES between BLE protocol doc and reassembler code | XS (&lt;30m) | Junior | ⚪ open |
 
 ## Closed Tasks
 

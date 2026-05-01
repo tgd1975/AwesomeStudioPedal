@@ -103,7 +103,7 @@ that is fine; the index reflects current on-disk state.
 (e.g. `open/task-NNN.md → active/task-NNN.md`). The pathspec list
 passed to `/commit` must include **both** the old and new paths;
 naming only the destination commits the addition but leaves the
-source-side deletion orphaned in the working tree as a ` D` entry.
+source-side deletion orphaned in the working tree as a `D` entry.
 This is the bug TASK-347 fixed end-to-end. The wrapper now accepts
 rename sources, but it can only commit the deletion side if you name
 it.

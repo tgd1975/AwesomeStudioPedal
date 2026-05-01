@@ -36,7 +36,7 @@ When `/ts-task-done` runs:
    `active/task-NNN.md`**. The commit only contains the addition.
 4. The deletion is left dangling in the working tree (file gone from
    disk, but HEAD still tracks it at the source path) and surfaces as
-   ` D` in subsequent `git status` runs.
+   `D` in subsequent `git status` runs.
 
 Concrete evidence — at session-start on 2026-04-30, the working tree
 showed:
@@ -92,7 +92,7 @@ path is named in the pathspec.
       check passes.
 - [ ] One-shot cleanup commit included in this task: stage and
       commit the existing orphan deletions in working tree (the
-      `active/task-*` and `open/task-*` ` D` entries for tasks that
+      `active/task-*` and `open/task-*` `D` entries for tasks that
       already exist in `closed/`). This proves the new flow works
       end-to-end on real history.
 
@@ -111,7 +111,7 @@ Python script-level tests only.
 **Smoke test**:
 
 - Activate / close a task and confirm `git status` is clean of
-  source-side ` D` entries afterwards.
+  source-side `D` entries afterwards.
 - Run `git log --diff-filter=D --name-only --since=<this-task>`
   and confirm rename source paths appear in the deletion list.
 

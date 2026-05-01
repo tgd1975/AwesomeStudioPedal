@@ -36,6 +36,6 @@ is fine; the index reflects current on-disk state.
 passed to `/commit` must include **both** the old (`closed/`) and
 new (`open/`) paths; naming only the destination commits the
 addition but leaves the source-side deletion orphaned in the working
-tree as a ` D` entry. This is the bug TASK-347 fixed end-to-end.
+tree as a `D` entry. This is the bug TASK-347 fixed end-to-end.
 The wrapper now accepts rename sources, but it can only commit the
 deletion side if you name it.

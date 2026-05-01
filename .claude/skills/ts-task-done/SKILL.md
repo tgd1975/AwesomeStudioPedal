@@ -75,7 +75,7 @@ Steps:
    The pathspec list must include **both** the source path and the
    destination path of the housekeep rename. Naming only the
    destination commits the addition but leaves the source-side
-   deletion orphaned in the working tree as a ` D` entry — this is
+   deletion orphaned in the working tree as a `D` entry — this is
    the exact bug TASK-347 fixed. Both paths must appear:
 
    - Source path of the rename — the file's old location, one of
