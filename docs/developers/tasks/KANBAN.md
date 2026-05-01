@@ -77,7 +77,7 @@ kanban
 
 ## logo-branding
 
-_⚪ 2 open · 🔵 1 active · 🟡 0 paused · 🟢 4 closed · ██████░░░░ 57%_
+_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 5 closed · ███████░░░ 71%_
 
 ```mermaid
 kanban
@@ -85,13 +85,13 @@ kanban
     TASK_343["Add GitHub social preview image"]
     TASK_344["Archive IDEA-049 after logo tasks shipped"]
   Active
-    TASK_345["Swap Android launcher icon to ASP mark"]
   Paused
   Closed
     TASK_339["Add ASP logo to web simulator header"]
     TASK_340["Add ASP logo to profile builder header"]
     TASK_341["Add ASP logo to configuration builder header"]
     TASK_342["Add ASP logo to mobile app AppBar"]
+    TASK_345["Swap Android launcher icon to ASP mark"]
 ```
 
 ## video-content

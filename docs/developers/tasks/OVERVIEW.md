@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 19** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 49** | **Total: 73** | ███████░░░ 67%
+⚪ **Open: 19** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 50** | **Total: 73** | ███████░░░ 68%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -60,9 +60,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-345](active/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) | Medium | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -143,6 +141,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-340](closed/task-340-add-asp-logo-to-profile-builder-header.md) | Add ASP logo to profile builder header | Small (&lt;2h) |
 | [TASK-341](closed/task-341-add-asp-logo-to-configuration-builder-header.md) | Add ASP logo to configuration builder header | Small (&lt;2h) |
 | [TASK-342](closed/task-342-add-asp-logo-to-mobile-app-appbar.md) | Add ASP logo to mobile app AppBar | Small (&lt;2h) |
+| [TASK-345](closed/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) |
 | [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (&lt;2h) |
 | [TASK-347](closed/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (&lt;2h) |
 | [TASK-348](closed/task-348-derive-clang-tidy-set-from-compile-commands.md) | Derive clang-tidy lint set from compile_commands.json | Small (&lt;2h) |
