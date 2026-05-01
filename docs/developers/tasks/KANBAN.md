@@ -110,13 +110,14 @@ kanban
 
 ## Other
 
-_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 16 closed · █████████░ 89%_
+_⚪ 3 open · 🔵 0 active · 🟡 0 paused · 🟢 16 closed · ████████░░ 84%_
 
 ```mermaid
 kanban
   Open
     TASK_148["Reorganise Developer Documentation"]
     TASK_352["Investigate pre-commit hook latency — reorganize, parallelize, or skip irrelevant checks"]
+    TASK_361["Lint platformio.ini in pre-commit and CI"]
   Active
   Paused
   Closed

@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 14** | 🔵 **Active: 1** | 🟡 **Paused: 7** | 🟢 **Closed: 53** | **Total: 75** | ███████░░░ 71%
+⚪ **Open: 15** | 🔵 **Active: 1** | 🟡 **Paused: 7** | 🟢 **Closed: 53** | **Total: 76** | ███████░░░ 70%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -94,6 +94,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-352](open/task-352-investigate-pre-commit-hook-latency.md) | Investigate pre-commit hook latency — reorganize, parallelize, or skip irrelevant checks | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-355](open/task-355-firmware-config-readback.md) | Firmware — config readback (option chosen in TASK-353) | Medium (2-8h) | Senior | ⚪ open |
 | [TASK-356](open/task-356-firmware-active-profile-notify.md) | Firmware — active-profile-index notify characteristic | Small (&lt;2h) | Medium | ⚪ open |
+| [TASK-361](open/task-361-lint-platformio-ini-pre-commit-and-ci.md) | Lint platformio.ini in pre-commit and CI | Small (&lt;2h) | Junior | ⚪ open |
 
 ## Closed Tasks
 
