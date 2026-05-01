@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 29** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 33** | **Total: 66** | █████░░░░░ 50%
+⚪ **Open: 28** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 33** | **Total: 66** | █████░░░░░ 50%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -23,7 +23,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30", "05-01"]
-    line [14, 29, 32]
+    line [14, 29, 33]
 ```
 
 </td><td>
@@ -41,8 +41,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30", "05-01"]
-    line [24.5, 54.75, 61.75]
-    line [12, 33, 36]
+    line [24.5, 54.75, 66.75]
+    line [12, 33, 37]
 ```
 
 </td></tr></table>
@@ -53,14 +53,16 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 | 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 1 | 2 |
-| 2026-05-01 | 3 | 32 | 7 | 61.8 | 3 | 36 | 1 | 3 |
+| 2026-05-01 | 4 | 33 | 12 | 66.8 | 4 | 37 | 1 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-350](active/task-350-display-unified-version-in-web-tooling.md) | Display unified version in web tooling (simulator + builders) | Small (&lt;2h) | Junior | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -103,7 +105,6 @@ _No active tasks._
 | [TASK-344](open/task-344-archive-idea-049-after-logo-tasks-shipped.md) | Archive IDEA-049 after logo tasks shipped | XS (&lt;30m) | Junior | ⚪ open |
 | [TASK-345](open/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-349](open/task-349-display-unified-version-in-mobile-app.md) | Display unified version in mobile app | Small (&lt;2h) | Junior | ⚪ open |
-| [TASK-350](open/task-350-display-unified-version-in-web-tooling.md) | Display unified version in web tooling (simulator + builders) | Small (&lt;2h) | Junior | ⚪ open |
 
 ## Closed Tasks
 

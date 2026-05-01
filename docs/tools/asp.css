@@ -329,3 +329,17 @@ html, body {
   padding: 16px;
   white-space: pre;
 }
+
+/* Version stamp — small unobtrusive vX.Y.Z in bottom-right corner.
+   Filled in by docs/tools/version.js on DOMContentLoaded. */
+.asp-version-stamp {
+  position: fixed;
+  right: 10px;
+  bottom: 8px;
+  font-family: var(--asp-font-mono);
+  font-size: 11px;
+  color: var(--asp-text-dim);
+  pointer-events: none;
+  user-select: none;
+  z-index: 100;
+}

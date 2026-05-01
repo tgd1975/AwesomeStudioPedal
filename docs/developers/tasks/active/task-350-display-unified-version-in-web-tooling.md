@@ -1,7 +1,7 @@
 ---
 id: TASK-350
 title: Display unified version in web tooling (simulator + builders)
-status: open
+status: active
 opened: 2026-05-01
 effort: Small (<2h)
 complexity: Junior

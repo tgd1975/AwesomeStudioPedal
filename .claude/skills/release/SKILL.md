@@ -39,6 +39,7 @@ Steps:
    | `package.json` | JSON `"version": "X.Y.Z"` | `X.Y.Z` (no v-prefix) |
    | `app/pubspec.yaml` | YAML `version: X.Y.Z+B` | `X.Y.Z+B` where `B = previous +B + 1` (monotonic; never reset) |
    | `awesome-task-system/VERSION` | plain text, single line | `X.Y.Z` (no v-prefix, newline-terminated) |
+   | `docs/tools/version.js` | JS literal `const ASP_VERSION = 'vX.Y.Z'` | `vX.Y.Z` (literal v-prefix) — drives the stamp shown in the simulator and both builders |
 
    **Build counter `+B`** in `pubspec.yaml`: read the current `+B`, increment by 1.
    This becomes the Android `versionCode`. Google Play requires it to be strictly
@@ -69,14 +70,21 @@ Steps:
    X.Y.Z
    ```
 
+   ```js
+   // docs/tools/version.js — bump the ASP_VERSION literal only
+   const ASP_VERSION = 'vX.Y.Z';
+   ```
+
    **CLI / simulator manifests**: TASK-260 anticipates a CLI and standalone simulator
    that do not exist yet. When they materialize, add their version-bearing files to
    this table (e.g. `cli/setup.py`, simulator `package.json`). The web simulator at
-   `docs/simulator/` is part of the docs site and has no separate version manifest.
+   `docs/simulator/` is part of the docs site; its displayed version comes from
+   `docs/tools/version.js` (already in the table above), not a separate manifest.
 
-   **Verify lockstep**: after the four edits, `grep -E '0\.[0-9]+\.[0-9]+' include/version.h package.json app/pubspec.yaml awesome-task-system/VERSION`
-   should show the new `X.Y.Z` (with the `+B` suffix on pubspec) in all four files.
-   If any one is missing, fix it before continuing.
+   **Verify lockstep**: after the five edits, `grep -E '0\.[0-9]+\.[0-9]+' include/version.h package.json app/pubspec.yaml awesome-task-system/VERSION docs/tools/version.js`
+   should show the new `X.Y.Z` (with the `+B` suffix on pubspec, with the `v`
+   prefix on `version.h` and `version.js`) in all five files. If any one is
+   missing, fix it before continuing.
 
 6. **Archive closed tasks**: move every flat `.md` file in `docs/developers/tasks/closed/`
    into `docs/developers/tasks/archive/vX.Y.Z/` using `git mv`. Tasks in `open/`,
@@ -169,7 +177,7 @@ Steps:
    the bypass is logged to `.git/asp-commit-bypass.log` for review:
 
    ```bash
-   git add include/version.h package.json app/pubspec.yaml awesome-task-system/VERSION
+   git add include/version.h package.json app/pubspec.yaml awesome-task-system/VERSION docs/tools/version.js
    ASP_COMMIT_BYPASS="release: version bump + archive + CHANGELOG" \
        git commit --no-verify -m "chore: bump version to vX.Y.Z, archive closed tasks, update CHANGELOG"
    ```

@@ -109,14 +109,14 @@ kanban
 
 ## Other
 
-_⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 15 closed · █████████░ 88%_
+_⚪ 1 open · 🔵 1 active · 🟡 0 paused · 🟢 15 closed · █████████░ 88%_
 
 ```mermaid
 kanban
   Open
     TASK_148["Reorganise Developer Documentation"]
-    TASK_350["Display unified version in web tooling (simulator + builders)"]
   Active
+    TASK_350["Display unified version in web tooling (simulator + builders)"]
   Paused
   Closed
     TASK_259["Android app test protocol — record device and Android version per test run"]
