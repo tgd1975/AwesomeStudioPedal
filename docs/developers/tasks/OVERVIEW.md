@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 17** | 🔵 **Active: 1** | 🟡 **Paused: 6** | 🟢 **Closed: 50** | **Total: 74** | ███████░░░ 68%
+⚪ **Open: 17** | 🔵 **Active: 0** | 🟡 **Paused: 7** | 🟢 **Closed: 50** | **Total: 74** | ███████░░░ 68%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -60,9 +60,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-343](active/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (&lt;2h) | Junior | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -72,6 +70,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-161](paused/task-161-publish-ios-app-store.md) | Publish app to Apple App Store | Large (8-24h) | High | 🟡 **paused** |
 | [TASK-226](paused/task-226-feature-test-cli-scan-two-pedals.md) | Feature Test — CLI scan with two pedals (S-04) | Small (&lt;2h) | Low | 🟡 **paused** |
 | [TASK-249](paused/task-249-nrf52840-pairing-pin-unwired.md) | nRF52840 pairing_pin is entirely unwired (security parity with ESP32) | Medium (2-8h) | Medium | 🟡 **paused** |
+| [TASK-343](paused/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (&lt;2h) | Junior | 🟡 **paused** |
 | [TASK-358](paused/task-358-nrf52840-ble-readback-surfaces.md) | nRF52840 BLE readback surfaces (firmware-version DIS + config readback + active-profile notify) | Large (8-24h) | Senior | 🟡 **paused** |
 | [TASK-359](paused/task-359-remove-nrf5-task-routing-skill.md) | Remove nrf5-task-routing skill once nRF52840 hardware is available | XS (&lt;30m) | Junior | 🟡 **paused** |
 

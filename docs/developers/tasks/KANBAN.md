@@ -76,15 +76,15 @@ kanban
 
 ## logo-branding
 
-_⚪ 1 open · 🔵 1 active · 🟡 0 paused · 🟢 5 closed · ███████░░░ 71%_
+_⚪ 1 open · 🔵 0 active · 🟡 1 paused · 🟢 5 closed · ███████░░░ 71%_
 
 ```mermaid
 kanban
   Open
     TASK_344["Archive IDEA-049 after logo tasks shipped"]
   Active
-    TASK_343["Add GitHub social preview image"]
   Paused
+    TASK_343["Add GitHub social preview image"]
   Closed
     TASK_339["Add ASP logo to web simulator header"]
     TASK_340["Add ASP logo to profile builder header"]

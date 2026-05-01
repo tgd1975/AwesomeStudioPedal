@@ -1,14 +1,14 @@
 ---
 id: TASK-358
 title: nRF52840 BLE readback surfaces (firmware-version DIS + config readback + active-profile notify)
-status: open
+status: paused
 opened: 2026-05-01
 effort: Large (8-24h)
 complexity: Senior
 human-in-loop: Clarification
-epic: app-content-pages
-order: 16
-prerequisites: [TASK-353, TASK-354, TASK-355, TASK-356]
+epic: nrf52840-blocked
+order: 2
+prerequisites: [TASK-353, TASK-354, TASK-355, TASK-356, TASK-359]
 decision_doc: docs/developers/BLE_READBACK_IMPACT.md
 ---
 
@@ -73,10 +73,14 @@ Kept whole as Large/Senior (rather than split into one task per surface) because
 
 If the spike runs longer than expected during activation, the task can be re-split *after* the infra lands — at that point each remaining char is genuinely independent.
 
+## Paused
+
+- 2026-05-01: Paused — no Adafruit Feather nRF52840 device is currently on hand. Every AC in this task requires on-device verification (BLE GATT registration, DIS round-trip, config write+read, active-profile notify timing), so execution is fully blocked on hardware acquisition. Resume with `/ts-task-active TASK-358` once a device is available **and** TASK-359 has closed (skill-removal must precede this task per the prerequisite chain).
+
 ## Notes
 
+- Originally belongs to feature epic `app-content-pages` by scope; routed to EPIC-025 nrf52840-blocked while nRF52840 hardware is unavailable. Once [TASK-359](task-359-remove-nrf5-task-routing-skill.md) closes, this task can be re-homed to `app-content-pages`.
 - Carved out of TASK-353's feasibility analysis. The original TASK-337 packaged ESP32+nRF52840 as flat per-deliverable cost; the [impact analysis](../../BLE_READBACK_IMPACT.md) found the asymmetry is dramatic, so the nRF52840 work is now its own bundle.
-- Hardware constraint flagged at TASK-353 close-time: no nRF52840 device available, so this task waits.
 - Bluefruit's `BLEDis` is a known-good library; the firmware-version surface is the lowest-risk piece. Sequence the spike to land DIS first as a smoke-test before tackling config write/read.
 - The protocol UUID family `516515cX-…` documented in [BLE_CONFIG_PROTOCOL.md](../../BLE_CONFIG_PROTOCOL.md#characteristics) is shared across both platforms. nRF52840 reuses ESP32's UUIDs so app-side discovery code stays platform-agnostic.
 - Test-infra side-effect: this task creates the first `test/test_ble_*_nrf52840/` directory. Pattern follows the ESP32 BLE test layout.
