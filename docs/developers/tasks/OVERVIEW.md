@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 22** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 41** | **Total: 67** | ██████░░░░ 61%
+⚪ **Open: 21** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 42** | **Total: 67** | ██████░░░░ 63%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -87,7 +87,6 @@ _No active tasks._
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (&lt;2h) | Small | ⚪ open |
 | [TASK-337](open/task-337-firmware-expose-version-config-active-profile.md) | Firmware — expose firmware version, readable config, active-profile notify (BLE) | Large (8-24h) | Senior | ⚪ open |
-| [TASK-338](open/task-338-add-hid-display-table-and-live-keystroke-page.md) | Add HID-usage display lookup table (generated) and Live-keystroke page | Large (8-24h) | Senior | ⚪ open |
 | [TASK-339](open/task-339-add-asp-logo-to-web-simulator-header.md) | Add ASP logo to web simulator header | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-340](open/task-340-add-asp-logo-to-profile-builder-header.md) | Add ASP logo to profile builder header | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-341](open/task-341-add-asp-logo-to-configuration-builder-header.md) | Add ASP logo to configuration builder header | Small (&lt;2h) | Junior | ⚪ open |
@@ -138,6 +137,7 @@ _No active tasks._
 | [TASK-334](closed/task-334-add-startup-splash-screen.md) | Add startup splash screen (Flutter + native) | Medium (2-8h) |
 | [TASK-335](closed/task-335-add-connection-status-strip-and-details-sheet.md) | Add connection status strip and details sheet | Medium (2-8h) |
 | [TASK-336](closed/task-336-add-connected-pedal-page-board-only.md) | Add Connected-Pedal page (board only; firmware/config sections placeholdered) | Medium (2-8h) |
+| [TASK-338](closed/task-338-add-hid-display-table-and-live-keystroke-page.md) | Add HID-usage display lookup table (generated) and Live-keystroke page | Medium (2-8h) |
 | [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (&lt;2h) |
 | [TASK-347](closed/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (&lt;2h) |
 | [TASK-348](closed/task-348-derive-clang-tidy-set-from-compile-commands.md) | Derive clang-tidy lint set from compile_commands.json | Small (&lt;2h) |

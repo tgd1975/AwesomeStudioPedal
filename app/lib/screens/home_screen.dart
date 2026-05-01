@@ -26,6 +26,10 @@ class HomeScreen extends StatelessWidget {
                 child: Text('What are profiles?'),
               ),
               PopupMenuItem(
+                value: '/live-keystrokes',
+                child: Text('Live keystrokes'),
+              ),
+              PopupMenuItem(
                 value: '/troubleshooting',
                 child: Text('Troubleshooting'),
               ),

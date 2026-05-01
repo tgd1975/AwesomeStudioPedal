@@ -15,6 +15,7 @@ import 'screens/independent_actions_screen.dart';
 import 'screens/info_about_screen.dart';
 import 'screens/json_preview_screen.dart';
 import 'screens/legal_screen.dart';
+import 'screens/live_keystroke_screen.dart';
 import 'screens/profile_editor_screen.dart';
 import 'screens/profile_list_screen.dart';
 import 'screens/profiles_explainer_screen.dart';
@@ -123,6 +124,11 @@ GoRouter _buildRouter() => GoRouter(
           path: '/connected-pedal',
           name: 'connected-pedal',
           builder: (_, __) => const ConnectedPedalScreen(),
+        ),
+        GoRoute(
+          path: '/live-keystrokes',
+          name: 'live-keystrokes',
+          builder: (_, __) => const LiveKeystrokeScreen(),
         ),
       ],
     );
