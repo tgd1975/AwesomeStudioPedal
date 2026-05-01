@@ -18,8 +18,10 @@ import 'screens/profile_editor_screen.dart';
 import 'screens/profile_list_screen.dart';
 import 'screens/profiles_explainer_screen.dart';
 import 'screens/scanner_screen.dart';
+import 'screens/splash_screen.dart';
 import 'screens/troubleshooting_screen.dart';
 import 'screens/upload_screen.dart';
+import 'services/app_info.dart';
 import 'services/first_run.dart';
 import 'theme/asp_theme.dart';
 
@@ -122,16 +124,27 @@ GoRouter _buildRouter() => GoRouter(
 class App extends StatefulWidget {
   const App({super.key});
 
+  /// Set to `true` from tests that don't want to wait through the splash.
+  static bool skipSplashForTesting = false;
+
   @override
   State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
   late final GoRouter _router = _buildRouter();
+  bool _splashDone = App.skipSplashForTesting;
+  late final Future<void> _initFuture;
 
   @override
   void initState() {
     super.initState();
+    _initFuture = AppInfo.load();
+  }
+
+  void _onSplashReady() {
+    if (!mounted) return;
+    setState(() => _splashDone = true);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (await firstRunGate.shouldAutoShowHowTo()) {
         unawaited(_router.push('/how-to?firstRun=1'));
@@ -147,6 +160,17 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_splashDone) {
+      return MaterialApp(
+        title: 'AwesomeStudioPedal',
+        theme: AspTheme.dark,
+        themeMode: ThemeMode.dark,
+        home: SplashScreen(
+          onReady: _onSplashReady,
+          initFuture: _initFuture,
+        ),
+      );
+    }
     return MaterialApp.router(
       title: 'AwesomeStudioPedal',
       routerConfig: _router,
