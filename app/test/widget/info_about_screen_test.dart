@@ -1,8 +1,26 @@
 import 'package:awesome_studio_pedal/screens/info_about_screen.dart';
 import 'package:awesome_studio_pedal/services/app_info.dart';
+import 'package:awesome_studio_pedal/services/ble_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
+
+@GenerateNiceMocks([MockSpec<BleService>()])
+import 'info_about_screen_test.mocks.dart';
+
+Widget _wrap(Widget child) {
+  final ble = MockBleService();
+  when(ble.isConnected).thenReturn(false);
+  when(ble.deviceName).thenReturn(null);
+  when(ble.deviceId).thenReturn(null);
+  return ChangeNotifierProvider<BleService>.value(
+    value: ble,
+    child: MaterialApp(home: child),
+  );
+}
 
 void main() {
   setUp(() {
@@ -17,7 +35,7 @@ void main() {
 
   testWidgets('renders version, pitch, license, and four external links',
       (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: InfoAboutScreen()));
+    await tester.pumpWidget(_wrap(const InfoAboutScreen()));
     await tester.pumpAndSettle();
 
     expect(find.text('About'), findsOneWidget);
@@ -36,7 +54,7 @@ void main() {
     await binding.setSurfaceSize(const Size(412, 915));
     addTearDown(() => binding.setSurfaceSize(null));
 
-    await tester.pumpWidget(const MaterialApp(home: InfoAboutScreen()));
+    await tester.pumpWidget(_wrap(const InfoAboutScreen()));
     await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);
@@ -58,7 +76,7 @@ void main() {
           .setMockMethodCallHandler(channel, null);
     });
 
-    await tester.pumpWidget(const MaterialApp(home: InfoAboutScreen()));
+    await tester.pumpWidget(_wrap(const InfoAboutScreen()));
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('GitHub repository'));

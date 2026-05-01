@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/app_info.dart';
+import '../services/ble_service.dart';
 import '../theme/asp_theme.dart';
+import '../widgets/connection_details_sheet.dart';
 import '../widgets/content_page_scaffold.dart';
 
 class InfoAboutScreen extends StatelessWidget {
@@ -17,7 +20,9 @@ class InfoAboutScreen extends StatelessWidget {
             if (appInfo == null) {
               return const Center(child: CircularProgressIndicator());
             }
-            return _InfoAboutContent(appInfo: appInfo);
+            return SingleChildScrollView(
+              child: _InfoAboutContent(appInfo: appInfo),
+            );
           },
         ),
       );
@@ -46,6 +51,8 @@ class _InfoAboutContent extends StatelessWidget {
         const SizedBox(height: 4),
         Text(appInfo.firmwareCompatibilityDisplay,
             style: textTheme.labelMedium),
+        const SizedBox(height: 12),
+        const _ConnectionSubsection(),
         const SizedBox(height: 24),
         const _LinksSection(),
         const SizedBox(height: 24),
@@ -54,6 +61,45 @@ class _InfoAboutContent extends StatelessWidget {
           style: textTheme.labelMedium,
         ),
       ],
+    );
+  }
+}
+
+class _ConnectionSubsection extends StatelessWidget {
+  const _ConnectionSubsection();
+
+  @override
+  Widget build(BuildContext context) {
+    final ble = context.watch<BleService>();
+    final textTheme = Theme.of(context).textTheme;
+    final connected = ble.isConnected;
+    return InkWell(
+      onTap: () => showConnectionDetailsSheet(context),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: [
+            const Icon(Icons.bluetooth, color: AspTokens.accent, size: 20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Connection', style: textTheme.bodyLarge),
+                  Text(
+                    connected
+                        ? '${ble.deviceName ?? 'Pedal'} · ${ble.deviceId ?? '—'}'
+                        : 'Not connected',
+                    style: textTheme.labelMedium,
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right,
+                size: 16, color: AspTokens.textMuted),
+          ],
+        ),
+      ),
     );
   }
 }
