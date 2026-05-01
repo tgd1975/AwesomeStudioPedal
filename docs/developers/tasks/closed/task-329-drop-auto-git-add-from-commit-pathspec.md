@@ -64,6 +64,7 @@ wrapper — this just enforces it by removing the silent fallback.
 **Host tests** (`make test-host`): no — bash wrapper change.
 
 **Script-level tests** (`python -m unittest scripts.tests.test_commit_provenance`):
+
 - New test cases:
   - Wrapper exits non-zero when given an untracked pathspec entry.
   - Wrapper succeeds with tracked-modified pathspec entries.
