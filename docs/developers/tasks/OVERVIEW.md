@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 17** | 🔵 **Active: 0** | 🟡 **Paused: 8** | 🟢 **Closed: 50** | **Total: 75** | ███████░░░ 67%
+⚪ **Open: 17** | 🔵 **Active: 0** | 🟡 **Paused: 7** | 🟢 **Closed: 51** | **Total: 75** | ███████░░░ 68%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -70,7 +70,6 @@ _No active tasks._
 | [TASK-161](paused/task-161-publish-ios-app-store.md) | Publish app to Apple App Store | Large (8-24h) | High | 🟡 **paused** |
 | [TASK-226](paused/task-226-feature-test-cli-scan-two-pedals.md) | Feature Test — CLI scan with two pedals (S-04) | Small (&lt;2h) | Low | 🟡 **paused** |
 | [TASK-249](paused/task-249-nrf52840-pairing-pin-unwired.md) | nRF52840 pairing_pin is entirely unwired (security parity with ESP32) | Medium (2-8h) | Medium | 🟡 **paused** |
-| [TASK-343](paused/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (&lt;2h) | Junior | 🟡 **paused** |
 | [TASK-358](paused/task-358-nrf52840-ble-readback-surfaces.md) | nRF52840 BLE readback surfaces (firmware-version DIS + config readback + active-profile notify) | Large (8-24h) | Senior | 🟡 **paused** |
 | [TASK-359](paused/task-359-remove-nrf5-task-routing-skill.md) | Remove nrf5-task-routing skill once nRF52840 hardware is available | XS (&lt;30m) | Junior | 🟡 **paused** |
 | [TASK-360](paused/task-360-nrf52840-esp32-parity-audit.md) | nRF52840 — verify functional parity with ESP32 across the codebase | Medium (2-8h) | Medium | 🟡 **paused** |
@@ -143,6 +142,7 @@ _No active tasks._
 | [TASK-340](closed/task-340-add-asp-logo-to-profile-builder-header.md) | Add ASP logo to profile builder header | Small (&lt;2h) |
 | [TASK-341](closed/task-341-add-asp-logo-to-configuration-builder-header.md) | Add ASP logo to configuration builder header | Small (&lt;2h) |
 | [TASK-342](closed/task-342-add-asp-logo-to-mobile-app-appbar.md) | Add ASP logo to mobile app AppBar | Small (&lt;2h) |
+| [TASK-343](closed/task-343-add-github-social-preview-image.md) | Add GitHub social preview image | Small (&lt;2h) |
 | [TASK-345](closed/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) |
 | [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (&lt;2h) |
 | [TASK-347](closed/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (&lt;2h) |
