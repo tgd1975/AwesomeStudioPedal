@@ -13,7 +13,24 @@ class HomeScreen extends StatelessWidget {
     final ble = context.watch<BleService>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AwesomeStudioPedal'),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/branding/asp-mark-512.png',
+              height: 32,
+              width: 32,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 12),
+            const Flexible(
+              child: Text(
+                'AwesomeStudioPedal',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
         actions: [
           PopupMenuButton<String>(
             tooltip: 'More',

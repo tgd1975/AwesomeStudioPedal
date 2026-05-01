@@ -1,7 +1,7 @@
 ---
 id: TASK-342
 title: Add ASP logo to mobile app AppBar
-status: open
+status: active
 opened: 2026-04-30
 effort: Small (<2h)
 complexity: Junior
