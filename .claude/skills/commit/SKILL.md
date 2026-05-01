@@ -37,26 +37,42 @@ keeps blast radius scoped to the single commit attempt.
 
 ## Steps
 
+> **These steps describe what *the skill body* (i.e. the agent acting
+> *as* the skill, after `/commit` is invoked) does — not preconditions
+> the caller must satisfy beforehand.** Callers pass `/commit "<msg>"
+> <files…>` with no manual `git add`, no index inspection, no working-
+> tree clean-up. Anything mentioned below — including staging untracked
+> entries — happens *inside* this skill's flow, not in front of it.
+
 1. **Validate input.** If the user passed no files, stop and ask which
    files belong to this commit. Never sweep with `-A` / `.` / `-u`.
    Per the project's "Parallel sessions — commit only your own work"
    rule, the file list must be explicit.
 
-2. **`git add` any untracked pathspec entries.** Pathspec form requires
-   every named file to be known to git. For each file in the pathspec
-   that does not yet exist in the index, run:
+2. **Stage any untracked pathspec entries** (this skill — *not* the
+   caller — performs this step). Pathspec form requires every named
+   file to be known to git. For each file in the pathspec that does
+   not yet exist in the index, the skill runs:
 
    ```bash
    git add -- <untracked-file>
    ```
 
-   This step is **mandatory** when needed and **not optional**: the
-   wrapper script rejects untracked pathspec entries with exit code 2
-   rather than auto-adding them. Auto-adding once existed in the
-   wrapper and was removed in TASK-329 because it masked parallel-
-   session races — a foreign-session commit could land the same path
-   between the wrapper's untracked check and its commit, producing two
-   commits that both "added" the file. Failing fast forces a refresh.
+   This is the **only** legitimate `git add` in the commit flow, and
+   it lives inside this skill. The wrapper script deliberately rejects
+   untracked pathspec entries with exit code 2 rather than auto-adding
+   them — auto-adding once existed in the wrapper and was removed in
+   TASK-329 because it masked parallel-session races (a foreign-session
+   commit could land the same path between the wrapper's untracked
+   check and its commit, producing two "added" commits). Failing fast
+   forces a refresh, and the skill is the one place that reads stderr,
+   re-checks state, and re-tries safely.
+
+   **Caller contract:** never `git add` before invoking this skill,
+   even "to be helpful". Pre-staging duplicates this step's work,
+   defeats the wrapper's untracked-detection signal, and mixes the
+   caller's intent with whatever foreign state the index already held.
+   Just pass the files; the skill handles the rest.
 
    Do **not** `git add` tracked files (modified or otherwise) — those
    are committed directly via the pathspec on the next step. Staging
@@ -69,7 +85,7 @@ keeps blast radius scoped to the single commit attempt.
      pathspec list. Naming only `B` makes git's temp-index build see
      `A` as still-present-in-HEAD and skip the deletion side, so the
      commit records an addition of `B` while leaving `A` orphaned in
-     the working tree as a ` D` entry. This is the bug TASK-347 fixed
+     the working tree as a `D` entry. This is the bug TASK-347 fixed
      end-to-end; the wrapper now accepts rename sources, but it can
      only commit the deletion side if you name it.
    - **Plain deletion (file removed from disk, with or without
@@ -108,10 +124,10 @@ keeps blast radius scoped to the single commit attempt.
    Do **not** call `git commit` directly — the pre-commit hook will
    reject it for missing the provenance token.
 
-3. **On hook success** — report the new commit's short hash + subject
+4. **On hook success** — report the new commit's short hash + subject
    (one line). Done.
 
-4. **On hook failure** — do **not** retry, do **not** add `--no-verify`
+5. **On hook failure** — do **not** retry, do **not** add `--no-verify`
    silently. Pathspec form leaves the real index untouched, so any
    foreign staged files from parallel sessions are still where they
    were before; do not "clean up" `git status` between failure and
@@ -134,7 +150,7 @@ keeps blast radius scoped to the single commit attempt.
      includes / imports / generated code), the answer is "yes, fix
      it" — do not bypass.
 
-5. **If all three checks pass**, present the standard message verbatim:
+6. **If all three checks pass**, present the standard message verbatim:
 
    > The pre-commit hook failed, but the failure is in `<file/check>`
    > which is unrelated to the files in this commit
@@ -152,9 +168,29 @@ keeps blast radius scoped to the single commit attempt.
 
    On refusal, stop — the user will fix the hook failure first.
 
-6. **If any of the three checks fails**, do **not** offer `--no-verify`.
+7. **If any of the three checks fails**, do **not** offer `--no-verify`.
    Report which check failed, surface the relevant hook output, and
    stop — the user diagnoses or fixes.
+
+## Caller anti-patterns
+
+These are the failure modes that motivated the actor-clarification at
+the top of `## Steps`. Recognise and avoid them — every one of them
+duplicates work the skill is about to do.
+
+- **Pre-staging untracked files with `git add` "to help".** The skill
+  does this in step 2; doing it externally defeats the wrapper's
+  untracked-detection signal and mixes caller intent with whatever
+  the index already held. Just pass the files.
+- **Inspecting / unstaging the index before invoking.** The wrapper
+  uses pathspec form, which builds a temp index from HEAD + the named
+  files; it does not read the real index for the commit content. The
+  real index's pre-state is irrelevant to what gets committed.
+- **Running `git add` after a hook failure to "clean up".** Pathspec
+  hook failures leave the real index untouched on purpose — that's
+  the parallel-session safety property. There is nothing to clean
+  up. Re-invoke `/commit` with the same arguments after fixing the
+  underlying cause, or follow step 6's three-check `--no-verify` flow.
 
 ## When NOT to use
 
