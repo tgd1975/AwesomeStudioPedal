@@ -1,7 +1,7 @@
 ---
 id: TASK-339
 title: Add ASP logo to web simulator header
-status: open
+status: active
 opened: 2026-04-30
 effort: Small (<2h)
 complexity: Junior

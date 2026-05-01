@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 23** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 44** | **Total: 71** | ██████░░░░ 62%
+⚪ **Open: 21** | 🔵 **Active: 2** | 🟡 **Paused: 4** | 🟢 **Closed: 44** | **Total: 71** | ██████░░░░ 62%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -23,7 +23,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30", "05-01"]
-    line [14, 29, 43]
+    line [14, 29, 44]
 ```
 
 </td><td>
@@ -41,8 +41,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30", "05-01"]
-    line [24.5, 54.75, 100.75]
-    line [12, 33, 58.25]
+    line [24.5, 54.75, 116.75]
+    line [12, 33, 58.5]
 ```
 
 </td></tr></table>
@@ -53,14 +53,17 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 | 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 1 | 2 |
-| 2026-05-01 | 14 | 43 | 46 | 100.8 | 25.2 | 58.2 | 1 | 3 |
+| 2026-05-01 | 15 | 44 | 62 | 116.8 | 25.5 | 58.5 | 1 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-339](active/task-339-add-asp-logo-to-web-simulator-header.md) | Add ASP logo to web simulator header | Small (&lt;2h) | Junior | 🔵 **active** |
+| [TASK-353](active/task-353-feasibility-firmware-ble-readback-surfaces.md) | Feasibility & impact analysis — firmware BLE readback surfaces | Small (&lt;2h) | Medium | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -86,7 +89,6 @@ _No active tasks._
 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | ⚪ open |
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (&lt;2h) | Small | ⚪ open |
-| [TASK-339](open/task-339-add-asp-logo-to-web-simulator-header.md) | Add ASP logo to web simulator header | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-340](open/task-340-add-asp-logo-to-profile-builder-header.md) | Add ASP logo to profile builder header | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-341](open/task-341-add-asp-logo-to-configuration-builder-header.md) | Add ASP logo to configuration builder header | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-342](open/task-342-add-asp-logo-to-mobile-app-appbar.md) | Add ASP logo to mobile app AppBar | Small (&lt;2h) | Junior | ⚪ open |
@@ -94,7 +96,6 @@ _No active tasks._
 | [TASK-344](open/task-344-archive-idea-049-after-logo-tasks-shipped.md) | Archive IDEA-049 after logo tasks shipped | XS (&lt;30m) | Junior | ⚪ open |
 | [TASK-345](open/task-345-swap-android-launcher-icon-to-asp-mark.md) | Swap Android launcher icon to ASP mark | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-352](open/task-352-investigate-pre-commit-hook-latency.md) | Investigate pre-commit hook latency — reorganize, parallelize, or skip irrelevant checks | Medium (2-8h) | Medium | ⚪ open |
-| [TASK-353](open/task-353-feasibility-firmware-ble-readback-surfaces.md) | Feasibility & impact analysis — firmware BLE readback surfaces | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-354](open/task-354-firmware-version-read-characteristic.md) | Firmware — expose firmware-version read characteristic (+ DIS 0x180A decision) | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-355](open/task-355-firmware-config-readback.md) | Firmware — config readback (option chosen in TASK-353) | Medium (2-8h) | Senior | ⚪ open |
 | [TASK-356](open/task-356-firmware-active-profile-notify.md) | Firmware — active-profile-index notify characteristic | Small (&lt;2h) | Medium | ⚪ open |
