@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 23** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 40** | **Total: 67** | ██████░░░░ 60%
+⚪ **Open: 22** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 41** | **Total: 67** | ██████░░░░ 61%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -23,7 +23,7 @@
 xychart-beta
     title "Cumulative tasks closed"
     x-axis ["04-29", "04-30", "05-01"]
-    line [14, 29, 39]
+    line [14, 29, 40]
 ```
 
 </td><td>
@@ -41,8 +41,8 @@ xychart-beta
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
     x-axis ["04-29", "04-30", "05-01"]
-    line [24.5, 54.75, 84.75]
-    line [12, 33, 51]
+    line [24.5, 54.75, 89.75]
+    line [12, 33, 52]
 ```
 
 </td></tr></table>
@@ -53,7 +53,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 | 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 1 | 2 |
-| 2026-05-01 | 10 | 39 | 30 | 84.8 | 18 | 51 | 1 | 3 |
+| 2026-05-01 | 11 | 40 | 35 | 89.8 | 19 | 52 | 1 | 3 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
@@ -86,7 +86,6 @@ _No active tasks._
 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | ⚪ open |
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (&lt;2h) | Small | ⚪ open |
-| [TASK-336](open/task-336-add-connected-pedal-page-board-only.md) | Add Connected-Pedal page (board only; firmware/config sections placeholdered) | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-337](open/task-337-firmware-expose-version-config-active-profile.md) | Firmware — expose firmware version, readable config, active-profile notify (BLE) | Large (8-24h) | Senior | ⚪ open |
 | [TASK-338](open/task-338-add-hid-display-table-and-live-keystroke-page.md) | Add HID-usage display lookup table (generated) and Live-keystroke page | Large (8-24h) | Senior | ⚪ open |
 | [TASK-339](open/task-339-add-asp-logo-to-web-simulator-header.md) | Add ASP logo to web simulator header | Small (&lt;2h) | Junior | ⚪ open |
@@ -138,6 +137,7 @@ _No active tasks._
 | [TASK-333](closed/task-333-add-profiles-troubleshooting-legal-pages.md) | Add Profiles explainer, Troubleshooting, and Legal pages | Medium (2-8h) |
 | [TASK-334](closed/task-334-add-startup-splash-screen.md) | Add startup splash screen (Flutter + native) | Medium (2-8h) |
 | [TASK-335](closed/task-335-add-connection-status-strip-and-details-sheet.md) | Add connection status strip and details sheet | Medium (2-8h) |
+| [TASK-336](closed/task-336-add-connected-pedal-page-board-only.md) | Add Connected-Pedal page (board only; firmware/config sections placeholdered) | Medium (2-8h) |
 | [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (&lt;2h) |
 | [TASK-347](closed/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (&lt;2h) |
 | [TASK-348](closed/task-348-derive-clang-tidy-set-from-compile-commands.md) | Derive clang-tidy lint set from compile_commands.json | Small (&lt;2h) |

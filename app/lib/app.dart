@@ -8,6 +8,7 @@ import 'models/hardware_config.dart';
 import 'models/profiles_state.dart';
 import 'screens/action_editor_screen.dart';
 import 'screens/community_profiles_screen.dart';
+import 'screens/connected_pedal_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/how_to_screen.dart';
 import 'screens/independent_actions_screen.dart';
@@ -117,6 +118,11 @@ GoRouter _buildRouter() => GoRouter(
           path: '/legal',
           name: 'legal',
           builder: (_, __) => const LegalScreen(),
+        ),
+        GoRoute(
+          path: '/connected-pedal',
+          name: 'connected-pedal',
+          builder: (_, __) => const ConnectedPedalScreen(),
         ),
       ],
     );

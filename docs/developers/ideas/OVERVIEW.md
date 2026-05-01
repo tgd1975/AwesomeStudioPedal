@@ -1,6 +1,6 @@
 # Ideas Overview
 
-**Open: 31** | **Archived: 21**
+**Open: 32** | **Archived: 21**
 
 Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until they are either converted into structured tasks or archived. Archived ideas are kept for history in [`archived/`](archived/). See [README.md](README.md) for the file-naming convention (one row per IDEA, sub-notes use the `idea-NNN.<sub-slug>.md` form).
 
@@ -39,6 +39,7 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-052](open/idea-052-app-localization.md) | 📱 apps | Localize the Flutter app — scaffold flutter_intl and translate content pages | Revisit localization once the EPIC-023 content pages stabilise; scaffold flutter_intl and translate at minimum the How-To and Troubleshooting pages. |
 | [IDEA-053](open/idea-053-context-sensitive-helper-system.md) | 📱 apps | Context-sensitive helper system across the Flutter app | Replace the static How-To page with a context-aware helper that surfaces the right guidance for the user's current state (no pedal paired, send failed, profile mismatch, etc.). |
 | [IDEA-054](open/idea-054-cross-version-app-firmware-compatibility-policy.md) | 🛠️ tooling | Cross-version app↔firmware compatibility — policy and verification | Decide how to handle the case where users run app vN with firmware vM (M ≠ N), and how to *prove* that combination works. Today we sidestep it by saying "same version only". |
+| [IDEA-055](open/idea-055-senior-designer-agent.md) | 🛠️ tooling | Senior Designer agent — audit app, web tools, and docs against the design style guide | A reviewer-persona agent (analogous to the senior architect / senior journalist) that checks visual artifacts for conformance to docs/design/. |
 
 ## Archived Ideas
 

@@ -39,7 +39,16 @@ class ConnectionDetailsSheet extends StatelessWidget {
             const _DetailRow(label: 'Firmware', value: '—'),
             const SizedBox(height: 8),
             const _DetailRow(label: 'Signal', value: '—'),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              icon: const Icon(Icons.developer_board),
+              label: const Text('View pedal details'),
+              onPressed: () {
+                Navigator.of(context).maybePop();
+                context.push('/connected-pedal');
+              },
+            ),
+            const SizedBox(height: 8),
             if (connected) ...[
               OutlinedButton.icon(
                 icon: const Icon(Icons.bluetooth_disabled),
