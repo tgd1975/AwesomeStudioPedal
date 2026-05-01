@@ -1,6 +1,6 @@
 # Ideas Overview
 
-**Open: 28** | **Archived: 21**
+**Open: 30** | **Archived: 21**
 
 Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until they are either converted into structured tasks or archived. Archived ideas are kept for history in [`archived/`](archived/). See [README.md](README.md) for the file-naming convention (one row per IDEA, sub-notes use the `idea-NNN.<sub-slug>.md` form).
 
@@ -36,6 +36,8 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-048](open/idea-048-off-the-shelf-pedalboard.md) | 🔧 hardware | Off-the-shelf pedalboard build — 2 pedals from mostly stock components | A 2-pedal board assembled from as many off-the-shelf parts as possible (enclosure, switches, jacks, hardware) — minimise custom fabrication. |
 | [IDEA-049](open/idea-049-logo-more-prominent.md) | 📱 apps | Make the logo more prominent across apps and tools | Use the project logo more consistently — especially in the simulator and the config builders, which currently have none. |
 | [IDEA-050](open/idea-050-version-auto-memory-via-awesome-task-system.md) | 🛠️ tooling | Version auto-memory via the awesome-task-system mirror pattern | Mirror Claude's auto-memory through awesome-task-system so memory edits become reviewable, versioned commits instead of out-of-repo files. |
+| [IDEA-052](open/idea-052-app-localization.md) | 📱 apps | Localize the Flutter app — scaffold flutter_intl and translate content pages | Revisit localization once the EPIC-023 content pages stabilise; scaffold flutter_intl and translate at minimum the How-To and Troubleshooting pages. |
+| [IDEA-053](open/idea-053-context-sensitive-helper-system.md) | 📱 apps | Context-sensitive helper system across the Flutter app | Replace the static How-To page with a context-aware helper that surfaces the right guidance for the user's current state (no pedal paired, send failed, profile mismatch, etc.). |
 
 ## Archived Ideas
 

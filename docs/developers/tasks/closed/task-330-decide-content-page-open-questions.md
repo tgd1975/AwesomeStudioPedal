@@ -1,9 +1,11 @@
 ---
 id: TASK-330
 title: Decide content-page open questions (source-of-truth, i18n, context-awareness, first-run)
-status: open
+status: closed
+closed: 2026-05-01
 opened: 2026-04-30
 effort: Small (<2h)
+effort_actual: Small (<2h)
 complexity: Medium
 human-in-loop: Main
 epic: app-content-pages
@@ -35,11 +37,21 @@ question. Subsequent tasks (TASK-331..TASK-338) reference this.
 
 ## Acceptance Criteria
 
-- [ ] All four questions answered with a one-line rationale each.
-- [ ] Decision document committed (or rationale appended to existing
+- [x] All four questions answered with a one-line rationale each.
+- [x] Decision document committed (or rationale appended to existing
       design doc) and linked from this task.
-- [ ] If localization is "scaffold from day one", a follow-up scaffolding
+- [x] If localization is "scaffold from day one", a follow-up scaffolding
       step is named (in this task or as a new prerequisite for TASK-331).
+      *(Resolved as English-only; deferred work captured in IDEA-052.)*
+
+## Decision
+
+See [APP_CONTENT_PAGES_DECISIONS.md](../../APP_CONTENT_PAGES_DECISIONS.md):
+
+1. **Content source of truth** — re-author per page in Dart strings (app-specific copy, not sourced from `docs/users/`).
+2. **Localization** — English only; revisit later via [IDEA-052](../../ideas/open/idea-052-app-localization.md).
+3. **How-To context-awareness** — static walkthrough; smart helper deferred to [IDEA-053](../../ideas/open/idea-053-context-sensitive-helper-system.md).
+4. **First-run flow** — auto-show How-To with one-tap "Got it, don't show again" dismiss.
 
 ## Test Plan
 

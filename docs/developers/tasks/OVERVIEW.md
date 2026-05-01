@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 29** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 34** | **Total: 67** | █████░░░░░ 51%
+⚪ **Open: 28** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 35** | **Total: 67** | █████░░░░░ 52%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -86,7 +86,6 @@ _No active tasks._
 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | ⚪ open |
 | [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (&lt;2h) | Small | ⚪ open |
-| [TASK-330](open/task-330-decide-content-page-open-questions.md) | Decide content-page open questions (source-of-truth, i18n, context-awareness, first-run) | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-331](open/task-331-add-info-about-page.md) | Add Info/About page to the Flutter app | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-332](open/task-332-add-howto-quickstart-page.md) | Add How-To quickstart page (3–5 steps) | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-333](open/task-333-add-profiles-troubleshooting-legal-pages.md) | Add Profiles explainer, Troubleshooting, and Legal pages | Medium (2-8h) | Junior | ⚪ open |
@@ -138,6 +137,7 @@ _No active tasks._
 | [TASK-327](closed/task-327-decide-partial-hunk-policy.md) | Decide partial-hunk policy — unsupported, or /commit --partial escape hatch | Small (&lt;2h) |
 | [TASK-328](closed/task-328-prevent-parallel-housekeep-execution.md) | Prevent parallel execution of housekeep.py (and audit sibling scripts) | Small (&lt;2h) |
 | [TASK-329](closed/task-329-drop-auto-git-add-from-commit-pathspec.md) | Drop auto-git-add for untracked files from commit-pathspec.sh | Small (&lt;2h) |
+| [TASK-330](closed/task-330-decide-content-page-open-questions.md) | Decide content-page open questions (source-of-truth, i18n, context-awareness, first-run) | Small (&lt;2h) |
 | [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (&lt;2h) |
 | [TASK-347](closed/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (&lt;2h) |
 | [TASK-348](closed/task-348-derive-clang-tidy-set-from-compile-commands.md) | Derive clang-tidy lint set from compile_commands.json | Small (&lt;2h) |

@@ -6,7 +6,7 @@ status: open
 opened: 2026-04-30
 closed:
 assigned:
-branch: feature/app-content-pages
+branch: feature/config-extensions
 ---
 
 # App content pages and connection visibility
