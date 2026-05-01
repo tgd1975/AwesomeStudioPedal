@@ -38,6 +38,6 @@ mark navigates to the GitHub repo.
 
 ## Notes
 
-- Asset source: `docs/design/handoff/logo/asp-mark.svg`.
+- **Design conformance is the law.** Use [`docs/design/handoff/logo/asp-mark.svg`](../../../../docs/design/handoff/logo/asp-mark.svg) verbatim — no redraw, recolour, or simplification (handoff README non-negotiable #6). The intended header treatment is shown in [`docs/design/ASP-design-review.html`](../../../../docs/design/ASP-design-review.html); see the EPIC-024 "Design authority" section for the full rule set.
 - Use `convert` (ImageMagick) or an online SVG → ICO tool for the favicon — verify the tool is installed before scripting it; if not, ask.
 - Header markup lives in [docs/simulator/index.html](docs/simulator/index.html); shared styles in [docs/simulator/styles.css](docs/simulator/styles.css).

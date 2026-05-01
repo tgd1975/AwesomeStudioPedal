@@ -36,4 +36,4 @@ renders, favicon shows, and the link works.
 ## Notes
 
 - Shared header CSS lives in [docs/tools/asp.css](docs/tools/asp.css) (`.asp-header`). Editing the shared rule may also affect TASK-341 (configuration builder); coordinate or duplicate per-tool selectors as needed.
-- Asset source: `docs/design/handoff/logo/asp-mark.svg`.
+- **Design conformance is the law.** Use [`docs/design/handoff/logo/asp-mark.svg`](../../../../docs/design/handoff/logo/asp-mark.svg) verbatim — no redraw, recolour, or simplification (handoff README non-negotiable #6). The intended header treatment is shown in [`docs/design/ASP-design-review.html`](../../../../docs/design/ASP-design-review.html); see the EPIC-024 "Design authority" section for the full rule set.

@@ -37,4 +37,4 @@ no layout regressions occur on smaller screen widths.
 
 - Flutter SVG support requires `flutter_svg`; if not already a dependency, prefer rasterising the mark to PNG at 1×/2×/3× and shipping those, since the mark is small.
 - App entry: [app/lib/screens/home_screen.dart](app/lib/screens/home_screen.dart).
-- Asset source: `docs/design/handoff/logo/asp-mark.svg`.
+- **Design conformance is the law.** Use [`docs/design/handoff/logo/asp-mark.svg`](../../../../docs/design/handoff/logo/asp-mark.svg) verbatim — no redraw, recolour, or simplification (handoff README non-negotiable #6). The AppBar mock in [`docs/design/ASP-design-review.html`](../../../../docs/design/ASP-design-review.html) shows the exact size, spacing, and mark/title pairing — match it. The Flutter theme in [`docs/design/handoff/flutter/asp_theme.dart`](../../../../docs/design/handoff/flutter/asp_theme.dart) is the source for AppBar colours and typography. See EPIC-024 "Design authority" for the full rule set.

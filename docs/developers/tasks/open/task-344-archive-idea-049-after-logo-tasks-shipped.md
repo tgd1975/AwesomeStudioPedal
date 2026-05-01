@@ -40,4 +40,4 @@ No automated tests required — administrative housekeeping only.
 ## Notes
 
 - Source idea: [docs/developers/ideas/open/idea-049-logo-more-prominent.md](docs/developers/ideas/open/idea-049-logo-more-prominent.md).
-- "Redesigning the logo" and "building a brand guide" are explicitly out of scope per IDEA-049; do not expand here.
+- "Redesigning the logo" and "building a brand guide" are explicitly out of scope per IDEA-049; do not expand here. The brand guide already exists at [`docs/design/`](../../../../docs/design/) and is the law for the prerequisite tasks — see EPIC-024 "Design authority". This task is administrative only.

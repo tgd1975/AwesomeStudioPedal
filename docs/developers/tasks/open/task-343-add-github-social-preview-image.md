@@ -38,4 +38,4 @@ uploads to GitHub Settings, paste the repo URL into the same validator.
 ## Notes
 
 - The GitHub Settings upload step requires repo admin access via the web UI; the agent should pause on the final AC and ask the user to do that step.
-- Asset source: `docs/design/handoff/logo/asp-mark.svg`.
+- **Design conformance is the law.** Compose the 1280×640 from the canonical assets in [`docs/design/handoff/logo/`](../../../../docs/design/handoff/logo/) — most likely [`asp-lockup.svg`](../../../../docs/design/handoff/logo/asp-lockup.svg) (mark + wordmark horizontal) on the system background colour. Do not redraw, recolour, or simplify the mark or wordmark (handoff README non-negotiables #5 and #6). Background and spacing should follow [`docs/design/ASP-design-review.html`](../../../../docs/design/ASP-design-review.html); colours come from [`docs/design/handoff/tokens.css`](../../../../docs/design/handoff/tokens.css). See EPIC-024 "Design authority" for the full rule set.
