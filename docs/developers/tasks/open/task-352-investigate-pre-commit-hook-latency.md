@@ -32,7 +32,7 @@ Wall-clock for a docs-only commit is noticeably long. The chain is
 that touch the relevant files — but it currently has no notion of
 "this commit can't possibly affect that check, so skip it".
 
-Three axes worth examining (not pre-commitments — the task is to
+Two axes worth examining (not pre-commitments — the task is to
 measure, then choose):
 
 1. **Per-file-type gating.** Skip clang-format / clang-tidy / host
@@ -42,24 +42,39 @@ measure, then choose):
 2. **Parallelization.** Independent checks (markdownlint, JSON
    schema, secret scan, devcontainer) could run concurrently. The
    sequential ordering today is convenient, not required.
-3. **Phase split.** Fast checks (lint, format, sync) run pre-commit;
-   slow checks (host tests, clang-tidy on full file set) move to
-   pre-push or CI-only, with an explicit fall-through for local
-   "I want the full suite" runs.
+
+**Explicitly out of scope: phase-split (move slow checks to pre-push
+or CI-only).** The pre-commit hook's value comes from catching
+problems while the authoring session still has context — the
+recent task-system mirror sync work (TASK-351 lint-clean by
+construction, TASK-347 rename/deletion handling) earned its keep
+because divergence was caught at commit time, not minutes-to-hours
+later in CI. CI feedback arrives in a different session, often
+unobserved, by which point a parallel-session race or a broken
+commit may already be in `main`. Phase-split assumes "CI failures
+are noticed promptly", which this project's own recent incident
+history shows is the assumption that breaks. Both candidate
+directions above keep every check in pre-commit; they only make
+irrelevant ones cheap (gating) and independent ones concurrent
+(parallelization).
 
 The output of this task is **not** an implementation. It is a measured
 breakdown of where the time goes plus a recommendation on which axis
-(or combination) to pursue, written up so a follow-up implementation
-task can scope cleanly.
+(or combination of the two above) to pursue, written up so a
+follow-up implementation task can scope cleanly.
 
 ## Acceptance Criteria
 
 - [ ] A timing profile of the pre-commit hook for at least three commit
       shapes: docs-only, C++-only, mixed. Each phase named and timed.
+      Profile on **both Linux and Windows (Git Bash / MSYS2)**, since
+      this project is developed on both and any chosen solution must
+      work on both — see CLAUDE.md "OS context".
 - [ ] A short written analysis (in the task body or a linked doc)
       identifying the top 2–3 latency contributors and proposing a
-      preferred direction (per-file gating, parallelization, phase
-      split, or a combination), with rationale.
+      preferred direction (per-file gating, parallelization, or a
+      combination), with rationale. Phase-split is out of scope — see
+      Description.
 - [ ] A follow-up implementation task (or tasks) scaffolded with
       `/ts-task-new` capturing the chosen direction, sized
       appropriately. This task itself does not implement.
@@ -87,6 +102,16 @@ implementation task lands and confirm the headline figure improved.
   edits files that the post-housekeep re-lint then reads).
   Dependency graph the chain before parallelizing — naive `&` will
   produce flaky failures.
+- **Cross-platform constraint (load-bearing).** This project is
+  developed on Linux **and** Windows 11 (Git Bash / MSYS2) — see
+  CLAUDE.md "OS context". Any solution must work on both. This
+  matters most for parallelization: bash `&` + `wait` works on
+  Linux but is fragile on Git Bash (signal handling, subshell
+  stdio interleaving), and any tool spawned in parallel must
+  exist and behave the same on both. Per-file-type gating is
+  largely platform-agnostic (it's just early-exit logic), so the
+  cross-platform burden falls almost entirely on the
+  parallelization axis. Factor that into the recommendation.
 - Per-file-type gating is the lowest-risk, highest-value lever
   based on the current chain shape, but confirm with measurements
   before committing to that direction.
