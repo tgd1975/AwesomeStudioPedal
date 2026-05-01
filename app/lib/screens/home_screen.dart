@@ -20,6 +20,15 @@ class HomeScreen extends StatelessWidget {
             onSelected: (value) => context.push(value),
             itemBuilder: (_) => const [
               PopupMenuItem(value: '/how-to', child: Text('How to use')),
+              PopupMenuItem(
+                value: '/profiles-explainer',
+                child: Text('What are profiles?'),
+              ),
+              PopupMenuItem(
+                value: '/troubleshooting',
+                child: Text('Troubleshooting'),
+              ),
+              PopupMenuItem(value: '/legal', child: Text('Legal')),
               PopupMenuItem(value: '/info', child: Text('About')),
             ],
           ),

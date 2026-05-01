@@ -13,9 +13,12 @@ import 'screens/how_to_screen.dart';
 import 'screens/independent_actions_screen.dart';
 import 'screens/info_about_screen.dart';
 import 'screens/json_preview_screen.dart';
+import 'screens/legal_screen.dart';
 import 'screens/profile_editor_screen.dart';
 import 'screens/profile_list_screen.dart';
+import 'screens/profiles_explainer_screen.dart';
 import 'screens/scanner_screen.dart';
+import 'screens/troubleshooting_screen.dart';
 import 'screens/upload_screen.dart';
 import 'services/first_run.dart';
 import 'theme/asp_theme.dart';
@@ -97,6 +100,21 @@ GoRouter _buildRouter() => GoRouter(
             final firstRun = state.uri.queryParameters['firstRun'] == '1';
             return HowToScreen(firstRun: firstRun);
           },
+        ),
+        GoRoute(
+          path: '/profiles-explainer',
+          name: 'profiles-explainer',
+          builder: (_, __) => const ProfilesExplainerScreen(),
+        ),
+        GoRoute(
+          path: '/troubleshooting',
+          name: 'troubleshooting',
+          builder: (_, __) => const TroubleshootingScreen(),
+        ),
+        GoRoute(
+          path: '/legal',
+          name: 'legal',
+          builder: (_, __) => const LegalScreen(),
         ),
       ],
     );
