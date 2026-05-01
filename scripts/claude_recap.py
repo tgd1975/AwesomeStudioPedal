@@ -252,11 +252,21 @@ to report". If overall there is nothing actionable, write a single line
 "No actionable findings." under the dated heading.
 
 PERMISSIONS
-You are running non-interactively. If you hit a permission denial for a tool
-you need (e.g. reading a transcript), DO NOT retry — instead add a section
-titled `### Missing permissions` listing the exact `Bash(...)` patterns that
-should be added to .claude/settings.json, then stop. Do not attempt to edit
-settings.json yourself.
+You are running non-interactively. If you hit a permission denial for any tool
+— including Edit/Write on .claude-recap.md, Read on a transcript, or any
+Bash(...) command — DO NOT retry. Instead add a section titled
+`### Missing permissions` listing the exact permission rule strings that
+should be added to .claude/settings.json (e.g. `Bash(rg *)`,
+`Edit(.claude-recap.md)`, `Write(.claude-recap.md)`, `Read(/some/path)`),
+then stop. Do not attempt to edit settings.json yourself.
+
+If Edit/Write on .claude-recap.md is denied specifically, you cannot append
+your findings to the file. Emit the full intended .claude-recap.md update as
+plain output (so it lands in the recap log) AND emit the
+`### Missing permissions` section naming `Edit(.claude-recap.md)` and
+`Write(.claude-recap.md)` as the rules to add. Do not write a partial summary
+to the log without naming the missing rules — the user needs to know which
+allow-list entry to add.
 
 Be terse. Total output to .claude-recap.md should be well under 200 lines
 even on a busy week. The summaries are already small — read them directly,
