@@ -1,9 +1,11 @@
 ---
 id: TASK-344
 title: Archive IDEA-049 after logo tasks shipped
-status: open
+status: closed
+closed: 2026-05-01
 opened: 2026-04-30
 effort: XS (<30m)
+effort_actual: XS (<30m)
 complexity: Junior
 human-in-loop: No
 epic: logo-branding

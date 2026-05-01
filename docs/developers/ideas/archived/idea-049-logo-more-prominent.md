@@ -5,6 +5,12 @@ category: apps
 description: Use the project logo more consistently — especially in the simulator and the config builders, which currently have none.
 ---
 
+## Archive Reason
+
+2026-05-01 — Shipped via EPIC-024 logo-branding (TASK-339, TASK-340,
+TASK-341, TASK-342, TASK-343, TASK-345). All concrete rollout decisions
+identified in this idea are now in production.
+
 # Make the logo more prominent across apps and tools
 
 The project logo is underused. Some surfaces show it, others don't, and the
