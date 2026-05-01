@@ -1,6 +1,6 @@
 # Ideas Overview
 
-**Open: 29** | **Archived: 20**
+**Open: 28** | **Archived: 21**
 
 Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until they are either converted into structured tasks or archived. Archived ideas are kept for history in [`archived/`](archived/). See [README.md](README.md) for the file-naming convention (one row per IDEA, sub-notes use the `idea-NNN.<sub-slug>.md` form).
 
@@ -30,7 +30,6 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-034](open/idea-034-test-regime-reevaluation.md) | 🛠️ tooling | Test Regime Reevaluation — minimize human-in-the-loop after IDEA-028 | After the IDEA-028 HAL refactoring lands, do a thorough reevaluation of the entire test regime — close gaps, drop deprecated/duplicate tests, and minimize human-in-the-loop coverage (e.g. BLE is now testable headlessly). |
 | [IDEA-035](open/idea-035-multi-user-task-docs-as-code.md) | 🛠️ tooling | Multi-User Workflow for Docs-as-Code Task System | How to evolve the docs-as-code task and idea system from "single user, current branch is the truth" to "two or more people working in parallel branches" without losing the things that make the current system pleasant. |
 | [IDEA-038](open/idea-038-comprehensive-review-framework.md) | 📖 docs | Comprehensive code & architecture review framework — define the dimensions | Iteratively define what "thorough review" means for this project — clarity, testability, documentation, usefulness, no dead-ends, extendability — into an actionable rubric. |
-| [IDEA-039](open/idea-039-raw-hid-value-space-decision.md) | ⚡ firmware | Action Editor "Key (raw HID)" — pick a value space (USB Usage IDs vs firmware-internal codes) and align app, firmware, and docs | Decide whether the "Key (raw HID)" numeric value is the standard USB HID Usage ID (e.g. 0x28 = Enter) or the firmware-internal NicoHood/BleKeyboard code (e.g. 0xB0 = Enter), then align the app field, firmware parser, schema, and docs to a single answer. |
 | [IDEA-042](open/idea-042-one-click-profile-contribution-from-app.md) | 📱 apps | One-click profile contribution from the app to the community profiles repository | A near-frictionless "Share this profile" flow inside the mobile app and web tools that submits a user's profile to the community repo for maintainer review — no Git, no fork, no PR knowledge required. |
 | [IDEA-046](open/idea-046-ble-config-cpp-copy-loop-investigation.md) | ⚡ firmware | Investigate the ble_config_service.cpp copy loop — possible build-system smell |  |
 | [IDEA-047](open/idea-047-device-resource-arbiter.md) | 🛠️ tooling | Device-resource arbiter for parallel test sessions | Mutual-exclusion lock around scarce hardware (ESP32, nRF52840, Pixel) so two parallel agent sessions can't grab the same device simultaneously, with self-recovery from hangs and crashes. |
@@ -58,6 +57,7 @@ Ideas are lightweight, qualitative proposals tracked in [`open/`](open/) until t
 | [IDEA-028](archived/idea-028-hardware-abstraction-layer.md) | ⚡ firmware | Hardware Abstraction Layer — replace #ifdef soup with a platform class hierarchy |
 | [IDEA-030](archived/idea-030-epic-suggested-branch-soft-enforcement.md) | 🛠️ tooling | Epic-Suggested Branch with Soft Enforcement |
 | [IDEA-037](archived/idea-037-app-content-pages.md) | 📱 apps | App content pages — Info/About, How-To, and supporting screens |
+| [IDEA-039](archived/idea-039-raw-hid-value-space-decision.md) | ⚡ firmware | Action Editor "Key (raw HID)" — pick a value space (USB Usage IDs vs firmware-internal codes) and align app, firmware, and docs |
 | [IDEA-043](archived/idea-043-coordinated-task-system-rollout.md) | 🛠️ tooling | Coordinated task-system rollout — burn-up dashboard, post-hoc effort, paused status, and awesome-task-system carve-out |
 | [IDEA-044](archived/idea-044-action-editor-value-field-resets-on-type-change.md) | 📱 apps | Action Editor value field clears (or contextualises) when Action Type changes |
 | [IDEA-045](archived/idea-045-validation-banner-revalidates-on-action-edit.md) | 📱 apps | Validation banner revalidates when an action is edited (not only when profile count changes) |

@@ -2,8 +2,12 @@
 id: IDEA-039
 title: Action Editor "Key (raw HID)" — pick a value space (USB Usage IDs vs firmware-internal codes) and align app, firmware, and docs
 category: firmware
-description: Decide whether the "Key (raw HID)" numeric value is the standard USB HID Usage ID (e.g. 0x28 = Enter) or the firmware-internal NicoHood/BleKeyboard code (e.g. 0xB0 = Enter), then align the app field, firmware parser, schema, and docs to a single answer.
+description: Decide whether the "Key (raw HID)" numeric value is the standard USB HID Usage ID (e.g. 0x28 = Enter) or the firmware-internal byte the BleKeyboard library expects (e.g. 0xB0 = Enter), then align the app field, firmware parser, schema, and docs to a single answer.
 ---
+
+## Archive Reason
+
+2026-05-01 — Solution looking for a problem — no real user demand.
 
 # "Key (raw HID)" value space — USB HID Usage IDs vs firmware-internal codes
 
@@ -23,10 +27,13 @@ ambiguous:
 | USB HID specification (Usage Page 0x07, Usage IDs) | Keyboard `Return (Enter)` |
 | This firmware's `i_ble_keyboard.h` constants | An unmapped value (between `0x00` and the modifier range that starts at `0x80`) |
 
-The firmware uses NicoHood's BleKeyboard scheme: modifiers at `0x80`+,
-function/special keys at `0xB0`+/`0xC0`+/etc. So `KEY_RETURN = 0xB0`
-in this codebase, **not** `0x28`. The internally-shifted scheme is what
-gets fed to `bleKeyboard->write(uint8_t)` in `SendKeyAction::send()`.
+The firmware's `i_ble_keyboard.h` defines its own byte layout:
+modifiers at `0x80`+, function/special keys at `0xB0`+/`0xC0`+/etc.
+So `KEY_RETURN = 0xB0` in this codebase, **not** `0x28`. That
+internally-shifted byte is what gets fed to
+`bleKeyboard->write(uint8_t)` in `SendKeyAction::send()`. (The byte
+layout matches what the upstream BleKeyboard Arduino library expects —
+that's why it exists, not because we picked it.)
 
 Concretely, today:
 
@@ -118,9 +125,10 @@ TASK to drop the option from the picker.
 
 ## Out of scope
 
-- Re-deriving the NicoHood mapping table — that is a known table; if
-  Option B is picked, copy it from a single source (the BleKeyboard
-  library or USB HID Usage Tables 1.21).
+- Re-deriving the firmware-internal mapping table — it already exists
+  in `i_ble_keyboard.h`; if Option B is picked, the USB-Usage-ID →
+  firmware-internal translation can be sourced from the BleKeyboard
+  library headers or USB HID Usage Tables 1.21 directly.
 - Whether "Key (named)" and "Key (raw HID)" should ever be merged
   into one input — that was deferred in TASK-257 already and is a
   separate UX question.
