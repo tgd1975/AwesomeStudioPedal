@@ -1,7 +1,7 @@
 ---
 id: TASK-345
 title: Swap Android launcher icon to ASP mark
-status: open
+status: active
 opened: 2026-04-30
 effort: Medium (2-8h)
 complexity: Medium
