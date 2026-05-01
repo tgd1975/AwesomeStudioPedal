@@ -11,7 +11,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ble = context.watch<BleService>();
     return Scaffold(
-      appBar: AppBar(title: const Text('AwesomeStudioPedal')),
+      appBar: AppBar(
+        title: const Text('AwesomeStudioPedal'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'About',
+            onPressed: () => context.push('/info'),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
