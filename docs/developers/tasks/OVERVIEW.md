@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 20** | 🔵 **Active: 1** | 🟡 **Paused: 4** | 🟢 **Closed: 46** | **Total: 71** | ██████░░░░ 65%
+⚪ **Open: 20** | 🔵 **Active: 0** | 🟡 **Paused: 4** | 🟢 **Closed: 47** | **Total: 71** | ███████░░░ 66%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -60,9 +60,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-340](active/task-340-add-asp-logo-to-profile-builder-header.md) | Add ASP logo to profile builder header | Small (&lt;2h) | Junior | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -141,6 +139,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-337](closed/task-337-firmware-expose-version-config-active-profile.md) | Firmware — expose firmware version, readable config, active-profile notify (BLE) [SPLIT] | Large (8-24h) |
 | [TASK-338](closed/task-338-add-hid-display-table-and-live-keystroke-page.md) | Add HID-usage display lookup table (generated) and Live-keystroke page | Medium (2-8h) |
 | [TASK-339](closed/task-339-add-asp-logo-to-web-simulator-header.md) | Add ASP logo to web simulator header | Small (&lt;2h) |
+| [TASK-340](closed/task-340-add-asp-logo-to-profile-builder-header.md) | Add ASP logo to profile builder header | Small (&lt;2h) |
 | [TASK-346](closed/task-346-content-sensitive-precommit-checks.md) | Make pre-commit C++ and app checks content-sensitive | Small (&lt;2h) |
 | [TASK-347](closed/task-347-fix-commit-rename-and-deletion-handling.md) | Fix /commit + commit-pathspec.sh to handle deletions and renames (orphan-deletion bug) | Small (&lt;2h) |
 | [TASK-348](closed/task-348-derive-clang-tidy-set-from-compile-commands.md) | Derive clang-tidy lint set from compile_commands.json | Small (&lt;2h) |
