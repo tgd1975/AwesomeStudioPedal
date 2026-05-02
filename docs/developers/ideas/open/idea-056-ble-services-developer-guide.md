@@ -12,12 +12,15 @@ category: 📖 docs
 BLE work in this project is currently scattered across several places:
 
 - The firmware-side service code (`src/esp32/`, `src/ble_pedal_app.cpp`).
-- The protocol/byte-format docs under `docs/developers/`.
+- Three existing BLE docs that overlap in places and are silent in others:
+  - [BLE_CONFIG_PROTOCOL.md](../../BLE_CONFIG_PROTOCOL.md)
+  - [BLE_CONFIG_IMPLEMENTATION_NOTES.md](../../BLE_CONFIG_IMPLEMENTATION_NOTES.md)
+  - [BLE_READBACK_IMPACT.md](../../BLE_READBACK_IMPACT.md)
 - The host/app-side code that consumes characteristics.
 - The on-device and host tests.
-- A long tail of decisions, gotchas, and "why did we do it that way" rationale that lives only in commit messages, closed tasks, and Claude Code chat history.
+- A long tail of decisions, gotchas, and "why did we do it that way" rationale that lives only in commit messages and closed-task postmortems.
 
-When a service or characteristic is added or changed (most recently TASK-354 / TASK-357 around firmware-version exposure and `MAX_CONFIG_BYTES` reconciliation), there is no single document a developer can read first. This means:
+When a service or characteristic is added or changed (most recently TASK-357 around `MAX_CONFIG_BYTES` reconciliation, and TASK-354 firmware-version exposure — currently blocked and re-homed to EPIC-026), there is no single document a developer can read first. This means:
 
 - The same questions get re-answered ("what UUID convention do we use?", "READ vs NOTIFY?", "where does the byte-layout doc live?", "what test layers must be touched?").
 - Easy-to-miss steps (updating the protocol doc, the reassembler header, the host parser, the BLE README, the on-device test) are missed.
@@ -33,33 +36,57 @@ A single authoritative developer guide — somewhere under `docs/developers/` �
 - The gotchas: known platform quirks (ESP32 NimBLE vs Bluefruit), MTU negotiation, pairing/bonding behaviour, parallel-session test interference.
 - Pointers to the relevant tests on each layer (host fakes, on-device, app integration).
 
+## Canonical vs derived — split before drafting
+
+The biggest drift risk is the per-service catalog (UUIDs, characteristics, lengths). Apply the awesome-task-system "canonical source vs generated artifact" lens (see CLAUDE.md):
+
+- **Hand-written, durable**: recipe, conventions, gotchas, references. These rarely change and benefit from human prose.
+- **Generated, derived**: the service/characteristic catalog. Ideally produced from a YAML manifest the firmware also consumes, or extracted from the firmware code, so the guide cannot disagree with what the device actually advertises.
+
+This split needs to be decided **before drafting** — not at review time. A hand-rolled catalog will rot within a couple of release cycles.
+
+## Decide consolidation up front
+
+The three existing BLE docs already cover parts of this surface. Before drafting, decide for each:
+
+| Doc | Keep / fold into guide / replace? |
+|---|---|
+| `BLE_CONFIG_PROTOCOL.md` | ? |
+| `BLE_CONFIG_IMPLEMENTATION_NOTES.md` | ? |
+| `BLE_READBACK_IMPACT.md` | ? |
+
+Otherwise the new guide either duplicates content (drift in two places) or sits next to them as a fourth file with no clear precedence.
+
 ## Inputs to draw on
 
-- **Codebase** — current BLE service code, the protocol docs, the host parsers, the test files. This is the source of truth for what *is*.
-- **Claude Code chat history** — recent BLE tasks (TASK-354, TASK-357, EPIC-? BLE-config work, IDEA-046 around the copy loop) contain the rationale that never made it into a committed doc. Worth mining for "why" content.
-- **Internet / external references** — Bluetooth SIG conventions, NimBLE and Bluefruit documentation, common pitfalls. Cite, don't copy.
+- **Codebase** — current BLE service code, the three existing BLE docs above, the host parsers, the test files. Source of truth for what *is*.
+- **Closed-task postmortems and commit messages** — recent BLE tasks (TASK-357, the EPIC-026 cluster, IDEA-046 around the copy loop) carry the rationale that never made it into a committed doc. Durable, version-controlled, mineable. (Chat history is per-session and not reliably retrievable — don't depend on it.)
+- **External references** — Bluetooth SIG conventions, NimBLE and Bluefruit documentation. Cite, don't copy.
 
-## Stretch — make a skill aware of it
+## Success criterion
 
-A skill (e.g. `ble-implementation` or an extension to an existing one) should know the guide exists and surface it whenever a developer is about to touch BLE code:
+One concrete fail-condition, picked before promoting to a task. Candidates:
 
-- Triggered by edits under `src/esp32/` BLE files, `src/host/.../ble_*`, the protocol doc, or new BLE tests.
-- Output: "Before changing BLE behaviour, read `docs/developers/BLE_SERVICES_GUIDE.md` — checklist of files/tests/docs to touch."
-- Optional: a skill-side checklist that mirrors the guide's recipe section, so the developer can tick items off.
+- A new dev can add a characteristic to an existing service following only the guide, without asking questions.
+- The next BLE-touching task references the guide in its description and checks off its recipe items.
+- The guide's recipe checklist catches at least one of the missed-step classes that TASK-354 / TASK-357 historically missed (e.g. "host parser updated but on-device test not extended").
+
+## Out of scope for this idea
+
+To keep the idea shippable, these are deferred:
+
+- A new `ble-implementation` skill that triggers on BLE-file edits — promote to a follow-on idea once the guide exists and a checklist has settled.
+- A CI / pre-commit staleness check (warn when BLE code changes without touching the guide) — bring back only if drift actually bites.
 
 ## Open questions
 
 - Where should the guide live? `docs/developers/BLE_SERVICES_GUIDE.md`, or a folder with sub-pages per service?
-- Should the per-service catalog (UUIDs, characteristics) be hand-written in the guide, or generated from the firmware code / a YAML manifest? The latter avoids drift but is more infrastructure.
-- Is this one doc, or two — a *recipe* for changing services and a *reference* listing the current ones? (They have different update cadences.)
-- Which existing skill should be extended vs creating a new one? `ble-reset` is for pairing recovery, not implementation; a new skill might be cleaner.
-- How do we keep the guide from going stale? CI check that BLE code changes touch the guide? Pre-commit nudge? Or accept that authoritative ≠ exhaustive and rely on review.
-- Worth consolidating with or replacing parts of the existing protocol docs, or purely additive?
+- Is this one doc, or two — a *recipe* for changing services and a *reference* listing the current ones? They have different update cadences and different generated/hand-written profiles.
 
 ## Rough first cut
 
-1. Survey what's already documented (protocol docs, READMEs, header comments) and inventory the gaps.
-2. Draft the guide as a single file with sections: *Service catalog*, *Recipe: add/change a service*, *Conventions*, *Gotchas*, *Tests*, *References*.
-3. Mine recent BLE-related closed tasks and chat history for rationale that belongs in *Gotchas* or *Conventions*.
-4. Decide on the skill integration — at minimum, a SKILL.md that points at the guide and lists the recipe checklist inline.
-5. Add a lightweight staleness check (touched-BLE-without-touching-guide warning) only if it proves necessary.
+1. Inventory the three existing BLE docs and answer the consolidation table above.
+2. Decide canonical-vs-derived for the service catalog (YAML manifest, code extraction, or hand-written with accepted drift).
+3. Draft the guide as a single file with sections: *Service catalog*, *Recipe: add/change a service*, *Conventions*, *Gotchas*, *Tests*, *References*.
+4. Mine recent BLE-related closed tasks and commits for rationale that belongs in *Gotchas* or *Conventions*.
+5. Pick one success criterion from the list above and verify against it before closing the resulting task.
