@@ -33,6 +33,7 @@ A single authoritative developer guide — somewhere under `docs/developers/` �
 - Which services and characteristics exist today, with UUIDs and a one-line purpose each (or a pointer to the canonical list).
 - The end-to-end recipe for adding or changing a service/characteristic: every file that must change, every test layer that must be touched, every doc that must be updated.
 - The conventions: UUID assignment, READ/WRITE/NOTIFY choice, payload framing, max-size constants, version handling, error semantics.
+- A **cross-cutting invariants** table — for each constant or convention that spans layers (e.g. `MAX_CONFIG_BYTES`, MTU floor, endianness, version negotiation), the full list of files that must change together when it changes. This is the section that exists specifically to stop the next TASK-357.
 - The gotchas: known platform quirks (ESP32 NimBLE vs Bluefruit), MTU negotiation, pairing/bonding behaviour, parallel-session test interference.
 - Pointers to the relevant tests on each layer (host fakes, on-device, app integration).
 
@@ -87,6 +88,7 @@ To keep the idea shippable, these are deferred:
 
 1. Inventory the three existing BLE docs and answer the consolidation table above.
 2. Decide canonical-vs-derived for the service catalog (YAML manifest, code extraction, or hand-written with accepted drift).
-3. Draft the guide as a single file with sections: *Service catalog*, *Recipe: add/change a service*, *Conventions*, *Gotchas*, *Tests*, *References*.
-4. Mine recent BLE-related closed tasks and commits for rationale that belongs in *Gotchas* or *Conventions*.
-5. Pick one success criterion from the list above and verify against it before closing the resulting task.
+3. Draft the guide as a single file with sections: *Service catalog*, *Recipe: add/change a service*, *Conventions*, *Cross-cutting invariants*, *Gotchas*, *Tests*, *References*.
+4. **Walk one real example end-to-end before generalising** — EPIC-026's first characteristic (e.g. the firmware-version READ for TASK-354) is the natural one. The recipe section earns its keep only if it is provably sufficient to add that characteristic without grepping or asking. Generalise *after* the worked example exists, not before.
+5. Mine recent BLE-related closed tasks and commits for rationale that belongs in *Gotchas*, *Conventions*, or the invariants table.
+6. Pick one success criterion from the list above and verify against it before closing the resulting task.
