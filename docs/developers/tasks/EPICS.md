@@ -53,7 +53,7 @@ graph TD
 |-------|----|-------|--------|--------|
 | 2 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | ⚪ _open_ | Large (8-24h) |
 | 3 | [TASK-363](open/task-363-thin-out-release-skill.md) | Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts | ⚪ _open_ | Small (&lt;2h) |
-| 1 | [TASK-179](active/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | 🔵 **active** | Small (&lt;2h) |
+| 1 | [TASK-179](active/task-179-determine-android-app-release.md) | Add the Android app to the GitHub release pipeline | 🔵 **active** | Medium (2-8h) |
 
 ## EPIC-014: End-to-end feature tests
 

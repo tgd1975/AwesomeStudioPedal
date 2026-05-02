@@ -14,7 +14,7 @@ kanban
     TASK_160["Publish app to Google Play Store"]
     TASK_363["Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts"]
   Active
-    TASK_179["Determine how to add the Android app to the release on GitHub"]
+    TASK_179["Add the Android app to the GitHub release pipeline"]
   Paused
   Closed
 ```

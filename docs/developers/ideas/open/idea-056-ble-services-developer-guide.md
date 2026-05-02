@@ -23,7 +23,7 @@ BLE work in this project is currently scattered across several places:
 When a service or characteristic is added or changed (most recently TASK-357 around `MAX_CONFIG_BYTES` reconciliation, and TASK-354 firmware-version exposure — currently blocked and re-homed to EPIC-026), there is no single document a developer can read first. This means:
 
 - The same questions get re-answered ("what UUID convention do we use?", "READ vs NOTIFY?", "where does the byte-layout doc live?", "what test layers must be touched?").
-- Easy-to-miss steps (updating the protocol doc, the reassembler header, the host parser, the BLE README, the on-device test) are missed.
+- Easy-to-miss steps (updating the protocol doc, the reassembler header, the host parser, any BLE-specific documentation that touches the changed surface, the on-device test) are missed.
 - Cross-cutting invariants (max payload sizes, MTU assumptions, endianness, version negotiation) are rediscovered rather than referenced.
 
 ## Goal
@@ -69,7 +69,7 @@ One concrete fail-condition, picked before promoting to a task. Candidates:
 
 - A new dev can add a characteristic to an existing service following only the guide, without asking questions.
 - The next BLE-touching task references the guide in its description and checks off its recipe items.
-- The guide's recipe checklist catches at least one of the missed-step classes that TASK-354 / TASK-357 historically missed (e.g. "host parser updated but on-device test not extended").
+- The guide's recipe checklist catches at least one of the missed-step classes that doc/code reconciliation work like TASK-357 has historically surfaced (e.g. "host parser updated but on-device test not extended").
 
 ## Out of scope for this idea
 
@@ -81,7 +81,7 @@ To keep the idea shippable, these are deferred:
 ## Open questions
 
 - Where should the guide live? `docs/developers/BLE_SERVICES_GUIDE.md`, or a folder with sub-pages per service?
-- Is this one doc, or two — a *recipe* for changing services and a *reference* listing the current ones? They have different update cadences and different generated/hand-written profiles.
+- If the catalog is generated (per *Canonical vs derived*), does it live as a separate file alongside the guide, or as a generated section inside the single guide file?
 
 ## Rough first cut
 

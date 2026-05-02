@@ -62,7 +62,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | ID | Title | Effort | Complexity | Status |
 |----|-------|--------|------------|--------|
-| [TASK-179](active/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | 🔵 **active** |
+| [TASK-179](active/task-179-determine-android-app-release.md) | Add the Android app to the GitHub release pipeline | Medium (2-8h) | Junior | 🔵 **active** |
 
 ## Paused Tasks
 
