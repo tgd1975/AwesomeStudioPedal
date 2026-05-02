@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 16** | 🔵 **Active: 0** | 🟡 **Paused: 7** | 🟢 **Closed: 53** | **Total: 76** | ███████░░░ 70%
+⚪ **Open: 17** | 🔵 **Active: 1** | 🟡 **Paused: 7** | 🟢 **Closed: 53** | **Total: 78** | ███████░░░ 68%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -32,7 +32,7 @@ xychart-beta
 xychart-beta
     title "Cumulative epics closed"
     x-axis ["04-29", "04-30", "05-01"]
-    line [1, 2, 4]
+    line [1, 2, 5]
 ```
 
 </td><td>
@@ -53,14 +53,16 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 |------|-------------:|-----------:|-------:|------------:|---------:|--------------:|-------------:|-----------:|
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 | 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 1 | 2 |
-| 2026-05-01 | 24 | 53 | 73.5 | 128.2 | 32.2 | 65.2 | 2 | 4 |
+| 2026-05-01 | 24 | 53 | 73.5 | 128.2 | 32.2 | 65.2 | 3 | 5 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
 
 ## Active Tasks
 
-_No active tasks._
+| ID | Title | Effort | Complexity | Status |
+|----|-------|--------|------------|--------|
+| [TASK-179](active/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | 🔵 **active** |
 
 ## Paused Tasks
 
@@ -87,13 +89,14 @@ _No active tasks._
 | [TASK-049](open/task-049-setup-video-platform-channel.md) | Setup video platform channel | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-148](open/task-148-reorganise-developer-documentation.md) | Reorganise Developer Documentation | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-160](open/task-160-publish-android-play-store.md) | Publish app to Google Play Store | Large (8-24h) | Medium | ⚪ open |
-| [TASK-179](open/task-179-determine-android-app-release.md) | Determine how to add the Android app to the release on GitHub | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-248](open/task-248-ble-pairing-test-windows-fallback.md) | BLE pairing test — Windows manual fallback (and macOS if a host appears) | Small (&lt;2h) | Small | ⚪ open |
 | [TASK-352](open/task-352-investigate-pre-commit-hook-latency.md) | Investigate pre-commit hook latency — reorganize, parallelize, or skip irrelevant checks | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-354](open/task-354-firmware-version-read-characteristic.md) | Firmware — expose firmware-version read characteristic (+ DIS 0x180A decision) | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-355](open/task-355-firmware-config-readback.md) | Firmware — config readback (option chosen in TASK-353) | Medium (2-8h) | Senior | ⚪ open |
 | [TASK-356](open/task-356-firmware-active-profile-notify.md) | Firmware — active-profile-index notify characteristic | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-361](open/task-361-lint-platformio-ini-pre-commit-and-ci.md) | Lint platformio.ini in pre-commit and CI | Small (&lt;2h) | Junior | ⚪ open |
+| [TASK-362](open/task-362-require-ci-pass-before-merge-to-main.md) | Require all CI checks to pass before merging to main | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-363](open/task-363-thin-out-release-skill.md) | Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts | Small (&lt;2h) | Junior | ⚪ open |
 
 ## Closed Tasks
 
