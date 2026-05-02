@@ -466,14 +466,74 @@ if echo "$STAGED_FILES" | grep -qE '^\.devcontainer/\.env$'; then
     exit 1
 fi
 
-# Scan staged file contents for common secret patterns
-SECRET_PATTERNS='(AKIA[0-9A-Z]{16}|ghp_[0-9a-zA-Z]{36}|sk-[a-zA-Z0-9]{32,}|-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----|password\s*=\s*["\x27][^"\x27]{4,}|api[_-]?key\s*=\s*["\x27][^"\x27]{8,})'
+# ---------------------------------------------------------------------------
+# Secret-pattern scan (TASK-179 hardening)
+# ---------------------------------------------------------------------------
+# The check has three pieces:
+#
+#   1. HARD_SECRET_PATTERNS — high-entropy / format-specific tokens that are
+#      never legitimate in source (AWS keys, GitHub PATs, OpenAI keys, PEM
+#      private keys, inline api-key literals). No allowlist applies; any
+#      match fails the commit.
+#
+#   2. PASSWORD_PATTERNS — covers TWO failure modes:
+#         a) literal:  password\s*=\s*"<4+ chars>"
+#         b) dodge:    password\s*=\s*<bare identifier>
+#
+#      The dodge pattern exists because option B in the TASK-179 commit
+#      conversation (refactor `storePassword = "android"` into
+#      `storePassword = ANDROID_DEBUG_PWD` with the literal hidden one
+#      line up) would otherwise sail through the literal check while
+#      committing the same string. Idiomatic credential reads inline the
+#      env / property lookup (`System.getenv("X")`, `props.getProperty("X")`)
+#      and contain dots / parens / brackets — so they do NOT match the
+#      bare-identifier pattern, while a "constant aliasing" dodge does.
+#      If a legitimate code path needs a password from a local variable,
+#      either inline the read or add a narrow allowlist entry below with
+#      a justifying comment.
+#
+#   3. PASSWORD_ALLOWLIST — exactly ONE accepted exception to the literal
+#      pattern: `password = "android"` (case-insensitive on the
+#      `*password` variable name). Rationale: `"android"` is the publicly
+#      documented password of the Android debug keystore (see
+#      https://developer.android.com/studio/publish/app-signing#debug-mode).
+#      We commit a stable debug keystore at app/android/keystores/debug.keystore
+#      so all CI and local APK builds sign with the same key, letting
+#      sideload users upgrade in place. The "secret" here carries zero
+#      actual security value — it's a public convention.
+#
+#      Do NOT broaden this allowlist. Any other literal password — even if
+#      the project owner believes it's "non-secret" — must either be moved
+#      out of source (env / properties file) or motivate a separate, equally
+#      narrow allowlist entry with its own comment block. The dodge pattern
+#      above is what makes this allowlist safe to keep narrow: a developer
+#      cannot work around the literal check by hiding the value in a
+#      constant.
+
+HARD_SECRET_PATTERNS='(AKIA[0-9A-Z]{16}|ghp_[0-9a-zA-Z]{36}|sk-[a-zA-Z0-9]{32,}|-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----|api[_-]?key\s*=\s*["\x27][^"\x27]{8,})'
+PASSWORD_PATTERNS='(password\s*=\s*["\x27][^"\x27]{4,}|password\s*=\s*[A-Za-z_][A-Za-z0-9_]*[\s;,]*$)'
+PASSWORD_ALLOWLIST='[Pp]assword\s*=\s*"android"'
+
 if [ -n "$STAGED_FILES" ]; then
-    MATCHES=$(git diff --cached --unified=0 | grep '^+' | grep -vE '^\+\+\+' | grep -iE "$SECRET_PATTERNS" || true)
+    DIFF_PLUS=$(git diff --cached --unified=0 | grep '^+' | grep -vE '^\+\+\+' || true)
+
+    HARD_MATCHES=$(echo "$DIFF_PLUS" | grep -iE "$HARD_SECRET_PATTERNS" || true)
+    PWD_MATCHES=$(echo "$DIFF_PLUS" | grep -iE "$PASSWORD_PATTERNS" | grep -vE "$PASSWORD_ALLOWLIST" || true)
+
+    MATCHES=""
+    [ -n "$HARD_MATCHES" ] && MATCHES="$HARD_MATCHES"
+    if [ -n "$PWD_MATCHES" ]; then
+        MATCHES="${MATCHES:+$MATCHES
+}$PWD_MATCHES"
+    fi
+
     if [ -n "$MATCHES" ]; then
         echo -e "${RED}ERROR: Possible secrets detected in staged changes:${NC}"
         echo "$MATCHES"
         echo "       If this is a false positive, remove the matching line or contact the team."
+        echo "       The only allowlisted password literal is the well-known Android debug-keystore"
+        echo "       value 'android' (case-insensitive *password variable). See the secrets-scan"
+        echo "       block in scripts/pre-commit for rationale and dodge-detection."
         exit 1
     fi
 fi
