@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 18** | 🔵 **Active: 1** | 🟡 **Paused: 7** | 🟢 **Closed: 53** | **Total: 79** | ███████░░░ 67%
+⚪ **Open: 18** | 🔵 **Active: 0** | 🟡 **Paused: 7** | 🟢 **Closed: 54** | **Total: 79** | ███████░░░ 68%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -60,9 +60,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 ## Active Tasks
 
-| ID | Title | Effort | Complexity | Status |
-|----|-------|--------|------------|--------|
-| [TASK-179](active/task-179-determine-android-app-release.md) | Add the Android app to the GitHub release pipeline | Medium (2-8h) | Junior | 🔵 **active** |
+_No active tasks._
 
 ## Paused Tasks
 
@@ -103,6 +101,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 
 | ID | Title | Effort |
 |----|-------|--------|
+| [TASK-179](closed/task-179-determine-android-app-release.md) | Add the Android app to the GitHub release pipeline | Medium (2-8h) |
 | [TASK-259](closed/task-259-android-app-test-protocol.md) | Android app test protocol — record device and Android version per test run | Small (&lt;2h) |
 | [TASK-260](closed/task-260-unify-version-numbers-across-deliverables.md) | Unify version numbers across all deliverables (firmware, app, CLI, simulator, …) | Medium (2-8h) |
 | [TASK-303](closed/task-303-simulator-boots-with-demo-loaded.md) | Simulator boots with demo profiles loaded; community gallery still reachable | Small (&lt;2h) |

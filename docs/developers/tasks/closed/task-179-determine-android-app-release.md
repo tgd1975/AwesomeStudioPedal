@@ -2,9 +2,11 @@
 id: TASK-179
 title: Add the Android app to the GitHub release pipeline
 description: Build a debug-signed APK in release.yml on tag push and attach it to the GitHub Release alongside firmware artifacts; fix the broken nRF52840 firmware path while we're in there
-status: active
+status: closed
+closed: 2026-05-02
 opened: 2026-04-10
 effort: Medium (2-8h)
+effort_actual: Medium (2-8h)
 complexity: Junior
 human-in-loop: No
 epic: distribution
@@ -69,9 +71,17 @@ skill thinning to TASK-363 (which is gated on this task landing first).
       while keeping all other `.keystore`/`.jks` files ignored
 - [x] Local `flutter build apk --release` succeeds and the APK is signed by
       the committed keystore (verified with `apksigner verify --print-certs`)
-- [ ] Verify the workflow end-to-end with a throwaway `vX.Y.Z-rc1` tag once
-      this branch is on main (post-merge step — produces a real GitHub
-      Release that gets deleted afterwards)
+- [x] Verify the workflow end-to-end with a throwaway tag — done on
+      `feature/config-extensions` with `v0.4.2-rc1` (run 25244551900):
+      all 5 artifacts produced and uploaded with the expected names
+      (`firmware-nodemcu-32s-v0.4.2-rc1.bin` 693 KB,
+      `firmware-nodemcu-32s-v0.4.2-rc1-debug.zip` 6.0 MB,
+      `firmware-feather-nrf52840-v0.4.2-rc1.hex` 525 KB,
+      `firmware-feather-nrf52840-v0.4.2-rc1.zip` 187 KB,
+      `awesome-studio-pedal-v0.4.2-rc1.apk` 55.7 MB). Release + tag
+      deleted afterwards. Final archival step failed cleanly because
+      `organize_closed_tasks.py` requires strict `vX.Y.Z` — see notes
+      below for follow-up suggestion.
 
 ## Test Plan
 
@@ -116,3 +126,10 @@ release.
   step that has never actually run because the release job was always
   unreachable. Both are candidates for a separate cleanup task if they
   become problematic.
+- Verification surfaced one minor follow-up: the `Archive closed tasks`
+  step in release.yml fails on prerelease tags (`*-rc*`, `*-beta*`)
+  because `organize_closed_tasks.py` enforces strict `vX.Y.Z`. Cheapest
+  fix is `if: ${{ !contains(steps.tag.outputs.value, '-') }}` on the
+  archive + commit steps so prereleases skip them. Not blocking — real
+  releases use `vX.Y.Z` and work fine — but worth a small task if more
+  prerelease verifications are anticipated.
