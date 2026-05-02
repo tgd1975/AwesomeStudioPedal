@@ -5,7 +5,7 @@
 
 <!-- markdownlint-disable-file MD033 -->
 
-⚪ **Open: 17** | 🔵 **Active: 1** | 🟡 **Paused: 7** | 🟢 **Closed: 53** | **Total: 78** | ███████░░░ 68%
+⚪ **Open: 18** | 🔵 **Active: 1** | 🟡 **Paused: 7** | 🟢 **Closed: 53** | **Total: 79** | ███████░░░ 67%
 
 **Jump to:** [Burn-up](#burn-up) · [Active Tasks](#active-tasks) · [Paused Tasks](#paused-tasks) · [Open Tasks](#open-tasks) · [Closed Tasks](#closed-tasks)
 
@@ -96,6 +96,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | [TASK-356](open/task-356-firmware-active-profile-notify.md) | Firmware — active-profile-index notify characteristic | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-361](open/task-361-lint-platformio-ini-pre-commit-and-ci.md) | Lint platformio.ini in pre-commit and CI | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-362](open/task-362-require-ci-pass-before-merge-to-main.md) | Require all CI checks to pass before merging to main | Medium (2-8h) | Medium | ⚪ open |
+| [TASK-363](open/task-363-investigate-recurring-ci-failures.md) | Investigate why CI still fails after TASK-321 — fix or scaffold follow-up | Small (&lt;2h) | Medium | ⚪ open |
 | [TASK-363](open/task-363-thin-out-release-skill.md) | Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts | Small (&lt;2h) | Junior | ⚪ open |
 
 ## Closed Tasks

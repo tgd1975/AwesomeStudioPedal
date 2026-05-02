@@ -99,7 +99,7 @@ kanban
 
 ## Other
 
-_⚪ 4 open · 🔵 0 active · 🟡 0 paused · 🟢 16 closed · ████████░░ 80%_
+_⚪ 5 open · 🔵 0 active · 🟡 0 paused · 🟢 16 closed · ████████░░ 76%_
 
 ```mermaid
 kanban
@@ -108,6 +108,7 @@ kanban
     TASK_352["Investigate pre-commit hook latency — reorganize, parallelize, or skip irrelevant checks"]
     TASK_361["Lint platformio.ini in pre-commit and CI"]
     TASK_362["Require all CI checks to pass before merging to main"]
+    TASK_363["Investigate why CI still fails after TASK-321 — fix or scaffold follow-up"]
   Active
   Paused
   Closed
