@@ -1,5 +1,5 @@
 ---
-id: TASK-363
+id: TASK-364
 title: Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts
 status: open
 opened: 2026-05-02

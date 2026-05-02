@@ -96,7 +96,7 @@ _No active tasks._
 | [TASK-361](open/task-361-lint-platformio-ini-pre-commit-and-ci.md) | Lint platformio.ini in pre-commit and CI | Small (&lt;2h) | Junior | ⚪ open |
 | [TASK-362](open/task-362-require-ci-pass-before-merge-to-main.md) | Require all CI checks to pass before merging to main | Medium (2-8h) | Medium | ⚪ open |
 | [TASK-363](open/task-363-investigate-recurring-ci-failures.md) | Investigate why CI still fails after TASK-321 — fix or scaffold follow-up | Small (&lt;2h) | Medium | ⚪ open |
-| [TASK-363](open/task-363-thin-out-release-skill.md) | Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts | Small (&lt;2h) | Junior | ⚪ open |
+| [TASK-364](open/task-364-thin-out-release-skill.md) | Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts | Small (&lt;2h) | Junior | ⚪ open |
 
 ## Closed Tasks
 

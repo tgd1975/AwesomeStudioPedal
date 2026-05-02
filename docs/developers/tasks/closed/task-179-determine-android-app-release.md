@@ -31,13 +31,13 @@ question. Discovery established two facts that reshape the scope:
 
 So this task fixes `release.yml` end-to-end so it actually produces the
 expected artifact set — including the new APK — and leaves the `/release`
-skill thinning to TASK-363 (which is gated on this task landing first).
+skill thinning to TASK-364 (which is gated on this task landing first).
 
 ### Decisions reached during planning
 
 - **Architecture**: `release.yml` is the canonical release path. The
   `/release` skill becomes a thin "bump version, archive, push tag" wrapper
-  in TASK-363; everything else moves to CI.
+  in TASK-364; everything else moves to CI.
 - **Signing**: debug-signed APK for sideload. A stable debug keystore is
   committed to the repo so all builds (CI and local) sign with the same key,
   which lets sideload users upgrade in place between releases.
@@ -105,9 +105,9 @@ release.
 
 ## Notes
 
-- TASK-363 ("Thin out /release skill") was scaffolded to cover removing the
+- TASK-364 ("Thin out /release skill") was scaffolded to cover removing the
   now-redundant local firmware-build + `gh release create` steps from the
-  skill. TASK-363 has TASK-179 as a prerequisite — release.yml has to be
+  skill. TASK-364 has TASK-179 as a prerequisite — release.yml has to be
   proven before the skill's safety-net path is removed.
 - Design context that bears on TASK-160 (Play Store work) was extracted into
   a "Design notes (extracted from TASK-179 planning, 2026-05-02)" section in

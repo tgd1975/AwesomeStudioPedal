@@ -12,7 +12,7 @@ _⚪ 2 open · 🔵 0 active · 🟡 0 paused · 🟢 1 closed · ███░�
 kanban
   Open
     TASK_160["Publish app to Google Play Store"]
-    TASK_363["Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts"]
+    TASK_364["Thin out /release skill — drop firmware build and gh release create, let CI handle release artifacts"]
   Active
   Paused
   Closed
