@@ -1,7 +1,7 @@
 ---
 id: IDEA-056
 title: BLE services developer guide — authoritative doc for implementing/changing BLE services
-description: Single source of truth for adding/changing BLE services in this project, ideally surfaced by an implementation-aware skill.
+description: Docs-only. Single source-of-truth document for adding/changing BLE services in this project.
 category: 📖 docs
 ---
 
@@ -37,14 +37,15 @@ A single authoritative developer guide — somewhere under `docs/developers/` �
 - The gotchas: known platform quirks (ESP32 NimBLE vs Bluefruit), MTU negotiation, pairing/bonding behaviour, parallel-session test interference.
 - Pointers to the relevant tests on each layer (host fakes, on-device, app integration).
 
-## Canonical vs derived — split before drafting
+## Drift acknowledgement — hand-written catalog, no codegen
 
-The biggest drift risk is the per-service catalog (UUIDs, characteristics, lengths). Apply the awesome-task-system "canonical source vs generated artifact" lens (see CLAUDE.md):
+This is a **docs-only** idea. The guide will not introduce a YAML manifest, a firmware-side schema, an extraction script, or any other tooling that touches the implementation. The service/characteristic catalog will be hand-written and will drift over time — accept that explicitly rather than designing around it.
 
-- **Hand-written, durable**: recipe, conventions, gotchas, references. These rarely change and benefit from human prose.
-- **Generated, derived**: the service/characteristic catalog. Ideally produced from a YAML manifest the firmware also consumes, or extracted from the firmware code, so the guide cannot disagree with what the device actually advertises.
+Mitigations available within the docs-only constraint:
 
-This split needs to be decided **before drafting** — not at review time. A hand-rolled catalog will rot within a couple of release cycles.
+- Keep the catalog narrow (UUID, properties, one-line purpose, source-of-truth file pointer) so a refresh is cheap.
+- Make the recipe step "update the catalog row" the first checklist item when adding a characteristic, so drift is caught at change time.
+- If drift turns out to bite hard, file a separate non-docs-only idea for sync tooling — do not smuggle it in here.
 
 ## Decide consolidation up front
 
@@ -74,21 +75,23 @@ One concrete fail-condition, picked before promoting to a task. Candidates:
 
 ## Out of scope for this idea
 
-To keep the idea shippable, these are deferred:
+**This idea is docs-only. It must not change firmware, app, tests, build scripts, CI, hooks, or any other implementation surface.** The deliverable is one or more `.md` files under `docs/developers/` and any consequential moves/redirects of existing docs. Anything else is a separate idea.
 
+Specifically deferred:
+
+- Any catalog-generation tooling (YAML manifests, extraction scripts, firmware-side schemas). See *Drift acknowledgement* above.
 - A new `ble-implementation` skill that triggers on BLE-file edits — promote to a follow-on idea once the guide exists and a checklist has settled.
 - A CI / pre-commit staleness check (warn when BLE code changes without touching the guide) — bring back only if drift actually bites.
 
 ## Open questions
 
 - Where should the guide live? `docs/developers/BLE_SERVICES_GUIDE.md`, or a folder with sub-pages per service?
-- If the catalog is generated (per *Canonical vs derived*), does it live as a separate file alongside the guide, or as a generated section inside the single guide file?
+- Single doc with a *Service catalog* section, or split into a recipe doc + a reference doc (catalog) that get refreshed at different cadences?
 
 ## Rough first cut
 
 1. Inventory the three existing BLE docs and answer the consolidation table above.
-2. Decide canonical-vs-derived for the service catalog (YAML manifest, code extraction, or hand-written with accepted drift).
-3. Draft the guide as a single file with sections: *Service catalog*, *Recipe: add/change a service*, *Conventions*, *Cross-cutting invariants*, *Gotchas*, *Tests*, *References*.
-4. **Walk one real example end-to-end before generalising** — EPIC-026's first characteristic (e.g. the firmware-version READ for TASK-354) is the natural one. The recipe section earns its keep only if it is provably sufficient to add that characteristic without grepping or asking. Generalise *after* the worked example exists, not before.
-5. Mine recent BLE-related closed tasks and commits for rationale that belongs in *Gotchas*, *Conventions*, or the invariants table.
-6. Pick one success criterion from the list above and verify against it before closing the resulting task.
+2. Draft the guide as a single file with sections: *Service catalog* (hand-written), *Recipe: add/change a service*, *Conventions*, *Cross-cutting invariants*, *Gotchas*, *Tests*, *References*.
+3. **Walk one real example end-to-end before generalising** — read EPIC-026's first characteristic (e.g. the firmware-version READ described in TASK-354) as a worked example, *describing in the guide* every file an implementer would touch. Do not edit the firmware/app/tests as part of this idea — the guide describes the path, the implementer (in EPIC-026 itself) walks it.
+4. Mine recent BLE-related closed tasks and commits for rationale that belongs in *Gotchas*, *Conventions*, or the invariants table.
+5. Pick one success criterion from the list above and verify against it before closing the resulting task.

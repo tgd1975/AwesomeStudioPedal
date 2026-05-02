@@ -22,8 +22,8 @@
 ```mermaid
 xychart-beta
     title "Cumulative tasks closed"
-    x-axis ["04-29", "04-30", "05-01"]
-    line [14, 29, 53]
+    x-axis ["04-29", "04-30", "05-01", "05-02"]
+    line [14, 29, 53, 54]
 ```
 
 </td><td>
@@ -31,8 +31,8 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Cumulative epics closed"
-    x-axis ["04-29", "04-30", "05-01"]
-    line [1, 2, 5]
+    x-axis ["04-29", "04-30", "05-01", "05-02"]
+    line [1, 2, 5, 5]
 ```
 
 </td><td>
@@ -40,9 +40,9 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Cumulative effort hours — green: estimate, blue: actual"
-    x-axis ["04-29", "04-30", "05-01"]
-    line [24.5, 54.75, 128.25]
-    line [12, 33, 65.25]
+    x-axis ["04-29", "04-30", "05-01", "05-02"]
+    line [24.5, 54.75, 128.25, 133.25]
+    line [12, 33, 65.25, 70.25]
 ```
 
 </td></tr></table>
@@ -54,6 +54,7 @@ _Legend: green line = estimate (midpoint hours from `effort:`); blue line = actu
 | 2026-04-29 | 14 | 14 | 24.5 | 24.5 | 12 | 12 | 1 | 1 |
 | 2026-04-30 | 15 | 29 | 30.2 | 54.8 | 21 | 33 | 1 | 2 |
 | 2026-05-01 | 24 | 53 | 73.5 | 128.2 | 32.2 | 65.2 | 3 | 5 |
+| 2026-05-02 | 1 | 54 | 5 | 133.2 | 5 | 70.2 | 0 | 5 |
 <!-- BURNUP:END -->
 
 <!-- GENERATED -->
